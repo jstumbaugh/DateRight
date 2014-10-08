@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
 CREATE TABLE IF NOT EXISTS `Activities` (
   `ActivityID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
-  `Description` varchar(200) NOT NULL,
+   `Description` varchar(255) NOT NULL,
   `Cost` double DEFAULT NULL,
   `Location` varchar(200) NOT NULL,
   PRIMARY KEY (`ActivityID`)
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `ActivityReviews` (
   `Rating` int NOT NULL,
   `UserID` int NOT NULL,
   `ActivityID` int NOT NULL,
-  `Description` varchar(200) NOT NULL,
+   `Description` varchar(255) NOT NULL,
   `Cost` double DEFAULT NULL,
   `Location` varchar(200) NOT NULL,
   `Attended` BOOLEAN NOT NULL,
@@ -116,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `DatePlans` (
   `CreatorID` int NOT NULL,
   `ModID` int NOT NULL,
   `Timestamp` datetime NOT NULL,
+   `Description` varchar(255) NOT NULL,
   CONSTRAINT FOREIGN KEY (`CreatorID`) REFERENCES `Users` (`UserID`),
   CONSTRAINT FOREIGN KEY (`ModID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`DatePlanID`)
@@ -212,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `Favorites` (
 CREATE TABLE IF NOT EXISTS `Reports` (
   `ReportID` int NOT NULL AUTO_INCREMENT,
   `UserID` int NOT NULL,
-  `Description` varchar(200) NOT NULL,
+  `Description` varchar(255) NOT NULL,
   `Type` int NOT NULL,
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`ReportID`)
