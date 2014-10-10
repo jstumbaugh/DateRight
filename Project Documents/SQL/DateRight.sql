@@ -32,8 +32,9 @@ CREATE TABLE IF NOT EXISTS `Users` (
 CREATE TABLE IF NOT EXISTS `Activities` (
   `ActivityID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
-   `Description` varchar(255) NOT NULL,
+  `Description` varchar(255) NOT NULL,
   `Cost` double DEFAULT NULL,
+  `Rating` double DEFAULT NULL,
   `Location` varchar(200) NOT NULL,
   PRIMARY KEY (`ActivityID`)
 ) ENGINE=InnoDB;
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `ActivityReviews` (
   `Rating` int NOT NULL,
   `UserID` int NOT NULL,
   `ActivityID` int NOT NULL,
-   `Description` varchar(255) NOT NULL,
+  `Description` varchar(255) NOT NULL,
   `Cost` double DEFAULT NULL,
   `Location` varchar(200) NOT NULL,
   `Attended` BOOLEAN NOT NULL,
@@ -112,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `TaggedActivities` (
 CREATE TABLE IF NOT EXISTS `DatePlans` (
   `DatePlanID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
-  `Public` BOOLEAN NOT NULL,
+  `Public` BOOLEAN NOT NULL DEFAULT 0,
   `CreatorID` int NOT NULL,
   `ModID` int NOT NULL,
   `Timestamp` datetime NOT NULL,
@@ -134,9 +135,11 @@ CREATE TABLE IF NOT EXISTS `DatePlanReviews` (
   `Attended` BOOLEAN NOT NULL,
   `Description` varchar(200) NOT NULL,
   `DatePlanID` int NOT NULL ,
+  `UserID` int NOT NULL,
   `TagID` int NOT NULL,
   `ReviewTime` datetime NOT NULL,
   CONSTRAINT FOREIGN KEY (`TagID`) REFERENCES `Tags` (`TagID`),
+  CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
    CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`),
   PRIMARY KEY (`ReviewID`)
 ) ENGINE=InnoDB;
