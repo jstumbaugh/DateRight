@@ -1,20 +1,17 @@
 body{
-    background-color: #583728;
+  
 }
 
 .accountb{
     display:inline;
-    width:200px;
-    height:200px;
+    width:150px;
+    height:150px;
     line-height:60px;
     border: 2px solid #f5f5f5;
     border-radius: 50%;
     box-shadow: 0 0 3px gray;
     font-size:30px;
     font-weight:bold;
-    background-color: #D0AA97;
-    color: #D23C47;
-    font-family:'Roboto', sans-serif;;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
@@ -38,9 +35,9 @@ body{
 }
 
 #make{
-    display:block;
-    width:200px;
-    height:200px;
+    display:inline;
+    width:185px;
+    height:185px;
     line-height:60px;
     border: 2px solid #f5f5f5;
     border-radius: 50%;
@@ -49,13 +46,12 @@ body{
     font-weight:bold;
     background-color: #D0AA97;
     color: #D23C47;
-    font-family:'Roboto', sans-serif;;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     border:none;
     position:fixed;
-    top: 80%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-right: auto;
