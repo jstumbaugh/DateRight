@@ -254,10 +254,10 @@ function viewProfile(){
 
 	// This will check to see if the user has an account in the database
 	try {
-		$checksql = "SELECT email FROM Users WHERE email = :email";
+		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt = $db->prepare($checksql);
-		$stmt->bindParam("email",$userInfo->email);	
+		$stmt->bindParam("userID",$userInfo->UserID);	
 		$stmt->execute();
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfo)){
@@ -265,7 +265,6 @@ function viewProfile(){
 		}
 		else {
 			$profile_exists = true;
-
 		}
 		$db = null;
 	}
