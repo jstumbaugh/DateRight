@@ -25,8 +25,8 @@
     <li> <label for = "fName">First Name:</label><input type = "text" id="fNameAccount" fName = "fName" required="required"/> </li>
     <li> <label for = "lName">Last Name:</label><input type = "text" id="lNameAccount" password = "lName" required="required"/> </li>
     <li> <label for = "email">Email:</label><input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b"/> </li>
-    <li> <label for = "password">Password:</label><input type = "password" id="passwordAccount" password = "password" required="required"/> </li>
-    <li> <label for = "repeatPassword">Repeat Password:</label><input type = "password" id="passwordAccount" repeatPassword = "repeatPassword" required="required"/> </li>
+    <li> <label for = "password">Password:</label><input type = "password" id="passwordAccount" password = "password" required="required" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&'])[^ ]"{8,}$/> </li>
+    <li> <label for = "repeatPassword">Repeat Password:</label><input type = "password" id="passwordAccount" repeatPassword = "repeatPassword" required="required" pattern = {8,}/> </li>
     </ol>
     <button type="submit" id="submitaccount" onclick="createAccount()">Submit</button>
    </form>

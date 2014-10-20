@@ -134,7 +134,7 @@ dialog{
 }
 
 #createAccount form button:nth-child(3){
-    top:297px;
+    top:93%;
     left: 50%;
     transform: translate(-50%, -50%);
      margin-right: auto;
