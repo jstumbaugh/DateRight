@@ -34,7 +34,7 @@ $app->post('/login', 'login');
 $app->post('/logout', 'logout');
 $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
-$app->post('/viewProfile', 'viewProfile');
+$app->get('/viewProfile', 'viewProfile');
 $app->run();
 
 /**
@@ -274,14 +274,16 @@ function viewProfile(){
 	
 	if ($profile_exists) // pull info from database
 	{
-		$sql = "SELECT FirstName, LastName, Email FROM Users WHERE Email = :email";
+		$sql = "SELECT FirstName, LastName, Email FROM Users WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt1 = $db->prepare($sql);
-		$stmt1->bindParam("email",$userInfo->email);	
+		$stmt1->bindParam("userID",$userInfo->UserID);	
 		$stmt1->execute();
 		$returnedInfo1 = $stmt->fetch(PDO::FETCH_OBJ);
+
 	} else 
 	{
+		//echo $userInfo->UserID;
 		echo '{"error":{"text": "User does not have a profile."}}';
 	}
 } // end of function
