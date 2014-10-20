@@ -75,9 +75,9 @@ function accountSubmit() {
 	user.fName = $("#fNameAccount").val();
 	user.lName= $("#lNameAccount").val();
 	user.email = $("#emailAccount").val(); 
-	user.phonenumber = $("#phoneNumberAccount").val();
 	user.password = $("#passwordAccount").val();
-    user.userType =$(0).val();
+    user.userType =0;
+    user.sex = 0;
 
 	$.ajax({
 		type: 'POST',
