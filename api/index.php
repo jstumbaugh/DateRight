@@ -45,7 +45,7 @@ function login() {
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	$userInfo = json_decode($request->getBody());
-	$raw_password = $userInfo->password;
+	$raw_password = $userInfo->Password;
 	//Get the user from the email address
 	$sql = "SELECT * FROM Users WHERE email = :email";
 	$salt = null;
@@ -70,15 +70,15 @@ function login() {
 		}
 	//Get password from user inputted password and salt saved in database
 	$pw = md5($raw_password.$salt);
-	$sql = "SELECT userID, fName, lName, email,creditProvider,creditCardNumber FROM Users WHERE email = :email AND password = :password";
+	$sql = "SELECT * FROM Users WHERE email = :email AND password = :password";
 	try {
 		// Bind and run the SQL Statement of logging the user in
 		if(isset($userInfo)) {
 			//Get the database connection
 			$db = getConnection();
 			$stmt = $db->prepare($sql);
-		    $stmt->bindParam("email", $userInfo->email);
-		    $stmt->bindParam("password", $pw);
+		    $stmt->bindParam("Email", $userInfo->email);
+		    $stmt->bindParam("Password", $pw);
 		    $stmt->execute();
 		    $returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
@@ -86,12 +86,12 @@ function login() {
 		    }
 		    else {
 			    //Store user info into session
-			    $_SESSION['email'] = $returnedInfo->email;
-			    $_SESSION['fName'] = $returnedInfo->fName;
-			    $_SESSION['lName'] = $returnedInfo->lName;
-			    $_SESSION['userID'] = $returnedInfo->userID + 0;
-			    $_SESSION['creditProvider'] = $returnedInfo->creditProvider;
-			    $_SESSION['creditCardNumber'] = $returnedInfo->creditCardNumber;
+			    $_SESSION['Email'] = $returnedInfo->Email;
+			    $_SESSION['FirstName'] = $returnedInfo->FirstName;
+			    $_SESSION['LastName'] = $returnedInfo->LastName;
+			    $_SESSION['UserType'] = $returnedInfo->UserType;
+			    $_SESSION['Sex'] = $returnedInfo->Sex;
+			    $_SESSION['UserID'] = $returnedInfo->UserID + 0;
 			    echo json_encode($_SESSION);
 			}
 		}
