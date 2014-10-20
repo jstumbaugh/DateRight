@@ -27,9 +27,6 @@
     <li> <label for = "email">Email:</label><input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b"/> </li>
     <li> <label for = "password">Password:</label><input type = "password" id="passwordAccount" password = "password" required="required"/> </li>
     <li> <label for = "repeatPassword">Repeat Password:</label><input type = "password" id="passwordAccount" repeatPassword = "repeatPassword" required="required"/> </li>
-    <li> <label for = "creditProvider">Credit Card Provider:</label><input type = "text" id="creditProviderAccount" password = "creditProvider"/> </li>
-    <li> <label for = "creditCardNumber">Credit Card Number:</label><input type = "text" id="creditCardNumberAccount" password = "creditCardNumber" required="required" 
-    pattern="^4[0-9]{12}(?:[0-9]{3})?|[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11}$"> </li>
     </ol>
     <button type="submit" id="submitaccount" onclick="createAccount()">Submit</button>
    </form>

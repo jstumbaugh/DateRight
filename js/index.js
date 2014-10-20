@@ -77,8 +77,7 @@ function accountSubmit() {
 	user.email = $("#emailAccount").val(); 
 	user.phonenumber = $("#phoneNumberAccount").val();
 	user.password = $("#passwordAccount").val();
-	user.creditProvider = $("#creditProviderAccount").val();
-	user.creditCardNumber = $("#creditCardNumberAccount").val(); 
+    user.userType =$(0).val();
 
 	$.ajax({
 		type: 'POST',
