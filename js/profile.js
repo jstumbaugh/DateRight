@@ -4,6 +4,7 @@
     Maintenance Log:
 
 **/
+$.cookie.json = true;
 
 var profile = {};
 var profileData = {"userID":"0"};
