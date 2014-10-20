@@ -238,9 +238,56 @@ function submitNewActivity()
 		}	
 	}
 	else{
-		echo '{"error":{"text": "Account exists!!"}}';
-	}		
-	
+		echo '{"error":{"text": "Activity already exists."}}';
+	}			
 }
+
+
+// View Profile for DateRight
+function viewProfile(){
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$userInfo = json_decode($request->getBody());
+	$profile_exists;
+
+	// This will check to see if the user has an account in the database
+	try {
+		$checksql = "SELECT email FROM Users WHERE email = :email";
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt->bindParam("email",$userInfo->email);	
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$profile_exists = false;
+		}
+		else {
+			$profile_exists = true;
+
+		}
+		$db = null;
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	
+	if ($profile_exists) // pull info from database
+	{
+		$sql = "SELECT FirstName, LastName, Email FROM Users WHERE Email = :email";
+		$db = getConnection();
+		$stmt1 = $db->prepare($sql);
+		$stmt1->bindParam("email",$userInfo->email);	
+		$stmt1->execute();
+		$returnedInfo1 = $stmt->fetch(PDO::FETCH_OBJ);
+	} else 
+	{
+		echo '{"error":{"text": "User does not have a profile."}}';
+	}
+} // end of function
+
+
+
+
+
 
 ?>
