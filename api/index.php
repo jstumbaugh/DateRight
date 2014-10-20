@@ -182,4 +182,64 @@ function createAccount(){
 }
 
 
+// Submit New Activity code for DateRight
+
+function submitNewActivity()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$activityInfo = json_decode($request->getBody());
+	$activity_exists;
+
+	// This will check to see if the activity is already in the database
+	try {
+		$checksql = "SELECT Name, Location FROM Activities WHERE Name = :name AND Location = :location";
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt->bindParam("name",$activityInfo->name);
+		$stmt->bindParam("location",$activityInfo->location);	
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$activity_exists = false;
+		}
+		else {
+			$activity_exists = true;
+		}
+		$db = null;
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+
+	// If the activity does not already exist, then we insert the account into the Users table
+	if($activity_exists == 0)
+	{
+		$sql = "INSERT INTO Activities (Name, Description, Cost, Location) Values(:name, :description, :cost, :location)";
+	try{
+		if(isset($activityInfo)) {
+			//Get database connection
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam("name",$activityInfo->Name);
+			$stmt->bindParam("description", $activityInfo->Description);
+			$stmt->bindParam("cost", $activityInfo->Cost);
+			$stmt->bindParam("location", $activityInfo->Location);
+			$stmt->execute();
+			echo '{"success":{"text": "Activity successfully created."}}';
+		}
+		else {
+			echo '{"error":{"text": "JSON was not properly set."}}'; 
+		}
+	}		    
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}	
+	}
+	else{
+		echo '{"error":{"text": "Account exists!!"}}';
+	}		
+	
+}
+
 ?>
