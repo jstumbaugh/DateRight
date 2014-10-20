@@ -33,6 +33,8 @@ $app->hook('slim.before.dispatch', function() use ($app) {
 $app->post('/login', 'login');
 $app->post('/logout', 'logout');
 $app->post('/createAccount', 'createAccount');
+$app->post('/submitNewActivity', 'submitNewActivity');
+$app->post('/viewProfile', 'viewProfile');
 $app->run();
 
 /**
@@ -213,7 +215,7 @@ function submitNewActivity()
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 
-	// If the activity does not already exist, then we insert the account into the Users table
+	// If the activity does not already exist, then we insert the activity into the Activities table
 	if($activity_exists == 0)
 	{
 		$sql = "INSERT INTO Activities (Name, Description, Cost, Location) Values(:name, :description, :cost, :location)";
