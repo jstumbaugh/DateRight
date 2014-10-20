@@ -47,9 +47,9 @@ function login() {
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	$userInfo = json_decode($request->getBody());
-	$raw_password = $userInfo->Password;
+	$raw_password = $userInfo->password;
 	//Get the user from the email address
-	$sql = "SELECT * FROM Users WHERE email = :email";
+	$sql = "SELECT * FROM Users WHERE Email = :email";
 	$salt = null;
 	try {
 		// Bind and run the SQL Statement of logging the user in
@@ -61,7 +61,7 @@ function login() {
 		    $stmt->execute();
 		    $returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		    //Get the salt for the user
-		    $salt = $returnedInfo->salt;
+		    $salt = $returnedInfo->PasswordSalt;
 		}
 		else {
 			echo '{"error":{"text": "JSON was not properly set."}}'; 
@@ -72,19 +72,18 @@ function login() {
 		}
 	//Get password from user inputted password and salt saved in database
 	$pw = md5($raw_password.$salt);
-	$sql = "SELECT * FROM Users WHERE email = :email AND password = :password";
+	$sql2 = "SELECT * FROM Users WHERE Email = :email AND Password = :password";
 	try {
 		// Bind and run the SQL Statement of logging the user in
 		if(isset($userInfo)) {
 			//Get the database connection
-			$db = getConnection();
-			$stmt = $db->prepare($sql);
-		    $stmt->bindParam("Email", $userInfo->email);
-		    $stmt->bindParam("Password", $pw);
-		    $stmt->execute();
-		    $returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+			$stmt2 = $db->prepare($sql2);
+		    $stmt2->bindParam("email", $userInfo->email);
+		    $stmt2->bindParam("password", $pw);
+		    $stmt2->execute();
+		    $returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo '{"error":{"text": "Email not found in DB."}}';
+		    	echo '{"error":{"text": "Email not found in DB."}}';//ALSO DISPLAYS IF PW IS INCORRECT. PLEASE FIX.
 		    }
 		    else {
 			    //Store user info into session
@@ -107,6 +106,7 @@ function login() {
 
 
 }
+
 //Deletes session for user upon clicking logout
 function logout() {
 	$app = \Slim\Slim::getInstance();
