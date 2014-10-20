@@ -11,7 +11,7 @@ require 'config.php';
 $menu = new stdClass();
 $app = new \Slim\Slim();
 // This will use the Slim Framework to implement Sessions
-$app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'burger')));
+$app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'date')));
 $authenticate = function ($app) {
     return function () use ($app) {
         if (!isset($_SESSION['user'])) {
