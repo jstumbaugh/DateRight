@@ -119,6 +119,7 @@ function logout() {
      * a JSON response. First checks to see if the account already exists in the database
      * @return result in creating account in echo statement or failure in doing so
      */
+
 function createAccount(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -127,7 +128,7 @@ function createAccount(){
 
 	// This will check to see if the email is already in the database
 	try {
-		$checksql = "SELECT email FROM Users WHERE email = :email";
+		$checksql = "SELECT Email FROM Users WHERE Email = :email";
 		$db = getConnection();
 		$stmt = $db->prepare($checksql);
 		$stmt->bindParam("email",$userInfo->email);	
@@ -148,7 +149,7 @@ function createAccount(){
 	// If the account does not already exist, then we insert the account into the Users table
 	if($account_exists == 0)
 	{
-		$sql = "INSERT INTO Users (fname, lname, email, password, salt, creditCardNumber, creditProvider) Values(:fName, :lName, :email, :password, :salt, :creditCardNumber,  :creditProvider)";
+		$sql = "INSERT INTO Users (FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:fName, :lName, :email, :password, :salt, :userType,  :sex)";
 	try{
 		if(isset($userInfo)) {
 			// Salt and hash the password.
@@ -162,8 +163,8 @@ function createAccount(){
 			$stmt->bindParam("email", $userInfo->email);
 			$stmt->bindParam("password", $pw);
 			$stmt->bindParam("salt", $salt);
-			$stmt->bindParam("creditCardNumber", $userInfo->creditCardNumber);
-			$stmt->bindParam("creditProvider", $userInfo->creditProvider);
+			$stmt->bindParam("userType", $userInfo->userType);
+			$stmt->bindParam("sex", $userInfo->sex);
 			$stmt->execute();
 			echo '{"success":{"text": "Account successfully created."}}';
 		}
