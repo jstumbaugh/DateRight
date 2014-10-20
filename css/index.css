@@ -18,14 +18,14 @@ body{
     border:none;
     position:fixed;
     top: 40%;
-    left: 40%;
+    left: 37%;
     transform: translate(-50%, -50%);
     margin-right: auto;
     margin-left: auto;
     margin-bottom: auto;
 }
 #loginbut{
-    left: 60%;
+    left: 63%;
 }
 
 .accountb:hover, #make:hover {
@@ -134,7 +134,7 @@ dialog{
 }
 
 #createAccount form button:nth-child(3){
-    top:297px;
+    top:93%;
     left: 50%;
     transform: translate(-50%, -50%);
      margin-right: auto;

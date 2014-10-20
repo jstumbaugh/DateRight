@@ -33,7 +33,8 @@ $app->hook('slim.before.dispatch', function() use ($app) {
 $app->post('/login', 'login');
 $app->post('/logout', 'logout');
 $app->post('/createAccount', 'createAccount');
-$app->get('/viewFavorites', 'viewFavorites');
+$app->post('/submitNewActivity', 'submitNewActivity');
+$app->post('/viewProfile', 'viewProfile');
 $app->run();
 
 /**
@@ -214,7 +215,7 @@ function submitNewActivity()
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 
-	// If the activity does not already exist, then we insert the account into the Users table
+	// If the activity does not already exist, then we insert the activity into the Activities table
 	if($activity_exists == 0)
 	{
 		$sql = "INSERT INTO Activities (Name, Description, Cost, Location) Values(:name, :description, :cost, :location)";
@@ -253,10 +254,10 @@ function viewProfile(){
 
 	// This will check to see if the user has an account in the database
 	try {
-		$checksql = "SELECT email FROM Users WHERE email = :email";
+		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt = $db->prepare($checksql);
-		$stmt->bindParam("email",$userInfo->email);	
+		$stmt->bindParam("userID",$userInfo->UserID);	
 		$stmt->execute();
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfo)){
@@ -264,7 +265,6 @@ function viewProfile(){
 		}
 		else {
 			$profile_exists = true;
-
 		}
 		$db = null;
 	}
