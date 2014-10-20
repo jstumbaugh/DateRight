@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `DatePlans` (
   `CreatorID` int NOT NULL,
   `ModID` int NOT NULL,
   `Timestamp` datetime NOT NULL,
-   `Description` varchar(255) NOT NULL,
+  `Description` varchar(255) NOT NULL,
   CONSTRAINT FOREIGN KEY (`CreatorID`) REFERENCES `Users` (`UserID`),
   CONSTRAINT FOREIGN KEY (`ModID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`DatePlanID`)
