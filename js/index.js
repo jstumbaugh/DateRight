@@ -32,7 +32,7 @@ function loginSubmit() {
 
 	$.ajax({
 		type: 'POST',
-		url: 'api/index.php/login',
+		url: 'api/login',
 		async: false,
 		content: 'application/json',
 		data: JSON.stringify(user),
