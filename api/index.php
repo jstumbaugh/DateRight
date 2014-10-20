@@ -33,6 +33,7 @@ $app->hook('slim.before.dispatch', function() use ($app) {
 $app->post('/login', 'login');
 $app->post('/logout', 'logout');
 $app->post('/createAccount', 'createAccount');
+$app->get('/viewFavorites', 'viewFavorites');
 $app->run();
 
 /**
@@ -284,6 +285,53 @@ function viewProfile(){
 		echo '{"error":{"text": "User does not have a profile."}}';
 	}
 } // end of function
+
+//View Favorites
+function viewFavorites(){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	$userInfo = json_decode($request->getBody());
+	$fav_exists;
+
+	//check sql
+	try{
+		$checksql = 'SELECT userID from Users WHERE email = :email';
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt ->bindParam("email",$userInfo->email);
+		$stmt->execute();
+		$returnedInfo = $stmt ->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$fav_exists = false;
+			//echo '{"error":{"text":'. 'No Favorites exists' .'}}';
+		}
+		else{
+			$fav_exists = true;
+			$jsonUserId = json_encode(returnedInfo);
+		}
+		$db = null;
+	}
+	catch(PDOException $e){
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+	if($fav_exists)
+	{
+		$sql = "SELECT ActivitiesID FROM Favorites WHERE UserID = :userid";
+		$db = getConnection();
+		$stmt1 = $db->prepare($sql);
+		$stmt1 ->bindParam("userid", $jsonUserId->userID);
+		$stmt1 ->execute();
+		$returnedInfo1 = $stmt->fetch(PDO::FETCH_OBJ);
+		echo json_encode($returnedInfo1);
+	}
+	else 
+	{
+		echo '{"error":{"text":'. 'user does not have any favorites' .'}}'; 
+	}
+
+
+	}
+
 
 
 
