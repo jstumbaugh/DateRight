@@ -33,6 +33,50 @@ INSERT INTO ActivityReviews VALUES
 	(4, 4, 4, 4, "Netflix was a perfect way to get even closer with my date. We barely Even watched the show! ;)", 0.00, "My bed", 1, STR_TO_DATE('10/20/14 11:00 PM','%m/%d/%Y %h:%i %p')),
 	(5, 5, 5, 5, "I made an exceptional filet mignon with some twice baked potatoes and grilled asparagus. She immediately dropped her panties. 5/5", 40.00, "My Kitchen", 1, STR_TO_DATE('10/14/14 8:30 PM','%m/%d/%Y %h:%i %p'));
 
+INSERT INTO DatePlans VALUES
+	(1, "Casual Night In", 1, 1, 4, STR_TO_DATE('10/10/14 7:00 PM','%m/%d/%Y %h:%i %p'), "Have a romantic night in with some quality home cooking and then some netflix."),
+	(2, "Classy Dinner and a Movie", 1, 2, 4, STR_TO_DATE('10/20/14 6:00 PM','%m/%d/%Y %h:%i %p'), "This fancy dateplan will make your significant other think they forgot your anneversary. Take them to a nice Italian restaurant and then to see that new romantic comedy they are always talking about."),
+	(3, "Instant Pantie Dropper", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some 'Netflix' ;)");
+
+INSERT INTO DateActivities VALUES
+	(1, 1, 5),
+	(2, 1, 4),
+	(3, 2, 2),
+	(4, 2, 1),
+	(5, 3, 2),
+	(6, 3, 4);
+
+INSERT INTO Tags VALUES
+	(1, "Movies"),
+	(2, "Farmer's Market"),
+	(3, "Italian Restaurant"),
+	(4, "Home Cooking"),
+	(5, "Watching TV at Home");
+
+INSERT INTO TaggedActivities VALUES
+	(1, 1),
+	(2, 3),
+	(3, 2),
+	(4, 5),
+	(5, 4);
+
+INSERT INTO Reports VALUES
+	(1, 1, "The 'Instant Pantie Dropper' date plan did not instantly drop her panties. I'm suing you guys!!", 1),
+	(2, 2, "Katniss Everdeen's review of watching Netflix was a bit too suggestive for me.", 1),
+	(3, 3, "John Doe said that Saw 3 was a romantic comedy. It's not at all!!", 1);
+
+
+INSERT INTO Favorites VALUES
+	(1, 1, 1),
+	(2, 1, 2),
+	(3, 2, 3),
+	(4, 2, 4),
+	(5, 3, 5),
+	(6, 3, 1),
+	(7, 4, 2),
+	(8, 4, 3),
+	(9, 5, 4),
+	(10, 5, 5);
 
 
 
