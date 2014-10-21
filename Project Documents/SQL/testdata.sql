@@ -1,4 +1,4 @@
-// Test Data for DateRight
+-- Test Data for DateRight
 
 INSERT INTO Activities VALUES
 	(1, "Going to the Movies", "If your significant other likes Rom-Coms, take him/her to see Saw 3! They'll love it!", 20.00, NULL, "Dallas, TX"),
