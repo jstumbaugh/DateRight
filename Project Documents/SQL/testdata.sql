@@ -78,5 +78,24 @@ INSERT INTO Favorites VALUES
 	(9, 5, 4),
 	(10, 5, 5);
 
+INSERT INTO DatePlanReviews VALUES
+	(1, 5, 1 ,"Last night my I used the 'Casual Night In' dateplan and had a blast! It was very nice to cook a meal with my date, she loved it!", 1, 5, 4, STR_TO_DATE('9/23/14 10:30 AM','%m/%d/%Y %h:%i %p')),
+	(2, 2, 1, "Used the 'Casual Night In' dateplan and it wasn't great. I burned our food so we had to order Chinese :(", 1, 2, 4, STR_TO_DATE('9/8/14 11:00 AM','%m/%d/%Y %h:%i %p')),
+	(3, 4, 1, "Very nice DatePlan! A bit expensive though, but definitely worth it.", 2, 3, 3, STR_TO_DATE('10/3/14 9:00 AM','%m/%d/%Y %h:%i %p')),
+	(4, 1, 1, "Tried this last night. I dropped $60 last night on dinner and she did not instantly drop her panties. SadFace.", 3, 2, 3, STR_TO_DATE('9/8/14 12:45 PM','%m/%d/%Y %h:%i %p'));
+
+INSERT INTO DatePlanAttendees VALUES
+	(1, 1, 1),
+	(2, 1, 2),
+	(3, 2, 3),
+	(4, 2, 4),
+	(5, 3, 5),
+	(6, 3, 2);
+
+INSERT INTO DatePlanActivityReviews VALUES
+	(1, 2, 4),
+	(2, 5, 1),
+	(3, 1, 2),
+	(4, 1, 3);
 
 
