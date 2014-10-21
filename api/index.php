@@ -34,7 +34,7 @@ $app->post('/login', 'login');
 $app->post('/logout', 'logout');
 $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
-$app->get('/viewProfile', 'viewProfile');
+$app->post('/viewProfile', 'viewProfile');
 $app->run();
 
 /**
@@ -262,6 +262,7 @@ function viewProfile(){
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfo)){
 			$profile_exists = false;
+			echo json_encode($userInfo->UserID);
 		}
 		else {
 			$profile_exists = true;
@@ -279,8 +280,8 @@ function viewProfile(){
 		$stmt1 = $db->prepare($sql);
 		$stmt1->bindParam("userID",$userInfo->UserID);	
 		$stmt1->execute();
-		$returnedInfo1 = $stmt->fetch(PDO::FETCH_OBJ);
-
+		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
+		echo json_encode($returnedInfo1);
 	} else 
 	{
 		//echo $userInfo->UserID;

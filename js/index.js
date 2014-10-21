@@ -114,6 +114,20 @@ $(document).on("click", "#logout", function(){
 		document.getElementById("greeting").innerHTML = "";
 });
 
+
+	var user = new Object();
+	user.UserID = 1;
+	console.log(user);
+		$.ajax({
+			type: 'POST',
+			url: 'api/viewProfile',
+			content: 'application/json',
+			data: JSON.stringify(user),
+			success: function(data){
+				console.log(data);
+			}
+		});
+
 //POST REQUEST TEST CODE
 	// var user = new Object();
 	// user.email = "test@test.edu";
