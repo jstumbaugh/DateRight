@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `DatePlans` (
   `Name` varchar(50) NOT NULL,
   `Public` BOOLEAN NOT NULL DEFAULT 0,
   `CreatorID` int NOT NULL,
-  `ModID` int NOT NULL,
+  `ModID` int DEFAULT NULL,
   `Timestamp` datetime NOT NULL,
   `Description` varchar(255) NOT NULL,
   CONSTRAINT FOREIGN KEY (`CreatorID`) REFERENCES `Users` (`UserID`),
@@ -200,9 +200,12 @@ CREATE TABLE IF NOT EXISTS `DatePlanActivityReviews` (
 CREATE TABLE IF NOT EXISTS `Favorites` (
   `FavoriteID` int NOT NULL AUTO_INCREMENT,
   `UserID` int NOT NULL,
-  `ActivityID` int NOT NULL,
+  `ActivityID` int DEFAULT NULL,
+  'DatePlanID' int DEFAULT NULL,
   PRIMARY KEY (`FavoriteID`),
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`)
     ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`)
     ON DELETE CASCADE ON UPDATE CASCADE
