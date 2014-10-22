@@ -295,45 +295,24 @@ function viewFavorites(){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	$userInfo = json_decode($request->getBody());
-	$fav_exists;
+	$userID = $userInfo->UserID; 
+	$sql = "SELECT ActivityID, DatePlanID FROM Favorites WHERE UserID = :userID";
+	$db = getConnection();
+	$stmt = $db->prepare($sql);
+	$stmt ->bindParam("userID", $userID);
+	$stmt ->execute();
+	$returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC);
+	$activity = $returnedInfo1['ActivityID'];
+	$dateplan = $returnedInfo1['DatePlanID'];
+	$sql2 = "SELECT * FROM Activities, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid";
+	$stmt2 = $db ->prepare($sql2);
+	$stmt2 -> bindParam("activityID", $activity);
+	$stmt2 -> bindParam("dateplanid", $dateplan);
 
-	//check sql
-	try{
-		$checksql = 'SELECT userID from Users WHERE email = :email';
-		$db = getConnection();
-		$stmt = $db->prepare($checksql);
-		$stmt ->bindParam("email",$userInfo->email);
-		$stmt->execute();
-		$returnedInfo = $stmt ->fetch(PDO::FETCH_OBJ);
-		if(empty($returnedInfo)){
-			$fav_exists = false;
-			//echo '{"error":{"text":'. 'No Favorites exists' .'}}';
-		}
-		else{
-			$fav_exists = true;
-			$jsonUserId = json_encode(returnedInfo);
-		}
-		$db = null;
-	}
-	catch(PDOException $e){
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}	
-	if($fav_exists)
-	{
-		$sql = "SELECT ActivitiesID, DatePlanID FROM Favorites WHERE UserID = :userid";
-		$db = getConnection();
-		$stmt1 = $db->prepare($sql);
-		$stmt1 ->bindParam("userid", $jsonUserId->userID);
-		$stmt1 ->execute();
-		$returnedInfo1 = $stmt->fetch(PDO::FETCH_OBJ);
-		echo json_encode($returnedInfo1);
-	}
-	else 
-	{
-		echo '{"error":{"text":'. 'user does not have any favorites' .'}}'; 
-	}
-
-
+	$stmt2->execute();
+	$rI2 = $stmt2->fetch(PDO::FETCH_OBJ);
+	echo json_encode($rI2);
+	
 	}
 function addFavorites (){
 	
