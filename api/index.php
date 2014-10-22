@@ -35,6 +35,7 @@ $app->post('/logout', 'logout');
 $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
+$app->post('/viewFavorites', 'viewFavorites');
 $app->run();
 
 /**

@@ -63,3 +63,19 @@
 				console.log(data);
 			}
 		});
+
+//VIEW FAVORITES
+
+
+	var user = new Object();
+	user.UserID = 1;
+	console.log(user);
+		$.ajax({
+			type: 'POST',
+			url: 'api/viewFavorites',
+			content: 'application/json',
+			data: JSON.stringify(user),
+			success: function(data){
+				console.log(data);
+			}
+		});
