@@ -10,7 +10,7 @@ function loginFunction() {
 
 function testLoginFunction() {
     var x = document.createElement("FORM");
-    x.setAttribute("id", "myForm");
+    x.setAttribute("id", "loginbut");
     document.body.appendChild(x);
 
     var y = document.createElement("INPUT");
@@ -20,7 +20,7 @@ function testLoginFunction() {
     //So on the form these two were on the field but I can't setAtrribute these in Javascript?
     //y.setAttribute(fname, "fname");    
    // y.setAttribute(required, "required");
-    document.getElementById("myForm").appendChild(y);
+    document.getElementById("loginbut").appendChild(y);
 }
 
 function createAccount(){
