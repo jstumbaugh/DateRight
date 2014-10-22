@@ -79,3 +79,24 @@
 				console.log(data);
 			}
 		});
+
+//UPDATE ACCOUNT INFO
+
+	var user = new Object();
+	user.userID = 1;
+	user.fName = "NewName";
+	user.lName = "NewNamerson";
+	user.email = "newmail@mail.com";
+	user.currentPassword = "oldpassword";//only required if email or newPassword is not NULL
+	user.newPassword = "newpassword";
+	console.log(user);
+		$.ajax({
+			type: 'POST',
+			url: 'api/updateAccount',
+			content: 'application/json',
+			data: JSON.stringify(user),
+			success: function(data){
+				console.log(data);
+			}
+		});
+
