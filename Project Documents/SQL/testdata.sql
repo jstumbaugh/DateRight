@@ -47,18 +47,35 @@ INSERT INTO DateActivities VALUES
 	(6, 3, 4);
 
 INSERT INTO Tags VALUES
-	(1, "Movies"),
-	(2, "Farmer's Market"),
-	(3, "Italian Restaurant"),
-	(4, "Home Cooking"),
-	(5, "Watching TV at Home");
+	(1, 'Movies'),
+	(2, 'Farmer''s Market'),
+	(3, 'Italian'),
+	(4, 'Cooking'),
+	(5, 'TV'),
+	(6, 'Restaurant'),
+	(7, 'Home'),
+	(8, 'Driving'),
+	(9, 'Romantic'),
+	(10, 'Classic');
 
 INSERT INTO TaggedActivities VALUES
 	(1, 1),
 	(2, 3),
 	(3, 2),
 	(4, 5),
-	(5, 4);
+	(5, 4),
+	(1, 4),
+	(6, 2),
+	(7, 4),
+	(7, 5),
+	(8, 1),
+	(8, 2),
+	(8, 3),
+	(9, 2),
+	(9, 5),
+	(10, 1),
+	(10, 2),
+	(10, 5);
 
 INSERT INTO Reports VALUES
 	(1, 1, "The 'Instant Pantie Dropper' date plan did not instantly drop her panties. I'm suing you guys!!", 1),
