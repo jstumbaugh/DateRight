@@ -1,6 +1,7 @@
 --
 -- Database: `DateRight`
 --
+DROP DATABASE IF EXISTS DateRight;
 CREATE DATABASE IF NOT EXISTS DateRight;
 USE DateRight;
 
