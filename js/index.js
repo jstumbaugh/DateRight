@@ -1,6 +1,5 @@
 var x;
 var fadeBackground;
-
 //The Dialog boxes
 function loginfunction() {
     x = document.getElementById("login");
@@ -8,6 +7,7 @@ function loginfunction() {
     fadeBackground = document.getElementById("fade");
 	fadeBackground.classList.add("fadeIn");
 }
+
 
 function createAccount(){
     x = document.getElementById("createAccount");
