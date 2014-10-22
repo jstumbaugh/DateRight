@@ -319,7 +319,7 @@ function viewFavorites(){
 	}	
 	if($fav_exists)
 	{
-		$sql = "SELECT ActivitiesID FROM Favorites WHERE UserID = :userid";
+		$sql = "SELECT ActivitiesID, DatePlanID FROM Favorites WHERE UserID = :userid";
 		$db = getConnection();
 		$stmt1 = $db->prepare($sql);
 		$stmt1 ->bindParam("userid", $jsonUserId->userID);
@@ -334,7 +334,9 @@ function viewFavorites(){
 
 
 	}
-
+function addFavorites (){
+	
+}
 
 
 
