@@ -85,7 +85,17 @@ function accountSubmit() {
 		content: 'application/jsonajax',
 		data: JSON.stringify(user),
 		success: function(data){
-			console.log(data);
+			//Account already exists
+			if(data===100){
+				//CREATE DIV HERE TO DISPLAY MESSAGE
+				console.log("Account already exists");
+			}else if(data===200){
+				//CREATE DIV HERE TO DISPLAY MESSAGE
+				console.log("JSON error");
+			}else{
+				//CREATE DIV HERE TO DISPLAY MESSAGE
+				console.log(data);
+			}
 		}
 	});
 
