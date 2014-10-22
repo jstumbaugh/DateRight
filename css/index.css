@@ -29,6 +29,7 @@ body{
     transition-property: transform;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
+    z-index: 1;
 }
 #loginbut{
     left: 60%;
@@ -67,6 +68,7 @@ body{
     margin-right: auto;
     margin-left: auto;
     margin-bottom: auto;
+    z-index: 0;
 }
 
 

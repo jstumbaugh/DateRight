@@ -1,6 +1,7 @@
 --
 -- Database: `DateRight`
 --
+DROP DATABASE IF EXISTS DateRight;
 CREATE DATABASE IF NOT EXISTS DateRight;
 USE DateRight;
 
@@ -100,8 +101,7 @@ CREATE TABLE IF NOT EXISTS `TaggedActivities` (
   `TagID` int NOT NULL AUTO_INCREMENT,
   `ActivityID` int NOT NULL,
   CONSTRAINT FOREIGN KEY (`TagID`) REFERENCES `Tags` (`TagID`),
-  CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`),
-  PRIMARY KEY (`TagID`)
+  CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`)
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------------

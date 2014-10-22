@@ -6,10 +6,18 @@
 
 //Includes
 require 'config.php';
-
 \Slim\Slim::registerAutoloader();
 $menu = new stdClass();
 $app = new \Slim\Slim();
+
+//ERROR CODES
+class ERROR{
+	const ACCOUNT_EXISTS = 100,
+	 JSON_ERROR = 200,
+	 ACCOUNT_DOESNT_EXISTS = 300,
+	 LOGIN_FAILURE = 400;
+}
+
 // This will use the Slim Framework to implement Sessions
 $app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'date')));
 $authenticate = function ($app) {
@@ -98,6 +106,7 @@ function login() {
 			}
 		}
 		else {
+
 			echo '{"error":{"text": "JSON was not properly set."}}'; 
 		}
 	}
@@ -172,6 +181,7 @@ function createAccount(){
 			echo '{"success":{"text": "Account successfully created."}}';
 		}
 		else {
+			echo ERROR::JSON_ERROR;
 			echo '{"error":{"text": "JSON was not properly set."}}'; 
 		}
 	}		    
@@ -180,7 +190,7 @@ function createAccount(){
 		}	
 	}
 	else{
-		echo '{"error":{"text": "Account exists!!"}}';
+		echo ERROR::ACCOUNT_EXISTS;
 	}		
 	
 }

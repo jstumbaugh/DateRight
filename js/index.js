@@ -1,12 +1,26 @@
 var x;
 var fadeBackground;
-
 //The Dialog boxes
-function loginfunction() {
+function loginFunction() {
     x = document.getElementById("login");
     x.open = true;
     fadeBackground = document.getElementById("fade");
 	fadeBackground.classList.add("fadeIn");
+}
+
+function testLoginFunction() {
+    var x = document.createElement("FORM");
+    x.setAttribute("id", "loginbut");
+    document.body.appendChild(x);
+
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "text");
+    y.setAttribute("value", "fName"); 
+    y.setAttribute("id", "fNameAccount");
+    //So on the form these two were on the field but I can't setAtrribute these in Javascript?
+    //y.setAttribute(fname, "fname");    
+   // y.setAttribute(required, "required");
+    document.getElementById("loginbut").appendChild(y);
 }
 
 function createAccount(){
@@ -85,7 +99,17 @@ function accountSubmit() {
 		content: 'application/jsonajax',
 		data: JSON.stringify(user),
 		success: function(data){
-			console.log(data);
+			//Account already exists
+			if(data===100){
+				//CREATE DIV HERE TO DISPLAY MESSAGE
+				console.log("Account already exists");
+			}else if(data===200){
+				//CREATE DIV HERE TO DISPLAY MESSAGE
+				console.log("JSON error");
+			}else{
+				//CREATE DIV HERE TO DISPLAY MESSAGE
+				console.log(data);
+			}
 		}
 	});
 
