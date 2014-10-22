@@ -76,7 +76,7 @@ INSERT INTO Favorites VALUES
 	(7, 4, 4, NULL),
 	(8, 4, 3, 3),
 	(9, 5, 3, 2),
-	(10, 5, NULL, 5);
+	(10, 5, NULL, 1);
 
 INSERT INTO DatePlanReviews VALUES
 	(1, 5, 1 ,"Last night my I used the 'Casual Night In' dateplan and had a blast! It was very nice to cook a meal with my date, she loved it!", 1, 5, 4, STR_TO_DATE('9/23/14 10:30 AM','%m/%d/%Y %h:%i %p')),
