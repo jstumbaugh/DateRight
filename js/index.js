@@ -1,5 +1,4 @@
-var x;
-var fadeBackground;
+var x, fadeBackground;
 //The Dialog boxes
 function loginFunction() {
     x = document.getElementById("login");
@@ -9,25 +8,20 @@ function loginFunction() {
 }
 
 function testLoginFunction() {
-    var x = document.createElement("FORM");
-    x.setAttribute("id", "loginbut");
-    document.body.appendChild(x);
+	$("#loginbut").addClass( "grownl", 1000);
 
     var y = document.createElement("INPUT");
-    y.setAttribute("type", "text");
-    y.setAttribute("value", "fName"); 
-    y.setAttribute("id", "fNameAccount");
+	y.setAttribute("type", "text");
+	y.setAttribute("value", "Enter First Name Here"); 
+	y.setAttribute("id", "fNameAccount");
     //So on the form these two were on the field but I can't setAtrribute these in Javascript?
-    //y.setAttribute(fname, "fname");    
-   // y.setAttribute(required, "required");
+	y.setAttribute("fname", "fname");    
+	y.setAttribute("required", "required");
     document.getElementById("loginbut").appendChild(y);
 }
 
 function createAccount(){
-    x = document.getElementById("createAccount");
-    x.open = true;
-    fadeBackground = document.getElementById("fade");
-	fadeBackground.classList.add("fadeIn");
+	$("#createbut").addClass( "grownc", 1000);
 }
 
 //Close the Dialog Boxes
