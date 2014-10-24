@@ -10,14 +10,34 @@ function loginFunction() {
 function testLoginFunction() {
 	$("#loginbut").addClass( "grownl", 1000);
 
+	//Email Login Form
+	var para = document.createElement("p");
+	var node = document.createTextNode("Enter your Email Here");
+	para.appendChild(node);
+	var element = document.getElementById("loginbut");
+	element.appendChild(para);
     var y = document.createElement("INPUT");
 	y.setAttribute("type", "text");
-	y.setAttribute("value", "Enter First Name Here"); 
-	y.setAttribute("id", "fNameAccount");
-    //So on the form these two were on the field but I can't setAtrribute these in Javascript?
-	y.setAttribute("fname", "fname");    
+	y.setAttribute("value", "Enter your Email Here"); 
+	y.setAttribute("id", "emailLogin");
+	y.setAttribute("email", "email");    
 	y.setAttribute("required", "required");
     document.getElementById("loginbut").appendChild(y);
+
+    //Password Form
+    var para = document.createElement("p");
+	var node = document.createTextNode("Enter your Password Here");
+	para.appendChild(node);
+	var element = document.getElementById("loginbut");
+	element.appendChild(para);
+    var y = document.createElement("INPUT");
+    var z = document.createElement("INPUT");
+	z.setAttribute("type", "password");
+	z.setAttribute("value", "Enter your Password Here"); 
+	z.setAttribute("id", "passwordLogin");
+	z.setAttribute("password", "password");    
+	z.setAttribute("required", "required");
+    document.getElementById("loginbut").appendChild(z);
 }
 
 function createAccount(){
