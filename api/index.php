@@ -15,7 +15,8 @@ class ERROR{
 	const ACCOUNT_EXISTS = 100,
 	 JSON_ERROR = 200,
 	 ACCOUNT_DOESNT_EXISTS = 300,
-	 LOGIN_FAILURE = 400;
+	 LOGIN_FAILURE = 400,
+	 NO_RESULTS = 500;
 }
 
 // This will use the Slim Framework to implement Sessions
@@ -36,7 +37,6 @@ $app->hook('slim.before.dispatch', function() use ($app) {
    }
    $app->view()->setData('user', $user);
 });
-
 //This will create all the posts for each function
 $app->post('/login', 'login');
 $app->post('/logout', 'logout');
@@ -44,6 +44,7 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
+$app->post('/searchActivities', 'searchActivities');
 $app->run();
 
 /**
@@ -327,10 +328,33 @@ function viewFavorites(){
 function addFavorites (){
 	
 }
-
-
-
-
-
+//Search by activity name, works with multiple word query as well 
+//@return echo response with result JSON
+function searchActivities (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	//User search query
+	$result = $app->request()->post('datesearch');
+	
+	//First check if they sent any query
+	if (!empty($result)) {
+		$words = explode(" ",trim($result));
+		$sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
+		//Process over all entered keywords
+		foreach ($words as $term) {
+			$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
+		}
+	//Order results by the user rating
+	$sql.=" ORDER BY Rating LIMIT 50";
+	$db = getConnection();
+	$stmt = $db->prepare($sql);
+	$stmt ->execute();
+	$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	echo '{"results": ' . json_encode($searchResults) . '}';
+	}else{
+	//No activities found w/ that query
+	echo ERROR::NO_RESULTS;
+		}
+}
 
 ?>
