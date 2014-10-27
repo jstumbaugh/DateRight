@@ -47,6 +47,7 @@ $app->post('/viewFavorites', 'viewFavorites');
 $app->post('/searchActivities', 'searchActivities');
 $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
+//$app->
 $app->run();
 
 /**
@@ -323,7 +324,19 @@ function viewFavorites(){
 	$stmt2 -> bindParam("dateplanid", $dateplan);
 
 	$stmt2->execute();
-	$rI2 = $stmt2->fetch(PDO::FETCH_OBJ);
+	$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+
+	//Type-casting integers before returning them
+	// for($i = 0; $i < sizeof($rI2); $i = $i + 1) {
+		// $rI2[$i]['ActivityID'] = $rI2[$i]['ActivityID'] + 0;
+		// $rI2[$i]['Cost'] = $rI2[$i]['Cost'] + 0.00;
+		// $rI2[$i]['DatePlanID'] = $rI2[$i]['DatePlanID'] + 0;
+		// $rI2[$i]['Public'] = $rI2[$i]['Public'] + 0;
+		// $rI2[$i]['CreatorID'] = $rI2[$i]['CreatorID'] + 0;
+		// $rI2[$i]['ModID'] = $rI2[$i]['ModID'] + 0;
+	// }
+
 	echo json_encode($rI2);
 	
 	}
@@ -455,7 +468,7 @@ function getTaggedActivities() {
 
 		//Type-casting integers before returning them
 		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
-			$returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0;
+			$returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0.00;
 			$returnedInfo[$i]['ActivityID'] = $returnedInfo[$i]['ActivityID'] + 0;
 		}
 
