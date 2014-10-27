@@ -45,7 +45,7 @@ function testLoginFunction() {
     //Create Submit Button
     var btn = document.createElement("INPUT");
     btn.setAttribute("type", "Submit")
-    btn.setAttribute("class", "loginText");
+    btn.setAttribute("class", "submitButton");
 	var t = document.createTextNode("Submit");
 	btn.appendChild(t);
 	document.getElementById("loginbut").appendChild(t);
