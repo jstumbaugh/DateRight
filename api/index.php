@@ -45,6 +45,7 @@ $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->post('/searchActivities', 'searchActivities');
+$app->get('/topTags', 'topTags');
 $app->run();
 
 /**
@@ -355,6 +356,42 @@ function searchActivities (){
 	//No activities found w/ that query
 	echo ERROR::NO_RESULTS;
 		}
+}
+
+
+
+function topTags (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+
+	$numTags = 10;//Default number of tags to return
+
+	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
+	if(!empty($app->request()->params('num')))
+		$numTags = $app->request()->params('num');
+	
+	$sql = "SELECT TagID, TagName, count(activityID) AS quantity
+			FROM Tags NATURAL JOIN TaggedActivities
+			GROUP BY tagID
+			ORDER BY count(activityID) DESC
+			LIMIT $numTags;";
+
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		//Type-casting integers before returning them
+		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
+			$returnedInfo[$i]['quantity'] = $returnedInfo[$i]['quantity'] + 0;
+			$returnedInfo[$i]['TagID'] = $returnedInfo[$i]['TagID'] + 0;
+		}
+
+		echo json_encode($returnedInfo);
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
 }
 
 ?>

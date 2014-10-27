@@ -100,3 +100,10 @@
 			}
 		});
 
+
+//GET TOP TAGS
+
+//URL: http://localhost/dateright/api/topTags?num=5
+
+//num: the # of tags to return. Default = 10
+
