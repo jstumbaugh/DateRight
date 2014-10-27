@@ -100,3 +100,37 @@
 			}
 		});
 
+
+//GET TOP TAGS
+
+	//URL: http://localhost/dateright/api/topTags?num=5
+
+	//num: the # of tags to return. Default = 10 (optional)
+
+	$.ajax({
+		type: 'GET',
+		url: 'api/topTags?num=5',
+		success: function(data){
+			console.log(data);
+		}
+	});
+
+//GET TAGGED ACTIVITIES
+
+	//URL example1: http://localhost/dateright/api/getTaggedActivities?tagID=1
+	//URL example2: http://localhost/dateright/api/getTaggedActivities?tagName=Movies
+	//URL example3: http://localhost/dateright/api/getTaggedActivities?tagID=1&num=3
+
+	//Either tagID OR tagName must be specified for SQL query to execute
+
+	//num:  the # of activites to return. Default returns all tagged activities (optional)
+
+
+	$.ajax({
+		type: 'GET',
+		url: 'api/getTaggedActivities?tagID=1',
+		success: function(data){
+			console.log(data);
+		}
+	});
+

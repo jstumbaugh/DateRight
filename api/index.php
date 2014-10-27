@@ -15,7 +15,8 @@ class ERROR{
 	const ACCOUNT_EXISTS = 100,
 	 JSON_ERROR = 200,
 	 ACCOUNT_DOESNT_EXISTS = 300,
-	 LOGIN_FAILURE = 400;
+	 LOGIN_FAILURE = 400,
+	 NO_RESULTS = 500;
 }
 
 // This will use the Slim Framework to implement Sessions
@@ -36,7 +37,6 @@ $app->hook('slim.before.dispatch', function() use ($app) {
    }
    $app->view()->setData('user', $user);
 });
-
 //This will create all the posts for each function
 $app->post('/login', 'login');
 $app->post('/logout', 'logout');
@@ -44,6 +44,12 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
+$app->post('/searchActivities', 'searchActivities');
+$app->post('/viewActivityReviews', 'viewActivityReviews');
+$app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
+$app->get('/topTags', 'topTags');
+$app->get('/getTaggedActivities', 'getTaggedActivities');
+//$app->
 $app->run();
 
 /**
@@ -320,15 +326,290 @@ function viewFavorites(){
 	$stmt2 -> bindParam("dateplanid", $dateplan);
 
 	$stmt2->execute();
-	$rI2 = $stmt2->fetch(PDO::FETCH_OBJ);
+	$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+
+	//Type-casting integers before returning them
+	// for($i = 0; $i < sizeof($rI2); $i = $i + 1) {
+		// $rI2[$i]['ActivityID'] = $rI2[$i]['ActivityID'] + 0;
+		// $rI2[$i]['Cost'] = $rI2[$i]['Cost'] + 0.00;
+		// $rI2[$i]['DatePlanID'] = $rI2[$i]['DatePlanID'] + 0;
+		// $rI2[$i]['Public'] = $rI2[$i]['Public'] + 0;
+		// $rI2[$i]['CreatorID'] = $rI2[$i]['CreatorID'] + 0;
+		// $rI2[$i]['ModID'] = $rI2[$i]['ModID'] + 0;
+	// }
+
 	echo json_encode($rI2);
 	
 	}
 function addFavorites (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	$info = json_decode($request->getBody());
+	$activity_exists;
+	$dp_exists;
+	try{
+		if ($info->ActivityID != NULL)
+		{
+			$activity_exists = TRUE;
+
+		}
+		if ($info->DatePlanID != NULL)
+		{
+			$dp_exists = TRUE;
+		}
+
+	}
+	catch(PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+
 	
+}
+//Search by activity name, works with multiple word query as well 
+//@return echo response with result JSON
+function searchActivities (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	//User search query
+	$result = $app->request()->post('datesearch');
+	
+	//First check if they sent any query
+	if (!empty($result)) {
+		$words = explode(" ",trim($result));
+		$sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
+		//Process over all entered keywords
+		foreach ($words as $term) {
+			$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
+		}
+	//Order results by the user rating
+	$sql.=" ORDER BY Rating LIMIT 50";
+	$db = getConnection();
+	$stmt = $db->prepare($sql);
+	$stmt ->execute();
+	$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	echo '{"results": ' . json_encode($searchResults) . '}';
+	}else{
+	//No activities found w/ that query
+	echo ERROR::NO_RESULTS;
+		}
 }
 
 
+
+function topTags() {
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+
+	$numTags = 10;//Default number of tags to return
+
+	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
+	if(!empty($app->request()->params('num')))
+		$numTags = $app->request()->params('num');
+	
+	$sql = "SELECT TagID, TagName, count(activityID) AS quantity
+			FROM Tags NATURAL JOIN TaggedActivities
+			GROUP BY tagID
+			ORDER BY count(activityID) DESC
+			LIMIT $numTags;";
+
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		//Type-casting integers before returning them
+		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
+			$returnedInfo[$i]['quantity'] = $returnedInfo[$i]['quantity'] + 0;
+			$returnedInfo[$i]['TagID'] = $returnedInfo[$i]['TagID'] + 0;
+		}
+
+		echo json_encode($returnedInfo);
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+"SELECT ActivityID, Name, Description, Cost, Rating, Location
+FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags
+WHERE TagName = 'Italian'";
+
+
+function getTaggedActivities() {
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+
+	$numTags;
+	$tagID;
+	$tagName;
+
+	//Declaring strings which may be inserted into the SQL statement before sending
+	$option1 = "WHERE TagID = ";
+	$option2 = "NATURAL JOIN Tags
+			WHERE TagName = '";
+
+	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
+	$sqlInsert2 = "";//Only set if num is provided
+
+
+	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
+	if(!empty($app->request()->params('num'))) {
+		$numTags = $app->request()->params('num');
+		$sqlInsert2 = "
+		LIMIT $numTags";
+	}
+	//Check to see if either tagID or tagName was specified
+	if(!empty($app->request()->params('tagID'))) {
+		$tagID = $app->request()->params('tagID');
+		$sqlInsert = $option1 . $tagID . $sqlInsert2;
+		$sqlSet = TRUE;
+	}
+	else if(!empty($app->request()->params('tagName'))) {
+		$tagName = $app->request()->params('tagName');
+		$sqlInsert = $option2 . $tagName . "'" . $sqlInsert2;
+		$sqlSet = TRUE;
+	}
+	else {
+		exit('Neither search parameter (TagID || TagName) set!');//ERROR
+	}
+	
+	$sql = "SELECT ActivityID, Name, Description, Cost, Rating, Location
+			FROM TaggedActivities NATURAL JOIN Activities $sqlInsert";
+
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		//Checking if the query returned any results
+		if(sizeof($returnedInfo) == 0) {
+			exit("Search returned zero results.");//ERROR
+		}
+
+		//Type-casting integers before returning them
+		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
+			$returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0.00;
+			$returnedInfo[$i]['ActivityID'] = $returnedInfo[$i]['ActivityID'] + 0;
+		}
+
+		echo json_encode($returnedInfo);
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+// View User Activity Reviews for DateRight
+function viewActivityReviews() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$userInfo = json_decode($request->getBody());
+	$user_exists;
+
+	// This will check to see if the user has an account in the database
+	try {
+		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt->bindParam("userID",$userInfo->UserID);	
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$user_exists = false;
+			echo json_encode($userInfo->UserID);
+		}
+		else {
+			$user_exists = true;
+		}
+		$db = null;
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	
+	if ($user_exists) // pull info from database
+	{
+		// For Activity Reviews
+		$sql = "SELECT * FROM ActivityReviews WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt1 = $db->prepare($sql);
+		$stmt1->bindParam("userID",$userInfo->UserID);	
+		$stmt1->execute();
+		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
+		
+		if(empty($returnedInfo1)){
+			echo '{"error":{"text": "User has not written any Activity Reviews."}}';
+		} else {
+			echo json_encode($returnedInfo1);
+			$db = null;
+		}
+
+	} else 
+	{
+		//echo $userInfo->UserID;
+		echo '{"error":{"text": "User does not have a profile."}}';
+	}
+} // end of function
+
+
+
+// View User DatePlan Reviews for DateRight
+function viewDatePlanReviews() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$userInfo = json_decode($request->getBody());
+	$user_exists;
+
+	// This will check to see if the user has an account in the database
+	try {
+		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt->bindParam("userID",$userInfo->UserID);	
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$user_exists = false;
+			echo json_encode($userInfo->UserID);
+		}
+		else {
+			$user_exists = true;
+		}
+		$db = null;
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	
+	if ($user_exists) // pull info from database
+	{
+		// For DatePlan Reviews
+		$sql1 = "SELECT * FROM DatePlanReviews WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql1);
+		$stmt2->bindParam("userID",$userInfo->UserID);	
+		$stmt2->execute();
+		$returnedInfo2 = $stmt2->fetch(PDO::FETCH_OBJ);
+		
+		if(empty($returnedInfo1)){
+			echo '{"error":{"text": "User has not written any DatePlan Reviews."}}';
+		} else {
+			echo json_encode($returnedInfo1);
+			$db = null;
+		}
+
+	} else 
+	{
+		//echo $userInfo->UserID;
+		echo '{"error":{"text": "User does not have a profile."}}';
+	}
+} // end of function
 
 
 

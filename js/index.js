@@ -1,4 +1,5 @@
 var x, fadeBackground;
+var para;
 //The Dialog boxes
 function loginFunction() {
     x = document.getElementById("login");
@@ -9,15 +10,49 @@ function loginFunction() {
 
 function testLoginFunction() {
 	$("#loginbut").addClass( "grownl", 1000);
+	if (para == null){
 
+	//Email Login Form
+	var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your Email Here");
+	para.appendChild(node);
+	var element = document.getElementById("loginbut");
+	element.appendChild(para);
     var y = document.createElement("INPUT");
 	y.setAttribute("type", "text");
-	y.setAttribute("value", "Enter First Name Here"); 
-	y.setAttribute("id", "fNameAccount");
-    //So on the form these two were on the field but I can't setAtrribute these in Javascript?
-	y.setAttribute("fname", "fname");    
+	y.setAttribute("value", "Enter your Email Here"); 
+	y.setAttribute("id", "emailLogin");
+	y.setAttribute("email", "email");    
 	y.setAttribute("required", "required");
     document.getElementById("loginbut").appendChild(y);
+
+    //Password Form
+    var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your Password Here");
+	para.appendChild(node);
+	var element = document.getElementById("loginbut");
+	element.appendChild(para);
+    var z = document.createElement("INPUT");
+	z.setAttribute("type", "password");
+	z.setAttribute("value", "Enter your Password Here"); 
+	z.setAttribute("id", "passwordLogin");
+	z.setAttribute("password", "password");    
+	z.setAttribute("required", "required");
+    document.getElementById("loginbut").appendChild(z);
+
+    //Create Submit Button
+    var btn = document.createElement("INPUT");
+    btn.setAttribute("type", "Submit")
+    btn.setAttribute("class", "submitButton");
+	var t = document.createTextNode("Submit");
+	btn.appendChild(t);
+	document.getElementById("loginbut").appendChild(t);
+	}
+	else{
+		console.log("Else statment!");
+	}
 }
 
 function createAccount(){
@@ -67,6 +102,8 @@ function loginSubmit() {
 	var info = $.cookie("data");
 	if (info.indexOf("email") >= 0)
 	{
+		//HERE"S WHERE WE LINK TO ANOTHER PAGE
+		//self.location='Your_URL_here.html'
 		document.getElementById("createbut").setAttribute("class", "inv");
 		document.getElementById("loginbut").setAttribute("id", "logout");
 		document.getElementById("logout").innerHTML = "Logout";
