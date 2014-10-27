@@ -3,5 +3,22 @@
 }
 
 #createactivity {
-    float: right;
+    position: relative;
+    left: 21%;
+}
+
+#currentplan {
+	position: absolute;
+	height: 97%;
+	right: 0%;
+	background-color: #00FFFF;
+}
+
+#currentplanlist li {
+	margin-bottom: 2%;
+	list-style: none;
+	text-align: right;
+}
+
+#currentplan p {
 }
