@@ -341,6 +341,28 @@ function viewFavorites(){
 	
 	}
 function addFavorites (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	$info = json_decode($request->getBody());
+	$activity_exists;
+	$dp_exists;
+	try{
+		if ($info->ActivityID != NULL)
+		{
+			$activity_exists = TRUE;
+
+		}
+		if ($info->DatePlanID != NULL)
+		{
+			$dp_exists = TRUE;
+		}
+
+	}
+	catch(PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+
 	
 }
 //Search by activity name, works with multiple word query as well 
