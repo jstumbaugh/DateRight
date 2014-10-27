@@ -1,4 +1,5 @@
 var x, fadeBackground;
+var para;
 //The Dialog boxes
 function loginFunction() {
     x = document.getElementById("login");
@@ -9,10 +10,10 @@ function loginFunction() {
 
 function testLoginFunction() {
 	$("#loginbut").addClass( "grownl", 1000);
-
+	if (para == null){
 	//Email Login Form
 	var para = document.createElement("p");
-	var node = document.createTextNode("Enter your Email Here");
+	var node = document.createTextNode("Enter your Email Here")//.style.fontSize="xx-small";
 	para.appendChild(node);
 	var element = document.getElementById("loginbut");
 	element.appendChild(para);
@@ -38,6 +39,14 @@ function testLoginFunction() {
 	z.setAttribute("password", "password");    
 	z.setAttribute("required", "required");
     document.getElementById("loginbut").appendChild(z);
+    //Create Submit Button
+    var btn = document.createElement("BUTTON");
+	var t = document.createTextNode("Submit");
+	btn.appendChild(t);
+	}
+	else{
+		console.log("Else statment!");
+	}
 }
 
 function createAccount(){
