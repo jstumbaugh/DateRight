@@ -102,6 +102,8 @@ function loginSubmit() {
 	var info = $.cookie("data");
 	if (info.indexOf("email") >= 0)
 	{
+		//HERE"S WHERE WE LINK TO ANOTHER PAGE
+		//self.location='Your_URL_here.html'
 		document.getElementById("createbut").setAttribute("class", "inv");
 		document.getElementById("loginbut").setAttribute("id", "logout");
 		document.getElementById("logout").innerHTML = "Logout";
