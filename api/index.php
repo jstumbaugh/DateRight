@@ -46,6 +46,7 @@ $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->post('/searchActivities', 'searchActivities');
 $app->get('/topTags', 'topTags');
+$app->get('/getTaggedActivities', 'getTaggedActivities');
 $app->run();
 
 /**
@@ -360,7 +361,7 @@ function searchActivities (){
 
 
 
-function topTags (){
+function topTags() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 
@@ -385,6 +386,77 @@ function topTags (){
 		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
 			$returnedInfo[$i]['quantity'] = $returnedInfo[$i]['quantity'] + 0;
 			$returnedInfo[$i]['TagID'] = $returnedInfo[$i]['TagID'] + 0;
+		}
+
+		echo json_encode($returnedInfo);
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+"SELECT ActivityID, Name, Description, Cost, Rating, Location
+FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags
+WHERE TagName = 'Italian'";
+
+
+function getTaggedActivities() {
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+
+	$numTags;
+	$tagID;
+	$tagName;
+
+	//Declaring strings which may be inserted into the SQL statement before sending
+	$option1 = "WHERE TagID = ";
+	$option2 = "NATURAL JOIN Tags
+			WHERE TagName = '";
+
+	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
+	$sqlInsert2 = "";//Only set if num is provided
+
+
+	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
+	if(!empty($app->request()->params('num'))) {
+		$numTags = $app->request()->params('num');
+		$sqlInsert2 = "
+		LIMIT $numTags";
+	}
+	//Check to see if either tagID or tagName was specified
+	if(!empty($app->request()->params('tagID'))) {
+		$tagID = $app->request()->params('tagID');
+		$sqlInsert = $option1 . $tagID . $sqlInsert2;
+		$sqlSet = TRUE;
+	}
+	else if(!empty($app->request()->params('tagName'))) {
+		$tagName = $app->request()->params('tagName');
+		$sqlInsert = $option2 . $tagName . "'" . $sqlInsert2;
+		$sqlSet = TRUE;
+	}
+	else {
+		exit('Neither search parameter (TagID || TagName) set!');//ERROR
+	}
+	
+	$sql = "SELECT ActivityID, Name, Description, Cost, Rating, Location
+			FROM TaggedActivities NATURAL JOIN Activities $sqlInsert";
+
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		//Checking if the query returned any results
+		if(sizeof($returnedInfo) == 0) {
+			exit("Search returned zero results.");//ERROR
+		}
+
+		//Type-casting integers before returning them
+		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
+			$returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0;
+			$returnedInfo[$i]['ActivityID'] = $returnedInfo[$i]['ActivityID'] + 0;
 		}
 
 		echo json_encode($returnedInfo);
