@@ -218,3 +218,8 @@ div.fadeIn {
     height: 375px !important;
     top: 10% !important;
 }
+
+.loginText{
+    font-size: 50%;
+    width: 60%;
+}

@@ -11,9 +11,11 @@ function loginFunction() {
 function testLoginFunction() {
 	$("#loginbut").addClass( "grownl", 1000);
 	if (para == null){
+
 	//Email Login Form
 	var para = document.createElement("p");
-	var node = document.createTextNode("Enter your Email Here")//.style.fontSize="xx-small";
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your Email Here");
 	para.appendChild(node);
 	var element = document.getElementById("loginbut");
 	element.appendChild(para);
@@ -27,11 +29,11 @@ function testLoginFunction() {
 
     //Password Form
     var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
 	var node = document.createTextNode("Enter your Password Here");
 	para.appendChild(node);
 	var element = document.getElementById("loginbut");
 	element.appendChild(para);
-    var y = document.createElement("INPUT");
     var z = document.createElement("INPUT");
 	z.setAttribute("type", "password");
 	z.setAttribute("value", "Enter your Password Here"); 
@@ -39,6 +41,7 @@ function testLoginFunction() {
 	z.setAttribute("password", "password");    
 	z.setAttribute("required", "required");
     document.getElementById("loginbut").appendChild(z);
+
     //Create Submit Button
     var btn = document.createElement("BUTTON");
 	var t = document.createTextNode("Submit");
