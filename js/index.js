@@ -43,9 +43,12 @@ function testLoginFunction() {
     document.getElementById("loginbut").appendChild(z);
 
     //Create Submit Button
-    var btn = document.createElement("BUTTON");
+    var btn = document.createElement("INPUT");
+    btn.setAttribute("type", "Submit")
+    btn.setAttribute("class", "submitButton");
 	var t = document.createTextNode("Submit");
 	btn.appendChild(t);
+	document.getElementById("loginbut").appendChild(t);
 	}
 	else{
 		console.log("Else statment!");
