@@ -479,4 +479,115 @@ function getTaggedActivities() {
 	}
 }
 
+
+
+// View User Activity Reviews for DateRight
+function viewActivityReviews() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$userInfo = json_decode($request->getBody());
+	$user_exists;
+
+	// This will check to see if the user has an account in the database
+	try {
+		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt->bindParam("userID",$userInfo->UserID);	
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$user_exists = false;
+			echo json_encode($userInfo->UserID);
+		}
+		else {
+			$user_exists = true;
+		}
+		$db = null;
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	
+	if ($user_exists) // pull info from database
+	{
+		// For Activity Reviews
+		$sql = "SELECT * FROM ActivityReviews WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt1 = $db->prepare($sql);
+		$stmt1->bindParam("userID",$userInfo->UserID);	
+		$stmt1->execute();
+		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
+		
+		if(empty($returnedInfo1)){
+			echo '{"error":{"text": "User has not written any Activity Reviews."}}';
+		} else {
+			echo json_encode($returnedInfo1);
+			$db = null;
+		}
+
+	} else 
+	{
+		//echo $userInfo->UserID;
+		echo '{"error":{"text": "User does not have a profile."}}';
+	}
+} // end of function
+
+
+
+// View User DatePlan Reviews for DateRight
+function viewDatePlanReviews() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$userInfo = json_decode($request->getBody());
+	$user_exists;
+
+	// This will check to see if the user has an account in the database
+	try {
+		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt = $db->prepare($checksql);
+		$stmt->bindParam("userID",$userInfo->UserID);	
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo)){
+			$user_exists = false;
+			echo json_encode($userInfo->UserID);
+		}
+		else {
+			$user_exists = true;
+		}
+		$db = null;
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	
+	if ($user_exists) // pull info from database
+	{
+		// For DatePlan Reviews
+		$sql1 = "SELECT * FROM DatePlanReviews WHERE UserID = :userID";
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql1);
+		$stmt2->bindParam("userID",$userInfo->UserID);	
+		$stmt2->execute();
+		$returnedInfo2 = $stmt2->fetch(PDO::FETCH_OBJ);
+		
+		if(empty($returnedInfo1)){
+			echo '{"error":{"text": "User has not written any DatePlan Reviews."}}';
+		} else {
+			echo json_encode($returnedInfo1);
+			$db = null;
+		}
+
+	} else 
+	{
+		//echo $userInfo->UserID;
+		echo '{"error":{"text": "User does not have a profile."}}';
+	}
+} // end of function
+
+
+
+
 ?>
