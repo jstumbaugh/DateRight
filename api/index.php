@@ -45,6 +45,8 @@ $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->post('/searchActivities', 'searchActivities');
+$app->post('/viewActivityReviews', 'viewActivityReviews');
+$app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
 //$app->
