@@ -9,7 +9,8 @@ function loginFunction() {
 }
 
 function testLoginFunction() {
-	$("#loginbut").addClass( "grownl", 1000);
+	$("#logindiv").addClass( "grownl", 1000);
+	$("#loginbut").addClass("shrinkl", 0);
 	if (para == null){
 
 	//Email Login Form
@@ -17,7 +18,7 @@ function testLoginFunction() {
 	para.setAttribute("class", "loginText");
 	var node = document.createTextNode("Enter your Email Here");
 	para.appendChild(node);
-	var element = document.getElementById("loginbut");
+	var element = document.getElementById("logindiv");
 	element.appendChild(para);
     var y = document.createElement("INPUT");
 	y.setAttribute("type", "text");
@@ -25,14 +26,14 @@ function testLoginFunction() {
 	y.setAttribute("id", "emailLogin");
 	y.setAttribute("email", "email");    
 	y.setAttribute("required", "required");
-    document.getElementById("loginbut").appendChild(y);
+    document.getElementById("logindiv").appendChild(y);
 
     //Password Form
     var para = document.createElement("p");
 	para.setAttribute("class", "loginText");
 	var node = document.createTextNode("Enter your Password Here");
 	para.appendChild(node);
-	var element = document.getElementById("loginbut");
+	var element = document.getElementById("logindiv");
 	element.appendChild(para);
     var z = document.createElement("INPUT");
 	z.setAttribute("type", "password");
@@ -40,15 +41,13 @@ function testLoginFunction() {
 	z.setAttribute("id", "passwordLogin");
 	z.setAttribute("password", "password");    
 	z.setAttribute("required", "required");
-    document.getElementById("loginbut").appendChild(z);
+    document.getElementById("logindiv").appendChild(z);
 
     //Create Submit Button
     var btn = document.createElement("INPUT");
     btn.setAttribute("type", "Submit")
     btn.setAttribute("class", "submitButton");
-	var t = document.createTextNode("Submit");
-	btn.appendChild(t);
-	document.getElementById("loginbut").appendChild(t);
+    document.getElementById("logindiv").appendChild(btn);
 	}
 	else{
 		console.log("Else statment!");
@@ -103,7 +102,7 @@ function loginSubmit() {
 	if (info.indexOf("email") >= 0)
 	{
 		//HERE"S WHERE WE LINK TO ANOTHER PAGE
-		//self.location='Your_URL_here.html'
+		self.location='search.html'
 		document.getElementById("createbut").setAttribute("class", "inv");
 		document.getElementById("loginbut").setAttribute("id", "logout");
 		document.getElementById("logout").innerHTML = "Logout";

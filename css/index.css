@@ -2,7 +2,7 @@ body{
   
 }
 
-#loginbut, #createbut{
+#loginbut, #createbut, #logindiv{
     display:inline;
     line-height:60px;
     width: 150px;
@@ -18,11 +18,17 @@ body{
     border:none;
     position: fixed;
     top: 30%;
-    z-index: 1;
+    background-color: #A0A0A0;
 }
 
-#loginbut{
+#logindiv{
+    z-index: 0;
     left: 60%;
+}
+
+#loginbut {
+    left: 60%;
+    z-index: 1;
 }
 
 #createbut {
@@ -207,10 +213,19 @@ div.fadeIn {
     z-index: -1;
 }
 
-.grownl { 
+.grownl {
+    z-index: 1;
     width: 375px !important;
     height: 375px !important;
     top: 10% !important;
+}
+
+.shrinkl {
+    z-index: 0;
+    width: 0px !important;
+    height: 0px !important;
+    top: 45% !important;
+    background-color: none;
 }
 
 .grownc { 
@@ -226,11 +241,11 @@ div.fadeIn {
 }
 
 .submitButton{
-   -moz-border-radius: 200px;
+    -moz-border-radius: 200px;
     -webkit-border-radius: 200px;
     border-radius:200px;
     line-height: 12px;
-    width:25px;
+    width: auto;
     height:25px;
     font-size: 8pt;
     font-family: 'Roboto', sans-serif;;
@@ -239,10 +254,7 @@ div.fadeIn {
     color:#D23C47;
     background-color: #583728;
     border-color: #583728;
-     top:93%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-     margin-right: auto;
-    margin-left: auto;
-    margin-bottom: auto;
+    position: absolute;
+    bottom: 3%;
+    right: 40%;
 }
