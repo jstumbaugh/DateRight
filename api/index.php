@@ -12,11 +12,13 @@ $app = new \Slim\Slim();
 
 //ERROR CODES
 class ERROR{
-	const ACCOUNT_EXISTS = 100,
+	const SUCCESS = 001,
+	 ACCOUNT_EXISTS = 100,
 	 JSON_ERROR = 200,
-	 ACCOUNT_DOESNT_EXISTS = 300,
+	 ACCOUNT_DOESNT_EXIST = 300,
 	 LOGIN_FAILURE = 400,
-	 NO_RESULTS = 500;
+	 NO_RESULTS = 500,
+	 ACTIVITY_EXISTS = 600;
 }
 
 // This will use the Slim Framework to implement Sessions
@@ -80,7 +82,7 @@ function login() {
 		    $salt = $returnedInfo->PasswordSalt;
 		}
 		else {
-			echo '{"error":{"text": "JSON was not properly set."}}'; 
+			echo ERROR::JSON_ERROR;
 		}
 	}
 	catch(PDOException $e) {
@@ -99,7 +101,7 @@ function login() {
 		    $stmt2->execute();
 		    $returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo '{"error":{"text": "Email not found in DB."}}';//ALSO DISPLAYS IF PW IS INCORRECT. PLEASE FIX.
+		    	echo ERROR::JSON_ERROR;//ALSO DISPLAYS IF PW IS INCORRECT. PLEASE FIX.
 		    }
 		    else {
 			    //Store user info into session
@@ -114,7 +116,7 @@ function login() {
 		}
 		else {
 
-			echo '{"error":{"text": "JSON was not properly set."}}'; 
+			echo ERROR::JSON_ERROR;
 		}
 	}
 	catch(PDOException $e) {
@@ -185,11 +187,10 @@ function createAccount(){
 			$stmt->bindParam("userType", $userInfo->userType);
 			$stmt->bindParam("sex", $userInfo->sex);
 			$stmt->execute();
-			echo '{"success":{"text": "Account successfully created."}}';
+			echo ERROR::SUCCESS;//TODO: log in, return session info
 		}
 		else {
 			echo ERROR::JSON_ERROR;
-			echo '{"error":{"text": "JSON was not properly set."}}'; 
 		}
 	}		    
 	catch(PDOException $e) {
@@ -247,10 +248,10 @@ function submitNewActivity()
 			$stmt->bindParam("cost", $activityInfo->Cost);
 			$stmt->bindParam("location", $activityInfo->Location);
 			$stmt->execute();
-			echo '{"success":{"text": "Activity successfully created."}}';
+			echo ERROR::SUCCESS;
 		}
 		else {
-			echo '{"error":{"text": "JSON was not properly set."}}'; 
+			echo ERROR::JSON_ERROR;
 		}
 	}		    
 	catch(PDOException $e) {
@@ -258,7 +259,7 @@ function submitNewActivity()
 		}	
 	}
 	else{
-		echo '{"error":{"text": "Activity already exists."}}';
+		echo ERROR::ACTIVITY_EXISTS;
 	}			
 }
 
@@ -303,7 +304,7 @@ function viewProfile(){
 	} else 
 	{
 		//echo $userInfo->UserID;
-		echo '{"error":{"text": "User does not have a profile."}}';
+		echo ERROR::ACCOUNT_DOESNT_EXIST;
 	}
 } // end of function
 
@@ -368,7 +369,7 @@ function addFavorite (){
 		$stmt = $db->prepare($sql);
 		$stmt -> bindParam("UserID", $info->UserID);
 		$stmt -> execute();
-		echo '{"success":{"text": "Favorite successfully created."}}';
+		echo ERROR::SUCCESS;
 
 
 	}
@@ -499,7 +500,7 @@ function getTaggedActivities() {
 
 		//Checking if the query returned any results
 		if(sizeof($returnedInfo) == 0) {
-			exit("Search returned zero results.");//ERROR
+			exit(ERROR::JSON_ERROR);
 		}
 
 		//Type-casting integers before returning them
@@ -556,16 +557,15 @@ function viewActivityReviews() {
 		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
 		
 		if(empty($returnedInfo1)){
-			echo '{"error":{"text": "User has not written any Activity Reviews."}}';
+			echo ERROR::NO_RESULTS;
 		} else {
 			echo json_encode($returnedInfo1);
 			$db = null;
 		}
 
-	} else 
-	{
-		//echo $userInfo->UserID;
-		echo '{"error":{"text": "User does not have a profile."}}';
+	}
+	else {
+		echo ERROR::ACCOUNT_DOESNT_EXIST;
 	}
 } // end of function
 
@@ -588,7 +588,7 @@ function viewDatePlanReviews() {
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfo)){
 			$user_exists = false;
-			echo json_encode($userInfo->UserID);
+			exit(ERROR::ACCOUNT_DOESNT_EXIST);
 		}
 		else {
 			$user_exists = true;
@@ -610,7 +610,7 @@ function viewDatePlanReviews() {
 		$returnedInfo2 = $stmt2->fetch(PDO::FETCH_OBJ);
 		
 		if(empty($returnedInfo1)){
-			echo '{"error":{"text": "User has not written any DatePlan Reviews."}}';
+			echo ERROR::NO_RESULTS;
 		} else {
 			echo json_encode($returnedInfo1);
 			$db = null;
