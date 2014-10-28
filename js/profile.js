@@ -1,4 +1,4 @@
-1/**
+/**
     Author: Konersmann
     Created: October 20, 2014
     Maintenance Log:
@@ -9,16 +9,15 @@ $.cookie.json = true;
 
 var profile = {};
 var user = new Object();
-user.UserId = 1;
+user.UserID = 1;
 
 $.ajax({
     type: 'POST',
     url: 'api/viewProfile',
     async: false, 
-    dataType: 'application/json',
+    content: 'application/json',
     data: JSON.stringify(user),
     success: function(response) {
-        console.log(response);
         profile = response;
     }
 });
