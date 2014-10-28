@@ -15,7 +15,7 @@
 <body>
 <p id="greeting"></p>
 <button id="createbut" class="" onclick="createAccount()"><span>Create Account<span></button>
-<button id="loginbut" onclick="testLoginFunction()"><span>Login</span></button>
+<button id="loginbut" onclick="LoginFunction()"><span>Login</span></button>
 <div id="logindiv"><span>Login</span></div>
 <div id="fade"></div>
 <a id="make" href="orders.html">Make a Random DatePlan</a>
