@@ -2,8 +2,10 @@
     Author: Konersmann
     Created: October 20, 2014
     Maintenance Log:
-        10/27/2014 - still testing with input to recieve the correct data in viewProfile call
-
+        10/27/2014 - still testing with input to recieve the correct data 
+                        in viewProfile call.
+        10/28/2014 - added jquery instead of just bare naked scripts. Created
+                        the loadUser function.
 **/
 
 $(document).ready(function(){
