@@ -64,6 +64,25 @@
 			}
 		});
 
+
+//ADD FAVORITE
+
+
+	var user = new Object();
+	user.UserID = 1;
+	user.ActivityID = 2;
+	//user.DatePlanID = 2;
+	console.log(user);
+		$.ajax({
+			type: 'POST',
+			url: 'api/addFavorite',
+			content: 'application/json',
+			data: JSON.stringify(user),
+			success: function(data){
+				console.log(data);
+			}
+		});
+
 //VIEW FAVORITES
 
 
@@ -142,4 +161,7 @@
 			console.log(data);
 		}
 	});
+
+
+
 

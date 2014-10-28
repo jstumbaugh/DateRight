@@ -50,7 +50,7 @@ $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
 $app->get('/getRandomIdea', 'getRandomIdea');
-//$app->
+$app->post('/addFavorite', 'addFavorite');
 $app->run();
 
 /**
@@ -343,22 +343,33 @@ function viewFavorites(){
 	echo json_encode($rI2);
 	
 	}
-function addFavorites (){
+function addFavorite (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	$info = json_decode($request->getBody());
-	$activity_exists;
-	$dp_exists;
+
+	$sqlInsert = '';
+	$sqlInsert2 = '';
 	try{
-		if ($info->ActivityID != NULL)
+		if (!empty($info->ActivityID))
 		{
-			$activity_exists = TRUE;
+			$sqlInsert = "ActivityID";
+			$sqlInsert2 = $info->ActivityID;
 
 		}
-		if ($info->DatePlanID != NULL)
+		if (!empty($info->DatePlanID))
 		{
-			$dp_exists = TRUE;
+			$sqlInsert = "DatePlanID";
+			$sqlInsert2 = $info->DatePlanID;
 		}
+		$sql = "INSERT INTO Favorites (UserID, $sqlInsert)
+				VALUES (:UserID, $sqlInsert2);";
+		$db = getConnection();
+		$stmt = $db->prepare($sql);
+		$stmt -> bindParam("UserID", $info->UserID);
+		$stmt -> execute();
+		echo '{"success":{"text": "Favorite successfully created."}}';
+
 
 	}
 	catch(PDOException $e)
