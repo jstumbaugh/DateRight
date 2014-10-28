@@ -2,6 +2,7 @@
     Author: Konersmann
     Created: October 20, 2014
     Maintenance Log:
+        10/28/2014 - added id's to the headers, created modal dialog box, put a form in it
 -->
 <!DOCTYPE html>
 <html>
@@ -29,17 +30,26 @@
         <h3 id="email">
             Email: 
         </h3>
-        <button id="updateAccountButton">
-            Update Account Info
-        </button>
 
-        <a href="#openModal">Open Modal</a>
+        <a href="#openModal">
+            <button href="#openModal" id="updateAccountButton">
+                Update Account Info
+            </button> 
+        </a>
+
         <div id="openModal" class="modalDialog">
             <div>
-                <a href="#close" title="Close" class="close">X</a>
+                <a href="#close" title="Close" class="close">
+                    <button>X</button>
+                </a>
                 <h2>Modal Box</h2>
-                <p>some stuff?</p>
-                <p>more stuff...</p>
+                <form>
+                    <label for="firstNameInput"></label>
+                    <input type="text" id="firstNameInput"><br>
+                    <label for="lastNameInput"></label>
+                    <input type="text" id="lastNameInput"><br>
+                    <input type="submit" value="Update">
+                </form>
             </div>
         </div>
 

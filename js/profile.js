@@ -11,7 +11,7 @@
 $(document).ready(function(){
     $.cookie.json = true;
     loadUser();
-    $("#updateAccountButton").click(form);
+    //$("#updateAccountButton").click(form);
 
 });
 
@@ -36,10 +36,7 @@ function loadUser(){
     $("#pageHeader").text(profile.FirstName + "'s Profile");
     $("#username").text("Username: none? where ma username at");
     $("#firstName").text("First Name: " + profile.FirstName);
-    $("#lastName").text("Last Name: " + profile.lastName);
+    $("#lastName").text("Last Name: " + profile.LastName);
     $("#email").text("Email: " + profile.Email);
 }
 
-function form() {
-    console.log("stuff");
-}
