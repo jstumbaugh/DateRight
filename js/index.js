@@ -1,14 +1,8 @@
 var x, fadeBackground;
 var para;
-//The Dialog boxes
-function loginFunction() {
-    x = document.getElementById("login");
-    x.open = true;
-    fadeBackground = document.getElementById("fade");
-	fadeBackground.classList.add("fadeIn");
-}
 
-function testLoginFunction() {
+//The Growing Circle and the forms that appear
+function LoginFunction() {
 	$("#logindiv").addClass( "grownl", 1000);
 	$("#loginbut").addClass("shrinkl", 0);
 	if (para == null){
@@ -58,6 +52,93 @@ function testLoginFunction() {
 
 function createAccount(){
 	$("#createbut").addClass( "grownc", 1000);
+
+	if (para == null){
+	//First Name
+	var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your First Name Here");
+	para.appendChild(node);
+	var element = document.getElementById("createbut");
+	element.appendChild(para);
+    var f = document.createElement("INPUT");
+	f.setAttribute("type", "text");
+	f.setAttribute("placeholder", "First Name"); 
+	f.setAttribute("id", "fNameAccount");
+	f.setAttribute("fName", "fName");    
+	f.setAttribute("required", "required");
+    document.getElementById("createbut").appendChild(y);
+
+    //Last Name
+    var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your Last Name Here");
+	para.appendChild(node);
+	var element = document.getElementById("createbut");
+	element.appendChild(para);
+    var l = document.createElement("INPUT");
+	l.setAttribute("type", "text");
+	l.setAttribute("placeholder", "Last Name"); 
+	l.setAttribute("id", "lNameAccount");
+	l.setAttribute("fName", "lName");    
+	l.setAttribute("required", "required");
+    document.getElementById("createbut").appendChild(y);
+
+	//Email Login Form
+	var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your Email Here");
+	para.appendChild(node);
+	var element = document.getElementById("createbut");
+	element.appendChild(para);
+    var y = document.createElement("INPUT");
+	y.setAttribute("type", "text");
+	y.setAttribute("placeholder", "Email"); 
+	y.setAttribute("id", "emailAccount");
+	y.setAttribute("email", "email");    
+	y.setAttribute("required", "required");
+    document.getElementById("createbut").appendChild(y);
+
+    //Password Form
+    var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Enter your Password Here");
+	para.appendChild(node);
+	var element = document.getElementById("createbut");
+	element.appendChild(para);
+    var z = document.createElement("INPUT");
+	z.setAttribute("type", "password");
+	z.setAttribute("placeholder", "Password"); 
+	z.setAttribute("id", "passwordAccount");
+	z.setAttribute("password", "password");    
+	z.setAttribute("required", "required");
+    document.getElementById("createbut").appendChild(z);
+
+    var para = document.createElement("p");
+	para.setAttribute("class", "loginText");
+	var node = document.createTextNode("Repeat Password");
+	para.appendChild(node);
+	var element = document.getElementById("createbut");
+	element.appendChild(para);
+    var z = document.createElement("INPUT");
+	z.setAttribute("type", "password");
+	z.setAttribute("placeholder", "Password"); 
+	z.setAttribute("id", "passwordAccount");
+	z.setAttribute("password", "password");    
+	z.setAttribute("required", "required");
+    document.getElementById("createbut").appendChild(z);
+
+    //Create Submit Button
+    var btn = document.createElement("INPUT");
+    btn.setAttribute("type", "Submit")
+    btn.setAttribute("class", "submitButton");
+    btn.setAttribute("onclick", "accountSubmit()");
+    document.getElementById("createbut").appendChild(btn);
+
+	}
+	else{
+		console.log("Else statment!");
+	}
 }
 
 //Close the Dialog Boxes
