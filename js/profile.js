@@ -8,13 +8,15 @@
 $.cookie.json = true;
 
 var profile = {};
-var profileData = {"userID":"1"};
+var user = new Object();
+user.UserId = 1;
 
 $.ajax({
+    type: 'POST',
     url: 'api/viewProfile',
     async: false, 
-    dataType: 'json',
-    data: JSON.stringify(profileData),
+    dataType: 'application/json',
+    data: JSON.stringify(user),
     success: function(response) {
         console.log(response);
         profile = response;
