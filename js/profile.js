@@ -5,21 +5,31 @@
         10/27/2014 - still testing with input to recieve the correct data in viewProfile call
 
 **/
-$.cookie.json = true;
 
-var profile = {};
-var user = new Object();
-user.UserID = 1;
+$(document).ready(function(){
+    $.cookie.json = true;
 
-$.ajax({
-    type: 'POST',
-    url: 'api/viewProfile',
-    async: false, 
-    content: 'application/json',
-    data: JSON.stringify(user),
-    success: function(response) {
-        profile = response;
-    }
+    var profile = {};
+    var user = new Object();
+    user.UserID = 1;
+
+    $.ajax({
+        type: 'POST',
+        url: 'api/viewProfile',
+        async: false, 
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(response) {
+            profile = JSON.parse(response);
+        }
+    });
+
+    console.log(profile);
+
+    $("#pageHeader").text(profile.FirstName + "'s Profile");
+    $("#username").text("Username: none? where ma username at");
+    $("#firstName").text("First Name: " + profile.FirstName);
+    $("#lastName").text("Last Name: " + profile.lastName);
+    $("#email").text("Email: " + profile.Email);
+
 });
-
-console.log(profile);
