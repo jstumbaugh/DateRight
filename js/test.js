@@ -134,3 +134,12 @@
 		}
 	});
 
+	//Get random idea from Dateplans table
+	$.ajax({
+		type: 'GET',
+		url: 'api/index.php/getRandomIdea',
+		success: function(data){
+			console.log(data);
+		}
+	});
+

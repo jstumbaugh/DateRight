@@ -49,6 +49,7 @@ $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
+$app->get('/getRandomIdea', 'getRandomIdea');
 //$app->
 $app->run();
 
@@ -611,7 +612,23 @@ function viewDatePlanReviews() {
 	}
 } // end of function
 
-
+//Returns random date idea as JSON object
+//@return JSON object containing random date idea from Dateplans
+function getRandomIdea(){
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	//Generate random date idea from dateplans table
+	$sql = "SELECT * FROM dateplans WHERE dateplanid >= (SELECT FLOOR( MAX(dateplanid) * RAND()) FROM Dateplans ) ORDER BY dateplanid LIMIT 1";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		echo json_encode($returnedInfo);
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
 
 
 ?>
