@@ -8,7 +8,12 @@
 
 $(document).ready(function(){
     $.cookie.json = true;
+    loadUser();
+    $("#updateAccountButton").click(form);
 
+});
+
+function loadUser(){
     var profile = {};
     var user = new Object();
     user.UserID = 1;
@@ -31,5 +36,8 @@ $(document).ready(function(){
     $("#firstName").text("First Name: " + profile.FirstName);
     $("#lastName").text("Last Name: " + profile.lastName);
     $("#email").text("Email: " + profile.Email);
+}
 
-});
+function form() {
+    console.log("stuff");
+}
