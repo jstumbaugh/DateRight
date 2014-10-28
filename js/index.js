@@ -22,7 +22,7 @@ function testLoginFunction() {
 	element.appendChild(para);
     var y = document.createElement("INPUT");
 	y.setAttribute("type", "text");
-	y.setAttribute("value", "Enter your Email Here"); 
+	y.setAttribute("placeholder", "Email"); 
 	y.setAttribute("id", "emailLogin");
 	y.setAttribute("email", "email");    
 	y.setAttribute("required", "required");
@@ -37,7 +37,7 @@ function testLoginFunction() {
 	element.appendChild(para);
     var z = document.createElement("INPUT");
 	z.setAttribute("type", "password");
-	z.setAttribute("value", "Enter your Password Here"); 
+	z.setAttribute("placeholder", "Password"); 
 	z.setAttribute("id", "passwordLogin");
 	z.setAttribute("password", "password");    
 	z.setAttribute("required", "required");
@@ -47,7 +47,9 @@ function testLoginFunction() {
     var btn = document.createElement("INPUT");
     btn.setAttribute("type", "Submit")
     btn.setAttribute("class", "submitButton");
+    btn.setAttribute("onclick", "loginSubmit()");
     document.getElementById("logindiv").appendChild(btn);
+
 	}
 	else{
 		console.log("Else statment!");
@@ -96,18 +98,14 @@ function loginSubmit() {
 	});
 
 	document.getElementById("loginForm").reset();
-	closeWindow(); 
+	//closeWindow(); 
 
 	var info = $.cookie("data");
 	if (info.indexOf("email") >= 0)
 	{
 		//HERE"S WHERE WE LINK TO ANOTHER PAGE
-		self.location='search.html'
-		document.getElementById("createbut").setAttribute("class", "inv");
-		document.getElementById("loginbut").setAttribute("id", "logout");
-		document.getElementById("logout").innerHTML = "Logout";
-		document.getElementById("logout").setAttribute("onclick", "");
-		document.getElementById("greeting").innerHTML = "Hello, " + JSON.parse(info).fName;
+		location.assign='search.html'
+		//self.location='search.html'
 	}
 }
 
