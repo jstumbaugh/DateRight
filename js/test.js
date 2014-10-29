@@ -19,8 +19,8 @@
 	user.password = "password";
 	user.fName = "Testy";
 	user.lName = "Testerson";
-	user.creditCardNumber = "1234123412341234";
-	user.creditProvider = "Visa";
+	user.userType = 1;
+	user.sex = 1;
 		$.ajax({
 			type: 'POST',
 			url: 'api/createAccount',
