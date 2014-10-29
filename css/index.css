@@ -119,8 +119,22 @@ img.bg {
   background:#7f7f7f;
   color: white;
   background:rgba(0,0,0,0.3);
+  text-align: center;
 }
 
+#loginBox.overlayBox{
+position: relative;
+ width: 50%;
+  left: 25%; 
+  top-padding: 20%;
+}
+
+#createAccountBox.overlayBox{
+    position: relative;
+    width: 83%;
+    left:10%;
+    top-padding: 20%;
+}
 .right{
     float: right;
     margin-top: 100px;

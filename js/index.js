@@ -46,9 +46,14 @@ $('#createAccount').submit(function (event) {
        type: "POST",
         url: 'api/createAccount',
         content: 'application/json',
+        beforeSend: function() { $("#resultMessage").text("Processing..."); },
         data: JSON.stringify(user),
         success: function(data){
-            console.log(data);
+            if(data===100){
+                $("#resultMessage").text("Account already exists...");
+            }else{
+                $("#resultMessage").text("There was an error in your transaction. Try typing your info again");
+            }
         }
     });
 }); 
@@ -95,19 +100,12 @@ $("#login").submit(function(event) {
         url: 'api/login',
         content: 'application/json',
         data: JSON.stringify(user),
+        beforeSend: function() { $("#resultMessage").text("Processing..."); },
         success: function(data){
-            console.log(data);
-            var obj = JSON.parse(data);
-            if(obj.error == true) {
-                $("#loginModal").css({"border":"2px solid red"});
-                $(".errorMessage").text("silly, your login information is not correct");
-            }
-            else {
-                console.log("loading cookie");
-                /* Store user information in cookie */ 
-                $.cookie.json = true;
-                $.cookie("data", data); 
-                console.log($.cookie("data"))
+            if(data===400){
+                $("#resultMessage").text("Couldn't log you in...Try typing your password again");
+            }else{
+                $("#resultMessage").text("There was an error in your transaction.");
             }
         }
     });

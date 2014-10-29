@@ -11,7 +11,7 @@
 $(document).ready(function(){
     $.cookie.json = true;
     loadUser();
-    //$("#updateAccountButton").click(form);
+    //$("#updateAccountButton").click();
 
 });
 
@@ -27,16 +27,27 @@ function loadUser(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(response) {
-            profile = JSON.parse(response);
+            //profile = JSON.parse(response);
+            profile = response;
         }
     });
 
     console.log(profile);
+
+    //Change static page view variables
 
     $("#pageHeader").text(profile.FirstName + "'s Profile");
     $("#username").text("Username: none? where ma username at");
     $("#firstName").text("First Name: " + profile.FirstName);
     $("#lastName").text("Last Name: " + profile.LastName);
     $("#email").text("Email: " + profile.Email);
+
+    //Change Modal Dialog variables
+
+    $("#emailInput").attr("value", "Where ma username at?");
+    $("#firstNameInput").attr("value", profile.FirstName);
+    $("#lastNameInput").value("value", profile.LastName);
+    $("#email").value("value", profile.email);
+
 }
 
