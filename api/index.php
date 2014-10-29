@@ -19,6 +19,7 @@ class ERROR{
 	 LOGIN_FAILURE = 400,
 	 NO_RESULTS = 500,
 	 ACTIVITY_EXISTS = 600;
+	// PASSWORD_IS_INCORRECT = 700;
 }
 
 // This will use the Slim Framework to implement Sessions
@@ -679,9 +680,10 @@ function updateAccount(){
 	$info = json_decode($request->getBody());
 	echo json_encode($info);
 	$user_exists;
+	$password_exists;
 	try{
 		$userID = json_encode($info->userID);
-		echo $userID;
+		//echo $userID;
 
 		// $sql = "SELECT UserID FROM Users WHERE Users.UserID = :userID";
 		// $db = getConnection();
@@ -693,11 +695,9 @@ function updateAccount(){
 		if (empty($userID))
 		{
 			$user_exists = false;
-			echo ERROR::ACCOUNT_DOESNT_EXIST;
 		}
 		else {
 			$user_exists = true;
-			//echo "WOAH";
 		}
 		//$db = null;
 	
@@ -708,27 +708,66 @@ function updateAccount(){
 	}
 	if($user_exists)
 	{
+		$db = getConnection();
+		$checkpasswordsql = "SELECT Password, PasswordSalt FROM Users WHERE UserID = :userID";
+		$passwordStmt = $db->prepare($checkpasswordsql);
+		$passwordStmt ->bindParam("userID", $userID);
+		$passwordStmt->execute();
+		$returnedInfoPassword = $passwordStmt->fetch(PDO::FETCH_OBJ);
+		//echo json_encode($returnedInfoPassword);
+		echo "\nPASSWORD: ";
+		echo json_encode($returnedInfoPassword->Password);
+		echo "\nSALT: ";
+		echo json_encode($returnedInfoPassword->PasswordSalt);
+
+		$salt = $returnedInfoPassword->PasswordSalt;
+
+		$raw_password = $info->currentPassword;
+		echo "\nCURRENT PASSWORD: " . $raw_password;
+		$pw = md5($raw_password.$salt);
+		echo "\nCurrent password salted: " . json_encode($pw);
+		if ($pw == $returnedInfoPassword->Password)
+		{
+			echo "\nmatch found\n";
+			$password_exists = true;
+		}
+		else{
+			echo "\nmatch not found\n";
+			$password_exists = false;
+		}
+
+		if ($password_exists)
+		{
 		$fName = $info->fName;
 		$lName = $info->lName;
 		$email = $info->email;
 		$username = $info->username;
+		$raw_newPassword = $info->newPassword;
+		$saltNewPassword = sha1(md5($raw_newPassword));
+       	$newPassword = md5($raw_newPassword.$saltNewPassword);
 		$db = getConnection();
-		echo $fName . " " . $lName . " " . $email . " " . $username;
-		$updatesql1 = "UPDATE Users SET FirstName = :fName, LastName = :lName, UserName = :username, Email = :email WHERE Users.UserID = :userID";
+		$updatesql1 = "UPDATE Users SET FirstName = :fName, LastName = :lName, UserName = :username, Email = :email, Password = :password, PasswordSalt = :passwordsalt WHERE Users.UserID = :userID";
 		$stmt1 = $db->prepare($updatesql1);
 		$stmt1 ->bindParam("userID", $userID);
 		$stmt1->bindParam("fName", $fName);
 		$stmt1->bindParam("lName", $lName);
 		$stmt1->bindParam("email", $email);
 		$stmt1->bindParam("username", $username);
+		$stmt1->bindParam("password", $newPassword);
+		$stmt1->bindParam("passwordsalt", $saltNewPassword);
 		$stmt1->execute();
+		}
+		else {
+			echo ERROR::LOGIN_FAILURE;
 
-	}	
+		}
+	}
+	else
+	{
+		echo ERROR::ACCOUNT_DOESNT_EXIST;
+	}
 }
 
-//UPDATE ACCOUNT INFO THINGS TO DO:
-// BEFORE RUNNING QUERY, USE USERID TO GET THE USER.PASSWORDSALT and USer.password. take the old password give by JK and salt it. compare the salted password from JK to the User.passwordSalt
-//if they are the same, update everything. if not, return error::password incorrect
 
 
 ?>
