@@ -39,7 +39,7 @@
     <form method="post" class="minimal" id="login">
         <label for="email">
             Username:
-            <input type="email" name="email" id="emailLogin" placeholder="Email address" title="Valid email address required" required />
+            <input type="email" name="email" id="emailLogin" placeholder="Email Address" title="Valid email address required" required />
         </label>
         <label for="password">
             Password:
@@ -62,7 +62,7 @@
         <label for = "email">
             Email:
         </label>
-        <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+        <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/>
         <label for="password">
             Password:
             <input type="password" name="password" id="passwordAccount" placeholder="Password must be at least 8 characters" pattern=".{8,}" required />
