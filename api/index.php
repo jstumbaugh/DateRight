@@ -53,6 +53,7 @@ $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
 $app->get('/getRandomIdea', 'getRandomIdea');
 $app->post('/addFavorite', 'addFavorite');
+$app->post('/updateAccount', 'updateAccount');
 $app->run();
 
 /**
@@ -670,6 +671,21 @@ function getRandomIdea(){
 	}
 	catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+function updateAccount(){
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request();
+	$info = json_decode($request->getBody());
+	echo json_encode($info);
+	try{
+		$userID  = $info->UserID;
+		echo json_encode($userID);
+
+	} 
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
 }
 
