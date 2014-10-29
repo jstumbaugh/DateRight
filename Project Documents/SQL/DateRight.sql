@@ -13,6 +13,7 @@ USE DateRight;
 
 CREATE TABLE IF NOT EXISTS `Users` (
   `UserID` int NOT NULL AUTO_INCREMENT,
+  `UserName` varchar(50) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
