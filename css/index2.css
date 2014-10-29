@@ -120,3 +120,40 @@ img.bg {
   color: white;
   background:rgba(0,0,0,0.3);
 }
+
+.right{
+    float: right;
+    margin-top: 100px;
+}
+/* Speech bubble generated using: http://html-generator.weebly.com/css-speech-bubble-generator.html */
+.bubble {
+    position: relative;
+    width: 231px;
+    height: 150px;
+    padding: 5px;
+    background: #FFD261;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    -webkit-box-shadow: 8px 2px 10px 0px #616161;
+    -moz-box-shadow: 8px 2px 10px 0px #616161;
+    box-shadow: 8px 2px 10px 0px #616161;
+}
+
+  .bubble:after {
+    content: "";
+    position: absolute;
+    top: 57px;
+    left: -22px;
+    border-style: solid;
+    border-width: 15px 22px 15px 0;
+    border-color: transparent #FFD261;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+.ellipsis {
+   width: 230px;
+   height: 70px;
+   overflow: scroll;
+}

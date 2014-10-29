@@ -14,12 +14,29 @@ $("#createAccountButton").click(function(){
     $("#loginBox").hide();
         
 }); 
+ function getRandomIdea() {
+
+    var randomIdea="";
+    //Get random idea from Dateplans table
+    $.ajax({
+        type: 'GET',
+        url: 'api/index.php/getRandomIdea',
+        success: function(data){
+            var dataArray = jQuery.parseJSON(data);
+            if(dataArray.length>0)
+                $("#dateIdea").text(dataArray[0]["Description"]);
+                
+        }
+    });
+}
+
 
 $('#createAccount').submit(function (event) {
     $("#loginBox").hide();
     $("#createAccountBox").show();
     event.preventDefault(); 
     var user = new Object();
+    if($('#createAccount').valid()){
     user.fName = $("#fNameAccount").val();
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
@@ -36,6 +53,7 @@ $('#createAccount').submit(function (event) {
             console.log(data);
         }
     });
+}
 }); 
 
 $('#searchbar').submit(function (e) {
@@ -105,5 +123,6 @@ $("#login").submit(function(event) {
     // }
 
     });
+getRandomIdea();
 }
 window.onload = init;

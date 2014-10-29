@@ -13,6 +13,9 @@
         <link href="css/index2.css" rel="stylesheet">
     </head>
 <body>
+<div class="right">
+<div class="bubble"><h3>Date Idea</h3><p id="dateIdea" class="ellipsis"></p></div>
+</div>
 <img src="img/background.png" class="bg">
 <p id="greeting"></p>
 
@@ -26,6 +29,7 @@
         <div id="searchResults"></div>
     </section>
 </div>
+
 <div id="loginButtons" class="midSection">
     <a href="#" id="loginButton" class="button">Login </a>
     <a href="#" id="createAccountButton" class="button">Create Account!</a>
