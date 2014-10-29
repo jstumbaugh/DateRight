@@ -253,14 +253,20 @@ div.fadeIn {
     height: 375px !important;
     top: 10% !important;
 }
-
+.shrinkc {
+    z-index: 0;
+    width: 0px !important;
+    height: 0px !important;
+    top: 45% !important;
+    background-color: none;
+}
 .loginText{
     font-size: 50%;
     width: 60%;
     margin-bottom: -5%;
 }
 
-.loginText{
+.createAccountText{
     font-size: 30%;
     width: 60%;
     margin-bottom: -5%;
