@@ -27,8 +27,8 @@ function loadUser(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(response) {
-            //profile = JSON.parse(response);
-            profile = response;
+            profile = JSON.parse(response);
+            //profile = response;
         }
     });
 
@@ -44,10 +44,10 @@ function loadUser(){
 
     //Change Modal Dialog variables
 
-    $("#emailInput").attr("value", "Where ma username at?");
+    $("#usernameInput").attr("value", "Where ma username at?");
     $("#firstNameInput").attr("value", profile.FirstName);
-    $("#lastNameInput").value("value", profile.LastName);
-    $("#email").value("value", profile.email);
+    $("#lastNameInput").attr("value", profile.LastName);
+    $("#emailInput").attr("value", profile.Email);
 
 }
 
