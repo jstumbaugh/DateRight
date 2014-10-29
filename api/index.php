@@ -312,24 +312,50 @@ function viewProfile(){
 function viewFavorites(){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
+	$sql = "SELECT * FROM Favorites WHERE UserID = :userID";
 	$userInfo = json_decode($request->getBody());
 	$userID = $userInfo->UserID; 
-	$sql = "SELECT ActivityID, DatePlanID FROM Favorites WHERE UserID = :userID";
 	$db = getConnection();
+	$favorites = array();
+	
+	try{
 	$stmt = $db->prepare($sql);
 	$stmt ->bindParam("userID", $userID);
 	$stmt ->execute();
-	$returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC);
-	$activity = $returnedInfo1['ActivityID'];
-	$dateplan = $returnedInfo1['DatePlanID'];
-	$sql2 = "SELECT * FROM Activities, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid";
-	$stmt2 = $db ->prepare($sql2);
-	$stmt2 -> bindParam("activityID", $activity);
-	$stmt2 -> bindParam("dateplanid", $dateplan);
-
-	$stmt2->execute();
-	$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-
+	while($returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC))
+	{
+		$activity = $returnedInfo1['ActivityID'];
+		$dateplan = $returnedInfo1['DatePlanID'];
+		if (empty($activity))
+		{
+			$sql2 =" SELECT DatePlans.Name, DatePlans.CreatorID, DatePlans.Description  FROM Dateplans WHERE Dateplans.DatePlanID = :dateplanid";
+			$stmt2 = $db->prepare($sql2);
+			$stmt2->bindParam("dateplanid", $dateplan);
+			$stmt2->execute();
+			$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+			array_push($favorites, $rI2);
+		}
+		else if (empty($dateplan))
+		{
+			$sql2 =" SELECT Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location FROM Activities WHERE Activities.ActivityID = :activityID";
+			$stmt2 = $db->prepare($sql2);
+			$stmt2->bindParam("activityID", $activity);
+			$stmt2->execute();
+			$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+			array_push($favorites, $rI2);
+		}
+		else{
+		$sql2 = "SELECT Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description FROM Activities, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid";
+		$stmt2 = $db ->prepare($sql2);
+		$stmt2 -> bindParam("activityID", $activity);
+		$stmt2 -> bindParam("dateplanid", $dateplan);
+		$stmt2->execute();
+		$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+	// $favorites['activityID'] = $rI2['ActivityID'];
+	// $favorites['dateplanid'] = $rI2['DatePlanID'];
+		array_push($favorites, $rI2);
+	}
+}
 
 	//Type-casting integers before returning them
 	// for($i = 0; $i < sizeof($rI2); $i = $i + 1) {
@@ -340,8 +366,14 @@ function viewFavorites(){
 		// $rI2[$i]['CreatorID'] = $rI2[$i]['CreatorID'] + 0;
 		// $rI2[$i]['ModID'] = $rI2[$i]['ModID'] + 0;
 	// }
+	echo json_encode($favorites);
 
-	echo json_encode($rI2);
+	//echo json_encode($rI2);
+	}
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
 	
 	}
 function addFavorite (){
