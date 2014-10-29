@@ -68,6 +68,7 @@
             <input type="password" name="password" id="passwordAccount" placeholder="Password must be at least 8 characters" pattern=".{8,}" required />
         </label>
         <button type="submit" class="btn-minimal">Create Account!</button>
+        <p id="resultMessage"></p>
     </form>
 </section>
 <script src="js/index.js"></script>
