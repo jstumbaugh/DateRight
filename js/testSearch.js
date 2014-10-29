@@ -14,7 +14,7 @@ $.ajax({
  		$(resultDiv).appendTo("#searchResults");
  		if(response==500)
  			$("<div >"+"No results found"+"</div>").appendTo("#searchResults");
- 		else{
+ 		else {
 			for ( var i = 0; i < obj['results'].length; i++) {
 				var a = obj['results'][i];
 				var div_data = "<div >"+"Name: "+a['Name']+"------- Description: "+a['Description']+"</div>";

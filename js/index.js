@@ -3,7 +3,6 @@ function init() {
 $("#loginBox").hide();
 $("#createAccountBox").hide();
 $("#loginButton").click(function(){
-        
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
         
@@ -56,28 +55,33 @@ $('#createAccount').submit(function (event) {
 
 $('#searchbar').submit(function (e) {
 e.preventDefault();
-var searchString = $("#searchBoxText").val();
-$.ajax({
-    type: "POST",
-    url: './api/index.php/searchActivities',
-    data: $(this).serialize(),
-    success: function(response) {
-        console.log(response);
-        var obj = $.parseJSON(response);
-        var resultDiv = "<div >"+"Search Results:"+"</div>";
-        $(resultDiv).appendTo("#searchResults");
-        if(response==500)
-            $("<div >"+"No results found"+"</div>").appendTo("#searchResults");
-        else{
-            for ( var i = 0; i < obj['results'].length; i++) {
-                var a = obj['results'][i];
-                var div_data = "<div >"+"Name: "+a['Name']+"------- Description: "+a['Description']+"</div>";
-                $(div_data).appendTo("#searchResults");
+//Redirect user
+window.location.replace("search.html?"+$("#searchbar").serialize());
+
+/* CODE TO SEARCH ACTIVITIES */
+// $.ajax({
+//     type: "POST",
+//     url: './api/index.php/searchActivities',
+//     data: $(this).serialize(),
+//     success: function(response) {
+//         console.log(response);
+//         var obj = $.parseJSON(response);
+//         var resultDiv = "<div >"+"Search Results:"+"</div>";
+//         $(resultDiv).appendTo("#searchResults");
+//         if(response==500)
+//             $("<div >"+"No results found"+"</div>").appendTo("#searchResults");
+//         else{
+//             for ( var i = 0; i < obj['results'].length; i++) {
+//                 var a = obj['results'][i];
+//                 var div_data = "<div >"+"Name: "+a['Name']+"------- Description: "+a['Description']+"</div>";
+//                 $(div_data).appendTo("#searchResults");
                 
-                }
-            }
-        }
-    });
+//                 }
+//             }
+//         }
+//     });
+
+
 }); 
 
 $("#login").submit(function(event) {
