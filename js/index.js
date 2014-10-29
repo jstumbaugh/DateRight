@@ -51,15 +51,17 @@ function LoginFunction() {
 }
 
 function createAccount(){
-	$("#createbut").addClass( "grownc", 1000);
+	$("#creatediv").addClass( "grownc", 1000);
+	$("#createbut").addClass("shrinkl", 0);
+	//$("#createbut").addClass( "grownc", 1000);
 
 	if (para == null){
 	//First Name
 	var para = document.createElement("p");
-	para.setAttribute("class", "loginText");
+	para.setAttribute("class", "createAccountText");
 	var node = document.createTextNode("Enter your First Name Here");
 	para.appendChild(node);
-	var element = document.getElementById("createbut");
+	var element = document.getElementById("creatediv");
 	element.appendChild(para);
     var f = document.createElement("INPUT");
 	f.setAttribute("type", "text");
@@ -67,14 +69,14 @@ function createAccount(){
 	f.setAttribute("id", "fNameAccount");
 	f.setAttribute("fName", "fName");    
 	f.setAttribute("required", "required");
-    document.getElementById("createbut").appendChild(y);
+    document.getElementById("creatediv").appendChild(f);
 
     //Last Name
     var para = document.createElement("p");
-	para.setAttribute("class", "loginText");
+	para.setAttribute("class", "createAccountText");
 	var node = document.createTextNode("Enter your Last Name Here");
 	para.appendChild(node);
-	var element = document.getElementById("createbut");
+	var element = document.getElementById("creatediv");
 	element.appendChild(para);
     var l = document.createElement("INPUT");
 	l.setAttribute("type", "text");
@@ -82,14 +84,14 @@ function createAccount(){
 	l.setAttribute("id", "lNameAccount");
 	l.setAttribute("fName", "lName");    
 	l.setAttribute("required", "required");
-    document.getElementById("createbut").appendChild(y);
+    document.getElementById("creatediv").appendChild(l);
 
 	//Email Login Form
 	var para = document.createElement("p");
-	para.setAttribute("class", "loginText");
+	para.setAttribute("class", "createAccountText");
 	var node = document.createTextNode("Enter your Email Here");
 	para.appendChild(node);
-	var element = document.getElementById("createbut");
+	var element = document.getElementById("creatediv");
 	element.appendChild(para);
     var y = document.createElement("INPUT");
 	y.setAttribute("type", "text");
@@ -97,43 +99,43 @@ function createAccount(){
 	y.setAttribute("id", "emailAccount");
 	y.setAttribute("email", "email");    
 	y.setAttribute("required", "required");
-    document.getElementById("createbut").appendChild(y);
+    document.getElementById("creatediv").appendChild(y);
 
     //Password Form
     var para = document.createElement("p");
-	para.setAttribute("class", "loginText");
+	para.setAttribute("class", "createAccountText");
 	var node = document.createTextNode("Enter your Password Here");
 	para.appendChild(node);
-	var element = document.getElementById("createbut");
+	var element = document.getElementById("creatediv");
 	element.appendChild(para);
     var z = document.createElement("INPUT");
 	z.setAttribute("type", "password");
-	z.setAttribute("placeholder", "Password"); 
+	z.setAttribute("placeholder", "Password must be 8 characters"); 
 	z.setAttribute("id", "passwordAccount");
 	z.setAttribute("password", "password");    
 	z.setAttribute("required", "required");
-    document.getElementById("createbut").appendChild(z);
+    document.getElementById("creatediv").appendChild(z);
 
     var para = document.createElement("p");
-	para.setAttribute("class", "loginText");
+	para.setAttribute("class", "createAccountText");
 	var node = document.createTextNode("Repeat Password");
 	para.appendChild(node);
-	var element = document.getElementById("createbut");
+	var element = document.getElementById("creatediv");
 	element.appendChild(para);
     var z = document.createElement("INPUT");
 	z.setAttribute("type", "password");
 	z.setAttribute("placeholder", "Password"); 
 	z.setAttribute("id", "passwordAccount");
-	z.setAttribute("password", "password");    
+	z.setAttribute("password", "Repeat the same password");    
 	z.setAttribute("required", "required");
-    document.getElementById("createbut").appendChild(z);
+    document.getElementById("creatediv").appendChild(z);
 
     //Create Submit Button
     var btn = document.createElement("INPUT");
     btn.setAttribute("type", "Submit")
     btn.setAttribute("class", "submitButton");
     btn.setAttribute("onclick", "accountSubmit()");
-    document.getElementById("createbut").appendChild(btn);
+    document.getElementById("creatediv").appendChild(btn);
 
 	}
 	else{

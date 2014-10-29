@@ -2,7 +2,28 @@ body{
   
 }
 
-#loginbut, #createbut, #logindiv{
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+img.logo{
+    position:fixed;
+    top: 15%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+
+}
+#loginbut, #createbut, #logindiv, #creatediv{
     display:inline;
     line-height:60px;
     width: 150px;
@@ -17,22 +38,27 @@ body{
     cursor: pointer;
     border:none;
     position: fixed;
-    top: 30%;
+    top: 40%;
     background-color: #A0A0A0;
 }
 
 #logindiv{
     z-index: 0;
-    left: 60%;
+    left: 65%;
+}
+#creatediv{
+    z-index: 0;
+    right: 65%;
 }
 
 #loginbut {
-    left: 60%;
+    left: 65%;
     z-index: 1;
 }
 
 #createbut {
-    right: 60%;
+    right: 65%;
+    z-index: 1;
 }
 
 #loginbut:hover, #createbut:hover, #make:hover {
@@ -58,11 +84,10 @@ body{
     cursor: pointer;
     border:none;
     position:fixed;
-    top: 70%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
 
 dialog{
     position:fixed;
@@ -80,13 +105,7 @@ dialog{
     z-index: 2;
 }
 
-#createAccount {
-    bottom:33%;
-}
 
-#login {
-    bottom:42.5%;
-}
 
 #createAccount form ol li, #login form ol li{
     list-style-type:none;
@@ -229,6 +248,7 @@ div.fadeIn {
 }
 
 .grownc { 
+    z-index: 1;
     width: 375px !important;
     height: 375px !important;
     top: 10% !important;
@@ -236,6 +256,12 @@ div.fadeIn {
 
 .loginText{
     font-size: 50%;
+    width: 60%;
+    margin-bottom: -5%;
+}
+
+.loginText{
+    font-size: 30%;
     width: 60%;
     margin-bottom: -5%;
 }

@@ -13,6 +13,8 @@
         <link href="css/index.css" rel="stylesheet">
     </head>
 <body>
+<img src="img/background.png" class="bg">
+<img src="img/Logo.png" class = "logo">
 <p id="greeting"></p>
 <button id="createbut" class="" onclick="createAccount()"><span>Create Account<span></button>
 <button id="loginbut" onclick="LoginFunction()"><span>Login</span></button>
