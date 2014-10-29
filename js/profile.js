@@ -11,7 +11,8 @@
 $(document).ready(function(){
     $.cookie.json = true;
     loadUser();
-    //$("#updateAccountButton").click();
+    //$("#updateSubmitButton").click(submitUpdateForm);
+    $("#updateAccountForm").submit(submitUpdateForm);
 
 });
 
@@ -27,8 +28,16 @@ function loadUser(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(response) {
-            profile = JSON.parse(response);
-            //profile = response;
+            //error checking
+            try {
+                profile = JSON.parse(response)
+            }
+            catch (e) {
+                console.log(e);
+                profile.FirstName = "NULL";
+                profile.LastName = "NULL";
+                profile.Email = "NULL";
+            }
         }
     });
 
@@ -51,3 +60,17 @@ function loadUser(){
 
 }
 
+function submitUpdateForm (event) {
+    event.preventDefault();
+    inputUsername = $("#usernameInput").attr("value");
+    inputFirstName = $("#firstNameInput").attr("value");
+    inputLastName = $("#lastNameInput").attr("value");
+    inputEmail = $("#emailInput").attr("value");
+    password = $("#password").attr("value");
+    console.log(inputUsername);
+    console.log(inputFirstName);
+    console.log(inputLastName);
+    console.log(inputEmail);
+    console.log(password);
+
+}
