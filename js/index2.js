@@ -36,7 +36,6 @@ $('#createAccount').submit(function (event) {
     $("#createAccountBox").show();
     event.preventDefault(); 
     var user = new Object();
-    if($('#createAccount').valid()){
     user.fName = $("#fNameAccount").val();
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
@@ -53,7 +52,6 @@ $('#createAccount').submit(function (event) {
             console.log(data);
         }
     });
-}
 }); 
 
 $('#searchbar').submit(function (e) {

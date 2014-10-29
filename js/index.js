@@ -52,12 +52,12 @@ function LoginFunction() {
 
 function createAccount(){
 	$("#creatediv").addClass( "grownc", 1000);
-	$("#createbut").addClass("shrinkl", 0);
+	$("#createbut").addClass("shrinkc", 0);
 	//$("#createbut").addClass( "grownc", 1000);
 
 	if (para == null){
 	//First Name
-	var para = document.createElement("p");
+	/*var para = document.createElement("p");
 	para.setAttribute("class", "createAccountText");
 	var node = document.createTextNode("Enter your First Name Here");
 	para.appendChild(node);
@@ -136,7 +136,7 @@ function createAccount(){
     btn.setAttribute("class", "submitButton");
     btn.setAttribute("onclick", "accountSubmit()");
     document.getElementById("creatediv").appendChild(btn);
-
+*/
 	}
 	else{
 		console.log("Else statment!");
