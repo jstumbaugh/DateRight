@@ -8,7 +8,7 @@
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
         <script src="js/jquery.cookie.js"></script>
-        <meta name="description" content="DateRight">
+        <meta name="description" content="DateRight- Plan the perfect dates to impress your special other or share your perfect date with all our users. ">
         <meta name="keywords" content="DateRight, Date, DatePlan, login, create"> 
         <link href="css/index.css" rel="stylesheet">
     </head>
