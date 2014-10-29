@@ -13,43 +13,64 @@
         <link href="css/index.css" rel="stylesheet">
     </head>
 <body>
+<div class="right">
+<div class="bubble"><h3>Date Idea</h3><p id="dateIdea" class="ellipsis"></p></div>
+</div>
 <img src="img/background.png" class="bg">
-<img src="img/Logo.png" class = "logo">
 <p id="greeting"></p>
-<button id="createbut" class="" onclick="createAccount()"><span>Create Account<span></button>
-<button id="loginbut" onclick="LoginFunction()"><span>Login</span></button>
-<div id="logindiv"><span>Login</span></div>
-<div id="fade"></div>
-<a id="make" href="orders.html">Make a Random DatePlan</a>
-  
 
-<dialog id = "createAccount">
-    <form id = "createAccountForm" onsubmit="accountSubmit()">
-        <button type="button" id="close" onclick="closeWindow()">X</button>
-        <ol> 
-            <li> <label for = "fName">First Name:</label><input type = "text" id="fNameAccount" fName = "fName" required="required"/> </li>
-            <li> <label for = "lName">Last Name:</label><input type = "text" id="lNameAccount" password = "lName" required="required"/> </li>
-            <li> <label for = "email">Email:</label><input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum|ninja)\b"/> </li>
-            <li> <label for = "password">Password:</label><input type = "password" id="passwordAccount" password = "password" required="required"/> </li>
-            <li> <label for = "repeatPassword">Repeat Password:</label><input type = "password" id="passwordAccount" repeatPassword = "repeatPassword" required="required"/> </li>
-        </ol>
-        <button type="submit" id="submitaccount" onclick="createAccount()">Submit</button>
+<div class="midSection">
+<img src="img/Logo.png">
+    <section id="searchBox">
+        <form id="searchbar">
+            <input type="text" name="datesearch" id="searchBoxText"  placeholder="Search..." />
+            <input type="submit" value="Search" id="searchButton" class="searchButton">
+        </form>
+        <div id="searchResults"></div>
+    </section>
+</div>
+
+<div id="loginButtons" class="midSection">
+    <a href="#" id="loginButton" class="button">Login </a>
+    <a href="#" id="createAccountButton" class="button">Create Account!</a>
+</div>
+<section id="loginBox" class="overlayBox">
+    <h2>Login</h2>
+    <form method="post" class="minimal" id="login">
+        <label for="email">
+            Username:
+            <input type="email" name="email" id="emailLogin" placeholder="Email address" title="Valid email address required" required />
+        </label>
+        <label for="password">
+            Password:
+            <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="At least 8 characters" required />
+        </label>
+        <button type="submit" class="btn-minimal">Sign in</button>
     </form>
-</dialog>
-
-<dialog id = "login">
-    <form id = "loginForm" onsubmit="loginSubmit()">
-        <button type="button" id="close" onclick="closeWindow()">X</button>
-        <ol>
-            <li> <label for = "email">Email:</label><input type = "text" id="emailLogin" email = "email" required="required"/> </li>
-            <li> <label for = "password">Password:</label><input type = "password" id="passwordLogin" password = "password" required="required"/> </li>
-        </ol>
-        <button type="submit" id="submitlogin">Submit</button>
+</section>
+<section id="createAccountBox" class="overlayBox">
+    <h2>Create Account</h2>
+    <form method="post" class="minimal" id="createAccount">
+        <label for="fName">
+            First:
+            <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required />
+        </label>
+        <label for="lName">
+            Last:
+            <input type="text" name="lNameAccount" id="lNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="Last Name" required />
+        </label>
+        <label for = "email">
+            Email:
+        </label>
+        <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+        <label for="password">
+            Password:
+            <input type="password" name="password" id="passwordAccount" placeholder="Password must be at least 8 characters" pattern=".{8,}" required />
+        </label>
+        <button type="submit" class="btn-minimal">Create Account!</button>
     </form>
-</dialog>
-
+</section>
 <script src="js/index.js"></script>
-
 </body>
 </HTML>
 
