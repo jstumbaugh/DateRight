@@ -678,16 +678,57 @@ function updateAccount(){
 	$request = $app->request();
 	$info = json_decode($request->getBody());
 	echo json_encode($info);
+	$user_exists;
 	try{
-		$userID  = $info->UserID;
-		echo json_encode($userID);
+		$userID = json_encode($info->userID);
+		echo $userID;
 
+		// $sql = "SELECT UserID FROM Users WHERE Users.UserID = :userID";
+		// $db = getConnection();
+		// $stmt = $db->prepare($sql);
+		// $stmt->bindParam("userID", $info->userID);
+		// $stmt->execute();
+		// $returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		// echo json_encode($returnedInfo);
+		if (empty($userID))
+		{
+			$user_exists = false;
+			echo ERROR::ACCOUNT_DOESNT_EXIST;
+		}
+		else {
+			$user_exists = true;
+			//echo "WOAH";
+		}
+		//$db = null;
+	
 	} 
 	catch (PDOException $e)
 	{
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
+	if($user_exists)
+	{
+		$fName = $info->fName;
+		$lName = $info->lName;
+		$email = $info->email;
+		$username = $info->username;
+		$db = getConnection();
+		echo $fName . " " . $lName . " " . $email . " " . $username;
+		$updatesql1 = "UPDATE Users SET FirstName = :fName, LastName = :lName, UserName = :username, Email = :email WHERE Users.UserID = :userID";
+		$stmt1 = $db->prepare($updatesql1);
+		$stmt1 ->bindParam("userID", $userID);
+		$stmt1->bindParam("fName", $fName);
+		$stmt1->bindParam("lName", $lName);
+		$stmt1->bindParam("email", $email);
+		$stmt1->bindParam("username", $username);
+		$stmt1->execute();
+
+	}	
 }
+
+//UPDATE ACCOUNT INFO THINGS TO DO:
+// BEFORE RUNNING QUERY, USE USERID TO GET THE USER.PASSWORDSALT and USer.password. take the old password give by JK and salt it. compare the salted password from JK to the User.passwordSalt
+//if they are the same, update everything. if not, return error::password incorrect
 
 
 ?>
