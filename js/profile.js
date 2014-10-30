@@ -57,16 +57,20 @@ function loadUser(){
     $("#firstNameInput").attr("value", profile.FirstName);
     $("#lastNameInput").attr("value", profile.LastName);
     $("#emailInput").attr("value", profile.Email);
+    $("#passwordInput").attr("placeholder", "Verify Password");
 
 }
 
 function submitUpdateForm (event) {
     event.preventDefault();
+
+    //event.target.setCustomValidity("Stuff");
+
     inputUsername = $("#usernameInput").attr("value");
     inputFirstName = $("#firstNameInput").attr("value");
     inputLastName = $("#lastNameInput").attr("value");
     inputEmail = $("#emailInput").attr("value");
-    password = $("#password").attr("value");
+    password = $("#passwordInput").attr("value");
     console.log(inputUsername);
     console.log(inputFirstName);
     console.log(inputLastName);

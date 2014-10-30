@@ -51,9 +51,9 @@
                     <label for="lastNameInput">Last Name: </label>
                     <input type="text" id="lastNameInput"><br>
                     <label for="emailInput">Email: </label>
-                    <input type="text" id="emailInput"><br>
+                    <input type="text" id="emailInput" title="Valid email address is required"  required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br>
                     <label for="password">Password:</label>
-                    <input type="password" id="password"><br>
+                    <input type="password" id="passwordInput" title="Password must be at least 8 characters" required="required" pattern=".{8,}" ><br>
                     <input type="submit" id="updateSubmitButton" value="Submit">
                 </form>
             </div>
