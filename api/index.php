@@ -220,8 +220,8 @@ function submitNewActivity()
 		$checksql = "SELECT Name, Location FROM Activities WHERE Name = :name AND Location = :location";
 		$db = getConnection();
 		$stmt = $db->prepare($checksql);
-		$stmt->bindParam("name",$activityInfo->name);
-		$stmt->bindParam("location",$activityInfo->location);	
+		$stmt->bindParam("name",$activityInfo->Name);
+		$stmt->bindParam("location",$activityInfo->Location);	
 		$stmt->execute();
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfo)){
