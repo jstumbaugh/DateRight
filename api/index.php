@@ -452,8 +452,10 @@ function topTags() {
 	$numTags = 10;//Default number of tags to return
 
 	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
-	if(!empty($app->request()->params('num')))
-		$numTags = $app->request()->params('num');
+
+	$num = $app->request()->params('num');
+	if(!empty($num))
+		$numTags = $num;
 	
 	$sql = "SELECT TagID, TagName, count(activityID) AS quantity
 			FROM Tags NATURAL JOIN TaggedActivities
@@ -502,21 +504,23 @@ function getTaggedActivities() {
 	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
 	$sqlInsert2 = "";//Only set if num is provided
 
-
+	$num = $app->request()->params('num');
 	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
-	if(!empty($app->request()->params('num'))) {
+	if(!empty($num)) {
 		$numTags = $app->request()->params('num');
 		$sqlInsert2 = "
 		LIMIT $numTags";
 	}
+
+	$tagID = $app->request()->params('tagID');
+	$tagName = $app->request()->params('tagName');
+
 	//Check to see if either tagID or tagName was specified
-	if(!empty($app->request()->params('tagID'))) {
-		$tagID = $app->request()->params('tagID');
+	if(!empty($tagID)) {
 		$sqlInsert = $option1 . $tagID . $sqlInsert2;
 		$sqlSet = TRUE;
 	}
-	else if(!empty($app->request()->params('tagName'))) {
-		$tagName = $app->request()->params('tagName');
+	else if(!empty($tagName)) {
 		$sqlInsert = $option2 . $tagName . "'" . $sqlInsert2;
 		$sqlSet = TRUE;
 	}
