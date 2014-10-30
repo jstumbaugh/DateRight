@@ -38,12 +38,12 @@
     <h2>Login</h2>
     <form method="post" class="minimal" id="login">
         <label for="email">
-            Username:
+            Email:
             <input type="email" name="email" id="emailLogin" placeholder="Email Address" title="Valid email address required" required />
         </label>
         <label for="password">
             Password:
-            <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="At least 8 characters" required />
+            <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
         </label>
         <button type="submit" class="btn-minimal">Sign in</button>
     </form>
@@ -51,6 +51,10 @@
 <section id="createAccountBox" class="overlayBox">
     <h2>Create Account</h2>
     <form method="post" class="minimal" id="createAccount">
+        <label for="userName">
+            Username:
+            <input type="text" name="userName" id="userName"  placeholder="Username" required />
+        </label>
         <label for="fName">
             First:
             <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required />
@@ -65,7 +69,7 @@
         <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/>
         <label for="password">
             Password:
-            <input type="password" name="password" id="passwordAccount" placeholder="Password must be at least 8 characters" pattern=".{8,}" required />
+            <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required />
         </label>
         <button type="submit" class="btn-minimal">Create Account!</button>
         <p id="resultMessage"></p>

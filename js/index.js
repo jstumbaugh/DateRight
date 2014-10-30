@@ -35,6 +35,7 @@ $('#createAccount').submit(function (event) {
     $("#createAccountBox").show();
     event.preventDefault(); 
     var user = new Object();
+    user.userName = $("#userName").val();
     user.fName = $("#fNameAccount").val();
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
