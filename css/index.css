@@ -124,15 +124,15 @@ img.bg {
 
 #loginBox.overlayBox{
 position: relative;
- width: 50%;
-  left: 25%; 
+ width: 15%;
+  left: 45%; 
   top-padding: 20%;
 }
 
 #createAccountBox.overlayBox{
     position: relative;
-    width: 95%;
-    left:2.4%;
+    width: 15%;
+    left:45%;
     top-padding: 20%;
 }
 .right{
