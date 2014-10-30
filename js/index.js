@@ -103,9 +103,15 @@ $("#login").submit(function(event) {
         data: JSON.stringify(user),
         beforeSend: function() { $("#resultMessage").text("Processing..."); },
         success: function(data){
-            if(data===400){
+            if(data===200){
                 $("#resultMessage").text("Couldn't log you in...Try typing your password again");
-            }else{
+            }
+            else if(JSON.stringify(data)!='{}'){
+                $.cookie.json = true;
+                $.cookie("data", data); 
+                window.location.replace("search.html");
+            }
+            else{
                 $("#resultMessage").text("There was an error in your transaction.");
             }
         }

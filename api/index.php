@@ -71,6 +71,7 @@ function login() {
 	//Get the user from the email address
 	$sql = "SELECT * FROM Users WHERE Email = :email";
 	$salt = null;
+	$foundEmail = false;
 	try {
 		// Bind and run the SQL Statement of logging the user in
 		if(isset($userInfo)) {
@@ -82,6 +83,7 @@ function login() {
 		    $returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
 		    //Get the salt for the user
 		    $salt = $returnedInfo->PasswordSalt;
+		    $foundEmail = true;
 		}
 		else {
 			echo ERROR::JSON_ERROR;
@@ -90,6 +92,7 @@ function login() {
 	catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 		}
+	if($foundEmail){
 	//Get password from user inputted password and salt saved in database
 	$pw = md5($raw_password.$salt);
 	$sql2 = "SELECT * FROM Users WHERE Email = :email AND Password = :password";
@@ -103,7 +106,7 @@ function login() {
 		    $stmt2->execute();
 		    $returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo ERROR::JSON_ERROR;//ALSO DISPLAYS IF PW IS INCORRECT. PLEASE FIX.
+		    	echo ERROR::LOGIN_FAILURE;//ALSO DISPLAYS IF PW IS INCORRECT. PLEASE FIX.
 		    }
 		    else {
 			    //Store user info into session
@@ -117,7 +120,6 @@ function login() {
 			}
 		}
 		else {
-
 			echo ERROR::JSON_ERROR;
 		}
 	}
@@ -125,7 +127,7 @@ function login() {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 		}
 
-
+	}
 }
 
 //Deletes session for user upon clicking logout
