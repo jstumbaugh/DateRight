@@ -145,63 +145,109 @@ function logout() {
      * @return result in creating account in echo statement or failure in doing so
      */
 
-function createAccount(){
+function createAccount()
+{
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	$userInfo = json_decode($request->getBody());
-	$account_exists;
+	$email_exists;
+	$username_exists;
 
 	// This will check to see if the email is already in the database
-	try {
+	try 
+	{
 		$checksql = "SELECT Email FROM Users WHERE Email = :email";
 		$db = getConnection();
 		$stmt = $db->prepare($checksql);
 		$stmt->bindParam("email",$userInfo->email);	
 		$stmt->execute();
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
-		if(empty($returnedInfo)){
-			$account_exists = false;
+		if(empty($returnedInfo))
+		{
+			$email_exists = false;
 		}
-		else {
-			$account_exists = true;
-
+		else 
+		{
+			$email_exists = true;
 		}
 		$db = null;
 	}
-	catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	catch(PDOException $e) 
+	{
+			exit('{"error":{"text":'. $e->getMessage() .'}}');
+
+	}
+
+// This will check to see if the username is already in the database
+	try 
+	{
+		$checksql1 = "SELECT UserName FROM Users WHERE UserName = :username";
+		$db = getConnection();
+		$stmt1 = $db->prepare($checksql1);
+		$stmt1->bindParam("username","asdfasdf"); // should be $userInfo->UserName
+		$stmt1->execute();
+		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo1))
+		{
+			$username_exists = false;
 		}
-	// If the account does not already exist, then we insert the account into the Users table
-	if($account_exists == 0)
+		else 
+		{
+			$username_exists = true;
+		}
+		$db = null;
+	}
+	catch(PDOException $e) 
+	{
+			exit('{"error":{"text":'. $e->getMessage() .'}}'); 
+	}
+
+
+	// If the username and email do not already exist, then we insert the account into the Users table
+	if($username_exists == 0 && $email_exists == 0)
 	{
 		$sql = "INSERT INTO Users (FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:fName, :lName, :email, :password, :salt, :userType,  :sex)";
-	try{
-		if(isset($userInfo)) {
-			// Salt and hash the password.
-        	$salt = sha1(md5($userInfo->password));
-       		$pw = md5($userInfo->password.$salt);
-			//Get database connection
-			$db = getConnection();
-			$stmt = $db->prepare($sql);
-			$stmt->bindParam("fName",$userInfo->fName);
-			$stmt->bindParam("lName", $userInfo->lName);
-			$stmt->bindParam("email", $userInfo->email);
-			$stmt->bindParam("password", $pw);
-			$stmt->bindParam("salt", $salt);
-			$stmt->bindParam("userType", $userInfo->userType);
-			$stmt->bindParam("sex", $userInfo->sex);
-			$stmt->execute();
-			echo ERROR::SUCCESS;//TODO: log in, return session info
-		}
-		else {
-			echo ERROR::JSON_ERROR;
-		}
-	}		    
-	catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		try
+		{
+			if(isset($userInfo)) 
+			{
+				// Salt and hash the password.
+	        	$salt = sha1(md5($userInfo->password));
+	       		$pw = md5($userInfo->password.$salt);
+				
+				//Get database connection and insert user to database
+				$db = getConnection();
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam("fName",$userInfo->fName);
+				$stmt->bindParam("lName", $userInfo->lName);
+				$stmt->bindParam("email", $userInfo->email);
+				$stmt->bindParam("password", $pw);
+				$stmt->bindParam("salt", $salt);
+				$stmt->bindParam("userType", $userInfo->userType);
+				$stmt->bindParam("sex", $userInfo->sex);
+				$stmt->execute();
+
+				// now want to login user and store user info into session
+			    $_SESSION['Email'] = $returnedInfo->Email;
+			    $_SESSION['FirstName'] = $returnedInfo->FirstName;
+			    $_SESSION['LastName'] = $returnedInfo->LastName;
+			    $_SESSION['UserType'] = $returnedInfo->UserType;
+			    $_SESSION['Sex'] = $returnedInfo->Sex;
+			    $_SESSION['UserID'] = $returnedInfo->UserID + 0;
+			    echo json_encode($_SESSION);
+			}
+			else 
+			{
+				exit(ERROR::JSON_ERROR);
+			}
+		}		    
+		catch(PDOException $e) 
+		{
+				exit('{"error":{"text":'. $e->getMessage() .'}}'); 
 		}	
 	}
-	else{
+	else
+	{
 		echo ERROR::ACCOUNT_EXISTS;
 	}		
 	
