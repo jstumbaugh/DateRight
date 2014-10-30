@@ -103,16 +103,24 @@ $("#login").submit(function(event) {
         data: JSON.stringify(user),
         beforeSend: function() { $("#resultMessage").text("Processing..."); },
         success: function(data){
-            if(data===200){
-                $("#resultMessage").text("Couldn't log you in...Try typing your password again");
+            //Status code
+            if($.isNumeric(data)){
+                    switch(data) {
+                        case 400:
+                           $("#resultMessage").text("Inncorrect login information..Try typing your password again");
+                           break;
+                        //ERROR CODES HERE
+                        default:
+                           $("#resultMessage").text("There was an error in your transaction.");
+
+                    }
             }
-            else if(JSON.stringify(data)!='{}'){
+            else if(!jQuery.isEmptyObject(data)){
+                var obj = JSON.parse(data);
+                console.log("Hello there: "+obj.FirstName);
                 $.cookie.json = true;
                 $.cookie("data", data); 
-                window.location.replace("search.html");
-            }
-            else{
-                $("#resultMessage").text("There was an error in your transaction.");
+               // window.location.replace("search.html");
             }
         }
     });

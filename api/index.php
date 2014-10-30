@@ -72,6 +72,7 @@ function login() {
 	$sql = "SELECT * FROM Users WHERE Email = :email";
 	$salt = null;
 	$foundEmail = false;
+	$returnedInfo;
 	try {
 		// Bind and run the SQL Statement of logging the user in
 		if(isset($userInfo)) {
@@ -81,9 +82,11 @@ function login() {
 		    $stmt->bindParam("email", $userInfo->email);
 		    $stmt->execute();
 		    $returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
-		    //Get the salt for the user
-		    $salt = $returnedInfo->PasswordSalt;
-		    $foundEmail = true;
+		    if(empty($returnedInfo)){
+		    	$foundEmail=false;
+		    }else{
+		    	$foundEmail=true;
+		    }
 		}
 		else {
 			echo ERROR::JSON_ERROR;
@@ -93,6 +96,9 @@ function login() {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 		}
 	if($foundEmail){
+	//Get the salt for the user
+	$salt = $returnedInfo->PasswordSalt;
+	$foundEmail = true;	
 	//Get password from user inputted password and salt saved in database
 	$pw = md5($raw_password.$salt);
 	$sql2 = "SELECT * FROM Users WHERE Email = :email AND Password = :password";
@@ -184,7 +190,7 @@ function createAccount()
 		$checksql1 = "SELECT UserName FROM Users WHERE UserName = :username";
 		$db = getConnection();
 		$stmt1 = $db->prepare($checksql1);
-		$stmt1->bindParam("username","asdfasdf"); // should be $userInfo->UserName
+		$stmt1->bindParam("username",$userInfo->userName); // should be $userInfo->UserName
 		$stmt1->execute();
 		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfo1))
@@ -202,11 +208,10 @@ function createAccount()
 			exit('{"error":{"text":'. $e->getMessage() .'}}'); 
 	}
 
-
 	// If the username and email do not already exist, then we insert the account into the Users table
-	if($username_exists == 0 && $email_exists == 0)
+	if($email_exists == 0)
 	{
-		$sql = "INSERT INTO Users (FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:fName, :lName, :email, :password, :salt, :userType,  :sex)";
+		$sql = "INSERT INTO Users (UserName,FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:userName,:fName, :lName, :email, :password, :salt, :userType,  :sex)";
 		try
 		{
 			if(isset($userInfo)) 
@@ -218,6 +223,7 @@ function createAccount()
 				//Get database connection and insert user to database
 				$db = getConnection();
 				$stmt = $db->prepare($sql);
+				$stmt->bindParam("userName",$userInfo->userName);
 				$stmt->bindParam("fName",$userInfo->fName);
 				$stmt->bindParam("lName", $userInfo->lName);
 				$stmt->bindParam("email", $userInfo->email);
@@ -228,6 +234,7 @@ function createAccount()
 				$stmt->execute();
 
 				// now want to login user and store user info into session
+				$_SESSION['UserName'] = $returnedInfo->UserName;
 			    $_SESSION['Email'] = $returnedInfo->Email;
 			    $_SESSION['FirstName'] = $returnedInfo->FirstName;
 			    $_SESSION['LastName'] = $returnedInfo->LastName;
@@ -252,6 +259,7 @@ function createAccount()
 	}		
 	
 }
+
 
 
 // Submit New Activity code for DateRight
