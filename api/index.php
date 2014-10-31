@@ -89,7 +89,7 @@ function login() {
 		    }
 		}
 		else {
-			echo ERROR::JSON_ERROR;
+			echo ERROR::LOGIN_FAILURE;
 		}
 	}
 	catch(PDOException $e) {
@@ -112,7 +112,7 @@ function login() {
 		    $stmt2->execute();
 		    $returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo ERROR::LOGIN_FAILURE;//ALSO DISPLAYS IF PW IS INCORRECT. PLEASE FIX.
+		    	echo ERROR::LOGIN_FAILURE;
 		    }
 		    else {
 			    //Store user info into session
@@ -133,6 +133,8 @@ function login() {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 		}
 
+	}else{
+		echo ERROR::LOGIN_FAILURE;
 	}
 }
 
@@ -168,6 +170,7 @@ function createAccount()
 		$stmt->bindParam("email",$userInfo->email);	
 		$stmt->execute();
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		//Check if the email exists
 		if(empty($returnedInfo))
 		{
 			$email_exists = false;
@@ -181,10 +184,9 @@ function createAccount()
 	catch(PDOException $e) 
 	{
 			exit('{"error":{"text":'. $e->getMessage() .'}}');
-
 	}
 
-// This will check to see if the username is already in the database
+	// This will check to see if the username is already in the database
 	try 
 	{
 		$checksql1 = "SELECT UserName FROM Users WHERE UserName = :username";
@@ -209,7 +211,7 @@ function createAccount()
 	}
 
 	// If the username and email do not already exist, then we insert the account into the Users table
-	if($email_exists == 0)
+	if(!$email_exists && !$username_exists)
 	{
 		$sql = "INSERT INTO Users (UserName,FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:userName,:fName, :lName, :email, :password, :salt, :userType,  :sex)";
 		try
@@ -218,7 +220,7 @@ function createAccount()
 			{
 				// Salt and hash the password.
 	        	$salt = sha1(md5($userInfo->password));
-	       		$pw = md5($userInfo->password.$salt);
+	       		$pw = md5(($userInfo->password).$salt);
 				
 				//Get database connection and insert user to database
 				$db = getConnection();
@@ -232,16 +234,8 @@ function createAccount()
 				$stmt->bindParam("userType", $userInfo->userType);
 				$stmt->bindParam("sex", $userInfo->sex);
 				$stmt->execute();
-
-				// now want to login user and store user info into session
-				$_SESSION['UserName'] = $returnedInfo->UserName;
-			    $_SESSION['Email'] = $returnedInfo->Email;
-			    $_SESSION['FirstName'] = $returnedInfo->FirstName;
-			    $_SESSION['LastName'] = $returnedInfo->LastName;
-			    $_SESSION['UserType'] = $returnedInfo->UserType;
-			    $_SESSION['Sex'] = $returnedInfo->Sex;
-			    $_SESSION['UserID'] = $returnedInfo->UserID + 0;
-			    echo json_encode($_SESSION);
+				//Log user in
+			    logUser($userInfo);
 			}
 			else 
 			{
@@ -257,11 +251,52 @@ function createAccount()
 	{
 		echo ERROR::ACCOUNT_EXISTS;
 	}		
-	
 }
+/**
+     * A function to log user in and create session
+     * @param Object $userInfo The object that contains the user info
+     * @return JSON object of the user info from session
+     */
 
-
-
+function logUser($userInfo){
+	 //Log user in
+	$salt = sha1(md5($userInfo->password));
+	$pw = md5($userInfo->password.$salt);
+	$sql2 = "SELECT * FROM Users WHERE Email = :email AND Password = :password";
+		try {
+			// Bind and run the SQL Statement of logging the user in
+			if(isset($userInfo)) {
+				//Get the database connection
+				$db = getConnection();
+				$stmt2 = $db->prepare($sql2);
+				$stmt2->bindParam("email", $userInfo->email);
+				$stmt2->bindParam("password", $pw);
+				$stmt2->execute();
+				$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);				
+				if(empty($returnedInfo)) {
+					 echo ERROR::LOGIN_FAILURE;
+				}
+				else {
+					//Store user info into session
+					$_SESSION['UserName'] = $returnedInfo->UserName;
+					$_SESSION['Email'] = $returnedInfo->Email;
+					$_SESSION['FirstName'] = $returnedInfo->FirstName;
+					$_SESSION['LastName'] = $returnedInfo->LastName;
+					$_SESSION['UserType'] = $returnedInfo->UserType;
+					$_SESSION['Sex'] = $returnedInfo->Sex;
+					$_SESSION['UserID'] = $returnedInfo->UserID + 0;
+					//Echo back session information
+					echo json_encode($_SESSION);
+					}
+				}
+				else {
+						echo ERROR::JSON_ERROR;
+					}
+			}
+			catch(PDOException $e) {
+				return '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
 // Submit New Activity code for DateRight
 
 function submitNewActivity()

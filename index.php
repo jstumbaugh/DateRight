@@ -46,7 +46,7 @@
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
         </label>
         <button type="submit" class="btn-minimal">Sign in</button>
-        <p id="resultMessage"></p>
+        <p id="loginMessage"></p>
     </form>
 </section>
 <section id="createAccountBox" class="overlayBox">

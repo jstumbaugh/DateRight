@@ -42,18 +42,29 @@ $('#createAccount').submit(function (event) {
     user.password = $("#passwordAccount").val();
     user.userType = 0;
     user.sex = 0;
-    console.log(JSON.stringify(user));
+    //console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
         url: 'api/createAccount',
         content: 'application/json',
-        beforeSend: function() { $("#resultMessage").text("Processing..."); },
         data: JSON.stringify(user),
         success: function(data){
-            if(data===100){
-                $("#resultMessage").text("Account already exists...");
-            }else{
-                $("#resultMessage").text("There was an error in your transaction. Try typing your info again");
+            if($.isNumeric(data)){
+                if(data==100){
+                     $("#resultMessage").text("Account already exists...");    
+                }
+                else{
+                    $("#resultMessage").text("There was an error in your transaction. Try typing your info again");
+                    }
+                }
+            else if(!jQuery.isEmptyObject(data)){
+                var obj = JSON.parse(data);
+                if(obj.Email.length>0){
+                    $.cookie.json = true;
+                    $.cookie("data", data); 
+                    //redirect user
+                    window.location.replace("search.html");
+                }
             }
         }
     });
@@ -101,26 +112,25 @@ $("#login").submit(function(event) {
         url: 'api/login',
         content: 'application/json',
         data: JSON.stringify(user),
-        beforeSend: function() { $("#resultMessage").text("Processing..."); },
         success: function(data){
             //Status code
             if($.isNumeric(data)){
-                    switch(data) {
-                        case 400:
-                           $("#resultMessage").text("Inncorrect login information..Try typing your password again");
-                           break;
-                        //ERROR CODES HERE
-                        default:
-                           $("#resultMessage").text("There was an error in your transaction.");
-
+                if(data==400){
+                    $("#loginMessage").text("Inncorrect login information..Try typing your password again");
+                }
+                else{
+                    $("#loginMessage").text("Error in transaction");
                     }
+                
             }
             else if(!jQuery.isEmptyObject(data)){
                 var obj = JSON.parse(data);
-                console.log("Hello there: "+obj.FirstName);
-                $.cookie.json = true;
-                $.cookie("data", data); 
-               // window.location.replace("search.html");
+                if(obj.Email.length>0){
+                    $.cookie.json = true;
+                    $.cookie("data", data); 
+                    //redirect user
+                    window.location.replace("search.html");
+                }
             }
         }
     });
