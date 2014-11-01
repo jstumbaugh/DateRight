@@ -13,6 +13,8 @@ $("#createAccountButton").click(function(){
     $("#loginBox").hide();
         
 }); 
+
+//Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
 
     var randomIdea="";
@@ -29,7 +31,7 @@ $("#createAccountButton").click(function(){
     });
 }
 
-
+//Creates Account for user
 $('#createAccount').submit(function (event) {
     $("#loginBox").hide();
     $("#createAccountBox").show();
@@ -49,6 +51,7 @@ $('#createAccount').submit(function (event) {
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
+            //Error Checking
             if($.isNumeric(data)){
                 if(data==100){
                      $("#resultMessage").text("Account already exists...");    
@@ -69,7 +72,7 @@ $('#createAccount').submit(function (event) {
         }
     });
 }); 
-
+//Search Button activites
 $('#searchbar').submit(function (e) {
 e.preventDefault();
 //Redirect user
@@ -101,6 +104,7 @@ window.location.replace("search.html?"+$("#searchbar").serialize());
 
 }); 
 
+//Login Function
 $("#login").submit(function(event) {
     event.preventDefault(); 
     var user = new Object();
@@ -113,7 +117,7 @@ $("#login").submit(function(event) {
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
-            //Status code
+            //Error Checking
             if($.isNumeric(data)){
                 if(data==400){
                     $("#loginMessage").text("Inncorrect login information..Try typing your password again");
@@ -148,6 +152,7 @@ $("#login").submit(function(event) {
     // }
 
     });
+//Calls the random idea function and makes one for the user.
 getRandomIdea();
 }
 window.onload = init;
