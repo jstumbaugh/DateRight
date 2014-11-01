@@ -59,11 +59,11 @@
         <label for="userName">
             Username:
             <input type="text" name="userName" id="userName"  placeholder="Username" required />
-        </label>
+        </label><br>
         <label for="fName">
             First:
             <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required />
-        </label>
+        </label><br>
         <label for="lName">
             Last:
             <input type="text" name="lNameAccount" id="lNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="Last Name" required />
@@ -71,11 +71,11 @@
         <label for = "email">
             Email:
         </label>
-        <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/>
+        <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/><br>
         <label for="password">
             Password:
             <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required />
-        </label>
+        </label><br>
         <button type="submit" class="btn-minimal">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
