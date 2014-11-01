@@ -774,7 +774,7 @@ function updateAccount(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request();
 	$info = json_decode($request->getBody());
-	echo json_encode($info);
+	// echo json_encode($info);
 	$user_exists;
 	$password_exists;
 	try{
@@ -811,24 +811,25 @@ function updateAccount(){
 		$passwordStmt->execute();
 		$returnedInfoPassword = $passwordStmt->fetch(PDO::FETCH_OBJ);
 		//echo json_encode($returnedInfoPassword);
-		echo "\nPASSWORD: ";
-		echo json_encode($returnedInfoPassword->Password);
-		echo "\nSALT: ";
-		echo json_encode($returnedInfoPassword->PasswordSalt);
+		// echo "\nPASSWORD: ";
+		// echo json_encode($returnedInfoPassword->Password);
+		// echo "\nSALT: ";
+		// echo json_encode($returnedInfoPassword->PasswordSalt);
 
 		$salt = $returnedInfoPassword->PasswordSalt;
 
 		$raw_password = $info->currentPassword;
-		echo "\nCURRENT PASSWORD: " . $raw_password;
+		// echo "\nCURRENT PASSWORD: " . $raw_password;
 		$pw = md5($raw_password.$salt);
-		echo "\nCurrent password salted: " . json_encode($pw);
+		// echo "\nCurrent password salted: " . json_encode($pw);
 		if ($pw == $returnedInfoPassword->Password)
 		{
-			echo "\nmatch found\n";
+			//echo "\nmatch found\n";
 			$password_exists = true;
 		}
 		else{
-			echo "\nmatch not found\n";
+			//echo "\nmatch not found\n";
+			echo ERROR::NO_RESULTS;
 			$password_exists = false;
 		}
 
@@ -859,7 +860,7 @@ function updateAccount(){
 		$stmt2 = $db->query($sessionsql);
 		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo $userID;//should never happen
+		    	echo ERROR::NO_RESULTS;//should never happen
 		    }
 		    else {
 			    //update session info
