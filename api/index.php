@@ -116,6 +116,7 @@ function login() {
 		    }
 		    else {
 			    //Store user info into session
+			    $_SESSION['UserName'] = $returnedInfo->UserName;
 			    $_SESSION['Email'] = $returnedInfo->Email;
 			    $_SESSION['FirstName'] = $returnedInfo->FirstName;
 			    $_SESSION['LastName'] = $returnedInfo->LastName;
@@ -851,6 +852,26 @@ function updateAccount(){
 		$stmt1->bindParam("password", $newPassword);
 		$stmt1->bindParam("passwordsalt", $saltNewPassword);
 		$stmt1->execute();
+
+
+
+		$sessionsql = "SELECT * FROM Users WHERE UserID = $userID";
+		$stmt2 = $db->query($sessionsql);
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
+		    if(empty($returnedInfo)) {
+		    	echo $userID;//should never happen
+		    }
+		    else {
+			    //update session info
+			    $_SESSION['UserName'] = $returnedInfo->UserName;
+			    $_SESSION['Email'] = $returnedInfo->Email;
+			    $_SESSION['FirstName'] = $returnedInfo->FirstName;
+			    $_SESSION['LastName'] = $returnedInfo->LastName;
+			    $_SESSION['UserType'] = $returnedInfo->UserType;
+			    $_SESSION['Sex'] = $returnedInfo->Sex;
+			    $_SESSION['UserID'] = $returnedInfo->UserID + 0;
+			    echo json_encode($_SESSION);
+			}
 		}
 		else {
 			echo ERROR::LOGIN_FAILURE;
