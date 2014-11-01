@@ -47,7 +47,7 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
-$app->post('/searchActivities', 'searchActivities');
+$app->get('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
@@ -513,11 +513,13 @@ function searchActivities (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	//User search query
-	$result = $app->request()->post('datesearch');
+	//$result = $app->request()->post('datesearch');
+
+	$result = $app->request()->params('datesearch');
 	
 	//First check if they sent any query
 	if (!empty($result)) {
-		$words = explode(" ",trim($result));
+		$words = explode("+",trim($result));
 		$sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
 		//Process over all entered keywords
 		foreach ($words as $term) {
