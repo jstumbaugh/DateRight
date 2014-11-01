@@ -17,6 +17,10 @@ $(document).ready(function(){
 
 });
 
+/* Loads User data onto page 
+   This is main function for the viewProfile api call
+   Now works with session
+*/
 function loadUser(){
     var profile = {};
     var user = new Object();
