@@ -18,7 +18,9 @@ class ERROR{
 	 ACCOUNT_DOESNT_EXIST = 300,
 	 LOGIN_FAILURE = 400,
 	 NO_RESULTS = 500,
-	 ACTIVITY_EXISTS = 600;
+	 ACTIVITY_EXISTS = 600,
+	 USERNAME_EXISTS = 700,
+	 EMAIL_EXISTS = 800;
 	// PASSWORD_IS_INCORRECT = 700;
 }
 
@@ -832,6 +834,7 @@ function updateAccount(){
 		}
 		else{
 			//echo "\nmatch not found\n";
+			echo ERROR::NO_RESULTS;
 			$password_exists = false;
 		}
 
@@ -845,6 +848,37 @@ function updateAccount(){
 		$saltNewPassword = sha1(md5($raw_newPassword));
        	$newPassword = md5($raw_newPassword.$saltNewPassword);
 		$db = getConnection();
+
+		$username_unique;
+		$checkUserNameSql = "SELECT Users.UserName FROM Users WHERE Users.UserName = :username";
+		$stmtUserName = $db->prepare($checkUserNameSql);
+		$stmtUserName->bindParam("username", $username);
+		$stmtUserName->execute();
+		$returnedInfoCheckUName = $stmtUserName->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfoCheckUName))
+		{
+			$username_unique = true;
+		}
+		else{
+			$username_unique = false;
+			exit(ERROR::USERNAME_EXISTS);
+		}
+
+		$email_unique;
+		$checkEmailSql = "SELECT Users.Email FROM Users WHERE Users.Email = :email";
+		$stmtEmail = $db->prepare($checkEmailSql);
+		$stmtEmail->bindParam("email", $email);
+		$stmtEmail->execute();
+		$returnedInfoCheckEmail = $stmtEmail->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfoCheckEmail))
+		{
+			$email_unique = true;
+		}
+		else
+		{
+			$email_unique = false;
+			exit(ERROR::EMAIL_EXISTS);
+		}
 		$updatesql1 = "UPDATE Users SET FirstName = :fName, LastName = :lName, UserName = :username, Email = :email, Password = :password, PasswordSalt = :passwordsalt WHERE Users.UserID = :userID";
 		$stmt1 = $db->prepare($updatesql1);
 		$stmt1 ->bindParam("userID", $userID);
@@ -855,8 +889,6 @@ function updateAccount(){
 		$stmt1->bindParam("password", $newPassword);
 		$stmt1->bindParam("passwordsalt", $saltNewPassword);
 		$stmt1->execute();
-
-
 
 		$sessionsql = "SELECT * FROM Users WHERE UserID = $userID";
 		$stmt2 = $db->query($sessionsql);
