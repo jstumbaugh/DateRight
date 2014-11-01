@@ -131,7 +131,7 @@ img.bg {
 
 #loginBox.overlayBox{
 position: absolute;
- width: 15%;
+ width: 200px;
   left: 45%; 
   top-padding: 20%;
   top: 48%;
@@ -139,7 +139,7 @@ position: absolute;
 
 #createAccountBox.overlayBox{
     position: absolute;
-    width: 15%;
+    width:200px;
     left:45%;
     top-padding: 20%;
     top: 48%;
