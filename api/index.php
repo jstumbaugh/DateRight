@@ -886,5 +886,10 @@ function updateAccount(){
 }
 
 
+function getSessionInfo() // this will return the info stored in the session
+{
+	echo json_encode($_SESSION);
+}
+
 
 ?>
