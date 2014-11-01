@@ -389,7 +389,7 @@ function viewProfile(){
 	
 	if ($profile_exists) // pull info from database
 	{
-		$sql = "SELECT FirstName, LastName, Email FROM Users WHERE UserID = :userID";
+		$sql = "SELECT FirstName, LastName, Email, UserName FROM Users WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt1 = $db->prepare($sql);
 		$stmt1->bindParam("userID",$userInfo->UserID);	
