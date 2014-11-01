@@ -28,13 +28,14 @@ function loadUser(){
         async: false,
         url: 'api/getSessionInfo',
         success: function(data){
-            console.log(data);
+            //console.log(data);
             sessionData = JSON.parse(data);
         }
     });
+    // viewProfile uses 'UserID', session uses 'UserID'
     user.UserID = sessionData.UserID;
     //user.UserID = 1;
-    console.log(user);
+    //console.log(user);
 
     $.ajax({
         type: 'POST',
@@ -69,7 +70,7 @@ function loadUser(){
 
     //Change Modal Dialog variables
 
-    $("#usernameInput").attr("value", "Where ma username at?");
+    $("#usernameInput").attr("value", profile.UserName);
     $("#firstNameInput").attr("value", profile.FirstName);
     $("#lastNameInput").attr("value", profile.LastName);
     $("#emailInput").attr("value", profile.Email);
@@ -97,11 +98,12 @@ function submitUpdateForm (event) {
         async: false,
         url: 'api/getSessionInfo',
         success: function(data){
-            console.log(data);
+            //console.log(data);
             sessionData = JSON.parse(data);
         }
     });
-    user.userID = sessionData.userID;
+    // updateAccount uses 'userID', session uses 'UserID'
+    user.userID = sessionData.UserID;
 
     user.username = inputUsername;
     user.fName = inputFirstName;
@@ -109,7 +111,7 @@ function submitUpdateForm (event) {
     user.email = inputEmail;
     user.currentPassword = inputPassword;
     user.newPassword = inputPassword;
-    console.log(user);
+    //console.log(user);
 
     //api call
     $.ajax({
@@ -118,8 +120,8 @@ function submitUpdateForm (event) {
         async: false,
         content: 'application/json',
         data: JSON.stringify(user),
-        success: function(returnMessage){
-            console.log(returnMessage);
+        success: function(data){
+            console.log(data);
         }
     });
 

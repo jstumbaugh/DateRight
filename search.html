@@ -1,3 +1,7 @@
+<!--
+	Konersmann - added script 'activity.js' and stylesheet 'activity.css' to search page
+-->
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -6,6 +10,7 @@
 		<meta name="description" content="DateRight">
 	    <meta name="keywords" content="date, plan, activity">
 	    <link href="css/search.css" rel="stylesheet">
+	    <link href="css/activity.css" rel="stylesheet">
 	</head>
 	<body>
 		<div id="currentplan">
@@ -21,12 +26,20 @@
 			<button type="button" id="tabactivity">Activities</button>
 			<button type="button" id="tabdate">Date Plans</button>
 			<button type="button" id="tabtag">Tags</button>
-			<button type="button" id="createactivity">Create My Own Activity</button>
+			<a href="#openModal">
+            	<button href="#openModal" id="createactivity">
+                	Create Your Own Activity
+            	</button> 
+        	</a>
 		</div>
 		<form id="searchform">
 			<input type="text" id="searchbar" name="datesearch" size="50">
 			<input type="submit" value="Search" id="searchsubmit">
 		</form>
+		<div id="activityModalDialog">
+		</div>
 	</body>
+	<script src="js/activity.js">
+        </script>
 	<script src="js/search.js"></script>
 </html>
