@@ -70,11 +70,33 @@ function submitUpdateForm (event) {
     inputFirstName = $("#firstNameInput").attr("value");
     inputLastName = $("#lastNameInput").attr("value");
     inputEmail = $("#emailInput").attr("value");
-    password = $("#passwordInput").attr("value");
-    console.log(inputUsername);
-    console.log(inputFirstName);
-    console.log(inputLastName);
-    console.log(inputEmail);
-    console.log(password);
+    inputPassword = $("#passwordInput").attr("value");
+
+    user = new Object();
+
+    //get userID
+    user.userID = 1;
+
+    user.username = inputUsername;
+    user.fName = inputFirstName;
+    user.lName = inputLastName;
+    user.email = inputEmail;
+    user.password = inputPassword;
+    console.log(user);
+
+    //api call
+    $.ajax({
+        type: 'POST',
+        url: 'api/updateAccount',
+        async: false,
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(returnMessage){
+            console.log(returnMessage);
+        }
+    });
+
+    $("#openModal div a.close button").click();
+    loadUser();
 
 }
