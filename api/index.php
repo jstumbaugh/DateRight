@@ -859,7 +859,6 @@ function updateAccount(){
 		if(empty($returnedInfoCheckUName))
 		{
 			$username_unique = true;
-			//exit(ERROR::USERNAME_EXISTS);
 		}
 		else{
 			if($returnedInfoCheckUName->UserID == $userID)
@@ -870,6 +869,7 @@ function updateAccount(){
 				$username_unique = false;
 				exit(ERROR::USERNAME_EXISTS);
 			}
+		}
 
 		$email_unique;
 		$checkEmailSql = "SELECT Users.UserID FROM Users WHERE Users.Email = :email";
@@ -890,7 +890,7 @@ function updateAccount(){
 			}
 			else{
 				$email_unique = false;
-				exit(ERROR::USERNAME_EXISTS);
+				exit(ERROR::EMAIL_EXISTS);
 			}
 			
 		}
