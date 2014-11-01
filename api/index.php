@@ -861,7 +861,6 @@ function updateAccount(){
 			$username_unique = false;
 			exit(ERROR::USERNAME_EXISTS);
 		}
-		}
 		else{
 			$username_unique = true;
 			}
