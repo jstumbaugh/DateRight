@@ -19,6 +19,7 @@
 <img src="img/background.png" class="bg">
 <p id="greeting"></p>
 
+<!-- Search Bar HTML--> 
 <div class="midSection">
 <img src="img/Logo.png">
     <section id="searchBox">
@@ -30,10 +31,12 @@
     </section>
 </div>
 
+<!-- The Login and create account buttons BEFORE they are pressed--> 
 <div id="loginButtons" class="midSection">
     <a href="#" id="loginButton" class="button">Login </a>
     <a href="#" id="createAccountButton" class="button">Create Account!</a>
 </div>
+<!-- The overlay created when login button is pressed--> 
 <section id="loginBox" class="overlayBox">
     <h2>Login</h2>
     <form method="post" class="minimal" id="login">
@@ -49,6 +52,7 @@
         <p id="loginMessage"></p>
     </form>
 </section>
+<!-- Over lay created when Create Account is clicked--> 
 <section id="createAccountBox" class="overlayBox">
     <h2>Create Account</h2>
     <form method="post" class="minimal" id="createAccount">
