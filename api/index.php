@@ -853,7 +853,6 @@ function updateAccount(){
 		$checkUserNameSql = "SELECT Users.UserID FROM Users WHERE Users.UserName = :username";
 		$stmtUserName = $db->prepare($checkUserNameSql);
 		$stmtUserName->bindParam("username", $username);
-		$stmtUserName->bindParam("userID",$userID);
 		$stmtUserName->execute();
 		$returnedInfoCheckUName = $stmtUserName->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfoCheckUName))
@@ -862,6 +861,7 @@ function updateAccount(){
 		}
 		else{
 			if($returnedInfoCheckUName->UserID == $userID)
+			{
 				$username_unique = true;
 			}
 			else
@@ -875,7 +875,6 @@ function updateAccount(){
 		$checkEmailSql = "SELECT Users.UserID FROM Users WHERE Users.Email = :email";
 		$stmtEmail = $db->prepare($checkEmailSql);
 		$stmtEmail->bindParam("email", $email);
-		$stmtEmail->bindParam("userID",$userID)
 		$stmtEmail->execute();
 		$returnedInfoCheckEmail = $stmtEmail->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfoCheckEmail))
