@@ -19,7 +19,20 @@ $(document).ready(function(){
 function loadUser(){
     var profile = {};
     var user = new Object();
-    user.UserID = 7;
+    
+    //get userID
+    sessionData = {};
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'api/getSessionInfo',
+        success: function(data){
+            console.log(data);
+            sessionData = JSON.parse(data);
+        }
+    });
+    user.userID = sessionData.userID;
+    //user.UserID = 1;
 
     $.ajax({
         type: 'POST',
@@ -37,6 +50,7 @@ function loadUser(){
                 profile.FirstName = "NULL";
                 profile.LastName = "NULL";
                 profile.Email = "NULL";
+                profile.UserName = "NULL";
             }
         }
     });
@@ -46,7 +60,7 @@ function loadUser(){
     //Change static page view variables
 
     $("#pageHeader").text(profile.FirstName + "'s Profile");
-    $("#username").text("Username: none? where ma username at");
+    $("#username").text("Username: " + profile.UserName);
     $("#firstName").text("First Name: " + profile.FirstName);
     $("#lastName").text("Last Name: " + profile.LastName);
     $("#email").text("Email: " + profile.Email);
@@ -75,7 +89,17 @@ function submitUpdateForm (event) {
     user = new Object();
 
     //get userID
-    user.userID = 7;
+    sessionData = {};
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'api/getSessionInfo',
+        success: function(data){
+            console.log(data);
+            sessionData = JSON.parse(data);
+        }
+    });
+    user.userID = sessionData.userID;
 
     user.username = inputUsername;
     user.fName = inputFirstName;
