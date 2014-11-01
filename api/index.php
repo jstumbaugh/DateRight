@@ -853,7 +853,7 @@ function updateAccount(){
 		$checkUserNameSql = "SELECT Users.UserName FROM Users WHERE Users.UserName = :username and Users.UserID = :userID";
 		$stmtUserName = $db->prepare($checkUserNameSql);
 		$stmtUserName->bindParam("username", $username);
-		$stmtUserName->bindParam("userID",$userID)
+		$stmtUserName->bindParam("userID",$userID);
 		$stmtUserName->execute();
 		$returnedInfoCheckUName = $stmtUserName->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfoCheckUName))
