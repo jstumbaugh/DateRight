@@ -850,34 +850,37 @@ function updateAccount(){
 		$db = getConnection();
 
 		$username_unique;
-		$checkUserNameSql = "SELECT Users.UserName FROM Users WHERE Users.UserName = :username";
+		$checkUserNameSql = "SELECT Users.UserName FROM Users WHERE Users.UserName = :username and Users.UserID = :userID";
 		$stmtUserName = $db->prepare($checkUserNameSql);
 		$stmtUserName->bindParam("username", $username);
+		$stmtUserName->bindParam("userID",$userID)
 		$stmtUserName->execute();
 		$returnedInfoCheckUName = $stmtUserName->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfoCheckUName))
 		{
-			$username_unique = true;
-		}
-		else{
 			$username_unique = false;
 			exit(ERROR::USERNAME_EXISTS);
 		}
+		}
+		else{
+			$username_unique = true;
+			}
 
 		$email_unique;
-		$checkEmailSql = "SELECT Users.Email FROM Users WHERE Users.Email = :email";
+		$checkEmailSql = "SELECT Users.Email FROM Users WHERE Users.Email = :email and Users.UserID = :userID";
 		$stmtEmail = $db->prepare($checkEmailSql);
 		$stmtEmail->bindParam("email", $email);
+		$stmtEmail->bindParam("userID",$userID)
 		$stmtEmail->execute();
 		$returnedInfoCheckEmail = $stmtEmail->fetch(PDO::FETCH_OBJ);
 		if(empty($returnedInfoCheckEmail))
 		{
-			$email_unique = true;
+			$email_unique = false;
+			exit(ERROR::EMAIL_EXISTS);
 		}
 		else
 		{
-			$email_unique = false;
-			exit(ERROR::EMAIL_EXISTS);
+			$email_unique = true;
 		}
 		$updatesql1 = "UPDATE Users SET FirstName = :fName, LastName = :lName, UserName = :username, Email = :email, Password = :password, PasswordSalt = :passwordsalt WHERE Users.UserID = :userID";
 		$stmt1 = $db->prepare($updatesql1);
