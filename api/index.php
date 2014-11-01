@@ -832,7 +832,6 @@ function updateAccount(){
 		}
 		else{
 			//echo "\nmatch not found\n";
-			echo ERROR::NO_RESULTS;
 			$password_exists = false;
 		}
 
@@ -863,7 +862,7 @@ function updateAccount(){
 		$stmt2 = $db->query($sessionsql);
 		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo ERROR::NO_RESULTS;//should never happen
+		    	exit(ERROR::NO_RESULTS);
 		    }
 		    else {
 			    //update session info
@@ -878,13 +877,13 @@ function updateAccount(){
 			}
 		}
 		else {
-			echo ERROR::LOGIN_FAILURE;
+			exit(ERROR::LOGIN_FAILURE);
 
 		}
 	}
 	else
 	{
-		echo ERROR::ACCOUNT_DOESNT_EXIST;
+		exit(ERROR::ACCOUNT_DOESNT_EXIST);
 	}
 }
 
