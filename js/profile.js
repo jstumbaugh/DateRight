@@ -6,6 +6,7 @@
                         in viewProfile call.
         10/28/2014 - added jquery instead of just bare naked scripts. Created
                         the loadUser function.
+        11/1/2014 - both load user and submit update check session for UserID
 **/
 
 $(document).ready(function(){
@@ -31,8 +32,9 @@ function loadUser(){
             sessionData = JSON.parse(data);
         }
     });
-    user.userID = sessionData.userID;
+    user.UserID = sessionData.UserID;
     //user.UserID = 1;
+    console.log(user);
 
     $.ajax({
         type: 'POST',
@@ -43,7 +45,7 @@ function loadUser(){
         success: function(response) {
             //error checking
             try {
-                profile = JSON.parse(response)
+                profile = JSON.parse(response);
             }
             catch (e) {
                 console.log(e);
