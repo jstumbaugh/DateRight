@@ -55,6 +55,7 @@ $app->get('/getTaggedActivities', 'getTaggedActivities');
 $app->get('/getRandomIdea', 'getRandomIdea');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
+$app->post('/getSessionInfo', 'getSessionInfo');
 $app->run();
 
 /**
