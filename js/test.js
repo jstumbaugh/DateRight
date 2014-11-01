@@ -103,6 +103,7 @@
 
 	var user = new Object();
 	user.userID = 1;
+	user.username = "newuser";
 	user.fName = "NewName";
 	user.lName = "NewNamerson";
 	user.email = "newmail@mail.com";

@@ -19,7 +19,7 @@ $(document).ready(function(){
 function loadUser(){
     var profile = {};
     var user = new Object();
-    user.UserID = 1;
+    user.UserID = 7;
 
     $.ajax({
         type: 'POST',
@@ -75,13 +75,14 @@ function submitUpdateForm (event) {
     user = new Object();
 
     //get userID
-    user.userID = 1;
+    user.userID = 7;
 
     user.username = inputUsername;
     user.fName = inputFirstName;
     user.lName = inputLastName;
     user.email = inputEmail;
-    user.password = inputPassword;
+    user.currentPassword = inputPassword;
+    user.newPassword = inputPassword;
     console.log(user);
 
     //api call

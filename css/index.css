@@ -130,17 +130,19 @@ img.bg {
 }
 
 #loginBox.overlayBox{
-position: relative;
+position: absolute;
  width: 15%;
   left: 45%; 
   top-padding: 20%;
+  top: 48%;
 }
 
 #createAccountBox.overlayBox{
-    position: relative;
+    position: absolute;
     width: 15%;
     left:45%;
     top-padding: 20%;
+    top: 48%;
 }
 
 /* Speech bubble generated using: http://html-generator.weebly.com/css-speech-bubble-generator.html */
