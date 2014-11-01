@@ -82,6 +82,9 @@ function loadUser(){
 
 }
 
+/*  Update User Account Info 
+    main funciton which uses updateAccount api call
+*/
 function submitUpdateForm (event) {
     event.preventDefault();
 
