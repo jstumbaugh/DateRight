@@ -81,7 +81,8 @@ function submitUpdateForm (event) {
     user.fName = inputFirstName;
     user.lName = inputLastName;
     user.email = inputEmail;
-    user.password = inputPassword;
+    user.currentPassword = inputPassword;
+    user.newPassword = inputPassword;
     console.log(user);
 
     //api call
