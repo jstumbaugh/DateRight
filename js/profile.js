@@ -21,6 +21,11 @@ $(document).ready(function(){
         e.preventDefault();
         window.location.replace("search.html");
     });
+
+    $('#logoutbut').click(function(e){
+        e.preventDefault();
+        logout();
+    });
 });
 
 /* Loads User data onto page 
@@ -150,4 +155,21 @@ function submitUpdateForm (event) {
         }
     });
 
+}
+
+function logout(){
+    $.ajax({
+        type: "POST",
+        url: 'api/index.php/logout',
+        content: 'application/jsonajax',
+        success: function(data){
+            if(data){
+                //redirect user to homepage after successful logout
+                window.location.replace("index.php");
+            }
+        },
+        error: function(){
+            console.log('Unable to logout');
+        }
+    });
 }
