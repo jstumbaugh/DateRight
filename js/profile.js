@@ -6,6 +6,7 @@
                         in viewProfile call.
         10/28/2014 - added jquery instead of just bare naked scripts. Created
                         the loadUser function.
+        11/1/2014 - both load user and submit update check session for UserID
 **/
 
 $(document).ready(function(){
@@ -16,10 +17,29 @@ $(document).ready(function(){
 
 });
 
+/* Loads User data onto page 
+   This is main function for the viewProfile api call
+   Now works with session
+*/
 function loadUser(){
     var profile = {};
     var user = new Object();
-    user.UserID = 1;
+    
+    //get userID
+    sessionData = {};
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'api/getSessionInfo',
+        success: function(data){
+            //console.log(data);
+            sessionData = JSON.parse(data);
+        }
+    });
+    // viewProfile uses 'UserID', session uses 'UserID'
+    user.UserID = sessionData.UserID;
+    //user.UserID = 1;
+    //console.log(user);
 
     $.ajax({
         type: 'POST',
@@ -30,13 +50,14 @@ function loadUser(){
         success: function(response) {
             //error checking
             try {
-                profile = JSON.parse(response)
+                profile = JSON.parse(response);
             }
             catch (e) {
                 console.log(e);
                 profile.FirstName = "NULL";
                 profile.LastName = "NULL";
                 profile.Email = "NULL";
+                profile.UserName = "NULL";
             }
         }
     });
@@ -46,14 +67,14 @@ function loadUser(){
     //Change static page view variables
 
     $("#pageHeader").text(profile.FirstName + "'s Profile");
-    $("#username").text("Username: none? where ma username at");
+    $("#username").text("Username: " + profile.UserName);
     $("#firstName").text("First Name: " + profile.FirstName);
     $("#lastName").text("Last Name: " + profile.LastName);
     $("#email").text("Email: " + profile.Email);
 
     //Change Modal Dialog variables
 
-    $("#usernameInput").attr("value", "Where ma username at?");
+    $("#usernameInput").attr("value", profile.UserName);
     $("#firstNameInput").attr("value", profile.FirstName);
     $("#lastNameInput").attr("value", profile.LastName);
     $("#emailInput").attr("value", profile.Email);
@@ -61,6 +82,9 @@ function loadUser(){
 
 }
 
+/*  Update User Account Info 
+    main funciton which uses updateAccount api call
+*/
 function submitUpdateForm (event) {
     event.preventDefault();
 
@@ -70,11 +94,45 @@ function submitUpdateForm (event) {
     inputFirstName = $("#firstNameInput").attr("value");
     inputLastName = $("#lastNameInput").attr("value");
     inputEmail = $("#emailInput").attr("value");
-    password = $("#passwordInput").attr("value");
-    console.log(inputUsername);
-    console.log(inputFirstName);
-    console.log(inputLastName);
-    console.log(inputEmail);
-    console.log(password);
+    inputPassword = $("#passwordInput").attr("value");
+
+    user = new Object();
+
+    //get userID
+    sessionData = {};
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'api/getSessionInfo',
+        success: function(data){
+            //console.log(data);
+            sessionData = JSON.parse(data);
+        }
+    });
+    // updateAccount uses 'userID', session uses 'UserID'
+    user.userID = sessionData.UserID;
+
+    user.username = inputUsername;
+    user.fName = inputFirstName;
+    user.lName = inputLastName;
+    user.email = inputEmail;
+    user.currentPassword = inputPassword;
+    user.newPassword = inputPassword;
+    //console.log(user);
+
+    //api call
+    $.ajax({
+        type: 'POST',
+        url: 'api/updateAccount',
+        async: false,
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+        }
+    });
+
+    $("#openModal div a.close button").click();
+    loadUser();
 
 }

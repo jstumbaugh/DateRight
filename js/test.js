@@ -103,6 +103,7 @@
 
 	var user = new Object();
 	user.userID = 1;
+	user.username = "newuser";
 	user.fName = "NewName";
 	user.lName = "NewNamerson";
 	user.email = "newmail@mail.com";
@@ -156,7 +157,17 @@
 	//Get random idea from Dateplans table
 	$.ajax({
 		type: 'GET',
-		url: 'api/index.php/getRandomIdea',
+		url: 'api/getRandomIdea',
+		success: function(data){
+			console.log(data);
+		}
+	});
+
+//GET SESSION INFO
+
+$.ajax({
+		type: 'POST',
+		url: 'api/getSessionInfo',
 		success: function(data){
 			console.log(data);
 		}

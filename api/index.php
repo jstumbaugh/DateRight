@@ -18,7 +18,9 @@ class ERROR{
 	 ACCOUNT_DOESNT_EXIST = 300,
 	 LOGIN_FAILURE = 400,
 	 NO_RESULTS = 500,
-	 ACTIVITY_EXISTS = 600;
+	 ACTIVITY_EXISTS = 600,
+	 USERNAME_EXISTS = 700,
+	 EMAIL_EXISTS = 800;
 	// PASSWORD_IS_INCORRECT = 700;
 }
 
@@ -47,7 +49,7 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
-$app->post('/searchActivities', 'searchActivities');
+$app->get('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
@@ -55,6 +57,7 @@ $app->get('/getTaggedActivities', 'getTaggedActivities');
 $app->get('/getRandomIdea', 'getRandomIdea');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
+$app->post('/getSessionInfo', 'getSessionInfo');
 $app->run();
 
 /**
@@ -388,7 +391,7 @@ function viewProfile(){
 	
 	if ($profile_exists) // pull info from database
 	{
-		$sql = "SELECT FirstName, LastName, Email FROM Users WHERE UserID = :userID";
+		$sql = "SELECT FirstName, LastName, Email, UserName FROM Users WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt1 = $db->prepare($sql);
 		$stmt1->bindParam("userID",$userInfo->UserID);	
@@ -512,11 +515,13 @@ function searchActivities (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	//User search query
-	$result = $app->request()->post('datesearch');
+	//$result = $app->request()->post('datesearch');
+
+	$result = $app->request()->params('datesearch');
 	
 	//First check if they sent any query
 	if (!empty($result)) {
-		$words = explode(" ",trim($result));
+		$words = explode("+",trim($result));
 		$sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
 		//Process over all entered keywords
 		foreach ($words as $term) {
@@ -774,7 +779,7 @@ function updateAccount(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request();
 	$info = json_decode($request->getBody());
-	echo json_encode($info);
+	// echo json_encode($info);
 	$user_exists;
 	$password_exists;
 	try{
@@ -811,24 +816,25 @@ function updateAccount(){
 		$passwordStmt->execute();
 		$returnedInfoPassword = $passwordStmt->fetch(PDO::FETCH_OBJ);
 		//echo json_encode($returnedInfoPassword);
-		echo "\nPASSWORD: ";
-		echo json_encode($returnedInfoPassword->Password);
-		echo "\nSALT: ";
-		echo json_encode($returnedInfoPassword->PasswordSalt);
+		// echo "\nPASSWORD: ";
+		// echo json_encode($returnedInfoPassword->Password);
+		// echo "\nSALT: ";
+		// echo json_encode($returnedInfoPassword->PasswordSalt);
 
 		$salt = $returnedInfoPassword->PasswordSalt;
 
 		$raw_password = $info->currentPassword;
-		echo "\nCURRENT PASSWORD: " . $raw_password;
+		// echo "\nCURRENT PASSWORD: " . $raw_password;
 		$pw = md5($raw_password.$salt);
-		echo "\nCurrent password salted: " . json_encode($pw);
+		// echo "\nCurrent password salted: " . json_encode($pw);
 		if ($pw == $returnedInfoPassword->Password)
 		{
-			echo "\nmatch found\n";
+			//echo "\nmatch found\n";
 			$password_exists = true;
 		}
 		else{
-			echo "\nmatch not found\n";
+			//echo "\nmatch not found\n";
+			echo ERROR::NO_RESULTS;
 			$password_exists = false;
 		}
 
@@ -842,6 +848,51 @@ function updateAccount(){
 		$saltNewPassword = sha1(md5($raw_newPassword));
        	$newPassword = md5($raw_newPassword.$saltNewPassword);
 		$db = getConnection();
+
+		$username_unique;
+		$checkUserNameSql = "SELECT Users.UserID FROM Users WHERE Users.UserName = :username";
+		$stmtUserName = $db->prepare($checkUserNameSql);
+		$stmtUserName->bindParam("username", $username);
+		$stmtUserName->execute();
+		$returnedInfoCheckUName = $stmtUserName->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfoCheckUName))
+		{
+			$username_unique = true;
+		}
+		else{
+			if($returnedInfoCheckUName->UserID == $userID)
+			{
+				$username_unique = true;
+			}
+			else
+			{
+				$username_unique = false;
+				exit(ERROR::USERNAME_EXISTS);
+			}
+		}
+
+		$email_unique;
+		$checkEmailSql = "SELECT Users.UserID FROM Users WHERE Users.Email = :email";
+		$stmtEmail = $db->prepare($checkEmailSql);
+		$stmtEmail->bindParam("email", $email);
+		$stmtEmail->execute();
+		$returnedInfoCheckEmail = $stmtEmail->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfoCheckEmail))
+		{
+			$email_unique = true;
+		}
+		else
+		{
+			if($returnedInfoCheckEmail->UserID == $userID)
+			{
+				$email_unique = true;
+			}
+			else{
+				$email_unique = false;
+				exit(ERROR::EMAIL_EXISTS);
+			}
+			
+		}
 		$updatesql1 = "UPDATE Users SET FirstName = :fName, LastName = :lName, UserName = :username, Email = :email, Password = :password, PasswordSalt = :passwordsalt WHERE Users.UserID = :userID";
 		$stmt1 = $db->prepare($updatesql1);
 		$stmt1 ->bindParam("userID", $userID);
@@ -853,13 +904,11 @@ function updateAccount(){
 		$stmt1->bindParam("passwordsalt", $saltNewPassword);
 		$stmt1->execute();
 
-
-
 		$sessionsql = "SELECT * FROM Users WHERE UserID = $userID";
 		$stmt2 = $db->query($sessionsql);
 		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		    if(empty($returnedInfo)) {
-		    	echo $userID;//should never happen
+		    	exit(ERROR::NO_RESULTS);
 		    }
 		    else {
 			    //update session info
@@ -874,16 +923,21 @@ function updateAccount(){
 			}
 		}
 		else {
-			echo ERROR::LOGIN_FAILURE;
+			exit(ERROR::LOGIN_FAILURE);
 
 		}
 	}
 	else
 	{
-		echo ERROR::ACCOUNT_DOESNT_EXIST;
+		exit(ERROR::ACCOUNT_DOESNT_EXIST);
 	}
 }
 
+
+function getSessionInfo() // this will return the info stored in the session
+{
+	echo json_encode($_SESSION);
+}
 
 
 ?>
