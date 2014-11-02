@@ -159,7 +159,7 @@ function loginSubmit() {
 
 	$.ajax({
 		type: 'POST',
-		url: 'api/login',
+		url: 'api/index.php/login',
 		async: false,
 		content: 'application/json',
 		data: JSON.stringify(user),
@@ -255,7 +255,7 @@ $(document).on("click", "#logout", function(){
 	console.log(user);
 		$.ajax({
 			type: 'POST',
-			url: 'api/viewProfile',
+			url: 'api/index.php/viewProfile',
 			content: 'application/json',
 			data: JSON.stringify(user),
 			success: function(data){

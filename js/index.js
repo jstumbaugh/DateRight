@@ -47,7 +47,7 @@ $('#createAccount').submit(function (event) {
     //console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
-        url: 'api/createAccount',
+        url: 'api/index.php/createAccount',
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
@@ -113,7 +113,7 @@ $("#login").submit(function(event) {
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
-        url: 'api/login',
+        url: 'api/index.php/login',
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){

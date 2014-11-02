@@ -14,7 +14,6 @@ $(document).ready(function(){
     loadUser();
     //$("#updateSubmitButton").click(submitUpdateForm);
     $("#updateAccountForm").submit(submitUpdateForm);
-
 });
 
 /* Loads User data onto page 

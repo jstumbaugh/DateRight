@@ -34,7 +34,7 @@ function createNewActivity(event){
     //create new activity
     $.ajax({
         type: 'POST',
-        url: 'api/submitNewActivity',
+        url: 'api/index.php/submitNewActivity',
         content: 'application/json',
         data: JSON.stringify(newActivity),
         success: function(data){

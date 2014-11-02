@@ -91,7 +91,7 @@
 	console.log(user);
 		$.ajax({
 			type: 'POST',
-			url: 'api/viewFavorites',
+			url: 'api/index.php/viewFavorites',
 			content: 'application/json',
 			data: JSON.stringify(user),
 			success: function(data){

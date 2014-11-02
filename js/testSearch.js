@@ -6,7 +6,7 @@ e.preventDefault();
 var searchString = $("#searchString").val();
 $.ajax({
 	type: "POST",
-    url: './api/index.php/searchActivities',
+    url: 'api/index.php/searchActivities',
     data: $(this).serialize(),
     success: function(response) {
     	var obj = $.parseJSON(response);
