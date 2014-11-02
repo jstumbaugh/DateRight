@@ -7,6 +7,9 @@
         10/28/2014 - added jquery instead of just bare naked scripts. Created
                         the loadUser function.
         11/1/2014 - both load user and submit update check session for UserID
+        11/2/2014 - Added error checking to the ajax call in the updateAccount 
+                    function. Also added functionality for a back button to direct
+                    a user to the search page.
 **/
 
 $(document).ready(function(){
@@ -14,6 +17,10 @@ $(document).ready(function(){
     loadUser();
     //$("#updateSubmitButton").click(submitUpdateForm);
     $("#updateAccountForm").submit(submitUpdateForm);
+    $("#backButton").click(function(e){
+        e.preventDefault();
+        window.location.replace("search.html");
+    });
 });
 
 /* Loads User data onto page 
@@ -128,10 +135,19 @@ function submitUpdateForm (event) {
         data: JSON.stringify(user),
         success: function(data){
             console.log(data);
+            //700 is the UserName already exists/is taken error
+            if(data == 700) {
+                alert("That username is already taken. Try again.");
+            }
+            //800 is the email already exists/is taken error
+            else if(data == 800) {
+                alert("That email is already taken. Try again.");
+            }
+            else {
+                $("#openModal div a.close button").click();
+                loadUser();
+            }
         }
     });
-
-    $("#openModal div a.close button").click();
-    loadUser();
 
 }

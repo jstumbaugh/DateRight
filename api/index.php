@@ -456,14 +456,10 @@ function viewFavorites(){
 }
 
 	//Type-casting integers before returning them
-	// for($i = 0; $i < sizeof($rI2); $i = $i + 1) {
-		// $rI2[$i]['ActivityID'] = $rI2[$i]['ActivityID'] + 0;
-		// $rI2[$i]['Cost'] = $rI2[$i]['Cost'] + 0.00;
-		// $rI2[$i]['DatePlanID'] = $rI2[$i]['DatePlanID'] + 0;
-		// $rI2[$i]['Public'] = $rI2[$i]['Public'] + 0;
-		// $rI2[$i]['CreatorID'] = $rI2[$i]['CreatorID'] + 0;
-		// $rI2[$i]['ModID'] = $rI2[$i]['ModID'] + 0;
-	// }
+	for($i = 0; $i < sizeof($favorites); $i = $i + 1) {
+		$favorites[$i]['Cost'] = $favorites[$i]['Cost'] + 0;
+	}
+	
 	echo json_encode($favorites);
 
 	//echo json_encode($rI2);
@@ -890,7 +886,8 @@ function updateAccount(){
 			else
 			{
 				$username_unique = false;
-				exit(ERROR::USERNAME_EXISTS);
+				echo ERROR::USERNAME_EXISTS;
+				exit();
 			}
 		}
 
@@ -912,7 +909,8 @@ function updateAccount(){
 			}
 			else{
 				$email_unique = false;
-				exit(ERROR::EMAIL_EXISTS);
+				echo ERROR::EMAIL_EXISTS;
+				exit();
 			}
 			
 		}
