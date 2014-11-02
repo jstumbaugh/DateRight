@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 		var searchString = new Object();
 		searchString.tagName = $("#searchbar").val();
-		searchString = searchString.tagName;
+		searchString = 'api/index.php/getTaggedActivities?tagName=' + searchString.tagName;
 		getActivitiesByTag(searchString);
 	});
 });
@@ -12,9 +12,14 @@ jQuery(document).ready(function() {
 function getActivitiesByTag(searchString){
 	$.ajax({
 		type: 'GET',
-	    url: 'api/index.php/getTaggedActivities?tagID=1',
+	    url: searchString,
 	    success: function(data) {
-	    	console.log('hello');
+	    	var actData = jQuery.parseJSON(data);
+	    	for (i = 0; i < actData.length; i++)
+	    	{
+	    		
+	    	}
+	    	console.log(actData.length);
 		}, 
 		error: function(jqXHR, errorThrown){
 			console.log('We didnt make it sir, sorry');
