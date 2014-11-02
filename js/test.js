@@ -1,3 +1,23 @@
+	//Delete favorite
+	//Call like this api/deleteFavorite/favoriteID
+    $.ajax({
+        type: 'DELETE',
+       url: 'api/deleteFavorite/7',
+		success: function(data){
+			if($.isNumeric(data)){
+                if(data==1){
+                    console.log("Deleted success");
+                }
+                else{
+                    console.log("Deleted failure");
+                    }
+            }else
+            {
+            	console.log("Error in deleteing favorite");
+            }
+		}
+    });
+
 //LOGIN
 	var user = new Object();
 	user.email = "test@test.edu";

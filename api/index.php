@@ -49,6 +49,7 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
+$app->delete('/deleteFavorite/:id', 'deleteFavorite');
 $app->get('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
@@ -506,8 +507,30 @@ function addFavorite (){
 	{
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
-
-	
+}
+/**
+     * Function to delete a favorite by id from the favorites table. Called with a DELETE request
+     * @param int $id the favorite id
+     * @return success or not in deleting favorite
+     */
+function deleteFavorite($id) {
+    $sql = "DELETE FROM Favorites WHERE FavoriteID =:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        if($stmt->rowCount()>0){
+        echo ERROR::SUCCESS;
+    	}
+    	else{
+    		echo ERROR::NO_RESULTS;
+    	}
+        $db = null;
+    } catch(PDOException $e) {
+    	echo ERROR::NO_RESULTS;
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
 }
 //Search by activity name, works with multiple word query as well 
 //@return echo response with result JSON

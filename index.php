@@ -81,6 +81,7 @@
     </form>
 </section>
 <script src="js/index.js"></script>
+<script src="js/test.js"></script>
 </body>
 </HTML>
 
