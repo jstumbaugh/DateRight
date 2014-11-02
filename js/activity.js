@@ -17,15 +17,15 @@ $(document).ready(function(){
 
 function createNewActivity(event){
     event.preventDefault();
-    console.log("stuff");
+    console.log("stuff"); 
 
-    name = $("#nameInput").attr("value");
-    description = $("#descriptionInput").attr("value");
-    rawCost = $("#costInput").attr("value");
-    //cost = rawCost.toFixed(2);
-    location = $("#locationInput").attr("value");
-    console.log(name);
-    console.log(description);
+    inputName = $("#nameInput").attr("value");
+    inputDescription = $("#descriptionInput").attr("value");
+    inputRawCost = Number($("#costInput").attr("value"));
+    cost = inputRawCost.toFixed(2);
+    inputLocation = $("#locationInput").attr("value");
+    console.log(inputName);
+    console.log(inputDescription);
     console.log(cost);
-    console.log(location);
+    console.log(inputLocation);
 }
