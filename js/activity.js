@@ -17,15 +17,31 @@ $(document).ready(function(){
 
 function createNewActivity(event){
     event.preventDefault();
-    console.log("stuff"); 
 
     inputName = $("#nameInput").attr("value");
     inputDescription = $("#descriptionInput").attr("value");
     inputRawCost = Number($("#costInput").attr("value"));
     cost = inputRawCost.toFixed(2);
     inputLocation = $("#locationInput").attr("value");
-    console.log(inputName);
-    console.log(inputDescription);
-    console.log(cost);
-    console.log(inputLocation);
+   
+    //create activity object 
+    newActivity = new Object();
+    newActivity.Name = inputName;
+    newActivity.Description = inputDescription;
+    newActivity.Cost = cost;
+    newActivity.Location = inputLocation;
+
+    //create new activity
+    $.ajax({
+        type: 'POST',
+        url: 'api/submitNewActivity',
+        content: 'application/json',
+        data: JSON.stringify(newActivity),
+        success: function(data){
+            console.log(data);
+            if(data == '600'){
+                alert('That activity already exists.');
+            }
+        }
+    });
 }
