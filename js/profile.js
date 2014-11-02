@@ -29,7 +29,7 @@ function loadUser(){
     $.ajax({
         type: 'POST',
         async: false,
-        url: 'api/getSessionInfo',
+        url: 'api/index.php/getSessionInfo',
         success: function(data){
             //console.log(data);
             sessionData = JSON.parse(data);
@@ -42,7 +42,7 @@ function loadUser(){
 
     $.ajax({
         type: 'POST',
-        url: 'api/viewProfile',
+        url: 'api/index.php/viewProfile',
         async: false, 
         content: 'application/json',
         data: JSON.stringify(user),
@@ -102,7 +102,7 @@ function submitUpdateForm (event) {
     $.ajax({
         type: 'POST',
         async: false,
-        url: 'api/getSessionInfo',
+        url: 'api/index.php/getSessionInfo',
         success: function(data){
             //console.log(data);
             sessionData = JSON.parse(data);
@@ -122,7 +122,7 @@ function submitUpdateForm (event) {
     //api call
     $.ajax({
         type: 'POST',
-        url: 'api/updateAccount',
+        url: 'api/index.php/updateAccount',
         async: false,
         content: 'application/json',
         data: JSON.stringify(user),

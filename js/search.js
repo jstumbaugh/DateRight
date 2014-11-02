@@ -29,6 +29,12 @@ jQuery(document).ready(function() {
 		$('.activity').remove();
 		getFavoriteActivities();
 	});
+
+	$('#profilebut').click(function(e){
+		e.preventDefault();
+		$('.activity').remove();
+		window.location.replace("profile.html");
+	})
 });
 
 function getActivitiesByTag(searchString){
