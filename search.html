@@ -7,6 +7,7 @@
 	<head>
 		<title>Make a Date!</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script src="js/jquery.cookie.js"></script>
 		<meta name="description" content="DateRight">
 	    <meta name="keywords" content="date, plan, activity">
 	    <link href="css/search.css" rel="stylesheet">
@@ -25,8 +26,6 @@
 			<!--<button type="button" id="tabactivity">Activities</button>
 			<button type="button" id="tabdate">Date Plans</button>
 			<button type="button" id="tabtag">Tags</button>-->
-			<button type="button" id="createactivity">Create My Own Activity</button>
-			<button type="button" id="tabtag">Tags</button>
 			<a href="#openModal">
             	<button href="#openModal" id="createactivity">
                 	Create Your Own Activity
@@ -38,26 +37,6 @@
 			<input type="submit" value="Search" id="searchsubmit">
 		</form>
 		<div id="activities">
-			<div class="activity">
-				<h3>Going to the Movies</h3>
-				<p id="starred"></p>
-			</div>
-			<div class="activity">
-				<h3>Romantic Dinner at Terrelli's</h3>
-				<p id="starred"></p>
-			</div>
-			<div class="activity">
-				<h3>Farmer's Market</h3>
-				<p id="unstarred"></p>
-			</div>
-			<div class="activity">
-				<h3>Binge Watch Netflix</h3>
-				<p id="starred"></a></p>
-			</div>
-			<div class="activity">
-				<h3>Cook them Dinner</h3>
-				<p id="unstarred"></p>
-			</div>
 		</div>
 	</body>
 	<script src="js/activity.js">

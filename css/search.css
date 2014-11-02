@@ -31,31 +31,31 @@ h3{
 	float: left;
 }
 
-#starred, #unstarred{
+.starred, .unstarred{
 	float: left;
 	margin-left: 10px;
 	margin-top: 22px;
 	margin-right: 5px;
 }
 
-#starred{
+.starred{
 	width:17px; 
 	height:16px;
 	background:url(../img/star_rate.gif) left -16px;
 }
 
-#starred:hover{
+.starred:hover{
 	background-position:left top;
 }
 
-#unstarred {
+.unstarred {
 	width:17px;
 	height:16px;
 	text-decoration:none;
 	background:url(../img/star_rate.gif) left top;
 }
 
-#unstarred:hover {
+.unstarred:hover {
 	background-position:left -16px;
 }
 
