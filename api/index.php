@@ -890,7 +890,8 @@ function updateAccount(){
 			else
 			{
 				$username_unique = false;
-				exit(ERROR::USERNAME_EXISTS);
+				echo ERROR::USERNAME_EXISTS;
+				exit();
 			}
 		}
 
@@ -912,7 +913,8 @@ function updateAccount(){
 			}
 			else{
 				$email_unique = false;
-				exit(ERROR::EMAIL_EXISTS);
+				echo ERROR::EMAIL_EXISTS;
+				exit();
 			}
 			
 		}

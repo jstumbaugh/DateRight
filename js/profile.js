@@ -128,10 +128,19 @@ function submitUpdateForm (event) {
         data: JSON.stringify(user),
         success: function(data){
             console.log(data);
+            //700 is the UserName already exists/is taken error
+            if(data == 700) {
+                alert("That username is already taken. Try again.");
+            }
+            //800 is the email already exists/is taken error
+            else if(data == 800) {
+                alert("That email is already taken. Try again.");
+            }
+            else {
+                $("#openModal div a.close button").click();
+                loadUser();
+            }
         }
     });
-
-    $("#openModal div a.close button").click();
-    loadUser();
 
 }
