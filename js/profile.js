@@ -7,6 +7,9 @@
         10/28/2014 - added jquery instead of just bare naked scripts. Created
                         the loadUser function.
         11/1/2014 - both load user and submit update check session for UserID
+        11/2/2014 - Added error checking to the ajax call in the updateAccount 
+                    function. Also added functionality for a back button to direct
+                    a user to the search page.
 **/
 
 $(document).ready(function(){

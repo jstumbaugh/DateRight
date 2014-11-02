@@ -1,6 +1,9 @@
 /**
     Author: Konersmann
     Created: 11/1/2014
+    Maintenance Log:
+        11/1/2014 - completed activity dialog and ajax call.
+                    Can create a new activity now.
 */
 
 $(document).ready(function(){
@@ -34,7 +37,7 @@ function createNewActivity(event){
     //create new activity
     $.ajax({
         type: 'POST',
-        url: 'api/index.php/submitNewActivity',
+        url: 'api/submitNewActivity',
         content: 'application/json',
         data: JSON.stringify(newActivity),
         success: function(data){
