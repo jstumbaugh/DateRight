@@ -209,11 +209,10 @@ function logout(){
 		url: 'api/index.php/logout',
 		content: 'application/jsonajax',
 		success: function(data){
-			console.log('Successfully logged out');
-			$('.activity').remove();
-			delete user.UserID;
-			console.log(sessionData);
-			console.log(data);
+			if(data){
+				//redirect user to homepage after successful logout
+				window.location.replace("index.php");
+			}
 		},
 		error: function(){
 			console.log('Unable to logout');
