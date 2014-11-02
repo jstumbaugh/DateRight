@@ -35,6 +35,11 @@ jQuery(document).ready(function() {
 		$('.activity').remove();
 		window.location.replace("profile.html");
 	})
+
+	$('#logoutbut').click(function(e){
+		e.preventDefault();
+		logout();
+	})
 });
 
 function getActivitiesByTag(searchString){
@@ -54,14 +59,13 @@ function getActivitiesByTag(searchString){
 					for (i = 0; i < actData.length; i++){
 			    		var elem = "<div class='activity' id=" + actData[i].ActivityID + "></div>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
-			    		var starunstar;
+			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 			    		for (j = 0; j < favData.length; j++){
 			    			if (favData[j].Name == actData[i].Name){
 			    				starunstar = 'starred';
 			    				break;
-			    			} else
-			    				starunstar = 'unstarred';
+			    			}
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
@@ -80,7 +84,25 @@ function getMousePosition(e){
 	favStar = document.elementFromPoint(event.clientX, event.clientY);
 	if (favStar.classList.contains("starred"))
 	{
-		console.log('Currently cannor unfavorite things, sorry.');
+		console.log('Current;y unable to remove activity from favorites');
+		// $.ajax({
+	 //        type: 'DELETE',
+	 //      	url: "api/index.php/deleteFavorite/" + favStar.parentNode.id,
+		// 	success: function(data){
+		// 		if($.isNumeric(data)){
+	 //                if(data==1){
+	 //                    console.log("Successfully unfavorited");
+	 //                    favStar.setAttribute("class", "unstarred");
+	 //                }
+	 //                else{
+	 //                    console.log("Deleted failure");
+	 //                    }
+	 //            }else
+	 //            {
+	 //            	console.log("Error in deleteing favorite");
+	 //            }
+		// 	}
+	 //    });
 	}
 	else if (favStar.classList.contains("unstarred"))
 	{
@@ -112,6 +134,7 @@ function getUserID(){
         url: 'api/index.php/getSessionInfo',
         success: function(data){
             sessionData = JSON.parse(data);
+            console.log(data);
         }
     });
     user.UserID = sessionData.UserID;
@@ -159,20 +182,34 @@ function getActivitiesByName(searchString){
 					for (i = 0; i < actData.length; i++){
 			    		var elem = "<div class='activity' id=" + actData[i].ActivityID + "></div>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
-			    		var starunstar;
+			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 			    		for (j = 0; j < favData.length; j++){
 			    			if (favData[j].Name == actData[i].Name){
 			    				starunstar = 'starred';
 			    				break;
-			    			} else
-			    				starunstar = 'unstarred';
+			    			}
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
 			    	}
 				}
 			});
+		}
+	});
+}
+
+function logout(){
+	console.log('I made it to the function');
+	$.ajax({
+		type: "POST",
+		url: 'api/index.php/logout',
+		success: function(data){
+			console.log('Successfully logged out');
+			console.log(sessionData);
+		},
+		error: function(){
+			console.log('Unable to logout');
 		}
 	});
 }

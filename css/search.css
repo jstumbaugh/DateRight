@@ -51,14 +51,12 @@ h3{
 .unstarred {
 	width:17px;
 	height:16px;
-	text-decoration:none;
 	background:url(../img/star_rate.gif) left top;
 }
 
 .unstarred:hover {
 	background-position:left -16px;
 }
-
 /**
     Konersmann - added modal dialog styles
     affect create activity button
