@@ -1,16 +1,28 @@
-<!-- 
-    Author: Konersmann
-    Created: 11/1/2014
--->
-
 <div id="openModal" class="modalDialog">
+    <!-- 
+        Author: Konersmann
+        Created: 11/1/2014
+    -->
+    <!-- pattern="^[0-9]{0,1,2}\.[0-9]{0,1,2}$"  -->
     <div>
         <a href="#close" title="Close" class="close">
             <button>X</button>
         </a>
         <h2>Create New Activity</h2>
         <form id="createActivityForm">
-            <input type="submit" id="updateSubmitButton" value="Submit">
+            <label for="nameInput">Name: </label>
+            <input type="text" id="nameInput" required="required"><br>
+
+            <label for="descriptionInput">Description: </label>
+            <input type="textarea" id="descriptionInput" cols="40" rows="5" required="required"></textarea><br>
+
+            <label for="costInput">Cost: </label>
+            <input type="number" id="costInput" min=".00" max="999" step=".01" placeholder="0.00" required="required"><br>
+
+            <label for="locationInput">Location: </label>
+            <input type="text" id="locationInput" required="required"><br>
+
+            <input type="submit" id="activitySubmitButton" value="Submit">
         </form>
     </div>
 </div>
