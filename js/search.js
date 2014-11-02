@@ -200,12 +200,14 @@ function getActivitiesByName(searchString){
 }
 
 function logout(){
-	console.log('I made it to the function');
 	$.ajax({
 		type: "POST",
 		url: 'api/index.php/logout',
 		success: function(data){
-			console.log('Successfully logged out');
+			if(data){
+				//redirect user to homepage after successful logout
+				window.location.replace("index.php");
+			}else
 			console.log(sessionData);
 		},
 		error: function(){

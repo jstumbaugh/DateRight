@@ -145,10 +145,16 @@ function login() {
 
 //Deletes session for user upon clicking logout
 function logout() {
-	$app = \Slim\Slim::getInstance();
 	//clear session cookie
-	unset($_SESSION['user']);
-    $app->view()->setData('user', null);
+	if(isset($_SESSION['UserName']) || isset($_SESSION['Email']) || 
+            isset($_SESSION['UserID']) || isset($_SESSION['FirstName']))
+        {
+        	unset($_SESSION['UserName']);
+            $_SESSION = array();
+            session_destroy();
+            echo true;
+        }
+        else echo false;
 }
 
 /**
