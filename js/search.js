@@ -109,19 +109,23 @@ function getMousePosition(e){
 		var tempUser = new Object();
 		tempUser.UserID = user.UserID;
 		tempUser.ActivityID = favStar.parentNode.id;
-		$.ajax({
-			type: 'POST',
-			url: 'api/index.php/addFavorite',
-			content: 'application/json',
-			data: JSON.stringify(tempUser),
-			success: function(data){
-				favStar.setAttribute("class", "starred");
-			},
-			error: function(){
-				console.log('For some reason, this activity was not added to favorites.');
-				console.log(jqXHR, errorThrown);
-			}
-		});
+		if(typeof tempUser.UserID === 'undefined'){
+			console.log('Not logged in');
+		} else {
+			$.ajax({
+				type: 'POST',
+				url: 'api/index.php/addFavorite',
+				content: 'application/json',
+				data: JSON.stringify(tempUser),
+				success: function(data){
+					favStar.setAttribute("class", "starred");
+				},
+				error: function(){
+					console.log('For some reason, this activity was not added to favorites.');
+					console.log(jqXHR, errorThrown);
+				}
+			});
+		}
 	}
 }
 
@@ -200,13 +204,16 @@ function getActivitiesByName(searchString){
 }
 
 function logout(){
-	console.log('I made it to the function');
 	$.ajax({
 		type: "POST",
 		url: 'api/index.php/logout',
+		content: 'application/jsonajax',
 		success: function(data){
 			console.log('Successfully logged out');
+			$('.activity').remove();
+			delete user.UserID;
 			console.log(sessionData);
+			console.log(data);
 		},
 		error: function(){
 			console.log('Unable to logout');
