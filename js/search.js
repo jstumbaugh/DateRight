@@ -81,28 +81,29 @@ function getActivitiesByTag(searchString){
 }
 
 function getMousePosition(e){
-	favStar = document.elementFromPoint(event.clientX, event.clientY);
+	favStar = document.elementFromPoint(e.clientX, e.clientY);
 	if (favStar.classList.contains("starred"))
 	{
+		
 		console.log('Current;y unable to remove activity from favorites');
-		// $.ajax({
-	 //        type: 'DELETE',
-	 //      	url: "api/index.php/deleteFavorite/" + favStar.parentNode.id,
-		// 	success: function(data){
-		// 		if($.isNumeric(data)){
-	 //                if(data==1){
-	 //                    console.log("Successfully unfavorited");
-	 //                    favStar.setAttribute("class", "unstarred");
-	 //                }
-	 //                else{
-	 //                    console.log("Deleted failure");
-	 //                    }
-	 //            }else
-	 //            {
-	 //            	console.log("Error in deleteing favorite");
-	 //            }
-		// 	}
-	 //    });
+		$.ajax({
+	        type: 'DELETE',
+	      	url: "api/index.php/deleteFavorite/" + favStar.parentNode.id,
+			success: function(data){
+				if($.isNumeric(data)){
+	                if(data==1){
+	                    console.log("Successfully unfavorited");
+	                    favStar.setAttribute("class", "unstarred");
+	                }
+	                else{
+	                    console.log("Deleted failure");
+	                    }
+	            }else
+	            {
+	            	console.log("Error in deleteing favorite");
+	            }
+			}
+	    });
 	}
 	else if (favStar.classList.contains("unstarred"))
 	{
