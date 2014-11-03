@@ -7,6 +7,9 @@ http://54.69.57.226/dateright/
 
 Iteration 1: due 11/2/2014
 
+Link to release document: 
+https://docs.google.com/document/d/1g3qDm7mp6cKVSmBmTKk4pv837NKz7kB-sM3Wq6lB7Uk/edit?usp=sharing
+
 Features:
 	Login
 	Create Account
