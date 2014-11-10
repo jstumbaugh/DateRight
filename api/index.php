@@ -969,5 +969,28 @@ function getSessionInfo() // this will return the info stored in the session
 	echo json_encode($_SESSION);
 }
 
+function shareDatePlan() 
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$dateInfo = json_decode($request->getBody());
+	
+	$userID = $dateInfo.userID;
+	$datePlanID = $dateInfo.datePlanID;
+
+	try 
+	{
+		$sql = "UPDATE DatePlans SET Public = 1 WHERE CreatorID = $userID && DatePlanID = $datePlanID";
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+	}
+	catch(PDOException $e) 
+	{
+			exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
+
 
 ?>
