@@ -992,5 +992,32 @@ function shareDatePlan()
 
 }
 
+function createDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request();
+	$info = json_decode($request->getBody());
+	$activity_exists;
+	$user_exists;
+	try{
+		$name = $info->Name;
+		$public = $info->Public;
+		//$public = 0;
+		$creatorID= $info->UserID;
+		$description = $info->Description;
+		$time = $info->Timestamp;
+
+
+
+
+	}
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+	
+
+}
+
 
 ?>
