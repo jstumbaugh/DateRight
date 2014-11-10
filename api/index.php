@@ -441,7 +441,7 @@ function viewFavorites(){
 		}
 		else if (empty($dateplan))
 		{
-			$sql2 =" SELECT Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location FROM Activities WHERE Activities.ActivityID = :activityID";
+			$sql2 =" SELECT Activities.ActivityID,Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location FROM Activities WHERE Activities.ActivityID = :activityID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("activityID", $activity);
 			$stmt2->execute();
@@ -449,14 +449,14 @@ function viewFavorites(){
 			array_push($favorites, $rI2);
 		}
 		else{
-		$sql2 = "SELECT Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description FROM Activities, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid";
+		$sql2 = "SELECT Activities.ActivityID,Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description FROM Activities, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid";
 		$stmt2 = $db ->prepare($sql2);
 		$stmt2 -> bindParam("activityID", $activity);
 		$stmt2 -> bindParam("dateplanid", $dateplan);
 		$stmt2->execute();
 		$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-	// $favorites['activityID'] = $rI2['ActivityID'];
-	// $favorites['dateplanid'] = $rI2['DatePlanID'];
+	 	//$favorites['activityID'] = $rI2['ActivityID'];
+		// $favorites['dateplanid'] = $rI2['DatePlanID'];
 		array_push($favorites, $rI2);
 	}
 }
@@ -516,11 +516,13 @@ function addFavorite (){
      * @return success or not in deleting favorite
      */
 function deleteFavorite($id) {
-    $sql = "DELETE FROM Favorites WHERE FavoriteID =:id";
+    $sql = "DELETE FROM Favorites WHERE FavoriteID =:id and UserID=:userID";
+    if (isset($_SESSION['UserID'])) {
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("id", $id);
+        $stmt->bindParam("userID", $_SESSION['UserID']);
         $stmt->execute();
         if($stmt->rowCount()>0){
         echo ERROR::SUCCESS;
@@ -533,6 +535,7 @@ function deleteFavorite($id) {
     	echo ERROR::NO_RESULTS;
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
+	}
 }
 //Search by activity name, works with multiple word query as well 
 //@return echo response with result JSON

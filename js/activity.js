@@ -4,6 +4,7 @@
     Maintenance Log:
         11/1/2014 - completed activity dialog and ajax call.
                     Can create a new activity now.
+        11/3/2014 - modal dialog now closes on submit.
 */
 
 $(document).ready(function(){
@@ -33,6 +34,7 @@ function createNewActivity(event){
     newActivity.Description = inputDescription;
     newActivity.Cost = cost;
     newActivity.Location = inputLocation;
+    console.log(newActivity);
 
     //create new activity
     $.ajax({
@@ -47,4 +49,5 @@ function createNewActivity(event){
             }
         }
     });
+    $("#openModal div a.close button").click();
 }
