@@ -516,13 +516,14 @@ function addFavorite (){
      * @return success or not in deleting favorite
      */
 function deleteFavorite($id) {
-    $sql = "DELETE FROM Favorites WHERE FavoriteID =:id and UserID=:userID";
+    $deleteQuery = "DELETE FROM Favorites WHERE ActivityID =:actID and UserID=:userID";
     if (isset($_SESSION['UserID'])) {
+    	$uID=$_SESSION['UserID'];
     try {
         $db = getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("id", $id);
-        $stmt->bindParam("userID", $_SESSION['UserID']);
+        $stmt = $db->prepare($deleteQuery);
+        $stmt->bindParam("actID", $id);
+        $stmt->bindParam("userID", $uID);
         $stmt->execute();
         if($stmt->rowCount()>0){
         echo ERROR::SUCCESS;
