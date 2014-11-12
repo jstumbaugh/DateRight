@@ -196,6 +196,17 @@ $.ajax({
 		}
 	});
 
+//SHARE DATE PLAN
 
-
-
+	var date = new Object();
+	date.userID = 1;
+	date.datePlanID = 1;
+	$.ajax({
+		type: 'POST',
+		url: 'api/shareDatePlan',
+		content: 'application/json',
+		data: JSON.stringify(date),
+		success: function(data){
+			console.log(data);
+		}
+	});

@@ -59,6 +59,7 @@ $app->get('/getRandomIdea', 'getRandomIdea');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
+$app->post('/shareDatePlan', 'shareDatePlan');
 $app->run();
 
 /**
@@ -983,8 +984,8 @@ function shareDatePlan()
 	$request = $app->request;
 	$dateInfo = json_decode($request->getBody());
 	
-	$userID = $dateInfo.userID;
-	$datePlanID = $dateInfo.datePlanID;
+	$userID = $dateInfo->userID;
+	$datePlanID = $dateInfo->datePlanID;
 
 	try 
 	{
