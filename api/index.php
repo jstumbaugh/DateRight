@@ -224,7 +224,7 @@ function createAccount()
 	// If the username and email do not already exist, then we insert the account into the Users table
 	if(!$email_exists && !$username_exists)
 	{
-		$sql = "INSERT INTO Users (UserName,FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:userName,:fName, :lName, :email, :password, :salt, :userType,  :sex)";
+		$sql = "INSERT INTO Users (UserName,FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex, SecurityQuestion, SecurityAnswer, SecuritySalt) Values(:userName,:fName, :lName, :email, :password, :salt, :userType,  :sex, :secQuestion, :secAnswer, :secSalt)";
 		try
 		{
 			if(isset($userInfo)) 
@@ -232,6 +232,10 @@ function createAccount()
 				// Salt and hash the password.
 	        	$salt = sha1(md5($userInfo->password));
 	       		$pw = md5(($userInfo->password).$salt);
+
+	       		// Salt and hash the security answer
+	       		$secSalt = sha1(md5($userInfo->securityAnswer));
+	       		$secAnswer = md5(($userInfo->securityAnswer).$secSalt);
 				
 				//Get database connection and insert user to database
 				$db = getConnection();
@@ -244,9 +248,12 @@ function createAccount()
 				$stmt->bindParam("salt", $salt);
 				$stmt->bindParam("userType", $userInfo->userType);
 				$stmt->bindParam("sex", $userInfo->sex);
+				$stmt->bindParam("secQuestion", $userInfo->securityQuestion);
+				$stmt->bindParam("secAnswer", $secAnswer);
+				$stmt->bindParam("secSalt", $secSalt);
 				$stmt->execute();
 				//Log user in
-			    logUser($userInfo);
+			    //logUser($userInfo);
 			}
 			else 
 			{

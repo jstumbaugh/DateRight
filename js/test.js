@@ -34,22 +34,25 @@
 
 
 //CREATE ACCOUNT
-	var user = new Object();
-	user.email = "test@test.edu";
-	user.password = "password";
-	user.fName = "Testy";
-	user.lName = "Testerson";
-	user.userType = 1;
-	user.sex = 1;
-		$.ajax({
-			type: 'POST',
-			url: 'api/createAccount',
-			content: 'application/json',
-			data: JSON.stringify(user),
-			success: function(data){
-				console.log(data);
-			}
-		});
+    var user = new Object();
+    user.email = "test@test.edu";
+    user.userName = "dont_test_me_bro";
+    user.password = "password";
+    user.fName = "Testy";
+    user.lName = "Testerson";
+    user.userType = 1;
+    user.sex = 1;
+    user.securityQuestion = 1;
+    user.securityAnswer = "Fries";
+        $.ajax({
+            type: 'POST',
+            url: 'api/createAccount',
+            content: 'application/json',
+            data: JSON.stringify(user),
+            success: function(data){
+                console.log(data);
+            }
+        });
 
 
 //SUBMIT NEW ACTIVITY
