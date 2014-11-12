@@ -61,6 +61,7 @@ $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
 $app->post('/shareDatePlan', 'shareDatePlan');
 $app->post('/reviewDatePlan', 'reviewDatePlan');
+$app->post('/reviewActivity', 'reviewActivity');
 $app->run();
 
 /**
@@ -1066,6 +1067,44 @@ function reviewDatePlan()
 } // end of function
 	
 
+// insert the Review into the database
+function reviewActivity()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$activityInfo = json_decode($request->getBody());
+
+	// make sql statement
+	$sql = "INSERT INTO ActivityReviews (Rating, UserID, ActivityID, Description, Cost, Location, Attended, ReviewTime) 
+	Values(:rating, :userID, :activityID, :description, :cost, :location, :attended, NOW())";
+	try
+	{
+		if(isset($activityInfo)) 
+		{
+			// Get database connection
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			// bind params
+			$stmt->bindParam("rating",$activityInfo->Rating);
+			$stmt->bindParam("userID", $activityInfo->UserID);
+			$stmt->bindParam("activityID", $activityInfo->ActivityID);
+			$stmt->bindParam("description", $activityInfo->Description);
+			$stmt->bindParam("cost", $activityInfo->Cost);
+			$stmt->bindParam("location", $activityInfo->Location);
+			$stmt->bindParam("attended", $activityInfo->Attended);
+			$stmt->execute();
+			echo ERROR::SUCCESS;
+		}
+		else 
+		{
+			echo ERROR::JSON_ERROR;
+		}
+	}		    
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+} // end of function
 
 
 ?>
