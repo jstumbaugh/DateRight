@@ -140,7 +140,6 @@ CREATE TABLE IF NOT EXISTS `DatePlanReviews` (
   `Description` varchar(200) NOT NULL,
   `DatePlanID` int NOT NULL ,
   `UserID` int NOT NULL,
-  `TagID` int NOT NULL,
   `ReviewTime` datetime NOT NULL,
   CONSTRAINT FOREIGN KEY (`TagID`) REFERENCES `Tags` (`TagID`),
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
