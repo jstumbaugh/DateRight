@@ -8,11 +8,11 @@ INSERT INTO Activities VALUES
 	(5, "Cook them Dinner", "A romantic home cooked meal is always a goto when it comes to trying to get in their pants ;)", 40.00, NULL, "Your house");
 
 INSERT INTO Users VALUES
-	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", NULL, NULL, 1, 1),
-	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", NULL, NULL, 1, 1),
-	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", NULL, NULL, 1, 1),
-	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", NULL, NULL, 1, 1),
-	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", NULL, NULL, 1, 1);
+	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt");
 
 INSERT INTO ActivitiesAttendees VALUES
 	(1, 1, 1),

@@ -21,6 +21,9 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `PasswordSalt` varchar(50) DEFAULT NULL,
   `UserType` int NOT NULL,
   `Sex` int NOT NULL,
+  `SecurityQuestion` int NOT NULL,
+  `SecurityAnswer` varchar(50) NOT NULL,
+  `SecuritySalt` varchar(50) NOT NULL,
   PRIMARY KEY (`UserID`)
 ) ENGINE=InnoDB;
 
