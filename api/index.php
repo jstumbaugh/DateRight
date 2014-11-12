@@ -60,6 +60,7 @@ $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
 $app->post('/shareDatePlan', 'shareDatePlan');
+$app->post('/reviewDatePlan', 'reviewDatePlan');
 $app->run();
 
 /**
@@ -1027,6 +1028,44 @@ function createDatePlan()
 	
 
 }
+
+// insert the Review into the database
+function reviewDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$datePlanInfo = json_decode($request->getBody());
+
+	// make sql statement
+	$sql = "INSERT INTO DatePlanReviews (Rating, Attended, Description, DatePlanID, UserID, ReviewTime) Values(:rating, :attended, :description, :dateplanID, :userID, NOW())";
+	try
+	{
+		if(isset($datePlanInfo)) 
+		{
+			// Get database connection
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			// bind params
+			$stmt->bindParam("rating",$datePlanInfo->Rating);
+			$stmt->bindParam("attended", $datePlanInfo->Attended);
+			$stmt->bindParam("description", $datePlanInfo->Description);
+			$stmt->bindParam("dateplanID", $datePlanInfo->DatePlanID);
+			$stmt->bindParam("userID", $datePlanInfo->UserID);
+			$stmt->execute();
+			echo ERROR::SUCCESS;
+		}
+		else 
+		{
+			echo ERROR::JSON_ERROR;
+		}
+	}		    
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+} // end of function
+	
+
 
 
 ?>
