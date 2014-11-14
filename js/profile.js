@@ -105,7 +105,8 @@ function submitUpdateForm (event) {
     inputFirstName = $("#firstNameInput").attr("value");
     inputLastName = $("#lastNameInput").attr("value");
     inputEmail = $("#emailInput").attr("value");
-    inputPassword = $("#passwordInput").attr("value");
+    inputOldPassword = $("#oldPasswordInput").attr("value");
+    inputNewPassword = $("#newPasswordInput").attr("value");
 
     user = new Object();
 
@@ -127,8 +128,8 @@ function submitUpdateForm (event) {
     user.fName = inputFirstName;
     user.lName = inputLastName;
     user.email = inputEmail;
-    user.currentPassword = inputPassword;
-    user.newPassword = inputPassword;
+    user.currentPassword = inputOldPassword;
+    user.newPassword = inputNewPassword;
     //console.log(user);
 
     //api call
