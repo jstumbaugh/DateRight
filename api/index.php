@@ -50,7 +50,7 @@ $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->delete('/deleteFavorite/:id', 'deleteFavorite');
-$app->get('/searchActivities', 'searchActivities');
+$app->post('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
@@ -555,21 +555,25 @@ function searchActivities (){
 	$request =$app->request;
 	//User search query
 	//$result = $app->request()->post('datesearch');
-
-	$result = $app->request()->params('datesearch');
-	
+	$json = json_decode($request->getBody());
+	$result = $json->SearchQuery;
 	//First check if they sent any query
 	if (!empty($result)) {
-		$words = explode("+",trim($result));
-		$sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
-		//Process over all entered keywords
-		foreach ($words as $term) {
-			$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
-		}
+		// $words = explode("+",trim($result));
+		// $sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
+		// //Process over all entered keywords
+		// foreach ($words as $term) {
+		// 	$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
+		// }
+	$sql="SELECT * FROM Activities WHERE MATCH(Name,Description,Location) AGAINST(:searchQuery IN BOOLEAN MODE)";
 	//Order results by the user rating
 	$sql.=" ORDER BY Rating LIMIT 50";
 	$db = getConnection();
 	$stmt = $db->prepare($sql);
+	//accept plural version e.g. movie(s)
+	$result.="*";
+	echo "RESL $result";
+	$stmt->bindParam("searchQuery", $result);
 	$stmt ->execute();
 	$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	echo '{"results": ' . json_encode($searchResults) . '}';

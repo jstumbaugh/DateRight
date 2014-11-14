@@ -1,3 +1,22 @@
+//Test function
+//Search by location, activity, or just general query
+//Uses Myisam FULLTEXT indexing
+function searchDatabase(){
+	var searchQuery = new Object();
+	searchQuery.SearchQuery = $("#searchbar").val();
+
+		$.ajax({
+			type: 'POST',
+			url: 'api/index.php/searchActivities',
+			content: 'application/json',
+			data: JSON.stringify(searchQuery),
+			success: function(data){
+				console.log(data);
+			}
+		});
+}
+
+
 	//Delete favorite
 	//Call like this api/deleteFavorite/favoriteID
     $.ajax({
