@@ -21,12 +21,35 @@ $(document).ready(function(){
         e.preventDefault();
         window.location.replace("search.html");
     });
+    $("#datePlanButton").click(showUserDatePlans);
+    $("#reviewsButton").click(showUserReviews);
 
+    /**
     $('#logoutbut').click(function(e){
         e.preventDefault();
         logout();
     });
+    */
 });
+
+function showUserDatePlans(){
+    if($(this).children().length === 0){
+        title = $("<p></p>").text("Date Plan Title");
+        share = $("<p></p>").text("Share?");
+        creator = $("<p></p>").text("Creator: You OR someone else");
+        modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
+        timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
+        description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
+        $(this).append(title, share, creator, modify, timeStamp, description);
+    }
+    else {
+        $(this).empty();
+        $(this).text("View Your Date Plans");
+    }
+}
+
+function showUserReviews(){
+}
 
 /* Loads User data onto page 
    This is main function for the viewProfile api call
@@ -77,7 +100,7 @@ function loadUser(){
 
     //Change static page view variables
 
-    $("#pageHeader").text(profile.FirstName + "'s Profile");
+    $("#pageHeader").text(profile.UserName + "'s Profile");
     $("#username").text("Username: " + profile.UserName);
     $("#firstName").text("First Name: " + profile.FirstName);
     $("#lastName").text("Last Name: " + profile.LastName);
@@ -158,6 +181,7 @@ function submitUpdateForm (event) {
 
 }
 
+/**
 function logout(){
     $.ajax({
         type: "POST",
@@ -174,3 +198,4 @@ function logout(){
         }
     });
 }
+*/
