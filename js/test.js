@@ -1,6 +1,39 @@
 //Test function
 //Search by location, activity, or just general query
 //Uses Myisam FULLTEXT indexing
+function updateDatePlan(){
+	var dateplan = new Object();
+	dateplan.Name = "Testing Update Plan";
+	dateplan.Public = 0;
+	dateplan.ModID = 1;
+	dateplan.Description = "Testing Update Plan Description";
+	dateplan.Activites =[1,2,3];
+	dateplan.DatePlanID =1;
+	console.log("What I am sending to update date plan: "+JSON.stringify(dateplan));
+		$.ajax({
+			type: 'POST',
+			url: 'api/index.php/updateDatePlan',
+			content: 'application/json',
+			data: JSON.stringify(dateplan),
+			success: function(data){
+				if($.isNumeric(data)){
+					if(data==1){
+						console.log("Success in updating date plan!");
+					}else if(data==200){
+						console.log("There was an error in updating your date plan.");
+					}else
+					{
+						console.log("You must be logged in to update a date plan");
+					}
+				}else{
+					console.log("Error...");
+				}
+			}
+		});
+}
+//Test function
+//Search by location, activity, or just general query
+//Uses Myisam FULLTEXT indexing
 function searchDatabase(){
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = $("#searchbar").val();

@@ -61,6 +61,7 @@ $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
 $app->post('/shareDatePlan', 'shareDatePlan');
 $app->post('/reviewDatePlan', 'reviewDatePlan');
+$app->post('/updateDatePlan', 'updateDatePlan');
 $app->post('/reviewActivity', 'reviewActivity');
 $app->run();
 
@@ -1070,6 +1071,70 @@ function reviewDatePlan()
 	}	
 } // end of function
 	
+/**
+     * A function to let the user update a dateplan.  
+     * @return result of success or not in updating date plan
+     */
+function updateDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$datePlanInfo = json_decode($request->getBody());
+
+	if (isset($_SESSION['UserID'])) {
+    	$uID=$_SESSION['UserID'];
+    
+	try
+	{
+		if(isset($datePlanInfo)) 
+		{
+			// Get database connection
+			$db = getConnection();
+			// UPDATE SQL Statement
+			$sql = "UPDATE DatePlans SET Name = :name, 
+            Public = :isPublic, ModID = :modID, Timestamp = NOW() WHERE DatePlanID = :datePlanID";
+			$stmt = $db->prepare($sql);
+			// bind params
+			$stmt->bindParam("name",$datePlanInfo->Name);
+			$stmt->bindParam("isPublic", $datePlanInfo->Public);
+			//Assign the new modified id to the currently logged in user
+			$stmt->bindParam("modID", $uID);
+			$stmt->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+			$stmt->execute();
+
+			//Updated dateplan info now we need to update the date activities table
+			//DELETE SQL Statement
+			$deleteQuery="DELETE FROM DateActivities WHERE DatePlanID=:datePlanID";
+			$stmt = $db->prepare($deleteQuery);
+			// bind params
+			$stmt->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+			$stmt->execute();
+
+			$insertDateActivities = "INSERT INTO DateActivities (DatePlanID,ActivityID) Values(:datePlanID,:activityID)";
+			$stmt = $db->prepare($insertDateActivities);
+			//Loop through the user's selected activities array
+			foreach ($datePlanInfo->Activites as $activity) {
+				//bind params
+				$stmt->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+				$stmt->bindParam("activityID", $activity);
+				$stmt->execute();
+			}
+			//Return success if updated date plan
+			echo ERROR::SUCCESS;
+		}
+		else 
+		{
+			echo ERROR::JSON_ERROR;
+		}
+	}		    
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+}else
+	//Not logged in so return false
+	echo 0;
+} // end of function
 
 // insert the Review into the database
 function reviewActivity()
