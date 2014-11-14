@@ -49,6 +49,19 @@ function showUserDatePlans(){
 }
 
 function showUserReviews(){
+    if($(this).children().length === 0){
+        title = $("<p></p>").text("Review Title");
+        type = $("<p></p>").text("Type? DatePlan Review or Activity Review");
+        rating = $("<p></p>").text("Rating: 5 star!");
+        attended = $("<p></p>").text("Attended? Yes or No");
+        timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
+        description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
+        $(this).append(title, type, rating, attended, timeStamp, description);
+    }
+    else {
+        $(this).empty();
+        $(this).text("View Your Date Plans");
+    }
 }
 
 /* Loads User data onto page 
