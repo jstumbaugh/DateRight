@@ -135,7 +135,7 @@ function loadUser(){
         Get Date Plans and Review information
     */
 
-    datePlanReviews = new Object();
+    var datePlanReviews = new Object();
     $.ajax({
         type: 'POST',
         url: 'api/index.php/viewDatePlanReviews',
@@ -154,14 +154,15 @@ function loadUser(){
                 catch (e) {
                     console.log(e);
                 }
+                console.log(datePlanReviews);
             }
         }
     });
 
-    activityReviews = new Object();
+    var activityReviews = new Object();
     $.ajax({
         type: 'POST',
-        url: 'api/index.php/viewDatePlanReviews',
+        url: 'api/index.php/viewActivityReviews',
         async: false, 
         content: 'application/json',
         data: JSON.stringify({"UserID" : 1}),
@@ -177,6 +178,7 @@ function loadUser(){
                 catch (e) {
                     console.log(e);
                 }
+                console.log(activityReviews);
             }
         }
     });
