@@ -42,6 +42,8 @@ $('#createAccount').submit(function (event) {
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
     user.password = $("#passwordAccount").val();
+    //user.secruityQuestion = $("#SecurityQuestion").val();
+   // user.secruityAnsewer = $("#SecurityAnswer").val();
     user.userType = 0;
     user.sex = 0;
     //console.log(JSON.stringify(user));
