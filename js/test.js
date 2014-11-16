@@ -1,3 +1,55 @@
+//Test function
+//Search by location, activity, or just general query
+//Uses Myisam FULLTEXT indexing
+function updateDatePlan(){
+	var dateplan = new Object();
+	dateplan.Name = "Testing Update Plan";
+	dateplan.Public = 0;
+	dateplan.ModID = 1;
+	dateplan.Description = "Testing Update Plan Description";
+	dateplan.Activites =[1,2,3];
+	dateplan.DatePlanID =1;
+	console.log("What I am sending to update date plan: "+JSON.stringify(dateplan));
+		$.ajax({
+			type: 'POST',
+			url: 'api/index.php/updateDatePlan',
+			content: 'application/json',
+			data: JSON.stringify(dateplan),
+			success: function(data){
+				if($.isNumeric(data)){
+					if(data==1){
+						console.log("Success in updating date plan!");
+					}else if(data==200){
+						console.log("There was an error in updating your date plan.");
+					}else
+					{
+						console.log("You must be logged in to update a date plan");
+					}
+				}else{
+					console.log("Error...");
+				}
+			}
+		});
+}
+//Test function
+//Search by location, activity, or just general query
+//Uses Myisam FULLTEXT indexing
+function searchDatabase(){
+	var searchQuery = new Object();
+	searchQuery.SearchQuery = $("#searchbar").val();
+
+		$.ajax({
+			type: 'POST',
+			url: 'api/index.php/searchActivities',
+			content: 'application/json',
+			data: JSON.stringify(searchQuery),
+			success: function(data){
+				console.log(data);
+			}
+		});
+}
+
+
 	//Delete favorite
 	//Call like this api/deleteFavorite/favoriteID
     $.ajax({
@@ -34,22 +86,25 @@
 
 
 //CREATE ACCOUNT
-	var user = new Object();
-	user.email = "test@test.edu";
-	user.password = "password";
-	user.fName = "Testy";
-	user.lName = "Testerson";
-	user.userType = 1;
-	user.sex = 1;
-		$.ajax({
-			type: 'POST',
-			url: 'api/createAccount',
-			content: 'application/json',
-			data: JSON.stringify(user),
-			success: function(data){
-				console.log(data);
-			}
-		});
+    var user = new Object();
+    user.email = "test@test.edu";
+    user.userName = "dont_test_me_bro";
+    user.password = "password";
+    user.fName = "Testy";
+    user.lName = "Testerson";
+    user.userType = 1;
+    user.sex = 1;
+    user.securityQuestion = 1;
+    user.securityAnswer = "Fries";
+        $.ajax({
+            type: 'POST',
+            url: 'api/createAccount',
+            content: 'application/json',
+            data: JSON.stringify(user),
+            success: function(data){
+                console.log(data);
+            }
+        });
 
 
 //SUBMIT NEW ACTIVITY
@@ -193,6 +248,17 @@ $.ajax({
 		}
 	});
 
+//SHARE DATE PLAN
 
-
-
+	var date = new Object();
+	date.userID = 1;
+	date.datePlanID = 1;
+	$.ajax({
+		type: 'POST',
+		url: 'api/shareDatePlan',
+		content: 'application/json',
+		data: JSON.stringify(date),
+		success: function(data){
+			console.log(data);
+		}
+	});

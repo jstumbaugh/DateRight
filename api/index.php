@@ -50,7 +50,7 @@ $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->delete('/deleteFavorite/:id', 'deleteFavorite');
-$app->get('/searchActivities', 'searchActivities');
+$app->post('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
@@ -59,6 +59,13 @@ $app->get('/getRandomIdea', 'getRandomIdea');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
+$app->post('/shareDatePlan', 'shareDatePlan');
+$app->post('/reviewDatePlan', 'reviewDatePlan');
+$app->post('/updateDatePlan', 'updateDatePlan');
+$app->post('/reviewActivity', 'reviewActivity');
+$app->post('/recoveryQuestion', 'recoveryQuestion');
+$app->post('/recoverPassword', 'recoverPassword');
+$app->post('/resetPassword', 'resetPassword');
 $app->run();
 
 /**
@@ -224,7 +231,7 @@ function createAccount()
 	// If the username and email do not already exist, then we insert the account into the Users table
 	if(!$email_exists && !$username_exists)
 	{
-		$sql = "INSERT INTO Users (UserName,FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex) Values(:userName,:fName, :lName, :email, :password, :salt, :userType,  :sex)";
+		$sql = "INSERT INTO Users (UserName,FirstName, LastName, Email, Password, PasswordSalt, UserType, Sex, SecurityQuestion, SecurityAnswer, SecuritySalt) Values(:userName,:fName, :lName, :email, :password, :salt, :userType,  :sex, :secQuestion, :secAnswer, :secSalt)";
 		try
 		{
 			if(isset($userInfo)) 
@@ -232,6 +239,10 @@ function createAccount()
 				// Salt and hash the password.
 	        	$salt = sha1(md5($userInfo->password));
 	       		$pw = md5(($userInfo->password).$salt);
+
+	       		// Salt and hash the security answer
+	       		$secSalt = sha1(md5($userInfo->securityAnswer));
+	       		$secAnswer = md5(($userInfo->securityAnswer).$secSalt);
 				
 				//Get database connection and insert user to database
 				$db = getConnection();
@@ -244,9 +255,12 @@ function createAccount()
 				$stmt->bindParam("salt", $salt);
 				$stmt->bindParam("userType", $userInfo->userType);
 				$stmt->bindParam("sex", $userInfo->sex);
+				$stmt->bindParam("secQuestion", $userInfo->securityQuestion);
+				$stmt->bindParam("secAnswer", $secAnswer);
+				$stmt->bindParam("secSalt", $secSalt);
 				$stmt->execute();
 				//Log user in
-			    logUser($userInfo);
+			    //logUser($userInfo);
 			}
 			else 
 			{
@@ -516,13 +530,14 @@ function addFavorite (){
      * @return success or not in deleting favorite
      */
 function deleteFavorite($id) {
-    $sql = "DELETE FROM Favorites WHERE FavoriteID =:id and UserID=:userID";
+    $deleteQuery = "DELETE FROM Favorites WHERE ActivityID =:actID and UserID=:userID";
     if (isset($_SESSION['UserID'])) {
+    	$uID=$_SESSION['UserID'];
     try {
         $db = getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("id", $id);
-        $stmt->bindParam("userID", $_SESSION['UserID']);
+        $stmt = $db->prepare($deleteQuery);
+        $stmt->bindParam("actID", $id);
+        $stmt->bindParam("userID", $uID);
         $stmt->execute();
         if($stmt->rowCount()>0){
         echo ERROR::SUCCESS;
@@ -544,21 +559,25 @@ function searchActivities (){
 	$request =$app->request;
 	//User search query
 	//$result = $app->request()->post('datesearch');
-
-	$result = $app->request()->params('datesearch');
-	
+	$json = json_decode($request->getBody());
+	$result = $json->SearchQuery;
 	//First check if they sent any query
 	if (!empty($result)) {
-		$words = explode("+",trim($result));
-		$sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
-		//Process over all entered keywords
-		foreach ($words as $term) {
-			$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
-		}
+		// $words = explode("+",trim($result));
+		// $sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
+		// //Process over all entered keywords
+		// foreach ($words as $term) {
+		// 	$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
+		// }
+	$sql="SELECT * FROM Activities WHERE MATCH(Name,Description,Location) AGAINST(:searchQuery IN BOOLEAN MODE)";
 	//Order results by the user rating
 	$sql.=" ORDER BY Rating LIMIT 50";
 	$db = getConnection();
 	$stmt = $db->prepare($sql);
+	//accept plural version e.g. movie(s)
+	$result.="*";
+	echo "RESL $result";
+	$stmt->bindParam("searchQuery", $result);
 	$stmt ->execute();
 	$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	echo '{"results": ' . json_encode($searchResults) . '}';
@@ -792,7 +811,7 @@ function getRandomIdea(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	//Generate random date idea from dateplans table
-	$sql = "SELECT * FROM dateplans WHERE dateplanid >= (SELECT FLOOR( MAX(dateplanid) * RAND()) FROM Dateplans ) ORDER BY dateplanid LIMIT 1";
+	$sql = "SELECT * FROM DatePlans WHERE dateplanid >= (SELECT FLOOR( MAX(dateplanid) * RAND()) FROM DatePlans ) ORDER BY dateplanid LIMIT 1";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);
@@ -967,6 +986,281 @@ function updateAccount(){
 function getSessionInfo() // this will return the info stored in the session
 {
 	echo json_encode($_SESSION);
+}
+
+function shareDatePlan() 
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$dateInfo = json_decode($request->getBody());
+	
+	$userID = $dateInfo->userID;
+	$datePlanID = $dateInfo->datePlanID;
+
+	try 
+	{
+		$sql = "UPDATE DatePlans SET Public = 1 WHERE CreatorID = $userID && DatePlanID = $datePlanID";
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+	}
+	catch(PDOException $e) 
+	{
+			exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
+
+function createDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request();
+	$info = json_decode($request->getBody());
+	$activity_exists;
+	$user_exists;
+	try{
+		$name = $info->Name;
+		$public = $info->Public;
+		//$public = 0;
+		$creatorID= $info->UserID;
+		$description = $info->Description;
+		$time = $info->Timestamp;
+
+
+
+
+	}
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+	
+
+}
+
+// insert the Review into the database
+function reviewDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$datePlanInfo = json_decode($request->getBody());
+
+	// make sql statement
+	$sql = "INSERT INTO DatePlanReviews (Rating, Attended, Description, DatePlanID, UserID, ReviewTime) Values(:rating, :attended, :description, :dateplanID, :userID, NOW())";
+	try
+	{
+		if(isset($datePlanInfo)) 
+		{
+			// Get database connection
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			// bind params
+			$stmt->bindParam("rating",$datePlanInfo->Rating);
+			$stmt->bindParam("attended", $datePlanInfo->Attended);
+			$stmt->bindParam("description", $datePlanInfo->Description);
+			$stmt->bindParam("dateplanID", $datePlanInfo->DatePlanID);
+			$stmt->bindParam("userID", $datePlanInfo->UserID);
+			$stmt->execute();
+			echo ERROR::SUCCESS;
+		}
+		else 
+		{
+			echo ERROR::JSON_ERROR;
+		}
+	}		    
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+} // end of function
+	
+/**
+     * A function to let the user update a dateplan.  
+     * @return result of success or not in updating date plan
+     */
+function updateDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$datePlanInfo = json_decode($request->getBody());
+
+	if (isset($_SESSION['UserID'])) {
+    	$uID=$_SESSION['UserID'];
+    
+	try
+	{
+		if(isset($datePlanInfo)) 
+		{
+			// Get database connection
+			$db = getConnection();
+			// UPDATE SQL Statement
+			$sql = "UPDATE DatePlans SET Name = :name, 
+            Public = :isPublic, ModID = :modID, Timestamp = NOW() WHERE DatePlanID = :datePlanID";
+			$stmt = $db->prepare($sql);
+			// bind params
+			$stmt->bindParam("name",$datePlanInfo->Name);
+			$stmt->bindParam("isPublic", $datePlanInfo->Public);
+			//Assign the new modified id to the currently logged in user
+			$stmt->bindParam("modID", $uID);
+			$stmt->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+			$stmt->execute();
+
+			//Updated dateplan info now we need to update the date activities table
+			//DELETE SQL Statement
+			$deleteQuery="DELETE FROM DateActivities WHERE DatePlanID=:datePlanID";
+			$stmt = $db->prepare($deleteQuery);
+			// bind params
+			$stmt->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+			$stmt->execute();
+
+			$insertDateActivities = "INSERT INTO DateActivities (DatePlanID,ActivityID) Values(:datePlanID,:activityID)";
+			$stmt = $db->prepare($insertDateActivities);
+			//Loop through the user's selected activities array
+			foreach ($datePlanInfo->Activites as $activity) {
+				//bind params
+				$stmt->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+				$stmt->bindParam("activityID", $activity);
+				$stmt->execute();
+			}
+			//Return success if updated date plan
+			echo ERROR::SUCCESS;
+		}
+		else 
+		{
+			echo ERROR::JSON_ERROR;
+		}
+	}		    
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+}else
+	//Not logged in so return false
+	echo 0;
+} // end of function
+
+// insert the Review into the database
+function reviewActivity()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$activityInfo = json_decode($request->getBody());
+
+	// make sql statement
+	$sql = "INSERT INTO ActivityReviews (Rating, UserID, ActivityID, Description, Cost, Location, Attended, ReviewTime) 
+	Values(:rating, :userID, :activityID, :description, :cost, :location, :attended, NOW())";
+	try
+	{
+		if(isset($activityInfo)) 
+		{
+			// Get database connection
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			// bind params
+			$stmt->bindParam("rating",$activityInfo->Rating);
+			$stmt->bindParam("userID", $activityInfo->UserID);
+			$stmt->bindParam("activityID", $activityInfo->ActivityID);
+			$stmt->bindParam("description", $activityInfo->Description);
+			$stmt->bindParam("cost", $activityInfo->Cost);
+			$stmt->bindParam("location", $activityInfo->Location);
+			$stmt->bindParam("attended", $activityInfo->Attended);
+			$stmt->execute();
+			echo ERROR::SUCCESS;
+		}
+		else 
+		{
+			echo ERROR::JSON_ERROR;
+		}
+	}		    
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}	
+} // end of function
+
+function recoveryQuestion() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$recoveryInfo = json_decode($request->getBody());
+	
+	$email = $recoveryInfo->email;
+	//require more than just email to get question?
+
+	$sql2 = "SELECT SecurityQuestion FROM Users WHERE Email = :email";
+	try {
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql2);
+		$stmt2->bindParam("email", $userInfo->email);
+		$stmt2->execute();
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+		echo $returnedInfo;
+	}
+	catch(PDOException $e) 
+	{
+		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
+
+
+function recoverPassword() 
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$recoveryInfo = json_decode($request->getBody());
+	
+	$email = $recoveryInfo->email;
+	$securityQuestion = $recoveryInfo->securityQuestion;
+
+	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
+	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
+
+	$sql2 = "SELECT * FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+	try {
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql2);
+		$stmt2->bindParam("email", $userInfo->email);
+		$stmt2->bindParam("securityAnswer", $pw);
+		$stmt2->execute();
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+	}
+	catch(PDOException $e) 
+	{
+		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
+
+function resetPassword() 
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$recoveryInfo = json_decode($request->getBody());
+	
+	$email = $recoveryInfo->email;
+	$securityQuestion = $recoveryInfo->securityQuestion;
+
+	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
+	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
+
+	$passwordSalt = sha1(md5($recoveryInfo->newPassword));
+	$newPassword = md5($recoveryInfo->newPassword.$passwordSalt);
+
+	$sql2 = "SELECT * FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+	try {
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql2);
+		$stmt2->bindParam("email", $userInfo->email);
+		$stmt2->bindParam("securityAnswer", $pw);
+		$stmt2->execute();
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
+		//TO DO: actually update password	
+	}
+	catch(PDOException $e) 
+	{
+		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
 }
 
 

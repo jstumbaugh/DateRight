@@ -8,11 +8,11 @@ INSERT INTO Activities VALUES
 	(5, "Cook them Dinner", "A romantic home cooked meal is always a goto when it comes to trying to get in their pants ;)", 40.00, NULL, "Your house");
 
 INSERT INTO Users VALUES
-	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", NULL, NULL, 1, 1),
-	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", NULL, NULL, 1, 1),
-	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", NULL, NULL, 1, 1),
-	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", NULL, NULL, 1, 1),
-	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", NULL, NULL, 1, 1);
+	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
+	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt");
 
 INSERT INTO ActivitiesAttendees VALUES
 	(1, 1, 1),
@@ -102,10 +102,10 @@ INSERT INTO Favorites VALUES
 	(10, 5, NULL, 1);
 
 INSERT INTO DatePlanReviews VALUES
-	(1, 5, 1 ,"Last night my I used the 'Casual Night In' dateplan and had a blast! It was very nice to cook a meal with my date, she loved it!", 1, 5, 4, STR_TO_DATE('9/23/14 10:30 AM','%m/%d/%Y %h:%i %p')),
-	(2, 2, 1, "Used the 'Casual Night In' dateplan and it wasn't great. I burned our food so we had to order Chinese :(", 1, 2, 4, STR_TO_DATE('9/8/14 11:00 AM','%m/%d/%Y %h:%i %p')),
-	(3, 4, 1, "Very nice DatePlan! A bit expensive though, but definitely worth it.", 2, 3, 3, STR_TO_DATE('10/3/14 9:00 AM','%m/%d/%Y %h:%i %p')),
-	(4, 1, 1, "Tried this last night. I dropped $60 last night on dinner and she did not instantly drop her panties. SadFace.", 3, 2, 3, STR_TO_DATE('9/8/14 12:45 PM','%m/%d/%Y %h:%i %p'));
+	(1, 5, 1 ,"Last night my I used the 'Casual Night In' dateplan and had a blast! It was very nice to cook a meal with my date, she loved it!", 1, 5, STR_TO_DATE('9/23/14 10:30 AM','%m/%d/%Y %h:%i %p')),
+	(2, 2, 1, "Used the 'Casual Night In' dateplan and it wasn't great. I burned our food so we had to order Chinese :(", 1, 2, STR_TO_DATE('9/8/14 11:00 AM','%m/%d/%Y %h:%i %p')),
+	(3, 4, 1, "Very nice DatePlan! A bit expensive though, but definitely worth it.", 2, 3, STR_TO_DATE('10/3/14 9:00 AM','%m/%d/%Y %h:%i %p')),
+	(4, 1, 1, "Tried this last night. I dropped $60 last night on dinner and she did not instantly drop her panties. SadFace.", 3, 2, STR_TO_DATE('9/8/14 12:45 PM','%m/%d/%Y %h:%i %p'));
 
 INSERT INTO DatePlanAttendees VALUES
 	(1, 1, 1),

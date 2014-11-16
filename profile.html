@@ -19,7 +19,11 @@
         <h1 id="pageHeader">
             Profile
         </h1>
+
+        <!--
         <button id="logoutbut">Logout</button>
+        -->
+
         <button id="backButton">
             Back 
         </button>
@@ -35,6 +39,18 @@
         <h3 id="email">
             Email: 
         </h3>
+
+        <div id="datePlanDiv">
+            <button id="datePlanButton">
+                View Your Date Plans
+            </button>
+        </div>
+
+        <div id="reviewsDiv">
+           <button id="reviewsButton">
+                View Your Reviews
+            </button> 
+        </div>
 
         <a href="#openModal">
             <button href="#openModal" id="updateAccountButton">
@@ -61,8 +77,11 @@
                     <label for="emailInput">Email: </label>
                     <input type="text" id="emailInput" title="Valid email address is required"  required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br>
 
-                    <label for="password">Password:</label>
-                    <input type="password" id="passwordInput" title="Password must be at least 8 characters" required="required" pattern=".{8,}" ><br>
+                    <label for="oldPasswordInput">Old Password:</label>
+                    <input type="password" id="oldPasswordInput" title="Password must be at least 8 characters" required="required" pattern=".{8,}" ><br>
+
+                    <label for="newPasswordInput">New Password:</label>
+                    <input type="password" id="newPasswordInput" title="Password must be at least 8 characters" required="required" pattern=".{8,}" ><br>
 
                     <input type="submit" id="updateSubmitButton" value="Submit">
                 </form>

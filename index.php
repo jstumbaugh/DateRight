@@ -76,12 +76,27 @@
             Password:
             <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required />
         </label><br>
+        <!--
+        <form action="">
+            Security Question:
+        <select name="secruityQuestion">
+        <option value="1">Where was your first date?</option>
+        <option value="2">What is the first name of the person you first kissed?</option>
+        <option value="3">What is your mother's maiden name?</option>
+        <option value="4">What is the name of your favorite pet?</option>
+        <option value= "5"> What is the name of the street you grew up on? </option>
+        </select>
+        </form><br>
+        <label for="secruityAnsewer">
+            <input type="text" name="secruityAnsewer" id="secruityAnsewer" pattern="[a-zA-Z]+" title="Letters only" placeholder="Secruity Ansewer" required />
+        </label><br>
+         -->
         <button type="submit" class="btn-minimal">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
 </section>
 <script src="js/index.js"></script>
-<script src="js/test.js"></script>
+<!-- <script src="js/test.js"></script> -->
 </body>
 </HTML>
 
