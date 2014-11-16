@@ -33,6 +33,10 @@ $(document).ready(function(){
 });
 
 function showUserDatePlans(){
+    // ajac call on click??
+    /**
+        Expand and Retract info
+    */
     if($(this).children().length === 0){
         title = $("<p></p>").text("Date Plan Title");
         share = $("<p></p>").text("Share?");
@@ -60,7 +64,7 @@ function showUserReviews(){
     }
     else {
         $(this).empty();
-        $(this).text("View Your Date Plans");
+        $(this).text("View Your Reviews");
     }
 }
 
@@ -73,7 +77,7 @@ function loadUser(){
     var user = new Object();
     
     //get userID
-    sessionData = {};
+    var sessionData = {};
     $.ajax({
         type: 'POST',
         async: false,
@@ -126,6 +130,56 @@ function loadUser(){
     $("#lastNameInput").attr("value", profile.LastName);
     $("#emailInput").attr("value", profile.Email);
     $("#passwordInput").attr("placeholder", "Verify Password");
+
+    /**
+        Get Date Plans and Review information
+    */
+
+    datePlanReviews = new Object();
+    $.ajax({
+        type: 'POST',
+        url: 'api/index.php/viewDatePlanReviews',
+        async: false, 
+        content: 'application/json',
+        data: JSON.stringify({"UserID" : 1}),
+        success: function(response) {
+            //error checking
+            if(response === "500"){
+                console.log("No Results for Date Plan Reviews");
+            }
+            else {
+                try {
+                    datePlanReviews = JSON.parse(response);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+        }
+    });
+
+    activityReviews = new Object();
+    $.ajax({
+        type: 'POST',
+        url: 'api/index.php/viewDatePlanReviews',
+        async: false, 
+        content: 'application/json',
+        data: JSON.stringify({"UserID" : 1}),
+        success: function(response) {
+            //error checking
+            if(response === "500"){
+                console.log("No Results for Activity Reviews");
+            }
+            else {
+                try {
+                    activityReviews = JSON.parse(response);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+        }
+    });
 
 }
 
