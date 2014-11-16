@@ -56,7 +56,8 @@ INSERT INTO Tags VALUES
 	(7, 'Home'),
 	(8, 'Driving'),
 	(9, 'Romantic'),
-	(10, 'Classic');
+	(10, 'Classic'),
+	(11, 'Activity');
 
 INSERT INTO TaggedActivities VALUES
 	(1, 1),
@@ -75,7 +76,12 @@ INSERT INTO TaggedActivities VALUES
 	(9, 5),
 	(10, 1),
 	(10, 2),
-	(10, 5);
+	(10, 5),
+	(11, 1),
+	(11, 2), 
+	(11, 3),
+	(11, 4),
+	(11, 5);
 
 INSERT INTO Reports VALUES
 	(1, 1, "The 'Instant Pantie Dropper' date plan did not instantly drop her panties. I'm suing you guys!!", 1),
