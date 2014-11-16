@@ -63,6 +63,9 @@ $app->post('/shareDatePlan', 'shareDatePlan');
 $app->post('/reviewDatePlan', 'reviewDatePlan');
 $app->post('/updateDatePlan', 'updateDatePlan');
 $app->post('/reviewActivity', 'reviewActivity');
+$app->post('/recoveryQuestion', 'recoveryQuestion');
+$app->post('/recoverPassword', 'recoverPassword');
+$app->post('/resetPassword', 'resetPassword');
 $app->run();
 
 /**
@@ -1174,6 +1177,91 @@ function reviewActivity()
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}	
 } // end of function
+
+function recoveryQuestion() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$recoveryInfo = json_decode($request->getBody());
+	
+	$email = $recoveryInfo->email;
+	//require more than just email to get question?
+
+	$sql2 = "SELECT SecurityQuestion FROM Users WHERE Email = :email";
+	try {
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql2);
+		$stmt2->bindParam("email", $userInfo->email);
+		$stmt2->execute();
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+		echo $returnedInfo;
+	}
+	catch(PDOException $e) 
+	{
+		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
+
+
+function recoverPassword() 
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$recoveryInfo = json_decode($request->getBody());
+	
+	$email = $recoveryInfo->email;
+	$securityQuestion = $recoveryInfo->securityQuestion;
+
+	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
+	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
+
+	$sql2 = "SELECT * FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+	try {
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql2);
+		$stmt2->bindParam("email", $userInfo->email);
+		$stmt2->bindParam("securityAnswer", $pw);
+		$stmt2->execute();
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+	}
+	catch(PDOException $e) 
+	{
+		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
+
+function resetPassword() 
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$recoveryInfo = json_decode($request->getBody());
+	
+	$email = $recoveryInfo->email;
+	$securityQuestion = $recoveryInfo->securityQuestion;
+
+	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
+	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
+
+	$passwordSalt = sha1(md5($recoveryInfo->newPassword));
+	$newPassword = md5($recoveryInfo->newPassword.$passwordSalt);
+
+	$sql2 = "SELECT * FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+	try {
+		$db = getConnection();
+		$stmt2 = $db->prepare($sql2);
+		$stmt2->bindParam("email", $userInfo->email);
+		$stmt2->bindParam("securityAnswer", $pw);
+		$stmt2->execute();
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
+		//TO DO: actually update password	
+	}
+	catch(PDOException $e) 
+	{
+		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	}
+
+}
 
 
 ?>
