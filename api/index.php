@@ -586,6 +586,46 @@ function searchActivities (){
 	echo ERROR::NO_RESULTS;
 		}
 }
+function viewUserDatePlans(){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	$sql = "SELECT * FROM DatePlans WHERE CreatorID = :userID";
+	$userInfo = json_decode($request->getBody());
+	$userID = $userInfo->UserID; 
+	$db = getConnection();
+	$dateplans = array();
+
+	try{
+	$stmt = $db->prepare($sql);
+	$stmt->bindParam("userID", $userID);
+	$stmt ->execute();
+
+	if(empty($dateplans))
+	{
+		echo '{"error":{"text":' . $e->getMessage() . '}}';
+		exit(1);
+	}
+	while($returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC))
+	{
+		
+	$dateplan = $returnedInfo1['DatePlanID'];
+	$sql2 = "SELECT Users.UserName, DatePlans.Name, DatePlans.Description FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
+	$stmt2 = $db->prepare($sql2);
+	$stmt2->bindParam("dateplanid", $userInfo->DatePlanID);
+	$stmt2->execute();
+	$rI2 = $stmt2 ->fetch(PDO::FETCH_ASSOC);
+	array_push($dateplans, $rI2);
+
+	}
+
+	echo json_encode($dateplans);
+	}
+	catch(PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+
+}
 
 
 
