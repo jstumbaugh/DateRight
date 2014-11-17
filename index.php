@@ -48,6 +48,7 @@
             Password:
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
         </label>
+        <button type="button" class="btn-minimal">Forgot password?</button>
         <button type="submit" class="btn-minimal">Sign in</button>
         <p id="loginMessage"></p>
     </form>
@@ -79,7 +80,7 @@
 
         <form action="">
             Security Question:
-        <select name="secruityQuestion" id = "SecruityQuestion">
+        <select name="secruityQuestion" id = "SecruityQuestion" placeholder= "Pick a Question!" required>
         <option value="1">Where was your first date?</option>
         <option value="2">What is the first name of the person you first kissed?</option>
         <option value="3">What is your mother's maiden name?</option>
