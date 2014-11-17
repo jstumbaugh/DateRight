@@ -2,18 +2,34 @@
 function init() {
 $("#loginBox").hide();
 $("#createAccountBox").hide();
+$("#ForgotPasswordBox").hide();
+$("#PasswordRecoveryBox").hide();
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
+   $("#ForgotPasswordBox").hide();
+    $("#PasswordRecover").hide();
         
 }); 
 $("#createAccountButton").click(function(){
         
     $("#createAccountBox").show();
     $("#loginBox").hide();
+     $("#ForgotPasswordBox").hide();
+    $("#PasswordRecover").hide();    
+}); 
+$("#ForgotPassword").click(function(){
+        
+    $("#ForgotPasswordBox").show();
+    $("#loginBox").hide();
         
 }); 
-
+$("#PasswordRecover").click(function(){
+        
+    $("#PasswordRecoveryBox").show();
+    $("#ForgotPasswordBox").hide();
+        
+}); 
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
 
@@ -155,6 +171,8 @@ $("#login").submit(function(event) {
 
 //Calls the random idea function and makes one for the user.
 });
+
+
 
 //Recovery Question function
 /*

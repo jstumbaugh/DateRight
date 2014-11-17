@@ -48,8 +48,8 @@
             Password:
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
         </label>
-        <button type="button" class="btn-minimal">Forgot password?</button>
-        <button type="submit" class="btn-minimal">Sign in</button>
+        <button type="submit" class="btn-minimal" id = "ForgotPassword">Forgot password?</button>
+        <button type="submit" class="btn-minimal" >Sign in</button>
         <p id="loginMessage"></p>
     </form>
 </section>
@@ -94,6 +94,34 @@
 
         <button type="submit" class="btn-minimal">Create Account!</button>
         <p id="resultMessage"></p>
+    </form>
+</section>
+
+<!-- Recovery Box Div -->
+<section id="ForgotPasswordBox" class="overlayBox">
+    <h2>Enter Email to Recover Password</h2>
+    <form method="post" class="minimal" id="forgotPassword">
+        <label for="email">
+            Email:
+            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
+        </label>
+        <button type="submit" class="btn-minimal" id="ForgotPasswordBox">Get Question</button>
+        <p id="loginMessage"></p>
+    </form>
+</section>
+
+<section id="PasswordRecoveryBox" class="overlayBox">
+    <h2>Recover Password</h2>
+    <form method="post" class="minimal" id="forgotPassword">
+        <label for="email">
+            Secruity Question:
+            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
+        </label>
+        <label for="secruityAnsewer">
+            <input type="text" name="secruityAnsewer" id="secruityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Secruity Ansewer" required />
+        </label><br>
+        <button type="submit" class="btn-minimal">Submit</button>
+        <p id="loginMessage"></p>
     </form>
 </section>
 <script src="js/index.js"></script>
