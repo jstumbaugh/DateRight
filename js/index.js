@@ -42,8 +42,8 @@ $('#createAccount').submit(function (event) {
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
     user.password = $("#passwordAccount").val();
-    //user.secruityQuestion = $("#SecurityQuestion").val();
-   // user.secruityAnsewer = $("#SecurityAnswer").val();
+    user.secruityQuestion = $("#SecurityQuestion").val();
+    user.secruityAnsewer = $("#SecurityAnswer").val();
     user.userType = 0;
     user.sex = 0;
     //console.log(JSON.stringify(user));
@@ -153,8 +153,60 @@ $("#login").submit(function(event) {
     //     document.getElementById("greeting").innerHTML = "Hello, " + JSON.parse(info).fName;
     // }
 
-    });
 //Calls the random idea function and makes one for the user.
+});
+
+//Recovery Question function
+/*
+ $("#login").Button(function(event) {
+    event.preventDefault(); 
+    var user = new Object();
+    user.email = $("#emailLogin").val();
+    console.log(JSON.stringify(user));
+    $.ajax({
+       type: "POST",
+        url: 'api/index.php/recoveryQuestion',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            //Error Checking
+            if($.isNumeric(data)){
+                if(data==400){
+                    $("#loginMessage").text("Inncorrect login information..Try typing your email again");
+                }
+                else{
+                    $("#loginMessage").text("Error in transaction");
+                    }
+                
+            }
+            else if(!jQuery.isEmptyObject(data)){
+                var obj = JSON.parse(data);
+                if(obj.Email.length>0){
+                    //create div 
+                    var para = document.createElement("p");
+                    para.setAttribute("class", "loginBox");
+                    para.appendChild(node);
+                    var element = document.getElementById("loginBox");
+                    element.appendChild(para);
+                    var y = document.createElement("INPUT");
+                    y.setAttribute("type", "text");
+                    y.setAttribute("placeholder", "Answer"); 
+                    y.setAttribute("id", "SecurityAnswer");
+                    y.setAttribute("SecurityAnswer", "SecurityAnswer");    
+                    y.setAttribute("required", "required");
+                    document.getElementById("logindiv").appendChild(y);
+                    
+                     var btn = document.createElement("INPUT");
+                     btn.setAttribute("type", "Submit")
+                     btn.setAttribute("class", "submitButton");
+                     btn.setAttribute("onclick", "loginSubmit()");
+                    document.getElementById("logindiv").appendChild(btn);
+                }
+            }
+        }
+    });
+});
+*/
 getRandomIdea();
 }
 window.onload = init;
