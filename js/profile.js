@@ -38,13 +38,13 @@ function showUserDatePlans(){
         Expand and Retract info
     */
     if($(this).children().length === 0){
-        title = $("<p></p>").text("Date Plan Title");
-        share = $("<p></p>").text("Share?");
-        creator = $("<p></p>").text("Creator: You OR someone else");
-        modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
-        timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
-        description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
-        $(this).append(title, share, creator, modify, timeStamp, description);
+            title = $("<p></p>").text("Date Plan Title");
+            share = $("<p></p>").text("Share?");
+            creator = $("<p></p>").text("Creator: You OR someone else");
+            modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
+            timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
+            description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
+            $(this).append(title, share, creator, modify, timeStamp, description);
     }
     else {
         $(this).empty();
@@ -54,18 +54,57 @@ function showUserDatePlans(){
 
 function showUserReviews(){
     if($(this).children().length === 0){
-        title = $("<p></p>").text("Review Title");
-        type = $("<p></p>").text("Type? DatePlan Review or Activity Review");
-        rating = $("<p></p>").text("Rating: 5 star!");
-        attended = $("<p></p>").text("Attended? Yes or No");
-        timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
-        description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
-        $(this).append(title, type, rating, attended, timeStamp, description);
+        //check if data was empty
+        if(datePlanReviews.ReviewID === undefined && activityReviews.ReviewID === undefined) {
+            //no reviews at all
+            $(this).append($("<p></p>").text("You have not reviewed anything on DateRight yet."));
+        } else if(datePlanReviews.ReviewID === undefined) {
+            $(this).append($("<p></p>").text("You have not reviewed any date plans yet."));
+            //add activityReview stuff
+            addActivityReviews(this);
+        } else if(activityReviews.ReviewID === undefined) {
+            $(this).append($("<p></p>").text("You have not reviewed any activities yet."));
+            //add datePlanReview stuff
+            addDatePlanReviews(this);
+        } else {
+            //add everything
+            addDatePlanReviews(this);
+            addActivityReviews(this);
+        }
     }
     else {
         $(this).empty();
         $(this).text("View Your Reviews");
     }
+}
+
+function addDatePlanReviews(tag) {
+    if(datePlanReviews.Attended === 1) {
+        att = "Yes";
+    } else {
+        att = "No";
+    }
+    title = $("<p></p>").text("Review Title");
+    type = $("<p></p>").text("Date Plan Review");
+    rating = $("<p></p>").text("Rating: " + datePlanReviews.Rating);
+    attended = $("<p></p>").text("Attended? " + att);
+    timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews.ReviewTime);
+    description = $("<p></p>").text("Description: " + datePlanReviews.Description);
+    $(tag).append(title, type, rating, attended, timeStamp, description);
+}
+
+function addActivityReviews(tag) {
+    if(activityReviews.Attended === 1) {
+        att = "Yes";
+    } else {
+        att = "No";
+    }
+    title = $("<p></p>").text("Review Title");
+    type = $("<p></p>").text("Activity Review");
+    rating = $("<p></p>").text("Rating: " + activityReviews.Rating);
+    timeStamp = $("<p></p>").text("Date and time created: " + activityReviews.ReviewTime);
+    description = $("<p></p>").text("Description: " + activityReviews.Description);
+    $(tag).append(title, type, rating, timeStamp, description);
 }
 
 /* Loads User data onto page 
@@ -135,7 +174,7 @@ function loadUser(){
         Get Date Plans and Review information
     */
 
-    var datePlanReviews = new Object();
+    datePlanReviews = new Object();
     $.ajax({
         type: 'POST',
         url: 'api/index.php/viewDatePlanReviews',
@@ -159,7 +198,7 @@ function loadUser(){
         }
     });
 
-    var activityReviews = new Object();
+    activityReviews = new Object();
     $.ajax({
         type: 'POST',
         url: 'api/index.php/viewActivityReviews',
