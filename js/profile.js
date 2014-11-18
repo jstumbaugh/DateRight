@@ -20,7 +20,7 @@ $(document).ready(function(){
     loadUser();
     //$("#updateSubmitButton").click(submitUpdateForm);
     $("#updateAccountForm").submit(submitUpdateForm);
-    $("#backButton").click(function(e){
+    $("#homeButton").click(function(e){
         e.preventDefault();
         window.location.replace("search.html");
     });

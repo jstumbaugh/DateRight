@@ -5,6 +5,15 @@
         10/28/2014 - 
 **/
 
+#profilePic {
+    float:left;
+    height:50%;
+}
+
+#selectionSection {
+    float:clear;
+}
+
 .modalDialog {
     position: fixed;
     top: 0;
