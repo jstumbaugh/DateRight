@@ -14,6 +14,8 @@ INSERT INTO Users VALUES
 	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
 	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f");
 
+	-- THE PASSWORD & SECURITY ANSWERS UN-SALTED ARE: "password"
+
 INSERT INTO ActivitiesAttendees VALUES
 	(1, 1, 1),
 	(2, 2, 2),
