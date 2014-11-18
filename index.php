@@ -48,8 +48,8 @@
             Password:
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
         </label>
+        <button type="submit" class="btn-minimal" >Sign in</button> 
         <button type="submit" class="btn-minimal" id = "ForgotPassword">Forgot password?</button>
-        <button type="submit" class="btn-minimal" >Sign in</button>
         <p id="loginMessage"></p>
     </form>
 </section>
@@ -99,7 +99,7 @@
 
 <!-- Recovery Box Div -->
 <section id="ForgotPasswordBox" class="overlayBox">
-    <h2>Enter Email to Recover Password</h2>
+    <h2>Enter Email to Start Reset Process</h2>
     <form method="post" class="minimal" id="forgotPassword">
         <label for="email">
             Email:
@@ -111,15 +111,17 @@
 </section>
 
 <section id="PasswordRecoveryBox" class="overlayBox">
-    <h2>Recover Password</h2>
+    <h2>Security Question</h2>
     <form method="post" class="minimal" id="forgotPassword">
-        <label for="email">
-            Secruity Question:
-            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
-        </label>
+         <p id="SecureQuestion"></p>
         <label for="securityAnsewer">
+            Ansewer:
             <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
         </label><br>
+        <label for="email">
+            Email:
+            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
+        </label>
         <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit</button>
         <p id="loginMessage"></p>
     </form>
@@ -127,7 +129,7 @@
 
 <!-- Reset Password Box Div -->
 <section id="ResetPasswordBox" class="overlayBox">
-    <h2>Enter Email to Recover Password</h2>
+    <h2>Reset Password</h2>
     <form method="post" class="minimal" id="forgotPassword">
         <label for="email">
             New Password
