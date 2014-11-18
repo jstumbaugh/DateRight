@@ -166,16 +166,17 @@ $("#login").submit(function(event) {
     // }
 
 //Calls the random idea function and makes one for the user.
+
 });
 
 
 
 //Recovery Question function
 
- $("#ForgotPassword").submit(function(event) {
+ $("#ForgotPasswordButton").submit(function(event) {
     event.preventDefault(); 
     var user = new Object();
-    user.email = $("#emailLogin").val();
+    user.email = $("#emailforget").val();
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -206,7 +207,7 @@ $("#login").submit(function(event) {
 });
 
 //Secruity Question Ansewering 
- $("#ForgotPassword").submit(function(event) {
+ $("#PasswordRecoveryButton").submit(function(event) {
     event.preventDefault(); 
     var user = new Object();
     user.email = $("#emailLogin").val();
@@ -238,6 +239,8 @@ $("#login").submit(function(event) {
         }
     });
 });
+
+//Password Reseting
 getRandomIdea();
 }
 window.onload = init;

@@ -105,7 +105,7 @@
             Email:
             <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
         </label>
-        <button type="submit" class="btn-minimal" id="ForgotPasswordBox">Get Question</button>
+        <button type="submit" class="btn-minimal" id="ForgotPasswordButton">Get Question</button>
         <p id="loginMessage"></p>
     </form>
 </section>
@@ -120,11 +120,12 @@
         <label for="securityAnsewer">
             <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
         </label><br>
-        <button type="submit" class="btn-minimal">Submit</button>
+        <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit</button>
         <p id="loginMessage"></p>
     </form>
 </section>
 
+<!-- Reset Password Box Div -->
 <section id="ResetPasswordBox" class="overlayBox">
     <h2>Enter Email to Recover Password</h2>
     <form method="post" class="minimal" id="forgotPassword">
@@ -132,7 +133,7 @@
             New Password
             <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}"required />
         </label>
-        <button type="submit" class="btn-minimal" id="ResetPasswordBox">Reset Password</button>
+        <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
         <p id="loginMessage"></p>
     </form>
 </section>
