@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
 			var searchString = new Object();
 			searchString.tagName = $("#searchbar").val();
 			searchString.tagName = searchString.tagName.replace(/ /g, '+');
-			searchString = 'datesearch=' + searchString.tagName;
+			searchString = 'SearchQuery=' + searchString.tagName;
 			getActivitiesByName(searchString);
 		}
 	});
@@ -40,6 +40,8 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 		logout();
 	})
+
+	addSort();
 });
 
 function getActivitiesByTag(searchString){
@@ -57,7 +59,7 @@ function getActivitiesByTag(searchString){
 				success: function(data2){
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<div class='activity' id=" + actData[i].ActivityID + "></div>"
+			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + "></li>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -70,6 +72,7 @@ function getActivitiesByTag(searchString){
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
 			    	}
+			    	addDrag();
 				}
 			});
 		}, 
@@ -84,11 +87,10 @@ function getMousePosition(e){
 	favStar = document.elementFromPoint(e.clientX, e.clientY);
 	if (favStar.classList.contains("starred"))
 	{
-		
-		console.log('Current;y unable to remove activity from favorites');
+		console.log("api/index.php/deleteFavorite/" + favStar.parentNode.value);
 		$.ajax({
 	        type: 'DELETE',
-	      	url: "api/index.php/deleteFavorite/" + favStar.parentNode.id,
+	      	url: "api/index.php/deleteFavorite/" + favStar.parentNode.value,
 			success: function(data){
 				if($.isNumeric(data)){
 	                if(data==1){
@@ -96,6 +98,7 @@ function getMousePosition(e){
 	                    favStar.setAttribute("class", "unstarred");
 	                }
 	                else{
+	                	console.log(data);
 	                    console.log("Deleted failure");
 	                    }
 	            }else
@@ -109,7 +112,7 @@ function getMousePosition(e){
 	{
 		var tempUser = new Object();
 		tempUser.UserID = user.UserID;
-		tempUser.ActivityID = favStar.parentNode.id;
+		tempUser.ActivityID = favStar.parentNode.value;
 		if(typeof tempUser.UserID === 'undefined'){
 			console.log('Not logged in');
 		} else {
@@ -156,11 +159,12 @@ function getFavoriteActivities(){
 	    	var activitiesDiv = $("#activities");
 	    	for (i = 0; i < actData.length; i++)
 	    	{
-	    		var elem = "<div class='activity' id=" + actData[i].ActivityID + "></div>"
+	    		var elem = "<li class='activity' id=" + actData[i].ActivityID + "></li>"
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
 	    	}
+	    	addDrag();
 		},
 		error: function(){
 			console.log('Unable to get favorite activities');
@@ -185,7 +189,7 @@ function getActivitiesByName(searchString){
 				success: function(data2){
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<div class='activity' id=" + actData[i].ActivityID + "></div>"
+			    		var elem = "<li class='activity' id=" + actData[i].ActivityID + "></li>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -200,6 +204,7 @@ function getActivitiesByName(searchString){
 			    	}
 				}
 			});
+			addDrag();
 		}
 	});
 }
@@ -219,4 +224,22 @@ function logout(){
 			console.log('Unable to logout');
 		}
 	});
+}
+
+function addSort(){
+	$( "#currentDatePlan" ).sortable({
+    	revert: true
+    });
+}
+
+function addDrag(){
+	$( ".activity" ).draggable({
+		connectToSortable: "#currentDatePlan",
+		helper: "clone",
+		revert: "invalid",
+		stop: function(event, ui){
+			var $elems = $('#currentDatePlan .activity[value=' + ui.helper.context.value + ']');
+			$elems.switchClass("activity", "activityDatePlan");
+		}
+    });
 }

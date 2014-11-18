@@ -9,6 +9,7 @@
 		<title>Make a Date!</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
+		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 		<meta name="description" content="DateRight">
 	    <meta name="keywords" content="date, plan, activity">
 	    <link href="css/search.css" rel="stylesheet">
@@ -20,6 +21,9 @@
 				<li><button id="profilebut">Profile</button></li>
 				<!--<li><button id="myplansbut">My Plans</button></li>-->
 				<li><button id="favactivitiesbut">Favorite Activites</button></li>
+			</ul>
+
+			<ul id="currentDatePlan">
 			</ul>
 			<!--<p>Current Plan</p>-->
 		</div>
@@ -38,8 +42,8 @@
 			<input type="text" id="searchbar" name="datesearch" size="50">
 			<input type="submit" value="Search" id="searchsubmit">
 		</form>
-		<div id="activities">
-		</div>
+		<ul id="activities">
+		</ul>
 	</body>
 	<script src="js/activity.js">
         </script>

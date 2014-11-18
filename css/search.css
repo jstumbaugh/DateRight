@@ -8,23 +8,38 @@
 }
 
 #currentplan {
-	float: right;
+    float: right;
 	height: 97vh;
 	right: 0%;
 	background-color: #00FFFF;
+    width: 25%;
 }
 
-#currentplanlist li {
+#currentplanlist{
+    float: right;
+}
+
+#currentplanlist li{
 	margin-bottom: 2%;
 	list-style: none;
 	text-align: right;
 }
 
-.activity {
+#currentDatePlan{
+    height: 97vh;
+}
+
+#currentDatePlan li{
+    list-style-type: none;
+    text-align:;
+}
+
+.activity, .activityDatePlan {
 	float: left;
 	margin-top: 10px;
 	margin-right: 10px;
 	background-color: green;
+    list-style-type: none;
 }
 
 h3{
