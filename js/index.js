@@ -174,7 +174,9 @@ $("#login").submit(function(event) {
 //Recovery Question function
 
  $("#ForgotPasswordButton").submit(function(event) {
+    console.log("poop");
     event.preventDefault(); 
+
     var user = new Object();
     user.email = $("#emailforget").val();
     console.log(JSON.stringify(user));
@@ -184,6 +186,7 @@ $("#login").submit(function(event) {
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
+            console.log(data);
             //Error Checking
             if($.isNumeric(data)){
                 if(data==400){
@@ -198,8 +201,8 @@ $("#login").submit(function(event) {
                 var obj = JSON.parse(data);
                 if(obj.Email.length>0){
                     //create div 
-                   $("#PasswordRecoveryBox").show();
-                   $("#ForgotPasswordBox").hide();
+                    $("#ForgotPasswordBox").hide();
+                    $("#PasswordRecoveryBox").show();
                 }
             }
         }

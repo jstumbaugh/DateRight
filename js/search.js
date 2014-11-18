@@ -50,6 +50,7 @@ function getActivitiesByTag(searchString){
 	    url: searchString,
 	    success: function(data) {
 	    	var actData = jQuery.parseJSON(data);
+	    	console.log(actData);
 	    	var activitiesDiv = $("#activities");
 			$.ajax({
 				type: 'POST',
@@ -59,7 +60,7 @@ function getActivitiesByTag(searchString){
 				success: function(data2){
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + "></li>"
+			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title='" + actData[i].Description + "'></li>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -71,6 +72,7 @@ function getActivitiesByTag(searchString){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
+			    		$("<button name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 			    	}
 			    	addDrag();
 				}
@@ -163,6 +165,7 @@ function getFavoriteActivities(){
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
+	    		$("<button name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 	    	}
 	    	addDrag();
 		},
@@ -201,6 +204,7 @@ function getActivitiesByName(searchString){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
+			    		$("<button name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 			    	}
 				}
 			});
@@ -240,6 +244,7 @@ function addDrag(){
 		stop: function(event, ui){
 			var $elems = $('#currentDatePlan .activity[value=' + ui.helper.context.value + ']');
 			$elems.switchClass("activity", "activityDatePlan");
+			$elems.removeAttr("style");
 		}
     });
 }

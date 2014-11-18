@@ -44,6 +44,7 @@
 
 h3{
 	float: left;
+    margin-bottom: 0px;
 }
 
 .starred, .unstarred{
@@ -51,6 +52,7 @@ h3{
 	margin-left: 10px;
 	margin-top: 22px;
 	margin-right: 5px;
+    margin-bottom: 0px;
 }
 
 .starred{
@@ -71,6 +73,20 @@ h3{
 
 .unstarred:hover {
 	background-position:left -16px;
+}
+
+.reviewBut{
+    float: left;
+    clear: left;
+    margin: 5px;
+}
+
+.activityDatePlan h3{
+    font-size: 15px;
+}
+
+.activityDatePlan .starred, .activityDatePlan .unstarred{
+    margin-top: 15px;
 }
 /**
     Konersmann - added modal dialog styles
