@@ -30,6 +30,7 @@ $("#ForgotPasswordButton").click(forgotPassword);
 
 $("#PasswordRecoveryButton").click(SecurityAnsewer);
 
+$("#ResetPasswordButton").click(resetPassword);
 
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
@@ -179,7 +180,6 @@ $("#login").submit(function(event) {
 //Recovery Question function
 function forgotPassword(){
     event.preventDefault(); 
-
     var user = new Object();
     user.email = $("#emailforget").val();
     console.log(JSON.stringify(user));
@@ -249,7 +249,7 @@ function SecurityAnsewer(){
             //Error Checking
             if($.isNumeric(data)){
                 if(data==400){
-                    $("#loginMessage").text("Inncorrect ansewer..Try again");
+                    $("#loginMessage").text("Incorrect answer..Try again");
                 }
                 else{
                     $("#loginMessage").text("Error in transaction");
@@ -267,7 +267,36 @@ function SecurityAnsewer(){
     });
 }
 //Password Reseting
+function resetPassword(){
+     event.preventDefault(); 
+    var user = new Object();
+    user.email = $("#emailforget").val();
+    user.password = $("#newPassword").val();
+    console.log(JSON.stringify(user));
+    $.ajax({
+       type: "POST",
+        url: 'api/index.php/resetPassword',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+            //Error Checking
+            if($.isNumeric(data)){
+                if(data==400){
+                    $("#loginMessage").text("Inncorrect login information..Try typing your email again");
+                }
+                else{
+                    $("#loginMessage").text("Error in transaction");
+                    }
+                
+            }
+            else if(!jQuery.isEmptyObject(data)){
+                var obj = JSON.parse(data);
 
+            }
+        }
+    });
+}
 getRandomIdea();
 }
 window.onload = init;
