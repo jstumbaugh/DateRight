@@ -28,7 +28,8 @@ $("#ForgotPassword").click(function(){
 
 $("#ForgotPasswordButton").click(forgotPassword);
 
-$("#PasswordRecoveryButton").click(SecruityAnsewer);
+$("#PasswordRecoveryButton").click(SecurityAnsewer);
+
 
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
@@ -201,12 +202,13 @@ function forgotPassword(){
             }
             else if(!jQuery.isEmptyObject(data)){
                 var obj = JSON.parse(data);
-                console.log(data);
                 //if(obj.email.length>0){
                     //create div 
                 $("#PasswordRecoveryBox").show();
                 $("#ForgotPasswordBox").hide();
-            switch("#securityQuestion"){
+            securityQuestion = parseInt(obj.SecurityQuestion);
+            console.log(securityQuestion);
+            switch(securityQuestion){
                 case 1:
                      $("#SecureQuestion").text("Where was your first date?");
                      break;
@@ -224,20 +226,19 @@ function forgotPassword(){
                      break;
                  default:
                      $("#SecureQuestion").text("Something went wrong!");
-        
                  }
               // }
             }
         }
     });
 }
-//Secruity Question Ansewering 
-function SecruityAnsewer(){
- $("#PasswordRecoveryButton").submit(function(event) {
+//Security Question Answering 
+function SecurityAnsewer(){
+
     event.preventDefault(); 
     var user = new Object();
-    user.email = $("#emailLogin").val();
-    user.securityAnsewer = $("#SecurityAnswer").val();
+    user.email = $("#emailforget").val();
+    user.securityAnsewer = $("#securityAnswer").val();
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -264,9 +265,9 @@ function SecruityAnsewer(){
             }
         }
     });
-});
 }
 //Password Reseting
+
 getRandomIdea();
 }
 window.onload = init;
