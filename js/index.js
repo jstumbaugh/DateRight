@@ -186,7 +186,6 @@ function forgotPassword(){
     var user = new Object();
     user.email = $("#emailforget").val();
     emailRecovery = user.email;
-    console.log(emailRecovery);
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -212,7 +211,6 @@ function forgotPassword(){
                 $("#PasswordRecoveryBox").show();
                 $("#ForgotPasswordBox").hide();
             securityQuestion = parseInt(obj.SecurityQuestion);
-            console.log(securityQuestion);
             switch(securityQuestion){
                 case 1:
                      $("#SecureQuestion").text("Where was your first date?");
@@ -246,7 +244,6 @@ function SecurityAnsewer(){
     user.securityQuestion = securityQuestion;
     user.securityAnswer = $("#securityAnswer").val();
     secureAnswer = user.securityAnswer;
-    console.log(secureAnswer);
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -261,6 +258,7 @@ function SecurityAnsewer(){
         }
     });
 }
+
 //Password Reseting
 function resetPassword(){
      event.preventDefault(); 
