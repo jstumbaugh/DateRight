@@ -118,10 +118,6 @@
             Answer:
             <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
         </label><br>
-        <label for="email">
-            Email:
-            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
-        </label>
         <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit Answer</button>
         <p id="loginMessage"></p>
     </form>

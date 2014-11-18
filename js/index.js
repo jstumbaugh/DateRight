@@ -182,6 +182,8 @@ function forgotPassword(){
     event.preventDefault(); 
     var user = new Object();
     user.email = $("#emailforget").val();
+    emailRecovery = user.email;
+    console.log(emailRecovery);
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -237,11 +239,11 @@ function SecurityAnsewer(){
 
     event.preventDefault(); 
     var user = new Object();
-    user.email = $("#emailforget").val();
-    console.log(securityQuestion);
+    user.email = emailRecovery
     user.securityQuestion = securityQuestion;
     user.securityAnswer = $("#securityAnswer").val();
-    console.log($("#securityAnswer").val());
+    secureAnswer = user.securityAnswer;
+    console.log(secureAnswer);
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -260,8 +262,9 @@ function SecurityAnsewer(){
 function resetPassword(){
      event.preventDefault(); 
     var user = new Object();
-    user.email = $("#emailforget").val();
-    user.password = $("#newPassword").val();
+    user.email = emailRecovery;
+    user.securityAnswer = secureAnswer;
+    user.newPassword = $("#newPassword").val();
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -271,19 +274,9 @@ function resetPassword(){
         success: function(data){
             console.log(data);
             //Error Checking
-            if($.isNumeric(data)){
-                if(data==400){
-                    $("#loginMessage").text("Inncorrect login information..Try typing your email again");
-                }
-                else{
-                    $("#loginMessage").text("Error in transaction");
-                    }
-                
-            }
-            else if(!jQuery.isEmptyObject(data)){
                 var obj = JSON.parse(data);
-
-            }
+                $("#ResetPasswordBox").hide();
+            
         }
     });
 }
