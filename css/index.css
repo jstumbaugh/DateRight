@@ -181,7 +181,7 @@ position: absolute;
 .bubble {
     position: relative;
     width: 231px;
-    height: 150px;
+    height: 160px;
     padding: 5px;
     background: #FFD261;
     -webkit-border-radius: 25px;
@@ -190,8 +190,11 @@ position: absolute;
     -webkit-box-shadow: 8px 2px 10px 0px #616161;
     -moz-box-shadow: 8px 2px 10px 0px #616161;
     box-shadow: 8px 2px 10px 0px #616161;
+    
 }
-
+::-webkit-scrollbar { 
+    display: none; 
+}
   .bubble:after {
     content: "";
     position: absolute;
