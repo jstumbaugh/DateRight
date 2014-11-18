@@ -10,6 +10,9 @@
         11/2/2014 - Added error checking to the ajax call in the updateAccount 
                     function. Also added functionality for a back button to direct
                     a user to the search page.
+        11/17/2014 - User now have buttons to view Date Plans and Activities from.
+                    - update Account info takes multiple fields, can modify any 
+                        part of account, but needs the old password to work.
 **/
 
 $(document).ready(function(){
@@ -55,14 +58,14 @@ function showUserDatePlans(){
 function showUserReviews(){
     if($(this).children().length === 0){
         //check if data was empty
-        if(datePlanReviews.ReviewID === undefined && activityReviews.ReviewID === undefined) {
+        if(datePlanReviews[0] === undefined && activityReviews[0] === undefined) {
             //no reviews at all
             $(this).append($("<p></p>").text("You have not reviewed anything on DateRight yet."));
-        } else if(datePlanReviews.ReviewID === undefined) {
+        } else if(datePlanReviews[0] === undefined) {
             $(this).append($("<p></p>").text("You have not reviewed any date plans yet."));
             //add activityReview stuff
             addActivityReviews(this);
-        } else if(activityReviews.ReviewID === undefined) {
+        } else if(activityReviews[0] === undefined) {
             $(this).append($("<p></p>").text("You have not reviewed any activities yet."));
             //add datePlanReview stuff
             addDatePlanReviews(this);
@@ -79,32 +82,42 @@ function showUserReviews(){
 }
 
 function addDatePlanReviews(tag) {
-    if(datePlanReviews.Attended === 1) {
-        att = "Yes";
-    } else {
-        att = "No";
+
+    for(x in datePlanReviews){
+
+        if(datePlanReviews[x].Attended === 1) {
+            att = "Yes";
+        } else {
+            att = "No";
+        }
+        title = $("<p></p>").text("Review Title");
+        type = $("<p></p>").text("Date Plan Review");
+        rating = $("<p></p>").text("Rating: " + datePlanReviews[x].Rating);
+        attended = $("<p></p>").text("Attended? " + att);
+        timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews[x].ReviewTime);
+        description = $("<p></p>").text("Description: " + datePlanReviews[x].Description);
+        $(tag).append(title, type, rating, attended, timeStamp, description);
     }
-    title = $("<p></p>").text("Review Title");
-    type = $("<p></p>").text("Date Plan Review");
-    rating = $("<p></p>").text("Rating: " + datePlanReviews.Rating);
-    attended = $("<p></p>").text("Attended? " + att);
-    timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews.ReviewTime);
-    description = $("<p></p>").text("Description: " + datePlanReviews.Description);
-    $(tag).append(title, type, rating, attended, timeStamp, description);
 }
 
 function addActivityReviews(tag) {
-    if(activityReviews.Attended === 1) {
-        att = "Yes";
-    } else {
-        att = "No";
+
+    for(x in activityReviews){
+        //initialize activity reviews
+        if(activityReviews[x].Attended === 1) {
+            att = "Yes";
+        } else {
+            att = "No";
+        }
+        title = $("<p></p>").text("Review Title");
+        type = $("<p></p>").text("Activity Review");
+        rating = $("<p></p>").text("Rating: " + activityReviews[x].Rating);
+        attended = $("<p></p>").text("Attended? " + att);
+        timeStamp = $("<p></p>").text("Date and time created: " + activityReviews[x].ReviewTime);
+        description = $("<p></p>").text("Description: " + activityReviews[x].Description);
+        //add activity reviews to the page
+        $(tag).append(title, type, rating, attended, timeStamp, description);
     }
-    title = $("<p></p>").text("Review Title");
-    type = $("<p></p>").text("Activity Review");
-    rating = $("<p></p>").text("Rating: " + activityReviews.Rating);
-    timeStamp = $("<p></p>").text("Date and time created: " + activityReviews.ReviewTime);
-    description = $("<p></p>").text("Description: " + activityReviews.Description);
-    $(tag).append(title, type, rating, timeStamp, description);
 }
 
 /* Loads User data onto page 
@@ -180,7 +193,7 @@ function loadUser(){
         url: 'api/index.php/viewDatePlanReviews',
         async: false, 
         content: 'application/json',
-        data: JSON.stringify({"UserID" : 1}),
+        data: JSON.stringify(user),
         success: function(response) {
             //error checking
             if(response === "500"){
@@ -204,7 +217,7 @@ function loadUser(){
         url: 'api/index.php/viewActivityReviews',
         async: false, 
         content: 'application/json',
-        data: JSON.stringify({"UserID" : 1}),
+        data: JSON.stringify(user),
         success: function(response) {
             //error checking
             if(response === "500"){
