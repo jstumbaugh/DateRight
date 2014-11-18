@@ -238,7 +238,10 @@ function SecurityAnsewer(){
     event.preventDefault(); 
     var user = new Object();
     user.email = $("#emailforget").val();
-    user.securityAnsewer = $("#securityAnswer").val();
+    console.log(securityQuestion);
+    user.securityQuestion = securityQuestion;
+    user.securityAnswer = $("#securityAnswer").val();
+    console.log($("#securityAnswer").val());
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -246,23 +249,10 @@ function SecurityAnsewer(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
-            //Error Checking
-            if($.isNumeric(data)){
-                if(data==400){
-                    $("#loginMessage").text("Incorrect answer..Try again");
-                }
-                else{
-                    $("#loginMessage").text("Error in transaction");
-                    }
-                
-            }
-            else if(!jQuery.isEmptyObject(data)){
-                var obj = JSON.parse(data);
-                    //create div 
-                  $("#PasswordRecoveryBox").hide();
-                  $("#ResetPasswordBox").show();
-                
-            }
+            var obj = JSON.parse(data);
+            //create div 
+            $("#PasswordRecoveryBox").hide();
+            $("#ResetPasswordBox").show();
         }
     });
 }

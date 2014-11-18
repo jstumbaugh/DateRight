@@ -116,7 +116,7 @@
          <p id="SecureQuestion"></p>
         <label for="securityAnsewer">
             Answer:
-            <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
+            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
         </label><br>
         <label for="email">
             Email:
