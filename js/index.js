@@ -26,6 +26,10 @@ $("#ForgotPassword").click(function(){
         
 }); 
 
+$("#ForgotPasswordButton").click(forgotPassword);
+
+$("#PasswordRecoveryButton").click(SecruityAnsewer);
+
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
 
@@ -172,8 +176,8 @@ $("#login").submit(function(event) {
 
 
 //Recovery Question function
+function forgotPassword(){
 
- $("#ForgotPasswordButton").submit(function(event) {
     event.preventDefault(); 
     var user = new Object();
     user.email = $("#emailforget").val();
@@ -196,17 +200,38 @@ $("#login").submit(function(event) {
             }
             else if(!jQuery.isEmptyObject(data)){
                 var obj = JSON.parse(data);
-                if(obj.Email.length>0){
+                console.log(data);
+                //if(obj.email.length>0){
                     //create div 
-                   $("#PasswordRecoveryBox").show();
-                   $("#ForgotPasswordBox").hide();
-                }
+                $("#PasswordRecoveryBox").show();
+                $("#ForgotPasswordBox").hide();
+            switch("#securityQuestion"){
+                case 1:
+                     $("#SecureQuestion").text("Where was your first date?");
+                     break;
+                case 2:
+                     $("#SecureQuestion").text("What is the first name of the person you first kissed?");
+                     break;
+                case 3:
+                     $("#SecureQuestion").text("What is your mother's maiden name?");
+                     break;
+                 case 4:
+                     $("#SecureQuestion").text("What is the name of your favorite pet?");
+                     break;
+                 case 5:
+                     $("#SecureQuestion").text("What is the name of the street you grew up on?");
+                     break;
+                 default:
+                     $("#SecureQuestion").text("Something went wrong!");
+        
+                 }
+              // }
             }
         }
     });
-});
-
+}
 //Secruity Question Ansewering 
+function SecruityAnsewer(){
  $("#PasswordRecoveryButton").submit(function(event) {
     event.preventDefault(); 
     var user = new Object();
@@ -231,15 +256,15 @@ $("#login").submit(function(event) {
             }
             else if(!jQuery.isEmptyObject(data)){
                 var obj = JSON.parse(data);
-                if(obj.Email.length>0){
                     //create div 
-                  
-                }
+                  $("#PasswordRecoveryBox").hide();
+                  $("#ResetPasswordBox").show();
+                
             }
         }
     });
 });
-
+}
 //Password Reseting
 getRandomIdea();
 }
