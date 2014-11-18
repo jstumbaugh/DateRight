@@ -5,19 +5,22 @@ $("#createAccountBox").hide();
 $("#ForgotPasswordBox").hide();
 $("#PasswordRecoveryBox").hide();
 $("#ResetPasswordBox").hide();
+$("#SuccessBox").hide();
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
-   $("#ForgotPasswordBox").hide();
+    $("#ForgotPasswordBox").hide();
     $("#PasswordRecover").hide();
+    $("#SuccessBox").hide();
         
 }); 
 $("#createAccountButton").click(function(){
         
     $("#createAccountBox").show();
     $("#loginBox").hide();
-     $("#ForgotPasswordBox").hide();
-    $("#PasswordRecover").hide();    
+    $("#ForgotPasswordBox").hide();
+    $("#PasswordRecover").hide();
+    $("#SuccessBox").hide();    
 }); 
 $("#ForgotPassword").click(function(){
         
@@ -275,7 +278,9 @@ function resetPassword(){
             console.log(data);
             //Error Checking
                 var obj = JSON.parse(data);
+                console.log(obj);
                 $("#ResetPasswordBox").hide();
+                $("SuccessBox").show();
             
         }
     });

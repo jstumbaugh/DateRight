@@ -49,7 +49,7 @@
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
         </label>
         <button type="submit" class="btn-minimal" >Sign in</button> 
-        <button type="submit" class="btn-minimal" id = "ForgotPassword">Forgot password?</button>
+        <button type="button" class="btn-minimal" id = "ForgotPassword">Forgot password?</button>
         <p id="loginMessage"></p>
     </form>
 </section>
@@ -134,6 +134,10 @@
         <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
         <p id="loginMessage"></p>
     </form>
+</section>
+
+<section id="SuccessBox" class="overlayBox">
+    <h2>Password Reset Successful</h2>
 </section>
 <script src="js/index.js"></script>
 <!-- <script src="js/test.js"></script> -->

@@ -172,6 +172,14 @@ position: absolute;
   top-padding: 20%;
   top: 48%;
 }
+#SuccessBox.overlayBox{
+position: absolute;
+ width: 440px;
+  left: 32%; 
+  top-padding: 20%;
+  top: 48%;
+  text-align: center
+}
 /* Speech bubble generated using: http://html-generator.weebly.com/css-speech-bubble-generator.html */
 .right{
     float: right;
