@@ -780,7 +780,7 @@ function viewActivityReviews() {
 		$stmt1 = $db->prepare($sql);
 		$stmt1->bindParam("userID",$userInfo->UserID);	
 		$stmt1->execute();
-		$returnedInfo1 = $stmt1->fetch(PDO::FETCH_OBJ);
+		$returnedInfo1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
 		
 		if(empty($returnedInfo1)){
 			echo ERROR::NO_RESULTS;
@@ -833,7 +833,7 @@ function viewDatePlanReviews() {
 		$stmt2 = $db->prepare($sql1);
 		$stmt2->bindParam("userID",$userInfo->UserID);	
 		$stmt2->execute();
-		$returnedInfo2 = $stmt2->fetch(PDO::FETCH_OBJ);
+		$returnedInfo2 = $stmt2->fetchAll(PDO::FETCH_OBJ);
 		
 		if(empty($returnedInfo1)){
 			echo ERROR::NO_RESULTS;
