@@ -49,12 +49,16 @@ function searchDatabase(){
 		});
 }
 
-
-	//Delete favorite
-	//Call like this api/deleteFavorite/favoriteID
+	/*
+	* Delete favorite
+	* Call like this api/deleteFavorite/0/2
+	* api/deleteFavorite/<this is either a 0 or a 1 to signify activitiy or dateplan deletion respectively>/id of dateplan or activity
+	* op:0 = activity delete ; op:1 = dateplan delete
+	*  
+	*/
     $.ajax({
         type: 'DELETE',
-       url: 'api/deleteFavorite/7',
+       url: 'api/deleteFavorite/0/7',
 		success: function(data){
 			if($.isNumeric(data)){
                 if(data==1){

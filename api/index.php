@@ -49,7 +49,7 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
-$app->delete('/deleteFavorite/:id', 'deleteFavorite');
+$app->delete('/deleteFavorite/:op/:id', 'deleteFavorite');
 $app->post('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
@@ -529,14 +529,18 @@ function addFavorite (){
      * @param int $id the favorite id
      * @return success or not in deleting favorite
      */
-function deleteFavorite($id) {
-    $deleteQuery = "DELETE FROM Favorites WHERE ActivityID =:actID and UserID=:userID";
+function deleteFavorite($op,$id) {
+	//Determine operation wanted, activity or date plan deletion
+	if($op==0)
+    	$deleteQuery = "DELETE FROM Favorites WHERE ActivityID =:ID and UserID=:userID";
+    else 
+    	$deleteQuery = "DELETE FROM Favorites WHERE DatePlanID =:ID and UserID=:userID";
     if (isset($_SESSION['UserID'])) {
     	$uID=$_SESSION['UserID'];
     try {
         $db = getConnection();
         $stmt = $db->prepare($deleteQuery);
-        $stmt->bindParam("actID", $id);
+        $stmt->bindParam("ID", $id);
         $stmt->bindParam("userID", $uID);
         $stmt->execute();
         if($stmt->rowCount()>0){
