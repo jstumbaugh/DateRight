@@ -164,6 +164,14 @@ position: absolute;
   top-padding: 20%;
   top: 48%;
 }
+
+#ResetPasswordBox.overlayBox{
+position: absolute;
+ width: 200px;
+  left: 45%; 
+  top-padding: 20%;
+  top: 48%;
+}
 /* Speech bubble generated using: http://html-generator.weebly.com/css-speech-bubble-generator.html */
 .right{
     float: right;

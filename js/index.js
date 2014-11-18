@@ -4,6 +4,7 @@ $("#loginBox").hide();
 $("#createAccountBox").hide();
 $("#ForgotPasswordBox").hide();
 $("#PasswordRecoveryBox").hide();
+$("#ResetPasswordBox").hide();
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();

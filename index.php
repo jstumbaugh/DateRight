@@ -80,7 +80,7 @@
 
         <form action="">
             Security Question:
-        <select name="secruityQuestion" id = "SecruityQuestion" placeholder= "Pick a Question!" required>
+        <select name="securityQuestion" id = "SecurityQuestion" placeholder= "Pick a Question!" required>
         <option value="1">Where was your first date?</option>
         <option value="2">What is the first name of the person you first kissed?</option>
         <option value="3">What is your mother's maiden name?</option>
@@ -88,8 +88,8 @@
         <option value= "5"> What is the name of the street you grew up on? </option>
         </select>
         </form><br>
-        <label for="secruityAnsewer">
-            <input type="text" name="secruityAnsewer" id="secruityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Secruity Ansewer" required />
+        <label for="securityAnsewer">
+            <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
         </label><br>
 
         <button type="submit" class="btn-minimal">Create Account!</button>
@@ -117,10 +117,22 @@
             Secruity Question:
             <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
         </label>
-        <label for="secruityAnsewer">
-            <input type="text" name="secruityAnsewer" id="secruityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Secruity Ansewer" required />
+        <label for="securityAnsewer">
+            <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
         </label><br>
         <button type="submit" class="btn-minimal">Submit</button>
+        <p id="loginMessage"></p>
+    </form>
+</section>
+
+<section id="ResetPasswordBox" class="overlayBox">
+    <h2>Enter Email to Recover Password</h2>
+    <form method="post" class="minimal" id="forgotPassword">
+        <label for="email">
+            New Password
+            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}"required />
+        </label>
+        <button type="submit" class="btn-minimal" id="ResetPasswordBox">Reset Password</button>
         <p id="loginMessage"></p>
     </form>
 </section>
