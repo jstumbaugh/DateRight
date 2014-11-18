@@ -262,3 +262,56 @@ $.ajax({
 			console.log(data);
 		}
 	});
+
+
+//RECOVERY QUESTION
+
+    var user = new Object();
+    user.email = "jdoe@gmail.com";
+    $.ajax({
+        type: 'POST',
+        url: 'api/recoveryQuestion',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+            JSON.stringify(data);
+            var securityQuestion = jQuery.parseJSON(data).SecurityQuestion;
+            console.log(securityQuestion);
+        }
+    });
+
+
+
+//RECOVER PASSWORD
+
+    var user = new Object();
+    user.email = "jdoe@gmail.com";
+    user.securityQuestion = 1;
+    user.securityAnswer = "password";
+    $.ajax({
+        type: 'POST',
+        url: 'api/recoverPassword',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+        }
+    });
+
+
+//RESET PASSWORD
+	
+    var user = new Object();
+    user.email = "jdoe@gmail.com";
+    user.securityAnswer = "password";
+    user.newPassword = "newPassword";
+    $.ajax({
+        type: 'POST',
+        url: 'api/resetPassword',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+        }
+    });
