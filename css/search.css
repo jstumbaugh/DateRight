@@ -12,7 +12,7 @@
 	height: 97vh;
 	right: 0%;
 	background-color: #00FFFF;
-    width: 25%;
+    width: 15vw;
 }
 
 #currentplanlist{
@@ -26,12 +26,13 @@
 }
 
 #currentDatePlan{
+    padding-left: 7px;
     height: 97vh;
+    width: 15vw;
 }
 
 #currentDatePlan li{
     list-style-type: none;
-    text-align:;
 }
 
 .activity, .activityDatePlan {
