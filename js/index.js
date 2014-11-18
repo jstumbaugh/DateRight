@@ -4,6 +4,7 @@ $("#loginBox").hide();
 $("#createAccountBox").hide();
 $("#ForgotPasswordBox").hide();
 $("#PasswordRecoveryBox").hide();
+$("#ResetPasswordBox").hide();
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
@@ -24,12 +25,7 @@ $("#ForgotPassword").click(function(){
     $("#loginBox").hide();
         
 }); 
-$("#PasswordRecover").click(function(){
-        
-    $("#PasswordRecoveryBox").show();
-    $("#ForgotPasswordBox").hide();
-        
-}); 
+
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
 
@@ -58,8 +54,8 @@ $('#createAccount').submit(function (event) {
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
     user.password = $("#passwordAccount").val();
-    user.secruityQuestion = $("#SecurityQuestion").val();
-    user.secruityAnsewer = $("#SecurityAnswer").val();
+    user.securityQuestion = $("#SecurityQuestion").val();
+    user.securityAnsewer = $("#SecurityAnswer").val();
     user.userType = 0;
     user.sex = 0;
     //console.log(JSON.stringify(user));
@@ -170,16 +166,17 @@ $("#login").submit(function(event) {
     // }
 
 //Calls the random idea function and makes one for the user.
+
 });
 
 
 
 //Recovery Question function
-/*
- $("#login").Button(function(event) {
+
+ $("#ForgotPasswordButton").submit(function(event) {
     event.preventDefault(); 
     var user = new Object();
-    user.email = $("#emailLogin").val();
+    user.email = $("#emailforget").val();
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -201,30 +198,49 @@ $("#login").submit(function(event) {
                 var obj = JSON.parse(data);
                 if(obj.Email.length>0){
                     //create div 
-                    var para = document.createElement("p");
-                    para.setAttribute("class", "loginBox");
-                    para.appendChild(node);
-                    var element = document.getElementById("loginBox");
-                    element.appendChild(para);
-                    var y = document.createElement("INPUT");
-                    y.setAttribute("type", "text");
-                    y.setAttribute("placeholder", "Answer"); 
-                    y.setAttribute("id", "SecurityAnswer");
-                    y.setAttribute("SecurityAnswer", "SecurityAnswer");    
-                    y.setAttribute("required", "required");
-                    document.getElementById("logindiv").appendChild(y);
-                    
-                     var btn = document.createElement("INPUT");
-                     btn.setAttribute("type", "Submit")
-                     btn.setAttribute("class", "submitButton");
-                     btn.setAttribute("onclick", "loginSubmit()");
-                    document.getElementById("logindiv").appendChild(btn);
+                   $("#PasswordRecoveryBox").show();
+                   $("#ForgotPasswordBox").hide();
                 }
             }
         }
     });
 });
-*/
+
+//Secruity Question Ansewering 
+ $("#PasswordRecoveryButton").submit(function(event) {
+    event.preventDefault(); 
+    var user = new Object();
+    user.email = $("#emailLogin").val();
+    user.securityAnsewer = $("#SecurityAnswer").val();
+    console.log(JSON.stringify(user));
+    $.ajax({
+       type: "POST",
+        url: 'api/index.php/recoverPassword',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            //Error Checking
+            if($.isNumeric(data)){
+                if(data==400){
+                    $("#loginMessage").text("Inncorrect ansewer..Try again");
+                }
+                else{
+                    $("#loginMessage").text("Error in transaction");
+                    }
+                
+            }
+            else if(!jQuery.isEmptyObject(data)){
+                var obj = JSON.parse(data);
+                if(obj.Email.length>0){
+                    //create div 
+                  
+                }
+            }
+        }
+    });
+});
+
+//Password Reseting
 getRandomIdea();
 }
 window.onload = init;
