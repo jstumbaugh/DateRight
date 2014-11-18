@@ -1315,7 +1315,6 @@ function resetPassword()
 		$stmt2->bindParam("newPassword", $newPassword);
 		$stmt2->execute();
 		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
-		echo json_encode($returnedInfo);
 		if(!empty($returnedInfo)) {
 			echo ERROR::SUCCESS;
 		}
