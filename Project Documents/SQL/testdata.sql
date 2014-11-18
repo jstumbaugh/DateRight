@@ -8,11 +8,13 @@ INSERT INTO Activities VALUES
 	(5, "Cook them Dinner", "A romantic home cooked meal is always a goto when it comes to trying to get in their pants ;)", 40.00, NULL, "Your house");
 
 INSERT INTO Users VALUES
-	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
-	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
-	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
-	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt"),
-	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", NULL, NULL, 1, 1, 1, "Pickle", "saltysalt");
+	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
+	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
+	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
+	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
+	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f");
+
+	-- THE PASSWORD & SECURITY ANSWERS UN-SALTED ARE: "password"
 
 INSERT INTO ActivitiesAttendees VALUES
 	(1, 1, 1),

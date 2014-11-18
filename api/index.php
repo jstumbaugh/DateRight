@@ -49,7 +49,7 @@ $app->post('/createAccount', 'createAccount');
 $app->post('/submitNewActivity', 'submitNewActivity');
 $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
-$app->delete('/deleteFavorite/:id', 'deleteFavorite');
+$app->delete('/deleteFavorite/:op/:id', 'deleteFavorite');
 $app->post('/searchActivities', 'searchActivities');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
@@ -529,14 +529,18 @@ function addFavorite (){
      * @param int $id the favorite id
      * @return success or not in deleting favorite
      */
-function deleteFavorite($id) {
-    $deleteQuery = "DELETE FROM Favorites WHERE ActivityID =:actID and UserID=:userID";
+function deleteFavorite($op,$id) {
+	//Determine operation wanted, activity or date plan deletion
+	if($op==0)
+    	$deleteQuery = "DELETE FROM Favorites WHERE ActivityID =:ID and UserID=:userID";
+    else 
+    	$deleteQuery = "DELETE FROM Favorites WHERE DatePlanID =:ID and UserID=:userID";
     if (isset($_SESSION['UserID'])) {
     	$uID=$_SESSION['UserID'];
     try {
         $db = getConnection();
         $stmt = $db->prepare($deleteQuery);
-        $stmt->bindParam("actID", $id);
+        $stmt->bindParam("ID", $id);
         $stmt->bindParam("userID", $uID);
         $stmt->execute();
         if($stmt->rowCount()>0){
@@ -585,6 +589,46 @@ function searchActivities (){
 	//No activities found w/ that query
 	echo ERROR::NO_RESULTS;
 		}
+}
+function viewUserDatePlans(){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	$sql = "SELECT * FROM DatePlans WHERE CreatorID = :userID";
+	$userInfo = json_decode($request->getBody());
+	$userID = $userInfo->UserID; 
+	$db = getConnection();
+	$dateplans = array();
+
+	try{
+	$stmt = $db->prepare($sql);
+	$stmt->bindParam("userID", $userID);
+	$stmt ->execute();
+
+	if(empty($dateplans))
+	{
+		echo '{"error":{"text":' . $e->getMessage() . '}}';
+		exit(1);
+	}
+	while($returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC))
+	{
+		
+	$dateplan = $returnedInfo1['DatePlanID'];
+	$sql2 = "SELECT Users.UserName, DatePlans.Name, DatePlans.Description FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
+	$stmt2 = $db->prepare($sql2);
+	$stmt2->bindParam("dateplanid", $userInfo->DatePlanID);
+	$stmt2->execute();
+	$rI2 = $stmt2 ->fetch(PDO::FETCH_ASSOC);
+	array_push($dateplans, $rI2);
+
+	}
+
+	echo json_encode($dateplans);
+	}
+	catch(PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+
 }
 
 
@@ -1184,16 +1228,20 @@ function recoveryQuestion() {
 	$recoveryInfo = json_decode($request->getBody());
 	
 	$email = $recoveryInfo->email;
-	//require more than just email to get question?
 
-	$sql2 = "SELECT SecurityQuestion FROM Users WHERE Email = :email";
+	$sql = "SELECT SecurityQuestion FROM Users WHERE Email = :email";
 	try {
 		$db = getConnection();
-		$stmt2 = $db->prepare($sql2);
-		$stmt2->bindParam("email", $userInfo->email);
-		$stmt2->execute();
-		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
-		echo $returnedInfo;
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("email", $recoveryInfo->email);
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(!empty($returnedInfo)) {	
+			echo json_encode($returnedInfo);
+		}
+		else {
+			echo ERROR::NO_RESULTS;
+		}
 	}
 	catch(PDOException $e) 
 	{
@@ -1215,14 +1263,20 @@ function recoverPassword()
 	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
 	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
 
-	$sql2 = "SELECT * FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+	$sql = "SELECT UserID FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
 	try {
 		$db = getConnection();
-		$stmt2 = $db->prepare($sql2);
-		$stmt2->bindParam("email", $userInfo->email);
-		$stmt2->bindParam("securityAnswer", $pw);
-		$stmt2->execute();
-		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("email", $email);
+		$stmt->bindParam("securityAnswer", $securityAnswer);
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);	
+		if(!empty($returnedInfo)) {
+			echo ERROR::SUCCESS;
+		}
+		else {
+			echo ERROR::NO_RESULTS;
+		}
 	}
 	catch(PDOException $e) 
 	{
@@ -1238,7 +1292,6 @@ function resetPassword()
 	$recoveryInfo = json_decode($request->getBody());
 	
 	$email = $recoveryInfo->email;
-	$securityQuestion = $recoveryInfo->securityQuestion;
 
 	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
 	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
@@ -1246,15 +1299,29 @@ function resetPassword()
 	$passwordSalt = sha1(md5($recoveryInfo->newPassword));
 	$newPassword = md5($recoveryInfo->newPassword.$passwordSalt);
 
-	$sql2 = "SELECT * FROM Users WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+	$sql = "UPDATE Users SET Password = :newPassword, PasswordSalt = :passwordSalt WHERE Email = :email AND SecurityAnswer = :securityAnswer";
 	try {
 		$db = getConnection();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("email", $email);
+		$stmt->bindParam("securityAnswer", $securityAnswer);
+		$stmt->bindParam("newPassword", $newPassword);
+		$stmt->bindParam("passwordSalt", $passwordSalt);
+		$stmt->execute();
+
+		$sql2 = "SELECT UserID FROM Users WHERE Email = :email AND Password = :newPassword";
 		$stmt2 = $db->prepare($sql2);
-		$stmt2->bindParam("email", $userInfo->email);
-		$stmt2->bindParam("securityAnswer", $pw);
+		$stmt2->bindParam("email", $email);
+		$stmt2->bindParam("newPassword", $newPassword);
 		$stmt2->execute();
-		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
-		//TO DO: actually update password	
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+		echo json_encode($returnedInfo);
+		if(!empty($returnedInfo)) {
+			echo ERROR::SUCCESS;
+		}
+		else {
+			echo ERROR::LOGIN_FAILURE;
+		}
 	}
 	catch(PDOException $e) 
 	{

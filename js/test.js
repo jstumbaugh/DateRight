@@ -49,12 +49,16 @@ function searchDatabase(){
 		});
 }
 
-
-	//Delete favorite
-	//Call like this api/deleteFavorite/favoriteID
+	/*
+	* Delete favorite
+	* Call like this api/deleteFavorite/0/2
+	* api/deleteFavorite/<this is either a 0 or a 1 to signify activitiy or dateplan deletion respectively>/id of dateplan or activity
+	* op:0 = activity delete ; op:1 = dateplan delete
+	*  
+	*/
     $.ajax({
         type: 'DELETE',
-       url: 'api/deleteFavorite/7',
+       url: 'api/deleteFavorite/0/7',
 		success: function(data){
 			if($.isNumeric(data)){
                 if(data==1){
@@ -262,3 +266,56 @@ $.ajax({
 			console.log(data);
 		}
 	});
+
+
+//RECOVERY QUESTION
+
+    var user = new Object();
+    user.email = "jdoe@gmail.com";
+    $.ajax({
+        type: 'POST',
+        url: 'api/recoveryQuestion',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+            JSON.stringify(data);
+            var securityQuestion = jQuery.parseJSON(data).SecurityQuestion;
+            console.log(securityQuestion);
+        }
+    });
+
+
+
+//RECOVER PASSWORD
+
+    var user = new Object();
+    user.email = "jdoe@gmail.com";
+    user.securityQuestion = 1;
+    user.securityAnswer = "password";
+    $.ajax({
+        type: 'POST',
+        url: 'api/recoverPassword',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+        }
+    });
+
+
+//RESET PASSWORD
+	
+    var user = new Object();
+    user.email = "jdoe@gmail.com";
+    user.securityAnswer = "password";
+    user.newPassword = "newPassword";
+    $.ajax({
+        type: 'POST',
+        url: 'api/resetPassword',
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+        }
+    });
