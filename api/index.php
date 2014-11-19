@@ -66,6 +66,7 @@ $app->post('/reviewActivity', 'reviewActivity');
 $app->post('/recoveryQuestion', 'recoveryQuestion');
 $app->post('/recoverPassword', 'recoverPassword');
 $app->post('/resetPassword', 'resetPassword');
+$app->post('/viewUserDatePlans', 'viewUserDatePlans');
 $app->run();
 
 /**
