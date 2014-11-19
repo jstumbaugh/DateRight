@@ -56,8 +56,7 @@ $("#ResetPasswordButton").click(resetPassword);
 
 //Creates Account for user
 $('#createAccount').submit(function (event) {
-    $("#loginBox").hide();
-    $("#createAccountBox").show();
+    console.log("Create Account");
     event.preventDefault(); 
     var user = new Object();
     user.userName = $("#userName").val();
@@ -65,11 +64,11 @@ $('#createAccount').submit(function (event) {
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
     user.password = $("#passwordAccount").val();
-    user.securityQuestion = $("#SecurityQuestion").val();
-    user.securityAnsewer = $("#SecurityAnswer").val();
+    user.secQuestion = $("#SecurityQuestion").val();
+    user.secAnswer = $("#SecurityAnswer").val();
     user.userType = 0;
     user.sex = 0;
-    //console.log(JSON.stringify(user));
+    console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
         url: 'api/index.php/createAccount',
@@ -77,6 +76,7 @@ $('#createAccount').submit(function (event) {
         data: JSON.stringify(user),
         success: function(data){
             //Error Checking
+            console.log("AJAX succed");
             if($.isNumeric(data)){
                 if(data==100){
                      $("#resultMessage").text("Account already exists...");    

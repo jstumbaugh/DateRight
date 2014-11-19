@@ -18,7 +18,7 @@ INSERT INTO Activities VALUES
 	(15, "Go on a Picnic", "Nothing will make them happier than a blanket, basket, some yummy snacks, and a Kindle full of books they are ready to read", 20.00, NULL, "Local Park"),
 	(16, "Explore a Winery", "The go-to activity was made famous in Sideways, but there's lots of not-so-obvious things to do at wineries. More and more are equipped with hiking trails, picnic areas, playgrounds, and even pools, turning vineyards into all-day destinations.", 20.00, NULL, "Local Winery"),
 	(17, "Play a Childhood Boardgame", "Order pizza, uncork a bottle of wine, and play old-school card games or board games. It's a great way to unwind after a tough work week!", 0.00, NULL, "Your House"),
-	(18, "Go to the Opera", "There's something so sexy about dressing in your absolute best as you watch a performance in a darkened theater. It was the turning point in Pretty Woman, and even if you don't understand exactly what's going on onstage, the music and the drama will sweep you both away.", 50.00, NULL, "Local Opera House")
+	(18, "Go to the Opera", "There's something so sexy about dressing in your absolute best as you watch a performance in a darkened theater. It was the turning point in Pretty Woman, and even if you don't understand exactly what's going on onstage, the music and the drama will sweep you both away.", 50.00, NULL, "Local Opera House"),
 	(19, "Get Caught in the Rain", "Forecast calls for cloudy skies? Great! Grab your guy and head outdoors. Getting caught in a spring shower (or snowstorm!) pretty much forces you to lock lips in a passionate embrace that's even more sexy than the one Allie (Rachel McAdams) and Noah (Ryan Gosling) have in The Notebook.", 0.00, NULL, "Outside"),
 	(20, "Go Stargazing", "The best way to stargaze is to actually know what you're seeing, so download The Night Sky app. That way, you can actually be confident you're looking at the Big Dipper before you abandon all pretense and just make out.", 0.00, NULL, "Outside");
 
@@ -27,7 +27,7 @@ INSERT INTO Users VALUES
 	(2, "wizardking", "Harry", "Potter", "wizardking@hogwarts.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
 	(3, "originalplayer", "Abraham", "Lincoln", "oldabe@usa.gov", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
 	(4, "katniss", "Katniss", "Everdeen", "killyouall@hungergames.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
-	(5, "titmcgee", "Tits", "McGee", "tits@mcgee.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f");
+	(5, "screwmyspace", "Mark", "Zuckerberg", "tom@myspace.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f");
 
 	-- THE PASSWORD & SECURITY ANSWERS UN-SALTED ARE: "password"
 
@@ -53,7 +53,11 @@ INSERT INTO ActivityReviews VALUES
 INSERT INTO DatePlans VALUES
 	(1, "Casual Night In", 1, 1, 4, STR_TO_DATE('10/10/14 7:00 PM','%m/%d/%Y %h:%i %p'), "Have a romantic night in with some quality home cooking and then some netflix."),
 	(2, "Classy Dinner and a Movie", 1, 2, 4, STR_TO_DATE('10/20/14 6:00 PM','%m/%d/%Y %h:%i %p'), "This fancy dateplan will make your significant other think they forgot your anneversary. Take them to a nice Italian restaurant and then to see that new romantic comedy they are always talking about."),
-	(3, "Instant Pantie Dropper", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some 'Netflix' ;)");
+	(3, "Instant Pantie Dropper", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some 'Netflix'.)"),
+	(4, "Afternoon at the Park", 1, 1, 4, STR_TO_DATE('11/19/14 3:30 PM','%m/%d/%Y %h:%i %p'), "Have a romantic afternoon at the local park by going birdwatching, having a picnic, and looking at the botanical gardens."),
+	(5, "Nostalgic Night In", 1, 1, 4, STR_TO_DATE('11/19/14 4:00 PM','%m/%d/%Y %h:%i %p'), "Flash back to you childhood by playing old boardgames and hanging out by the fireplace."),
+	(6, "Be a Tourist in Your Own Town", 1, 1, 4, STR_TO_DATE('11/19/14 4:01 PM','%m/%d/%Y %h:%i %p'), "Be a tourist in your own town for a day by visiting a local brewery, going to see the new exhibit at the museum, and visiting the old bookstore."),
+	(7, "Fancy Night on the Town", 1, 1, 4, STR_TO_DATE('11/19/14 4:11 PM','%m/%d/%Y %h:%i %p'), "Dress up nice for this classy evening at a nice restaurant, watching an opera, and (weather permitting) getting caught in the rain.");
 
 INSERT INTO DateActivities VALUES
 	(1, 1, 5),
@@ -61,7 +65,19 @@ INSERT INTO DateActivities VALUES
 	(3, 2, 2),
 	(4, 2, 1),
 	(5, 3, 2),
-	(6, 3, 4);
+	(6, 3, 4),
+	(7, 4, 8),
+	(9, 4, 15),
+	(10, 4, 14),
+	(11, 5, 5),
+	(12, 5, 17),
+	(13, 5, 11),
+	(14, 6, 9),
+	(15, 6, 10),
+	(16, 6, 13),
+	(17, 7, 2),
+	(18, 7, 18),
+	(19, 7, 19);
 
 INSERT INTO Tags VALUES
 	(1, 'Movies'),
