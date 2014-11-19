@@ -253,10 +253,15 @@ function SecurityAnsewer(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
+            if (data != 500) {
             var obj = JSON.parse(data);
             //create div 
             $("#PasswordRecoveryBox").hide();
             $("#ResetPasswordBox").show();
+        }
+            else{
+                console.log("Your Message is Inncorrect");
+            }
         }
     });
 }
@@ -277,12 +282,15 @@ function resetPassword(){
         success: function(data){
             console.log(data);
             //Error Checking
+            if (data != 500) {
+                console.log(data);
                 var obj = JSON.parse(data);
-                console.log(obj);
                 $("#ResetPasswordBox").hide();
                 $("#SuccessBox").show();
-                console.log("Success");
-            
+            }
+            else{
+                console.log("Your Message is Inncorrect");
+            }
         }
     });
 }
