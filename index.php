@@ -92,7 +92,7 @@
             <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
         </label><br>
 
-        <button type="submit" class="btn-minimal">Create Account!</button>
+        <button type="submit" class="btn-minimal" id= "createAccount">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
 </section>
