@@ -10,8 +10,9 @@ $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
     $("#ForgotPasswordBox").hide();
-    $("#PasswordRecover").hide();
+    $("#PasswordRecoveryBox").hide();
     $("#SuccessBox").hide();
+    $("#ResetPasswordBox").hide();
         
 }); 
 $("#createAccountButton").click(function(){
@@ -19,8 +20,9 @@ $("#createAccountButton").click(function(){
     $("#createAccountBox").show();
     $("#loginBox").hide();
     $("#ForgotPasswordBox").hide();
-    $("#PasswordRecover").hide();
-    $("#SuccessBox").hide();    
+    $("#PasswordRecoveryBox").hide();
+    $("#SuccessBox").hide();
+    $("#ResetPasswordBox").hide();    
 }); 
 $("#ForgotPassword").click(function(){
         
@@ -278,7 +280,8 @@ function resetPassword(){
                 var obj = JSON.parse(data);
                 console.log(obj);
                 $("#ResetPasswordBox").hide();
-                $("SuccessBox").show();
+                $("#SuccessBox").show();
+                console.log("Success");
             
         }
     });
