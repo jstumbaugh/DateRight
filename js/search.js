@@ -60,7 +60,7 @@ function getActivitiesByTag(searchString){
 				success: function(data2){
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title='" + actData[i].Description + "'></li>"
+			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -161,7 +161,7 @@ function getFavoriteActivities(){
 	    	var activitiesDiv = $("#activities");
 	    	for (i = 0; i < actData.length; i++)
 	    	{
-	    		var elem = "<li class='activity' id=" + actData[i].ActivityID + "></li>"
+	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>"
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
