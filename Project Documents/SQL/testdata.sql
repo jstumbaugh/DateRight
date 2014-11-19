@@ -1,11 +1,26 @@
 -- Test Data for DateRight
 
 INSERT INTO Activities VALUES
-	(1, "Going to the Movies", "If your significant other likes Rom-Coms, take him/her to see Saw 3! They'll love it!", 20.00, NULL, "Dallas, TX"),
+	(1, "Going to the Movies", "If your significant other likes Rom-Coms, take him/her to see that movie he/she is always talking about.", 20.00, NULL, "Dallas, TX"),
 	(2, "Romantic Dinner at Terrelli's", "This awesome Italian restaurant is perfect for date night because of its intimate atmosphere.", 60.00, NULL, "Dallas, TX"),
 	(3, "Farmer's Market", "Farmer's markets are always a great date idea because who doesn't love fresh fruit?", 15.00, NULL, "Highland Park, TX"),
-	(4, "Binge Watch Netflix", "If you and your significant other are close, a night in watching all 6 seasons of Lost would be fantastic!", 0.00, NULL, "Your couch"),
-	(5, "Cook them Dinner", "A romantic home cooked meal is always a goto when it comes to trying to get in their pants ;)", 40.00, NULL, "Your house");
+	(4, "Binge Watch Netflix", "If you and your significant other are close, a night in watching all 6 seasons of Lost would be fantastic!", 0.00, NULL, "Your Couch"),
+	(5, "Cook them Dinner", "A romantic home cooked meal is always a good way to show how talented you are.", 40.00, NULL, "Your House"),
+	(6, "Learn to Dance", "Go to a dance class and learn to salsa dance with your significant other!", 40.00, NULL, "Dallas, TX"),
+	(7, "Workout Together", "Working out with your significant other can be a very fun and new thing for the two of you to do.", 10.00, NULL, "Local Gym"),
+	(8, "Go Birdwatching", "There's something awfully romantic about being almost alone in the woods, quiet except for the sound of a far-off mating call.", 0.00, NULL, "Local Park"),
+	(9, "Take a Brewery Tour", "Yes, you'll learn something, but you're also likely to get a token for a free beer for your troubles.", 20.00, NULL, "Local Brewery"),
+	(10, "Visit a local Bookstore", "Your Kindle has tons of memory. but it sure isn't good at making them. Take a clue from the scene in Eternal Sunshine of the Spotless Mind when Joel (Jim Carrey) and Clementine (Kate Winslet) continually re-meet and have conversations among the shelves. Our suggestion: Start at the the travel section and get to know each other even better by talking dream trips.", 0.00, NULL, "Local Bookstore"),
+	(11, "Spend the Night by the Fireside", "Start a fire, turn off the lights, and talk with your significant other until there's only embers", 0.00, NULL, "Your House"),
+	(12, "Head to a Drive-In", "Grease's Sandy and Danny aren't the only ones who have a corner on the drive-in. Now that the kitschy location is making a comeback, you can find locations at driveinmovie.com. Grab some snacks, lean back, and enjoy.", 20.00, NULL, "Local Drive-In"),
+	(13, "Go to a Museum", "Even if the new exibits do not seem that appealing to you, you and your significant other can still learn a thing or two and have some fun in the process", 20.00, NULL, "Local Museum"),
+	(14, "Head to the Local Nursery", "More and more greenhouses are opening up cafes and gift shops, which make the destination more than just a place to buy mulch. Not only that, but walking around brightly colored flowers — especially when it's still freezing outside — can help influence your moods.", 20.00, NULL, "Local Nursery"),
+	(15, "Go on a Picnic", "Nothing will make them happier than a blanket, basket, some yummy snacks, and a Kindle full of books they are ready to read", 20.00, NULL, "Local Park"),
+	(16, "Explore a Winery", "The go-to activity was made famous in Sideways, but there's lots of not-so-obvious things to do at wineries. More and more are equipped with hiking trails, picnic areas, playgrounds, and even pools, turning vineyards into all-day destinations.", 20.00, NULL, "Local Winery"),
+	(17, "Play a Childhood Boardgame", "Order pizza, uncork a bottle of wine, and play old-school card games or board games. It's a great way to unwind after a tough work week!", 0.00, NULL, "Your House"),
+	(18, "Go to the Opera", "There's something so sexy about dressing in your absolute best as you watch a performance in a darkened theater. It was the turning point in Pretty Woman, and even if you don't understand exactly what's going on onstage, the music and the drama will sweep you both away.", 50.00, NULL, "Local Opera House")
+	(19, "Get Caught in the Rain", "Forecast calls for cloudy skies? Great! Grab your guy and head outdoors. Getting caught in a spring shower (or snowstorm!) pretty much forces you to lock lips in a passionate embrace that's even more sexy than the one Allie (Rachel McAdams) and Noah (Ryan Gosling) have in The Notebook.", 0.00, NULL, "Outside"),
+	(20, "Go Stargazing", "The best way to stargaze is to actually know what you're seeing, so download The Night Sky app. That way, you can actually be confident you're looking at the Big Dipper before you abandon all pretense and just make out.", 0.00, NULL, "Outside");
 
 INSERT INTO Users VALUES
 	(1, "johnnydoe", "John", "Doe", "jdoe@gmail.com", "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f", 1, 1, 1, "92efeff958c88194ad0b983eed21ce90", "55c3b5386c486feb662a0785f340938f518d547f"),
