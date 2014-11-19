@@ -63,11 +63,11 @@
         </label><br>
         <label for="fName">
             First:
-            <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required />
+            <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required="required" />
         </label><br>
         <label for="lName">
             Last:
-            <input type="text" name="lNameAccount" id="lNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="Last Name" required />
+            <input type="text" name="lNameAccount" id="lNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="Last Name" required="required"/>
         </label>
         <label for = "email">
             Email:
@@ -75,7 +75,7 @@
         <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/><br>
         <label for="password">
             Password:
-            <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required />
+            <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required="required" />
         </label><br>
 
         <form action="">
@@ -89,7 +89,7 @@
         </select>
         </form><br>
         <label for="securityAnsewer">
-            <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
+            <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
         </label><br>
 
         <button type="submit" class="btn-minimal">Create Account!</button>
@@ -103,7 +103,7 @@
     <form method="post" class="minimal" id="forgotPassword">
         <label for="email">
             Email:
-            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
+            <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required="required" />
         </label>
         <button type="submit" class="btn-minimal" id="ForgotPasswordButton">Get Question</button>
         <p id="forgotPasswordMessage"></p>
@@ -116,10 +116,10 @@
          <p id="SecureQuestion"></p>
         <label for="securityAnsewer">
             Answer:
-            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required />
+            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
         </label><br>
         <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit Answer</button>
-        <p id="loginMessage"></p>
+        <p id="PasswordRecoveryMessage"></p>
     </form>
 </section>
 
@@ -129,10 +129,10 @@
     <form method="post" class="minimal" id="forgotPassword">
         <label for="email">
             New Password
-            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}" required />
+            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}" required="required"/>
         </label>
         <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
-        <p id="loginMessage"></p>
+        <p id="ResetPasswordMessage"></p>
     </form>
 </section>
 

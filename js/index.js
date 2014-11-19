@@ -202,7 +202,7 @@ function forgotPassword(){
                     $("#forgotPasswordMessage").text("Inncorrect login information. Try typing your email again");
                 }
                 else{
-                    $("#forgotPasswordMessage").text("Error in transaction");
+                    $("#forgotPasswordMessage").text("Error: Please Type your email again.");
                     }
                 
             }
@@ -260,7 +260,7 @@ function SecurityAnsewer(){
             $("#ResetPasswordBox").show();
         }
             else{
-                console.log("Your Message is Inncorrect");
+                $("#PasswordRecoveryMessage").text("Error: Please Type an answer");
             }
         }
     });
@@ -280,16 +280,16 @@ function resetPassword(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
-            console.log(data);
+            //console.log(data);
             //Error Checking
-            if (data != 500) {
+            if (data != 400) {
                 console.log(data);
                 var obj = JSON.parse(data);
                 $("#ResetPasswordBox").hide();
                 $("#SuccessBox").show();
             }
             else{
-                console.log("Your Message is Inncorrect");
+                $("#ResetPasswordMessage").text("Error:Please enter a password");
             }
         }
     });
