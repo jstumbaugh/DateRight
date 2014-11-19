@@ -27,6 +27,12 @@
 
         <img id="profilePic" src="img/blank.jpg">
 
+        <a id="updateAccountInfoAnchor" href="#openModal">
+            <button href="#openModal" id="updateAccountButton">
+                Update Account Info
+            </button> 
+        </a>
+
         <div id="userInfoSection">
             <h3 id="username">
                 Username: 
@@ -42,25 +48,26 @@
             </h3>
         </div>
 
-        <div id="selectionSection">
-            <div id="datePlanDiv">
-                <button id="datePlanButton">
-                    View Your Date Plans
-                </button>
-            </div>
+        <div id="selectionMenuBar">
+            <ul>
+                <li id="datePlanDiv">
+                    <a href="#" id="datePlanButton">
+                        Your Date Plans
+                    </a>
+                </li>
 
-            <div id="reviewsDiv">
-               <button id="reviewsButton">
-                    View Your Reviews
-                </button> 
-            </div>
+                <li id="reviewsDiv">
+                   <a href="#" id="reviewsButton">
+                        Your Date Plan Reviews
+                    </a> 
+                </li>
+                <li id="ActivityReviewsDiv">
+                   <a href="#" id="ActivityReviewsButton">
+                        Your Activity Reviews
+                    </a> 
+                </li>
+            </ul>
         </div>
-
-        <a href="#openModal">
-            <button href="#openModal" id="updateAccountButton">
-                Update Account Info
-            </button> 
-        </a>
 
         <div id="openModal" class="modalDialog">
             <div>
