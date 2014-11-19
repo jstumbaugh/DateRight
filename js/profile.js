@@ -22,7 +22,7 @@ $(document).ready(function(){
     $("#updateAccountForm").submit(submitUpdateForm);
     $("#homeButton").click(function(e){
         e.preventDefault();
-        window.location.replace("search.html");
+        $(location).attr('href', "search.html");
     });
     $("#datePlanButton").click(showUserDatePlans);
     $("#reviewsButton").click(showUserReviews);

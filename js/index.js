@@ -91,7 +91,7 @@ $('#createAccount').submit(function (event) {
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
-                    window.location.replace("search.html");
+                    $(location).attr('href', "search.html");
                 }
             }
         }
@@ -101,7 +101,7 @@ $('#createAccount').submit(function (event) {
 $('#searchbar').submit(function (e) {
 e.preventDefault();
 //Redirect user
-window.location.replace("search.html?"+$("#searchbar").serialize());
+$(location).attr('href', "search.html?"+$("#searchbar").serialize());
 
 /* CODE TO SEARCH ACTIVITIES */
 // $.ajax({
@@ -158,7 +158,7 @@ $("#login").submit(function(event) {
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
-                    window.location.replace("search.html");
+                    $(location).attr('href', "search.html");
                 }
             }
         }
