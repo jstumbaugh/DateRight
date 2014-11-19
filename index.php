@@ -106,7 +106,7 @@
             <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required />
         </label>
         <button type="submit" class="btn-minimal" id="ForgotPasswordButton">Get Question</button>
-        <p id="loginMessage"></p>
+        <p id="forgotPasswordMessage"></p>
     </form>
 </section>
 
@@ -129,7 +129,7 @@
     <form method="post" class="minimal" id="forgotPassword">
         <label for="email">
             New Password
-            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}"required />
+            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}" required />
         </label>
         <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
         <p id="loginMessage"></p>

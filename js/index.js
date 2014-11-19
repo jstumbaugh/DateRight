@@ -145,7 +145,7 @@ $("#login").submit(function(event) {
             //Error Checking
             if($.isNumeric(data)){
                 if(data==400){
-                    $("#loginMessage").text("Inncorrect login information..Try typing your password again");
+                    $("#loginMessage").text("Inncorrect login information. Try typing your password again");
                 }
                 else{
                     $("#loginMessage").text("Error in transaction");
@@ -199,10 +199,10 @@ function forgotPassword(){
             //Error Checking
             if($.isNumeric(data)){
                 if(data==400){
-                    $("#loginMessage").text("Inncorrect login information..Try typing your email again");
+                    $("#forgotPasswordMessage").text("Inncorrect login information. Try typing your email again");
                 }
                 else{
-                    $("#loginMessage").text("Error in transaction");
+                    $("#forgotPasswordMessage").text("Error in transaction");
                     }
                 
             }
