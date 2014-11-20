@@ -1,16 +1,31 @@
 package com.cse3345.dateright;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
+	protected static final String EXTRA_MESSAGE = "com.cse3345.A7Konersmann.MESSAGE";
+	private Button randomButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		randomButton = (Button) findViewById(R.id.randomButton);
+		
+		randomButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				Intent intent = new Intent(MainActivity.this, DisplayRandomActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
