@@ -21,6 +21,7 @@ class ERROR{
 	 ACTIVITY_EXISTS = 600,
 	 USERNAME_EXISTS = 700,
 	 EMAIL_EXISTS = 800;
+	 DATEPLAN_DOESNT_EXIST = 900;
 	// PASSWORD_IS_INCORRECT = 700;
 }
 
@@ -1082,34 +1083,73 @@ function reviewDatePlan()
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	$datePlanInfo = json_decode($request->getBody());
+	$datePlanExists;
 
-	// make sql statement
-	$sql = "INSERT INTO DatePlanReviews (Rating, Attended, Description, DatePlanID, UserID, ReviewTime) Values(:rating, :attended, :description, :dateplanID, :userID, NOW())";
+	// this will check to see if the datePlan exists
+	$checkDatePlanExists = "SELECT * FROM DatePlans WHERE DatePlanID = :datePlanID";
 	try
 	{
-		if(isset($datePlanInfo)) 
+		if(isset($datePlanInfo))
 		{
-			// Get database connection
+			// get database connection
 			$db = getConnection();
-			$stmt = $db->prepare($sql);
+			$stmt1 = $db->prepare($checkDatePlanExists);
 			// bind params
-			$stmt->bindParam("rating",$datePlanInfo->Rating);
-			$stmt->bindParam("attended", $datePlanInfo->Attended);
-			$stmt->bindParam("description", $datePlanInfo->Description);
-			$stmt->bindParam("dateplanID", $datePlanInfo->DatePlanID);
-			$stmt->bindParam("userID", $datePlanInfo->UserID);
-			$stmt->execute();
-			echo ERROR::SUCCESS;
+			$stmt1->bindParam("datePlanID", $datePlanInfo->DatePlanID);
+			$stmt1->execute();
+			$returnedInfo = $stmt1->fetch(PDO::FETCH_OBJ);
+			if(empty($returnedInfo))
+			{
+				$datePlanExists = false;
+				exit(ERROR::DATEPLAN_DOESNT_EXIST);
+			}
+			else
+			{
+				$datePlanExists = true;
+			}
+			$db = null;
 		}
-		else 
+		else
 		{
 			echo ERROR::JSON_ERROR;
 		}
-	}		    
-	catch(PDOException $e) 
+	}
+	catch(PDOException $e)
 	{
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}	
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+
+	// if the datePlan exists, insert the review into the table
+	if($datePlanExists)
+	{
+		// insert the review into the table
+		$sql = "INSERT INTO DatePlanReviews (Rating, Attended, Description, DatePlanID, UserID, ReviewTime) Values(:rating, :attended, :description, :dateplanID, :userID, NOW())";
+		try
+		{
+			if(isset($datePlanInfo)) 
+			{
+				// Get database connection
+				$db = getConnection();
+				$stmt = $db->prepare($sql);
+				// bind params
+				$stmt->bindParam("rating",$datePlanInfo->Rating);
+				$stmt->bindParam("attended", $datePlanInfo->Attended);
+				$stmt->bindParam("description", $datePlanInfo->Description);
+				$stmt->bindParam("dateplanID", $datePlanInfo->DatePlanID);
+				$stmt->bindParam("userID", $datePlanInfo->UserID);
+				$stmt->execute();
+				echo ERROR::SUCCESS;
+			}
+			else 
+			{
+				echo ERROR::JSON_ERROR;
+			}
+		}		    
+		catch(PDOException $e) 
+		{
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	}		
 } // end of function
 	
 /**
