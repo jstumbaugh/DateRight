@@ -56,8 +56,7 @@ $("#ResetPasswordButton").click(resetPassword);
 
 //Creates Account for user
 $('#createAccount').submit(function (event) {
-    $("#loginBox").hide();
-    $("#createAccountBox").show();
+    console.log("Create Account");
     event.preventDefault(); 
     var user = new Object();
     user.userName = $("#userName").val();
@@ -65,11 +64,11 @@ $('#createAccount').submit(function (event) {
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
     user.password = $("#passwordAccount").val();
-    user.securityQuestion = $("#SecurityQuestion").val();
-    user.securityAnsewer = $("#SecurityAnswer").val();
+    user.secQuestion = $("#SecurityQuestion").val();
+    user.secAnswer = $("#SecurityAnswer").val();
     user.userType = 0;
     user.sex = 0;
-    //console.log(JSON.stringify(user));
+    console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
         url: 'api/index.php/createAccount',
@@ -77,6 +76,7 @@ $('#createAccount').submit(function (event) {
         data: JSON.stringify(user),
         success: function(data){
             //Error Checking
+            console.log("AJAX succed");
             if($.isNumeric(data)){
                 if(data==100){
                      $("#resultMessage").text("Account already exists...");    
@@ -91,7 +91,7 @@ $('#createAccount').submit(function (event) {
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
-                    window.location.replace("search.html");
+                    $(location).attr('href', "search.html");
                 }
             }
         }
@@ -101,7 +101,7 @@ $('#createAccount').submit(function (event) {
 $('#searchbar').submit(function (e) {
 e.preventDefault();
 //Redirect user
-window.location.replace("search.html?"+$("#searchbar").serialize());
+$(location).attr('href', "search.html?"+$("#searchbar").serialize());
 
 /* CODE TO SEARCH ACTIVITIES */
 // $.ajax({
@@ -158,7 +158,7 @@ $("#login").submit(function(event) {
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
-                    window.location.replace("search.html");
+                    $(location).attr('href', "search.html");
                 }
             }
         }
@@ -202,7 +202,7 @@ function forgotPassword(){
                     $("#forgotPasswordMessage").text("Inncorrect login information. Try typing your email again");
                 }
                 else{
-                    $("#forgotPasswordMessage").text("Error in transaction");
+                    $("#forgotPasswordMessage").text("Error: Please Type your email again.");
                     }
                 
             }
@@ -260,7 +260,7 @@ function SecurityAnsewer(){
             $("#ResetPasswordBox").show();
         }
             else{
-                console.log("Your Message is Inncorrect");
+                $("#PasswordRecoveryMessage").text("Error: Please Type an answer");
             }
         }
     });
@@ -280,16 +280,16 @@ function resetPassword(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(data){
-            console.log(data);
+            //console.log(data);
             //Error Checking
-            if (data != 500) {
+            if (data != 400) {
                 console.log(data);
                 var obj = JSON.parse(data);
                 $("#ResetPasswordBox").hide();
                 $("#SuccessBox").show();
             }
             else{
-                console.log("Your Message is Inncorrect");
+                $("#ResetPasswordMessage").text("Error:Please enter a password");
             }
         }
     });

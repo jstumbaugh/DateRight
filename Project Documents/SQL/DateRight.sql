@@ -75,7 +75,6 @@ CREATE TABLE IF NOT EXISTS `ActivityReviews` (
   `ActivityID` int NOT NULL,
   `Description` varchar(255) NOT NULL,
   `Cost` double DEFAULT NULL,
-  `Location` varchar(200) NOT NULL,
   `Attended` BOOLEAN NOT NULL,
   `ReviewTime` datetime NOT NULL,
   CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`),

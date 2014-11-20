@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
 	$('#profilebut').click(function(e){
 		e.preventDefault();
 		$('.activity').remove();
-		window.location.replace("profile.html");
+		$(location).attr('href', "profile.html");
 	})
 
 	$('#logoutbut').click(function(e){
@@ -221,7 +221,7 @@ function logout(){
 		success: function(data){
 			if(data){
 				//redirect user to homepage after successful logout
-				window.location.replace("index.php");
+				$(location).attr('href', "index.php");
 			}
 		},
 		error: function(){
