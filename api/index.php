@@ -1302,8 +1302,8 @@ function reviewActivity()
 	if($activityExists) // insert the review into the table
 	{
 		// make sql statement
-		$sql = "INSERT INTO ActivityReviews (Rating, UserID, ActivityID, Description, Cost, Location, Attended, ReviewTime) 
-		Values(:rating, :userID, :activityID, :description, :cost, :location, :attended, NOW())";
+		$sql = "INSERT INTO ActivityReviews (Rating, UserID, ActivityID, Description, Cost, Attended, ReviewTime) 
+		Values(:rating, :userID, :activityID, :description, :cost, :attended, NOW())";
 		try
 		{
 			if(isset($activityInfo)) 
@@ -1317,7 +1317,6 @@ function reviewActivity()
 				$stmt->bindParam("activityID", $activityInfo->ActivityID);
 				$stmt->bindParam("description", $activityInfo->Description);
 				$stmt->bindParam("cost", $activityInfo->Cost);
-				$stmt->bindParam("location", $activityInfo->Location);
 				$stmt->bindParam("attended", $activityInfo->Attended);
 				$stmt->execute();
 				echo ERROR::SUCCESS;
