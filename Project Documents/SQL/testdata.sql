@@ -44,11 +44,11 @@ INSERT INTO ActivitiesAttendees VALUES
 	(10, 5, 1);
 
 INSERT INTO ActivityReviews VALUES
-	(1, 5, 1, 1, "My girl loves Rom-Coms but hated Saw 3, but I loved her reactions to it so I gave it a 5 :)", 20.00, "Studio Movie Grill", 1, STR_TO_DATE('10/20/14 10:00 PM','%m/%d/%Y %h:%i %p')),
-	(2, 5, 2, 2, "This restaurant it fantastic! Very lovely ambiance and the live piano player was so good!", 60.00, "Terrelli's restaurant", 1, STR_TO_DATE('10/10/14 8:00 PM','%m/%d/%Y %h:%i %p')),
-	(3, 3, 3, 3, "The Farmer's market was just ok. My date didn't love the idea at first, but the homemade peanut butter really turned her around lol.", 15.00, "Dallas, TX", 1, STR_TO_DATE('10/15/14 10:00 AM','%m/%d/%Y %h:%i %p')),
-	(4, 4, 4, 4, "Netflix was a perfect way to get even closer with my date. We barely Even watched the show! ;)", 0.00, "My bed", 1, STR_TO_DATE('10/20/14 11:00 PM','%m/%d/%Y %h:%i %p')),
-	(5, 5, 5, 5, "I made an exceptional filet mignon with some twice baked potatoes and grilled asparagus. She immediately dropped her panties. 5/5", 40.00, "My Kitchen", 1, STR_TO_DATE('10/14/14 8:30 PM','%m/%d/%Y %h:%i %p'));
+	(1, 5, 1, 1, "My girl loves Rom-Coms but hated Saw 3, but I loved her reactions to it so I gave it a 5 :)", 20.00, 1, STR_TO_DATE('10/20/14 10:00 PM','%m/%d/%Y %h:%i %p')),
+	(2, 5, 2, 2, "This restaurant it fantastic! Very lovely ambiance and the live piano player was so good!", 60.00, 1, STR_TO_DATE('10/10/14 8:00 PM','%m/%d/%Y %h:%i %p')),
+	(3, 3, 3, 3, "The Farmer's market was just ok. My date didn't love the idea at first, but the homemade peanut butter really turned her around lol.", 15.00, 1, STR_TO_DATE('10/15/14 10:00 AM','%m/%d/%Y %h:%i %p')),
+	(4, 4, 4, 4, "Netflix was a perfect way to get even closer with my date. We barely Even watched the show! ;)", 0.00, 1, STR_TO_DATE('10/20/14 11:00 PM','%m/%d/%Y %h:%i %p')),
+	(5, 5, 5, 5, "I made an exceptional filet mignon with some twice baked potatoes and grilled asparagus. She immediately dropped her panties. 5/5", 40.00, 1, STR_TO_DATE('10/14/14 8:30 PM','%m/%d/%Y %h:%i %p'));
 
 INSERT INTO DatePlans VALUES
 	(1, "Casual Night In", 1, 1, 4, STR_TO_DATE('10/10/14 7:00 PM','%m/%d/%Y %h:%i %p'), "Have a romantic night in with some quality home cooking and then some netflix."),
