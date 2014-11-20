@@ -670,13 +670,6 @@ function topTags() {
 	}
 }
 
-
-
-"SELECT ActivityID, Name, Description, Cost, Rating, Location
-FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags
-WHERE TagName = 'Italian'";
-
-
 function getTaggedActivities() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -856,7 +849,7 @@ function getRandomIdea(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	//Generate random date idea from dateplans table
-	$sql = "SELECT * FROM DatePlans WHERE dateplanid >= (SELECT FLOOR( MAX(dateplanid) * RAND()) FROM DatePlans ) ORDER BY dateplanid LIMIT 1";
+	$sql = "SELECT * FROM DatePlans WHERE Public=1 AND DatePlanID >= (SELECT FLOOR( MAX(DatePlanID+1) * RAND()) FROM DatePlans) ORDER BY DatePlanID LIMIT 1";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);
