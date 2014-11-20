@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `ActivityReviews` (
   CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`),
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`ReviewID`),
-  FULLTEXT(Description,Location)
+  FULLTEXT(Description)
 ) ENGINE=Myisam;
 
 -- --------------------------------------------------------
