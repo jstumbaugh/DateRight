@@ -621,7 +621,7 @@ function viewUserDatePlans(){
 		echo $count;
 		$dateplan = $returnedInfo1['DatePlanID'];
 		echo "\nDATE PLAN ID \n";
-			$sql2 = "SELECT * FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
+		$sql2 = "SELECT Users.UserID, Users.UserName,DatePlans.Name, DatePlans.Description, DatePlans.Timestamp FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
 		$stmt2 = $db->prepare($sql2);
 		$stmt2->bindParam("dateplanid", $dateplan);
 		$stmt2->execute();
@@ -654,14 +654,14 @@ function viewUserDatePlans(){
 			$dateplans['DatePlanID'][$innerCount] = array();
 			array_push($dateplans['DatePlanID'][$innerCount], $rI4);
 			echo "\nArray Pushed new activity\n";
-			echo json_encode($dateplans[$count]);
+			echo json_encode($dateplans['DatePlanID'][$innerCount]);
 			$innerCount = $innerCount + 1;
 		}
 		echo "\nACTIVITIES ARRAY FOR THIS DATE PLAN\n";
 		$count = $count + 1;
 	}
 	echo "\nPrint All DatePlans\n";
-	echo json_encode($dateplans['DatePlanID']);
+	echo json_encode($dateplans);
 	}
 	catch(PDOException $e)
 	{
