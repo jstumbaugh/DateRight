@@ -56,15 +56,15 @@
 <!-- Over lay created when Create Account is clicked--> 
 <section id="createAccountBox" class="overlayBox">
     <h2>Create Account</h2>
-    <form method="post" class="minimal" id="createAccount">
+    <form method="post" class="minimal" id="createAccountForm">
         <label for="userName">
             Username:
             <input type="text" name="userName" id="userName"  placeholder="Username" required />
-        </label><br>
+        </label>
         <label for="fName">
             First:
             <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required="required" />
-        </label><br>
+        </label>
         <label for="lName">
             Last:
             <input type="text" name="lNameAccount" id="lNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="Last Name" required="required"/>
@@ -76,23 +76,20 @@
         <label for="password">
             Password:
             <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required="required" />
-        </label><br>
-
-        <form action="">
-            Security Question:
-        <select name="securityQuestion" id = "SecurityQuestion" placeholder= "Pick a Question!" required>
-        <option value="1">Where was your first date?</option>
-        <option value="2">What is the first name of the person you first kissed?</option>
-        <option value="3">What is your mother's maiden name?</option>
-        <option value="4">What is the name of your favorite pet?</option>
-        <option value= "5"> What is the name of the street you grew up on? </option>
-        </select>
-        </form><br>
+        </label>
+        <label for="security">Security Question:
+            <select name="securityQuestion" id = "SecurityQuestion" placeholder= "Pick a Question!" required>
+            <option value="1">Where was your first date?</option>
+            <option value="2">What is the first name of the person you first kissed?</option>
+            <option value="3">What is your mother's maiden name?</option>
+            <option value="4">What is the name of your favorite pet?</option>
+            <option value= "5"> What is the name of the street you grew up on? </option>
+            </select>
+        </label>
         <label for="securityAnsewer">
             <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
-        </label><br>
-
-        <button type="submit" class="btn-minimal" id= "createAccount">Create Account!</button>
+        </label>
+        <button type="submit" class="btn-minimal">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
 </section>

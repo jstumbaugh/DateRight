@@ -16,7 +16,6 @@ $("#loginButton").click(function(){
         
 }); 
 $("#createAccountButton").click(function(){
-        
     $("#createAccountBox").show();
     $("#loginBox").hide();
     $("#ForgotPasswordBox").hide();
@@ -55,7 +54,7 @@ $("#ResetPasswordButton").click(resetPassword);
 }
 
 //Creates Account for user
-$('#createAccount').submit(function (event) {
+$('#createAccountForm').submit(function(event){
     console.log("Create Account");
     event.preventDefault(); 
     var user = new Object();
@@ -64,7 +63,7 @@ $('#createAccount').submit(function (event) {
     user.lName = $("#lNameAccount").val();
     user.email = $("#emailAccount").val();
     user.password = $("#passwordAccount").val();
-    user.secQuestion = $("#SecurityQuestion").val();
+    user.securityQuestion = $("#SecurityQuestion").val();
     user.secAnswer = $("#SecurityAnswer").val();
     user.userType = 0;
     user.sex = 0;
@@ -76,6 +75,7 @@ $('#createAccount').submit(function (event) {
         data: JSON.stringify(user),
         success: function(data){
             //Error Checking
+            console.log(data);
             console.log("AJAX succed");
             if($.isNumeric(data)){
                 if(data==100){
@@ -97,6 +97,8 @@ $('#createAccount').submit(function (event) {
         }
     });
 }); 
+
+
 //Search Button activites
 $('#searchbar').submit(function (e) {
 e.preventDefault();
@@ -145,7 +147,7 @@ $("#login").submit(function(event) {
             //Error Checking
             if($.isNumeric(data)){
                 if(data==400){
-                    $("#loginMessage").text("Inncorrect login information. Try typing your password again");
+                    $("#loginMessage").text("Incorrect login information. Try typing your password again");
                 }
                 else{
                     $("#loginMessage").text("Error in transaction");
@@ -268,7 +270,7 @@ function SecurityAnsewer(){
 
 //Password Reseting
 function resetPassword(){
-     event.preventDefault(); 
+    event.preventDefault(); 
     var user = new Object();
     user.email = emailRecovery;
     user.securityAnswer = secureAnswer;
