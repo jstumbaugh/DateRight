@@ -274,18 +274,21 @@ function loadUser(){
         url: 'api/index.php/getPhoto/'+user.UserID,
         async: false, 
         success: function(response) {
+            console.log(response);
             //error checking
             if(response === "1100"){
                 console.log("Profile pic upload error");
             }
-            else {
+            else if(response === "500"){
+                //do stuff
+            } else {
                 //grab file name
                 profilePic = response;
-                console.log(profilePic);
+                //console.log(profilePic);
+                $("#profilePic").attr("src", "img/user/"+profilePic);
             }
         }
     });
-    $("#profilePic").attr("src", "img/user/"+profilePic);
 
     //set profile pic update hidden input
     $("#superSecretProfilePicValue").attr("value", user.UserID);
