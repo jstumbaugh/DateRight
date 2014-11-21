@@ -75,6 +75,10 @@
     background: -o-linear-gradient(#ff9d00, #ff7300);
 }
 
+.hideThis {
+    display: none;
+}
+
 .modalDialog {
     position: fixed;
     top: 0;

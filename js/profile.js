@@ -75,6 +75,8 @@ function showUserDatePlans(){
     timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
     description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
     $("#displaySection #datePlans").append(title, share, creator, modify, timeStamp, description);
+    //keep it hidden
+    $("#displaySection #datePlans").attr("class", "hideThis");
 }
 
 /**
@@ -101,6 +103,8 @@ function addDatePlanReviews() {
             $("#displaySection #datePlanReviews").append(title, type, rating, attended, timeStamp, description);
         }
     }
+    //keep it hidden
+    $("#displaySection #datePlanReviews").attr("class", "hideThis");
 }
 
 /**
@@ -128,6 +132,8 @@ function addActivityReviews() {
             $("#displaySection #activityReviews").append(title, type, rating, attended, timeStamp, description);
         }
     }
+    //keep it hidden
+    $("#displaySection #activityReviews").attr("class", "hideThis");
 }
 
 /* Loads User data onto page 
