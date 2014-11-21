@@ -5,9 +5,13 @@
         10/28/2014 - 
 **/
 
+#userInfoSection {
+    margin-left: 25%;
+}
+
 #profilePic {
     float:left;
-    width:25%;
+    width:250px;
 }
 
 #selectionMenuBar {
@@ -29,6 +33,10 @@
 
 #selectionMenuBar li:hover a {
     color:#222;
+}
+
+#selectionMenuBar li.selected {
+    background-color: #ff9d00;
 }
 
 #selectionMenuBar > ul > li {

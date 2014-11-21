@@ -28,12 +28,27 @@ $(document).ready(function(){
     $("#reviewsButton").click(showUserReviews);
 
     /**
+    *   Apply click listeners to selection menu bar
+    */
+    var menu = $("#selectionMenuBar li");
+    for (i = 0; i < 3; i++) {
+        menu[i].click(menuSelection(menu));
+    }
+
+    /**
     $('#logoutbut').click(function(e){
         e.preventDefault();
         logout();
     });
     */
 });
+
+function menuSelection(m){
+    for (i = 0; i < 3; i++) {
+        $(m[i]).attr("class", "");
+    }
+    $(this).attr("class", "selected");
+}
 
 function showUserDatePlans(){
     // ajac call on click??
