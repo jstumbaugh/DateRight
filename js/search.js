@@ -1,4 +1,7 @@
 jQuery(document).ready(function() {
+var reviewButton;
+	 $("#ReviewActivitySubmit").submit(reviewActivity);
+
 	//Search Activities
 	$('#searchform').submit(function (e) {
 		e.preventDefault();
@@ -68,7 +71,7 @@ function getActivitiesByTag(searchString){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<button name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
+			    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 			    	}
 			    	addDrag();
 				}
@@ -128,6 +131,9 @@ function getMousePosition(e){
 			});
 		}
 	}
+	else if (favStar.classList.contains("reviewBut")){
+		$("#ReviewActivityBox").show();
+	}
 }
 
 function getUserID(){
@@ -160,7 +166,7 @@ function getFavoriteActivities(){
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
-	    		$("<button name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
+	    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 	    	}
 	    	addDrag();
 		},
@@ -203,7 +209,7 @@ function getActivitiesByName(){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<button name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
+			    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 			    	}
 				}
 			});
@@ -246,4 +252,43 @@ function addDrag(){
 			$elems.removeAttr("style");
 		}
     });
+}
+
+function reviewActivity(){
+	console.log(user.UserID);
+	reviewButton = favStar;
+	inputActivityID = reviewButton.parentNode.value;
+	inputUserID = user.UserID
+    inputRating = $("#rating").attr("value");
+    inputDescription = $("#descriptionReview").attr("value");
+    inputCostReview = Number($("#costReview").attr("value"));
+    inputattended = $("#locationInput").attr("value");
+   
+    //create activity object 
+    newReview = new Object();
+    newReview.rating = inputRating;
+    newReview.activityID = inputActivityID
+    newReview.userID = inputUserID
+    newReview.Description = inputDescription;
+    newReview.Cost = inputCostReview;
+    newReview.attended = inputattended;
+    console.log(newReview);
+
+    //create new activity
+    $.ajax({
+        type: 'POST',
+        url: 'api/reviewActivity',
+        content: 'application/json',
+        data: JSON.stringify(newReview),
+        success: function(data){
+            console.log(data);
+            if(data == '1000'){
+                alert('That activity doesn not exsist');
+            }
+            else{
+            	console.log("Success");
+            }
+        }
+    });
+    $("#openModal div a.close button").click();
 }
