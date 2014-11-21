@@ -26,8 +26,9 @@
             <!--
             <button id="logoutbut">Logout</button>
             -->
-
-            <img id="profilePic" src="img/blank.jpg">
+            <a id="updateProfilePicAnchor" href="#openModalTwo">
+                <img id="profilePic" href="openModalTwo" src="img/blank.jpg" alt="img/blank.jpg">
+            </a>
 
             <a id="updateAccountInfoAnchor" href="#openModal">
                 <button href="#openModal" id="updateAccountButton">
@@ -107,6 +108,23 @@
                     <input type="password" id="newPasswordInput" title="Password must be at least 8 characters" required="required" pattern=".{8,}" ><br>
 
                     <input type="submit" id="updateSubmitButton" value="Submit">
+                </form>
+            </div>
+        </div>
+
+        <div id="openModalTwo" class="modalDialog">
+            <div>
+                <a href="#close" title="Close" class="close">
+                    <button id="closeButton">X</button>
+                </a>
+                <h2>Update Profile Pic</h2>
+                <form id="updateAccountForm" action="api/addPhoto" method="post" enctype="multipart/form-data">
+                    <label for="fileInput">File: </label>
+                    <input type="file" name="fileToUpload" id="fileInput"><br>
+
+                    <input id="superSecretProfilePicValue" type="hidden" name="userID"><br>
+
+                    <input type="submit" id="updateProfilePicSubmitButton" value="Submit">
                 </form>
             </div>
         </div>

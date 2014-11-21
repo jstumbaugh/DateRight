@@ -86,7 +86,7 @@ html {
     background: -o-linear-gradient(#777, #000);
 }
 
-#updateSubmitButton, #closeButton {
+#updateSubmitButton, #closeButton, #updateProfilePicSubmitButton {
     color:white;
     background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);

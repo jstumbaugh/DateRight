@@ -238,7 +238,7 @@ function loadUser(){
                 catch (e) {
                     console.log(e);
                 }
-                //console.log(datePlanReviews);
+                console.log(datePlanReviews);
             }
         }
     });
@@ -267,6 +267,28 @@ function loadUser(){
         }
     });
 
+    //load profile pic
+    profilePic = "";
+    $.ajax({
+        type: 'GET',
+        url: 'api/index.php/getPhoto/'+user.UserID,
+        async: false, 
+        success: function(response) {
+            //error checking
+            if(response === "1100"){
+                console.log("Profile pic upload error");
+            }
+            else {
+                //grab file name
+                profilePic = response;
+                console.log(profilePic);
+            }
+        }
+    });
+    $("#profilePic").attr("src", "img/user/"+profilePic);
+
+    //set profile pic update hidden input
+    $("#superSecretProfilePicValue").attr("value", user.UserID);
 }
 
 /*  Update User Account Info 
