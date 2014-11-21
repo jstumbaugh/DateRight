@@ -13,6 +13,8 @@
         11/17/2014 - User now have buttons to view Date Plans and Activities from.
                     - update Account info takes multiple fields, can modify any 
                         part of account, but needs the old password to work.
+        11/21/2014 - Can view content such as Date Plans, Date Plan Reviews, or
+                        Activity Reviews. No actual Date Plan functionality.
 **/
 
 $(document).ready(function(){
@@ -37,14 +39,6 @@ $(document).ready(function(){
     $("#selectionMenuBar #activityReviewsA").click(menuSelection);
 
     /**
-    *   Apply click listeners to selection menu bar
-    
-    var menu = $("#selectionMenuBar li");
-    for (i = 0; i < 3; i++) {
-        menu[i].click(menuSelection(menu));
-    }*/
-
-    /**
     $('#logoutbut').click(function(e){
         e.preventDefault();
         logout();
@@ -55,17 +49,39 @@ $(document).ready(function(){
 function menuSelection(){
 
     if($(this).parent().attr("class") === "selected"){
-        for (i = 0; i < 3; i++) {
-            $($("#selectionMenuBar").children().children()[i]).attr("class", "");
-        }
+        deselectMenuAndContent();
     } else {
-        for (i = 0; i < 3; i++) {
-            $($("#selectionMenuBar").children().children()[i]).attr("class", "");
-        }
+        deselectMenuAndContent();
         $(this).parent().attr("class", "selected");
+        if(this === $("#datePlanA")[0]) {
+            //show content for date plans
+            $("#datePlans").attr("class", "contentWrapperDiv");
+        } else if(this === $("#datePlanReviewsA")[0]) {
+            //show content for date plan reviews
+            $("#datePlanReviews").attr("class", "contentWrapperDiv");
+        } else if(this === $("#activityReviewsA")[0]) {
+            //show content for activty reviews
+            $("#activityReviews").attr("class", "contentWrapperDiv");
+        } else {
+            console.log("wut");
+        }
     }
 }
 
+function deselectMenuAndContent() {
+    for (i = 0; i < 3; i++) {
+            //unselect Menu
+            $($("#selectionMenuBar").children().children()[i]).attr("class", "");
+        }
+        for(i = 0; i < 3; i++) {
+            //make all content disappear 
+            $($("#displaySection").children()[i]).attr("class", "hideThis");
+        }
+}
+
+/**
+*   Add Date Plans to the page
+*/
 function showUserDatePlans(){
 
     title = $("<p></p>").text("Date Plan Title");
