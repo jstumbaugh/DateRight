@@ -28,15 +28,16 @@
 }
 
 #selectionMenuBar li:hover {
-    background: linear-gradient(to bottom, #ff9d00 0%, #ff7300 100%);
+    background-color: #ff9d00;
 }
 
+/*
 #selectionMenuBar li:hover a {
     color:#222;
-}
+}*/
 
 #selectionMenuBar li.selected {
-    background-color: #ff9d00;
+    background: linear-gradient(to bottom, #ff9d00 0%, #ff7300 100%);
 }
 
 #selectionMenuBar > ul > li {

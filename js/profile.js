@@ -24,16 +24,17 @@ $(document).ready(function(){
         e.preventDefault();
         $(location).attr('href', "search.html");
     });
-    $("#datePlanButton").click(showUserDatePlans);
-    $("#reviewsButton").click(showUserReviews);
+    $("#selectionMenuBar #datePlanA").click(menuSelection);
+    $("#selectionMenuBar #datePlanReviewsA").click(menuSelection);
+    $("#selectionMenuBar #activityReviewsA").click(menuSelection);
 
     /**
     *   Apply click listeners to selection menu bar
-    */
+    
     var menu = $("#selectionMenuBar li");
     for (i = 0; i < 3; i++) {
         menu[i].click(menuSelection(menu));
-    }
+    }*/
 
     /**
     $('#logoutbut').click(function(e){
@@ -43,11 +44,18 @@ $(document).ready(function(){
     */
 });
 
-function menuSelection(m){
-    for (i = 0; i < 3; i++) {
-        $(m[i]).attr("class", "");
+function menuSelection(){
+
+    if($(this).parent().attr("class") === "selected"){
+        for (i = 0; i < 3; i++) {
+            $($("#selectionMenuBar").children().children()[i]).attr("class", "");
+        }
+    } else {
+        for (i = 0; i < 3; i++) {
+            $($("#selectionMenuBar").children().children()[i]).attr("class", "");
+        }
+        $(this).parent().attr("class", "selected");
     }
-    $(this).attr("class", "selected");
 }
 
 function showUserDatePlans(){
@@ -62,11 +70,11 @@ function showUserDatePlans(){
             modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
             timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
             description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
-            $(this).append(title, share, creator, modify, timeStamp, description);
+            $("#displaySection #datePlans").append(title, share, creator, modify, timeStamp, description);
     }
     else {
-        $(this).empty();
-        $(this).text("View Your Date Plans");
+        //$(this).empty();
+        //$(this).text("View Your Date Plans");
     }
 }
 
@@ -75,13 +83,13 @@ function showUserReviews(){
         //check if data was empty
         if(datePlanReviews[0] === undefined && activityReviews[0] === undefined) {
             //no reviews at all
-            $(this).append($("<p></p>").text("You have not reviewed anything on DateRight yet."));
+            //$(this).append($("<p></p>").text("You have not reviewed anything on DateRight yet."));
         } else if(datePlanReviews[0] === undefined) {
             $(this).append($("<p></p>").text("You have not reviewed any date plans yet."));
             //add activityReview stuff
             addActivityReviews(this);
         } else if(activityReviews[0] === undefined) {
-            $(this).append($("<p></p>").text("You have not reviewed any activities yet."));
+            //$(this).append($("<p></p>").text("You have not reviewed any activities yet."));
             //add datePlanReview stuff
             addDatePlanReviews(this);
         } else {
@@ -91,8 +99,8 @@ function showUserReviews(){
         }
     }
     else {
-        $(this).empty();
-        $(this).text("View Your Reviews");
+        //$(this).empty();
+        //$(this).text("View Your Reviews");
     }
 }
 
@@ -111,11 +119,11 @@ function addDatePlanReviews(tag) {
         attended = $("<p></p>").text("Attended? " + att);
         timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews[x].ReviewTime);
         description = $("<p></p>").text("Description: " + datePlanReviews[x].Description);
-        $(tag).append(title, type, rating, attended, timeStamp, description);
+        $("#displaySection #datePlanReviews").append(title, type, rating, attended, timeStamp, description);
     }
 }
 
-function addActivityReviews(tag) {
+function addActivityReviews() {
 
     for(x in activityReviews){
         //initialize activity reviews
@@ -131,7 +139,7 @@ function addActivityReviews(tag) {
         timeStamp = $("<p></p>").text("Date and time created: " + activityReviews[x].ReviewTime);
         description = $("<p></p>").text("Description: " + activityReviews[x].Description);
         //add activity reviews to the page
-        $(tag).append(title, type, rating, attended, timeStamp, description);
+        $("#displaySection #activityReviews").append(title, type, rating, attended, timeStamp, description);
     }
 }
 
