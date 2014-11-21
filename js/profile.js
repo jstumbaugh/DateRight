@@ -61,13 +61,13 @@ function menuSelection(){
         $(this).parent().attr("class", "selected");
         if(this === $("#datePlanA")[0]) {
             //show content for date plans
-            $("#datePlans").attr("class", "");
+            $("#datePlans").attr("class", "contentWrapperDiv");
         } else if(this === $("#datePlanReviewsA")[0]) {
             //show content for date plan reviews
-            $("#datePlanReviews").attr("class", "");
+            $("#datePlanReviews").attr("class", "contentWrapperDiv");
         } else if(this === $("#activityReviewsA")[0]) {
             //show content for activty reviews
-            $("#activityReviews").attr("class", "");
+            $("#activityReviews").attr("class", "contentWrapperDiv");
         } else {
             console.log("wut");
         }
