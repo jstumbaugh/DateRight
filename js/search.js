@@ -72,7 +72,7 @@ function getActivitiesByTag(searchString){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
+			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> </a>").appendTo(activityDiv);
 			    	}
 			    	addDrag();
 				}
@@ -167,7 +167,7 @@ function getFavoriteActivities(){
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
-	    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
+	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> </a>").appendTo(activityDiv);
 	    	}
 	    	addDrag();
 		},
@@ -210,7 +210,7 @@ function getActivitiesByName(){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
+			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> </a>").appendTo(activityDiv);
 			    	}
 			    	addDrag();
 				}
