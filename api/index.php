@@ -72,6 +72,7 @@ $app->post('/resetPassword', 'resetPassword');
 $app->post('/viewUserDatePlans', 'viewUserDatePlans');
 $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
+$app->delete('/deleteDatePlan', 'deleteDatePlan');
 $app->run();
 
 /**
@@ -1548,6 +1549,51 @@ function getPhoto($userID) {
 		echo ERROR::NO_RESULTS;
 	}
 }
+
+
+
+// this function will delete the dateplan from the table as well as everything else attached to it
+function deleteDatePlan() 
+{
+	// GUI will send the userID and the DatePlanID
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$datePlanInfo = json_decode($request->getBody());
+	
+    if (isset($datePlanInfo))
+    {
+	    try
+	    {
+	        // only the creator of the dateplan will be able to delete it
+			$deleteQuery = "DELETE FROM DatePlans WHERE DatePlanID =:dateplanID AND CreatorID=:userID";
+	        $db = getConnection();
+	        $stmt = $db->prepare($deleteQuery);
+	        $stmt->bindParam("dateplanID", $datePlanInfo->DatePlanID);
+	        $stmt->bindParam("userID", $datePlanInfo->UserID);
+	        $stmt->execute();
+	        
+	        if($stmt->rowCount()>0) // if more than 0 rows are effected, success reached
+	        {
+	        	echo ERROR::SUCCESS;
+	    	}
+	    	else
+	    	{
+	    		// no rows were deleted
+	    		echo ERROR::NO_RESULTS;
+	    	}
+	        $db = null;
+	    }
+	    catch(PDOException $e) 
+	    {
+	        echo '{"error":{"text":'. $e->getMessage() .'}}';
+	    }
+	}
+	else
+	{
+		echo ERROR::JSON_ERROR;
+	}
+} // end of function
+
 
 
 
