@@ -55,15 +55,34 @@ $(document).ready(function(){
 function menuSelection(){
 
     if($(this).parent().attr("class") === "selected"){
-        for (i = 0; i < 3; i++) {
-            $($("#selectionMenuBar").children().children()[i]).attr("class", "");
-        }
+        deselectMenuAndContent();
     } else {
-        for (i = 0; i < 3; i++) {
+        deselectMenuAndContent();
+        $(this).parent().attr("class", "selected");
+        if(this === $("#datePlanA")[0]) {
+            //show content for date plans
+            $("#datePlans").attr("class", "");
+        } else if(this === $("#datePlanReviewsA")[0]) {
+            //show content for date plan reviews
+            $("#datePlanReviews").attr("class", "");
+        } else if(this === $("#activityReviewsA")[0]) {
+            //show content for activty reviews
+            $("#activityReviews").attr("class", "");
+        } else {
+            console.log("wut");
+        }
+    }
+}
+
+function deselectMenuAndContent() {
+    for (i = 0; i < 3; i++) {
+            //unselect Menu
             $($("#selectionMenuBar").children().children()[i]).attr("class", "");
         }
-        $(this).parent().attr("class", "selected");
-    }
+        for(i = 0; i < 3; i++) {
+            //make all content disappear 
+            $($("#displaySection").children()[i]).attr("class", "hideThis");
+        }
 }
 
 function showUserDatePlans(){
