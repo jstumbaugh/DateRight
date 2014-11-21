@@ -1137,7 +1137,7 @@ function reviewDatePlan()
 			if(empty($returnedInfo))
 			{
 				$datePlanExists = false;
-				exit(ERROR::DATEPLAN_DOESNT_EXIST);
+				echo ERROR::DATEPLAN_DOESNT_EXIST;
 			}
 			else
 			{
@@ -1159,7 +1159,7 @@ function reviewDatePlan()
 	if($datePlanExists)
 	{
 		// insert the review into the table
-		$sql = "INSERT INTO DatePlanReviews (Rating, Attended, Description, DatePlanID, UserID, ReviewTime) Values(:rating, :attended, :description, :dateplanID, :userID, NOW())";
+		$sql = "INSERT INTO DatePlanReviews (Rating, Attended, Description, DatePlanID, UserID, ReviewTime) VALUES(:rating, :attended, :description, :dateplanID, :userID, NOW())";
 		try
 		{
 			if(isset($datePlanInfo)) 
@@ -1279,7 +1279,7 @@ function reviewActivity()
 			if(empty($returnedInfo))
 			{
 				$activityExists = false;
-				exit(ERROR::ACTIVITY_DOESNT_EXIST);
+				echo ERROR::ACTIVITY_DOESNT_EXIST;
 			}
 			else
 			{
@@ -1301,8 +1301,7 @@ function reviewActivity()
 	if($activityExists) // insert the review into the table
 	{
 		// make sql statement
-		$sql = "INSERT INTO ActivityReviews (Rating, UserID, ActivityID, Description, Cost, Attended, ReviewTime) 
-		Values(:rating, :userID, :activityID, :description, :cost, :attended, NOW())";
+		$sql = "INSERT INTO ActivityReviews (Rating, UserID, ActivityID, Description, Cost, Attended, ReviewTime) VALUES(:rating, :userID, :activityID, :description, :cost, :attended, NOW())";
 		try
 		{
 			if(isset($activityInfo)) 
