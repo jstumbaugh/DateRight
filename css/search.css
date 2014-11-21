@@ -12,7 +12,7 @@
 	height: 97vh;
 	right: 0%;
 	background-color: #00FFFF;
-    width: 15vw;
+    width: 235px;
 }
 
 #currentplanlist{
@@ -28,7 +28,7 @@
 #currentDatePlan{
     padding-left: 7px;
     height: 97vh;
-    width: 15vw;
+    width: 235px;
 }
 
 #currentDatePlan li{
