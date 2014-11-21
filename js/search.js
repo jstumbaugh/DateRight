@@ -137,6 +137,7 @@ function getMousePosition(e){
 		}
 	}
 	else if (favStar.classList.contains("reviewBut")){
+		reviewBut = favStar;
 		$("#ReviewActivityBox").show();
 		//reviewButton = favStar
 	}
@@ -203,7 +204,7 @@ function getActivitiesByName(){
 				success: function(data2){
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<li class='activity' id=" + actData[i].ActivityID + "></li>"
+			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + "></li>"
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -273,13 +274,12 @@ function clearText(a){
 };
 
 function reviewActivity(){
-	reviewBut = favStar;
-	inputActivityID = reviewBut.parentNode.value;
-	inputUserID = user.UserID
-    inputRating = $("#rating").attr("value");
+	inputActivityID = reviewBut.parentNode.parentNode.value;
+	inputUserID = user.UserID;
+    inputRating = $("input[name=rating]:checked").val();
     inputDescription = $("#descriptionReview").attr("value");
     inputCostReview = Number($("#costReview").attr("value"));
-    inputattended = $("#locationInput").attr("value");
+    inputattended = $("input[name=attended]:checked").val();
    
     //create activity object 
     newReview = new Object();
@@ -289,7 +289,7 @@ function reviewActivity(){
     newReview.Description = inputDescription;
     newReview.Cost = inputCostReview;
     newReview.attended = inputattended;
-console.log(newReview);
+	console.log(newReview);
     //create new activity
     $.ajax({
         type: 'POST',
