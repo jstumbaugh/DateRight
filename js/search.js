@@ -1,6 +1,5 @@
 jQuery(document).ready(function() {
-var reviewButton;
-	 $("#ReviewActivitySubmit").submit(reviewActivity);
+	var reviewButton;
 
 	//Search Activities
 	$('#searchform').submit(function (e) {
@@ -38,6 +37,11 @@ var reviewButton;
 	$('#logoutbut').click(function(e){
 		e.preventDefault();
 		logout();
+	})
+
+	$('#reviewActivity').submit(function(e){
+		e.preventDefault();
+		reviewActivity();
 	})
 
 	addSort();
@@ -87,6 +91,7 @@ function getActivitiesByTag(searchString){
 
 function getMousePosition(e){
 	favStar = document.elementFromPoint(e.clientX, e.clientY);
+	console.log(favStar);
 	if (favStar.classList.contains("starred"))
 	{
 		$.ajax({
@@ -257,7 +262,6 @@ function addDrag(){
 }
 
 function reviewActivity(){
-	console.log(user.UserID);
 	reviewButton = favStar;
 	inputActivityID = reviewButton.parentNode.value;
 	inputUserID = user.UserID
@@ -279,7 +283,7 @@ function reviewActivity(){
     //create new activity
     $.ajax({
         type: 'POST',
-        url: 'api/reviewActivity',
+        url: 'api/index.php/reviewActivity',
         content: 'application/json',
         data: JSON.stringify(newReview),
         success: function(data){
