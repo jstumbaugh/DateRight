@@ -50,7 +50,7 @@ function getActivitiesByTag(searchString){
 	    success: function(data) {
 	    	var actData = jQuery.parseJSON(data);
 	    	console.log(actData);
-	    	var activitiesDiv = $("#activities");
+	    	var activitiesDiv = $("#searchResults");
 			$.ajax({
 				type: 'POST',
 				url: 'api/index.php/viewFavorites',
@@ -159,7 +159,7 @@ function getFavoriteActivities(){
 		data: JSON.stringify(user),
 		success: function(data){
 			var actData = jQuery.parseJSON(data);
-	    	var activitiesDiv = $("#activities");
+	    	var activitiesDiv = $("#searchResults");
 	    	for (i = 0; i < actData.length; i++)
 	    	{
 	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>"
@@ -186,7 +186,7 @@ function getActivitiesByName(){
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data) {
-	    	var activitiesDiv = $("#activities");
+	    	var activitiesDiv = $("#searchResults");
 	    	var actData = $.parseJSON(data).results;
 	    	console.log(actData);
 			$.ajax({
