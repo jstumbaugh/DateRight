@@ -5,8 +5,11 @@
         10/28/2014 - 
         11/21/2014 - added classes for buttons
 **/
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
-
+html {
+    font-family: 'Source Sans Pro', sans-serif;
+}
 
 #profileSection {
     display:block;
