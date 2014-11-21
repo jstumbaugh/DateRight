@@ -89,6 +89,18 @@ h3{
 .activityDatePlan .starred, .activityDatePlan .unstarred{
     margin-top: 15px;
 }
+
+.dateplan{
+    display: inline-block;
+    overflow: hidden;
+    background-color: grey;
+    margin-left: 10px;
+}
+
+.dateplan .activity{
+    clear: left;
+}
+
 /**
     Konersmann - added modal dialog styles
     affect create activity button
