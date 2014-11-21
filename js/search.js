@@ -261,6 +261,17 @@ function addDrag(){
     });
 }
 
+function clearText(a){
+	if (a.defaultValue == a.value){
+		a.value = "";
+	}
+	else {
+		if(a.value == ""){
+			a.value = a.defaultValue;
+		}
+	}
+};
+
 function reviewActivity(){
 	reviewButton = favStar;
 	inputActivityID = reviewButton.parentNode.value;
@@ -278,7 +289,6 @@ function reviewActivity(){
     newReview.Description = inputDescription;
     newReview.Cost = inputCostReview;
     newReview.attended = inputattended;
-    console.log(newReview);
 
     //create new activity
     $.ajax({
