@@ -278,17 +278,18 @@ function reviewActivity(){
 	inputUserID = user.UserID;
     inputRating = $("input[name=rating]:checked").val();
     inputDescription = $("#descriptionReview").attr("value");
-    inputCostReview = Number($("#costReview").attr("value"));
+    inputCostReview = ($("#costReview").attr("value"));
     inputattended = $("input[name=attended]:checked").val();
-   
+     console.log(inputattended);
     //create activity object 
+    if(inputattended == 1){
     newReview = new Object();
-    newReview.rating = inputRating;
-    newReview.activityID = inputActivityID
-    newReview.userID = inputUserID
+    newReview.Rating = inputRating;
+    newReview.ActivityID = inputActivityID
+    newReview.UserID = inputUserID
     newReview.Description = inputDescription;
     newReview.Cost = inputCostReview;
-    newReview.attended = inputattended;
+    newReview.Attended = inputattended;
 	console.log(newReview);
     //create new activity
     $.ajax({
@@ -307,4 +308,9 @@ function reviewActivity(){
         }
     });
     $("#openModal div a.close button").click();
+	}
+	else if (inputattended == 0){
+		 $("#resultMessageActivityReview").text("Error: You must attend an Activity to rate it!");
+
+	}
 }
