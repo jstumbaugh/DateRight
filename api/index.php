@@ -559,39 +559,77 @@ function deleteFavorite($op,$id) {
     }
 	}
 }
+
+//Helper function to return the associated activities
+//for each dateplanid supplied
+// @param int representing dateplan id
+// @return array containing the associatd activities 
+function getAssociatedActivities($datePlanID){
+	$sql = "SELECT ActivityID FROM DateActivities WHERE DatePlanID = :dateID";
+	try{
+	$db = getConnection();
+	$stmt = $db->prepare($sql);
+	$stmt ->bindParam("dateID", $datePlanID);
+	$stmt ->execute();
+	$dateActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $dateActivities;
+
+	}catch(PDOException $e) {
+    	return ERROR::NO_RESULTS;
+    }
+}
+
 //Search by activity name, works with multiple word query as well 
 //@return echo response with result JSON
 function searchActivities (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	//User search query
-	//$result = $app->request()->post('datesearch');
 	$json = json_decode($request->getBody());
 	$result = $json->SearchQuery;
+
 	//First check if they sent any query
 	if (!empty($result)) {
-		// $words = explode("+",trim($result));
-		// $sql = "SELECT * FROM Activities WHERE name LIKE '%$result%' OR description LIKE '%$result%'";
-		// //Process over all entered keywords
-		// foreach ($words as $term) {
-		// 	$sql.=" OR name LIKE '%$term%' OR description LIKE '%$term%' ";
-		// }
-	$sql="SELECT * FROM Activities WHERE MATCH(Name,Description,Location) AGAINST(:searchQuery IN BOOLEAN MODE)";
-	//Order results by the user rating
-	$sql.=" ORDER BY Rating LIMIT 50";
-	$db = getConnection();
-	$stmt = $db->prepare($sql);
-	//accept plural version e.g. movie(s)
-	$result.="*";
-	$stmt->bindParam("searchQuery", $result);
-	$stmt ->execute();
-	$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	echo '{"results": ' . json_encode($searchResults) . '}';
+		try {
+		$db = getConnection();
+		$getActivities="SELECT * FROM Activities WHERE MATCH(Name,Description,Location) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		//Order results by the user rating
+		$getActivities.=" ORDER BY Rating LIMIT 50";
+		$stmt = $db->prepare($getActivities);
+		//accept plural version e.g. movie(s)
+		$result.="*";
+		$stmt->bindParam("searchQuery", $result);
+		$stmt ->execute();
+		$activityResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$getDatePlans="SELECT * FROM DatePlans WHERE MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$stmt = $db->prepare($getDatePlans);
+		$stmt->bindParam("searchQuery", $result);
+		$stmt ->execute();
+		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$size = count($datePlanResults);
+		if($size>0){
+			//Find the associated activities for each dateplan id
+			for($i=0;$i<$size;$i++){
+				$cID=$datePlanResults[$i]['DatePlanID'];
+				$associatedActs=getAssociatedActivities($cID);
+				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+			}
+		}
+		//$one='{"Activities": ' . json_encode($activityResults) . '}';
+		echo '{"Activities": ' . json_encode($activityResults) . ',"DatePlans": ' . json_encode($datePlanResults) . '}';
+		}	
+		catch(PDOException $e) {
+    	echo ERROR::NO_RESULTS;
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
 	}else{
-	//No activities found w/ that query
-	echo ERROR::NO_RESULTS;
+		//No activities found w/ that query
+		echo ERROR::NO_RESULTS;
 		}
 }
+
 function viewUserDatePlans(){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;

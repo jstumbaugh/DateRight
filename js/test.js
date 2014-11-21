@@ -34,6 +34,10 @@ function updateDatePlan(){
 //Test function
 //Search by location, activity, or just general query
 //Uses Myisam FULLTEXT indexing
+//Returned results will be JSON Format that for each dateplan id there will be
+//a field called "AssociatedActivities" that will be an array that holds the activities
+//of that dateplan
+//LOOK AT EXAMPLE BELOW TO SEE HOW TO USE
 function searchDatabase(){
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = $("#searchbar").val();
@@ -44,10 +48,33 @@ function searchDatabase(){
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data){
-			console.log(data);
+			if($.isNumeric(data)){
+                if(data==500){
+                    console.log("No results found using the search query supplied.");
+                }
+            }else
+            {
+            	//console.log(data);
+            	 var returnedSearch = jQuery.parseJSON(data);
+            	 console.log("DatePlan Search Results: ");
+            	 //check to see if there is any dateplan results
+            	 if(returnedSearch.hasOwnProperty("DatePlans")){
+            	 	for(var i=0;i<returnedSearch.DatePlans.length;i++){
+						console.log(returnedSearch.DatePlans[i]["Description"]);
+						console.log("Made of Activities: ");
+						for(var j=0;j<returnedSearch.DatePlans[i].AssociatedActivities.length;j++)
+							console.log(returnedSearch.DatePlans[i].AssociatedActivities[j].ActivityID);
+            		}
+            	 }
+            	 console.log("Activity Search Results: ");
+            	 //Check to see if there are any activity results
+            	 if(returnedSearch.hasOwnProperty("Activities")){
+            	 	for(var i=0;i<returnedSearch.Activities.length;i++)
+						console.log(returnedSearch.Activities[i]["Description"]);
+            	 }
+            }
 		}
 	});
-}
 
 	/*
 	* Delete favorite
