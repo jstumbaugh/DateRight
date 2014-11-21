@@ -874,25 +874,29 @@ function viewDatePlanReviews() {
 	$user_exists;
 
 	// This will check to see if the user has an account in the database
-	try {
+	try 
+	{
 		$checksql = "SELECT UserID FROM Users WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt = $db->prepare($checksql);
 		$stmt->bindParam("userID",$userInfo->UserID);	
 		$stmt->execute();
 		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
-		if(empty($returnedInfo)){
+		if(empty($returnedInfo))
+		{
 			$user_exists = false;
 			exit(ERROR::ACCOUNT_DOESNT_EXIST);
 		}
-		else {
+		else 
+		{
 			$user_exists = true;
 		}
 		$db = null;
 	}
-	catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-		}
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
 	
 	if ($user_exists) // pull info from database
 	{
@@ -903,20 +907,25 @@ function viewDatePlanReviews() {
 		$stmt2->bindParam("userID",$userInfo->UserID);	
 		$stmt2->execute();
 		$returnedInfo2 = $stmt2->fetchAll(PDO::FETCH_OBJ);
-		
-		if(empty($returnedInfo1)){
+		if(empty($returnedInfo2))
+		{
 			echo ERROR::NO_RESULTS;
-		} else {
-			echo json_encode($returnedInfo1);
+		} 
+		else
+		{
+			echo json_encode($returnedInfo2);
 			$db = null;
 		}
 
-	} else 
+	} 
+	else 
 	{
 		//echo $userInfo->UserID;
 		echo '{"error":{"text": "User does not have a profile."}}';
 	}
 } // end of function
+
+
 
 //Returns random date idea as JSON object
 //@return JSON object containing random date idea from Dateplans
@@ -1160,9 +1169,9 @@ function reviewDatePlan()
 	$datePlanExists;
 
 	// this will check to see if the datePlan exists
-	$checkDatePlanExists = "SELECT * FROM DatePlans WHERE DatePlanID = :datePlanID";
 	try
 	{
+		$checkDatePlanExists = "SELECT * FROM DatePlans WHERE DatePlanID = :datePlanID";
 		if(isset($datePlanInfo))
 		{
 			// get database connection
