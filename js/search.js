@@ -48,6 +48,7 @@ function getActivitiesByTag(searchString){
 		type: 'GET',
 	    url: searchString,
 	    success: function(data) {
+	    	console.log(data);
 	    	var actData = jQuery.parseJSON(data);
 	    	console.log(actData);
 	    	var activitiesDiv = $("#searchResults");
