@@ -14,7 +14,7 @@
                     - update Account info takes multiple fields, can modify any 
                         part of account, but needs the old password to work.
         11/21/2014 - Can view content such as Date Plans, Date Plan Reviews, or
-                        Activity Reviews. No actual Date Plan functionality.
+                        Activity Reviews. No actual Date Plan functionality... yet.
 **/
 
 $(document).ready(function(){

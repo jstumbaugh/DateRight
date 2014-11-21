@@ -3,10 +3,23 @@
     Created: October 20, 2014
     Maintenance Log:
         10/28/2014 - 
+        11/21/2014 - added classes for buttons
 **/
 
+
+
+#profileSection {
+    display:block;
+    padding: 1em;
+}
+
+#profileSection h1:hover, #profileSection h3:hover {
+    color:#ff9d00;
+}
+
 #userInfoSection {
-    margin-left: 25%;
+    float:left;
+    padding: 1em;
 }
 
 #profilePic {
@@ -63,6 +76,8 @@
 #updateAccountButton {
     float:right;
     color:white;
+    height:35px;
+    font-size: 17px;
     background: -moz-linear-gradient(#777, #000);
     background: -webkit-linear-gradient(#777, #000);
     background: -o-linear-gradient(#777, #000);
