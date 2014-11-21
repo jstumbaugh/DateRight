@@ -13,6 +13,8 @@
         11/17/2014 - User now have buttons to view Date Plans and Activities from.
                     - update Account info takes multiple fields, can modify any 
                         part of account, but needs the old password to work.
+        11/21/2014 - Can view content such as Date Plans, Date Plan Reviews, or
+                        Activity Reviews. No actual Date Plan functionality.
 **/
 
 $(document).ready(function(){
@@ -35,14 +37,6 @@ $(document).ready(function(){
     $("#selectionMenuBar #datePlanA").click(menuSelection);
     $("#selectionMenuBar #datePlanReviewsA").click(menuSelection);
     $("#selectionMenuBar #activityReviewsA").click(menuSelection);
-
-    /**
-    *   Apply click listeners to selection menu bar
-    
-    var menu = $("#selectionMenuBar li");
-    for (i = 0; i < 3; i++) {
-        menu[i].click(menuSelection(menu));
-    }*/
 
     /**
     $('#logoutbut').click(function(e){
@@ -85,6 +79,9 @@ function deselectMenuAndContent() {
         }
 }
 
+/**
+*   Add Date Plans to the page
+*/
 function showUserDatePlans(){
 
     title = $("<p></p>").text("Date Plan Title");
