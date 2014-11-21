@@ -132,10 +132,10 @@ h3{
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
     border-radius: 10px;
-    /*background: #fff;
+    background: #fff;
     background: -moz-linear-gradient(#fff, #999);
     background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);*/
+    background: -o-linear-gradient(#fff, #999);
     background:#7f7f7f;
     background-attachment: scroll;
     background-clip: border-box;
@@ -151,4 +151,8 @@ h3{
     background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
     background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+form#reviewActivity label#rating{
+    height: 30%;
 }

@@ -110,9 +110,14 @@
 	</body>
 
 	<!-- Over lay created when review is clicked--> 
-<section id="ReviewActivityBox" class="modalDialog">
+<div id="ReviewActivityBox" class="modalDialog">
+	<div>
+        <a href="#close" title="Close" class="close">
+            <button id="closeButton">X</button>
+            </a>
     <h2>Review Activity</h2>
-    <form method="post" id="createAccount">
+    Rating:
+    <form method="post" id="reviewActivity">
     	<label for="rating" id = "rating">
 			<input type="radio" name="rating" value="0">0<br>
 			<input type="radio" name="rating" value="1">1<br>
@@ -137,7 +142,8 @@
         <button type="submit" class="btn-minimal" id="ReviewActivitySubmit">Submit Review</button>
         <p id="resultMessage"></p>
     </form>
-</section>
+	</div>
+</div>
 
 	<script src="js/activity.js">
         </script>
