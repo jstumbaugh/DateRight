@@ -300,7 +300,7 @@ function reviewActivity(){
         success: function(data){
             console.log(data);
             if(data == '1000'){
-                alert('That activity doesn not exsist');
+                alert('That activity does not exsist');
             }
             else{
             	console.log("Success");
@@ -309,8 +309,46 @@ function reviewActivity(){
     });
     $("#openModal div a.close button").click();
 	}
-	else if (inputattended == 0){
-		 $("#resultMessageActivityReview").text("Error: You must attend an Activity to rate it!");
+	else{
+		 $("#resultMessageActivityReview").text("You must attend an Activity to rate it!");
+	}
+}
 
+function reviewDatePlan(){
+	inputDatePlanID = reviewBut.parentNode.parentNode.value;
+	inputUserID = user.UserID;
+    inputRating = $("input[name=ratingDatePlan]:checked").val();
+    inputDescription = $("#descriptionReviewDatePlan").attr("value");
+    inputattended = $("input[name=attendedDatePlan]:checked").val();
+     console.log(inputattended);
+    //create activity object 
+    if(inputattended == 1){
+    newReview = new Object();
+    newReview.Rating = inputRating;
+    newReview.DatePlanID = inputDatePlanID
+    newReview.UserID = inputUserID
+    newReview.Description = inputDescription;
+    newReview.Attended = inputattended;
+	console.log(newReview);
+    //create new activity
+    $.ajax({
+        type: 'POST',
+        url: 'api/index.php/reviewDatePlan',
+        content: 'application/json',
+        data: JSON.stringify(newReview),
+        success: function(data){
+            console.log(data);
+            if(data == '1000'){
+                alert('That Date Plan does not exsist');
+            }
+            else{
+            	console.log("Success");
+            }
+        }
+    });
+    $("#openModal div a.close button").click();
+	}
+	else{
+		 $("#resultMessageActivityReview").text("You must attend a Date Plan to rate it!");
 	}
 }
