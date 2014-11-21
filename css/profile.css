@@ -61,6 +61,10 @@
 
 #updateAccountButton {
     float:right;
+    color:white;
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
 }
 
 .modalDialog {
