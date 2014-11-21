@@ -22,7 +22,8 @@ class ERROR{
 	 USERNAME_EXISTS = 700,
 	 EMAIL_EXISTS = 800,
 	 DATEPLAN_DOESNT_EXIST = 900,
-	 ACTIVITY_DOESNT_EXIST = 1000;
+	 ACTIVITY_DOESNT_EXIST = 1000,
+	 UPLOAD_ERROR = 1100;
 	// PASSWORD_IS_INCORRECT = 700;
 }
 
@@ -69,6 +70,8 @@ $app->post('/recoveryQuestion', 'recoveryQuestion');
 $app->post('/recoverPassword', 'recoverPassword');
 $app->post('/resetPassword', 'resetPassword');
 $app->post('/viewUserDatePlans', 'viewUserDatePlans');
+$app->post('/addPhoto', 'addPhoto');
+$app->get('/getPhoto/:userID', 'getPhoto');
 $app->run();
 
 /**
@@ -1484,6 +1487,68 @@ function resetPassword()
 	}
 
 }
+
+function addPhoto() {
+	$target_dir = "../img/user/";
+	$_FILES["fileToUpload"]["name"] = $_POST["userID"] . '.' . pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
+	$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+	$uploadOk = 1;
+	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+	// Check if image file is a actual image
+	if(isset($_POST["submit"])) {
+	    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+	    if($check !== false) {
+	        $uploadOk = 1;
+	    } else {
+	        $uploadOk = 0;
+	    }
+	}
+
+	//Check if file already exists
+	if (glob($target_dir . $_POST["userID"] . ".*")) {
+	    $deleteOld = 1;
+	}
+	else {
+		$deleteOld = 0;
+	}
+
+	if((strcasecmp($imageFileType, "jpg") != 0) && (strcasecmp($imageFileType, "jpeg") != 0) && (strcasecmp($imageFileType, "png") != 0) && (strcasecmp($imageFileType, "gif") != 0) && (strcasecmp($imageFileType, "bmp") != 0)) {
+	    $uploadOk = 0;
+	}
+	// Check if $uploadOk is set to 0 by an error
+	if ($uploadOk == 0) {
+		echo ERROR::UPLOAD_ERROR;
+	} 
+	else {
+		//if old file exists, remove it
+		if($deleteOld == 1) {
+			unlink(glob($target_dir . $_POST["userID"] . ".*")[0]);
+		}
+		//add file to folder
+	    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+	        echo basename($_FILES["fileToUpload"]["name"]);
+	    } 
+	    else {
+	        echo ERROR::UPLOAD_ERROR;
+	    }
+	}
+
+}
+
+function getPhoto($userID) {
+	$app = \Slim\Slim::getInstance();
+	$target_dir = "../img/user/";
+
+	//if the user has uploaded a custom photo, return the file name of that photo
+	if (glob($target_dir . $userID . ".*")) {
+	    echo basename(glob($target_dir . $userID . ".*")[0]);
+	}
+	else {
+		echo ERROR::NO_RESULTS;
+	}
+}
+
 
 
 ?>
