@@ -583,7 +583,6 @@ function searchActivities (){
 	$stmt = $db->prepare($sql);
 	//accept plural version e.g. movie(s)
 	$result.="*";
-	echo "RESL $result";
 	$stmt->bindParam("searchQuery", $result);
 	$stmt ->execute();
 	$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);

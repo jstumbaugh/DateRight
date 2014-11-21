@@ -10,11 +10,7 @@ jQuery(document).ready(function() {
 			getActivitiesByTag(searchString);
 		} else if ($("input[name=activitySearch]:checked").val() == "Name"){
 			$('.activity').remove();
-			var searchString = new Object();
-			searchString.tagName = $("#searchbar").val();
-			searchString.tagName = searchString.tagName.replace(/ /g, '+');
-			searchString = 'SearchQuery=' + searchString.tagName;
-			getActivitiesByName(searchString);
+			getActivitiesByName();
 		}
 	});
 
@@ -89,10 +85,9 @@ function getMousePosition(e){
 	favStar = document.elementFromPoint(e.clientX, e.clientY);
 	if (favStar.classList.contains("starred"))
 	{
-		console.log("api/index.php/deleteFavorite/" + favStar.parentNode.value);
 		$.ajax({
 	        type: 'DELETE',
-	      	url: "api/index.php/deleteFavorite/" + favStar.parentNode.value,
+	      	url: "api/index.php/deleteFavorite/0/" + favStar.parentNode.value,
 			success: function(data){
 				if($.isNumeric(data)){
 	                if(data==1){
@@ -101,7 +96,7 @@ function getMousePosition(e){
 	                }
 	                else{
 	                	console.log(data);
-	                    console.log("Deleted failure");
+	                    console.log("Unable to delete");
 	                    }
 	            }else
 	            {
@@ -175,15 +170,19 @@ function getFavoriteActivities(){
 	});
 }
 
-function getActivitiesByName(searchString){
+function getActivitiesByName(){
+	var searchQuery = new Object();
+	searchQuery.SearchQuery = $("#searchbar").val();
+
 	$.ajax({
-		type: "GET",
-	    url: 'api/index.php/searchActivities',
-	    data: searchString,
-	    success: function(data) {
+		type: 'POST',
+		url: 'api/index.php/searchActivities',
+		content: 'application/json',
+		data: JSON.stringify(searchQuery),
+		success: function(data) {
 	    	var activitiesDiv = $("#activities");
 	    	var actData = $.parseJSON(data).results;
-	    	console.log(data);
+	    	console.log(actData);
 			$.ajax({
 				type: 'POST',
 				url: 'api/index.php/viewFavorites',

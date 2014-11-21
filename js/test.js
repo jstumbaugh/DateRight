@@ -38,15 +38,15 @@ function searchDatabase(){
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = $("#searchbar").val();
 
-		$.ajax({
-			type: 'POST',
-			url: 'api/index.php/searchActivities',
-			content: 'application/json',
-			data: JSON.stringify(searchQuery),
-			success: function(data){
-				console.log(data);
-			}
-		});
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/searchActivities',
+		content: 'application/json',
+		data: JSON.stringify(searchQuery),
+		success: function(data){
+			console.log(data);
+		}
+	});
 }
 
 	/*
@@ -57,7 +57,7 @@ function searchDatabase(){
 	*  
 	*/
     $.ajax({
-        type: 'DELETE',
+       type: 'DELETE',
        url: 'api/deleteFavorite/0/7',
 		success: function(data){
 			if($.isNumeric(data)){
