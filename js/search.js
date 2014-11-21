@@ -212,9 +212,9 @@ function getActivitiesByName(){
 			    		$(starString).appendTo(activityDiv);
 			    		$("<button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button>").appendTo(activityDiv);
 			    	}
+			    	addDrag();
 				}
 			});
-			addDrag();
 		}
 	});
 }
@@ -243,6 +243,7 @@ function addSort(){
 }
 
 function addDrag(){
+	console.log("Adding Drag");
 	$( ".activity" ).draggable({
 		connectToSortable: "#currentDatePlan",
 		helper: "clone",
