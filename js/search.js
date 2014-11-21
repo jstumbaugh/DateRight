@@ -91,7 +91,6 @@ function getActivitiesByTag(searchString){
 
 function getMousePosition(e){
 	favStar = document.elementFromPoint(e.clientX, e.clientY);
-	console.log(favStar);
 	if (favStar.classList.contains("starred"))
 	{
 		$.ajax({
@@ -139,6 +138,7 @@ function getMousePosition(e){
 	}
 	else if (favStar.classList.contains("reviewBut")){
 		$("#ReviewActivityBox").show();
+		//reviewButton = favStar
 	}
 }
 
@@ -273,8 +273,8 @@ function clearText(a){
 };
 
 function reviewActivity(){
-	reviewButton = favStar;
-	inputActivityID = reviewButton.parentNode.value;
+	reviewBut = favStar;
+	inputActivityID = reviewBut.parentNode.value;
 	inputUserID = user.UserID
     inputRating = $("#rating").attr("value");
     inputDescription = $("#descriptionReview").attr("value");
@@ -289,7 +289,7 @@ function reviewActivity(){
     newReview.Description = inputDescription;
     newReview.Cost = inputCostReview;
     newReview.attended = inputattended;
-
+console.log(newReview);
     //create new activity
     $.ajax({
         type: 'POST',
