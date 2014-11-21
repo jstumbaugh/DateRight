@@ -5,13 +5,13 @@ var reviewButton;
 	//Search Activities
 	$('#searchform').submit(function (e) {
 		e.preventDefault();
-		if ($("input[name=activitySearch]:checked").val() == "Tag"){
+		if ($("input[name=search]:checked").val() == "activityTag"){
 			var searchString = new Object();
 			searchString.tagName = $("#searchbar").val();
 			searchString = 'api/index.php/getTaggedActivities?tagName=' + searchString.tagName;
 			$('.activity').remove();
 			getActivitiesByTag(searchString);
-		} else if ($("input[name=activitySearch]:checked").val() == "Name"){
+		} else if ($("input[name=search]:checked").val() == "activitySearch"){
 			$('.activity').remove();
 			getActivitiesByName();
 		}
