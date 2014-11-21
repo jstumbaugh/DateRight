@@ -68,6 +68,13 @@
     background: -o-linear-gradient(#777, #000);
 }
 
+#updateSubmitButton, #closeButton {
+    color:white;
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
 .modalDialog {
     position: fixed;
     top: 0;

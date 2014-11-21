@@ -145,3 +145,10 @@ h3{
     background-size: auto;
     color: rgb(255, 255, 255);
 }
+
+#activitySubmitButton, #closeButton {
+    color:white;
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
