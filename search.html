@@ -45,6 +45,41 @@
 		<ul id="activities">
 		</ul>
 	</body>
+
+	<!-- Over lay created when review is clicked--> 
+<section id="ReviewActivityBox" class="modalDialog">
+    <h2>Review Activity</h2>
+    <form method="post" class="minimal" id="createAccount">
+    	<form action="">
+    	<label for="Attended">
+			<input type="radio" name="Rating" value="0">0<br>
+			<input type="radio" name="Rating" value="1">1<br>
+			<input type="radio" name="Rating" value="2">2<br>
+			<input type="radio" name="Rating" value="3">3<br>
+			<input type="radio" name="Rating" value="4">4<br>
+			<input type="radio" name="Rating" value="5">5<br>
+		</label>
+		</form>
+
+		 <label for="descriptionInput">Description: </label>
+         <textarea id="descriptionInput" cols="40" rows="5" required="required"></textarea><br>
+
+		<label for="costInput">Cost: </label>
+            <input type="number" id="costInput" min="0" max="999" step="1" placeholder="0" required="required"><br>
+
+		<form action="">
+        <label for="Attended">
+            Attended Date?
+            <input type="checkbox" name="attended" value="1">Yes<br>
+            <input type="checkbox" name="attended" value="0"> No<br>
+        </label><br>
+    	</form>
+
+        <button type="submit" class="btn-minimal" id= "ReviewActivity">Submit Review</button>
+        <p id="resultMessage"></p>
+    </form>
+</section>
+
 	<script src="js/activity.js">
         </script>
 	<script src="js/search.js"></script>
