@@ -347,8 +347,8 @@ function reviewDatePlan(){
     if(inputattended == 1){
     newReview = new Object();
     newReview.Rating = inputRating;
-    newReview.DatePlanID = inputDatePlanID
-    newReview.UserID = inputUserID
+    newReview.DatePlanID = inputDatePlanID;
+    newReview.UserID = inputUserID;
     newReview.Description = inputDescription;
     newReview.Attended = inputattended;
 	console.log(newReview);
