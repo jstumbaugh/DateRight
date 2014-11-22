@@ -79,6 +79,8 @@ $app->post('/viewUserDatePlans', 'viewUserDatePlans');
 $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
+$app->post('/createDatePlan', 'createDatePlan');
+$app->post('addActivity', 'addActivity');
 $app->run();
 
 /**
