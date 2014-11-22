@@ -116,6 +116,7 @@ function getMousePosition(e){
 			}
 	    });
 	}
+
 	else if (favStar.classList.contains("unstarred"))
 	{
 		var tempUser = new Object();
@@ -139,10 +140,15 @@ function getMousePosition(e){
 			});
 		}
 	}
+
 	else if (favStar.classList.contains("reviewBut")){
 		reviewBut = favStar;
 		$("#ReviewActivityBox").show();
-		//reviewButton = favStar
+	}
+
+	else if (favStar.classList.contains("reviewButton")){
+		reviewButton = favStar;
+		$("#ReviewDatePlanBox").show();
 	}
 }
 
@@ -319,7 +325,7 @@ function reviewActivity(){
 }
 
 function reviewDatePlan(){
-	inputDatePlanID = reviewBut.parentNode.parentNode.value;
+	inputDatePlanID = reviewButton.parentNode.parentNode.value;
 	inputUserID = user.UserID;
     inputRating = $("input[name=ratingDatePlan]:checked").val();
     inputDescription = $("#descriptionReviewDatePlan").attr("value");
