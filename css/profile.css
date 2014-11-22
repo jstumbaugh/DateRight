@@ -16,6 +16,10 @@ html {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+#homeButton:hover {
+    background: rgba(0,0,0,0.1);
+}
+
 #profileSection {
     display:block;
     padding: 1em;
