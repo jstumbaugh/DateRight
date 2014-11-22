@@ -335,6 +335,8 @@ function reviewActivity(){
 }
 
 function reviewDatePlan(){
+	console.log("DATE PLAN ID");
+	console.log(reviewButton.parentNode.parentNode.value);
 	inputDatePlanID = reviewButton.parentNode.parentNode.value;
 	inputUserID = user.UserID;
     inputRating = $("input[name=rating]:checked").val();
