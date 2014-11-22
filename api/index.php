@@ -1749,7 +1749,7 @@ function createDatePlan()
 	if($dateplan_exists == false)
 	{
 		$userID = $info->UserID;
-		$datePlanSQL = "INSERT INTO DatePlans(DatePlanID, Name, CreatorID ) VALUES (:dateplanID, :name, :userID)";
+		$datePlanSQL = "INSERT INTO DatePlans(DatePlanID, Name, CreatorID, Timestamp ) VALUES (:dateplanID, :name, :userID, NOW())";
 		$db=getConnection();
 		$stmt = $db->prepare($datePlanSQL);
 		$stmt->bindParam("dateplanID", $dateplanID);
