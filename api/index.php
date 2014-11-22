@@ -80,7 +80,7 @@ $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
 $app->post('/createDatePlan', 'createDatePlan');
-$app->post('addActivity', 'addActivity');
+$app->post('/addActivity', 'addActivity');
 $app->run();
 
 /**
@@ -1283,33 +1283,6 @@ function shareDatePlan()
 
 }
 
-function createDatePlan()
-{
-	$app = \Slim\Slim::getInstance();
-	$request = $app->request();
-	$info = json_decode($request->getBody());
-	$activity_exists;
-	$user_exists;
-	try{
-		$name = $info->Name;
-		$public = $info->Public;
-		//$public = 0;
-		$creatorID= $info->UserID;
-		$description = $info->Description;
-		$time = $info->Timestamp;
-
-
-
-
-	}
-	catch (PDOException $e)
-	{
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}
-	
-
-}
-
 // insert the Review into the database
 function reviewDatePlan()
 {
@@ -1831,6 +1804,7 @@ function addActivity()
 			$stmt2->bindParam("activityID", $activityID);
 			$stmt2->execute();
 			$returnedActivityInfo = $stmt->fetch(PDO::FETCH_OBJ);	
+			
 			//CHECK IF ACTIVTY ALREADY EXISTS IN THE DATEBASE
 			$activityExists;
 			if(empty($returnedActivityInfo))
@@ -1851,7 +1825,7 @@ function addActivity()
 		echo ERROR::DATEPLAN_DOESNT_EXIST;
 		exit(1);
 	}
-	if($activityExists == true)
+	if($activityExists == false)
 	{
 		$insertDateActivities = "INSERT INTO DateActivities(DatePlanID, ActivityID) VALUES (:dateplanID, :activityID) ";
 		$stmtInsertDA = $db->prepare($insertDateActivities);
