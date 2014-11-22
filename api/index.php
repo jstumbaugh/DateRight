@@ -23,7 +23,9 @@ class ERROR{
 	 EMAIL_EXISTS = 800,
 	 DATEPLAN_DOESNT_EXIST = 900,
 	 ACTIVITY_DOESNT_EXIST = 1000,
-	 UPLOAD_ERROR = 1100;
+	 UPLOAD_ERROR = 1100,
+	 PARAMETERS_NOT_SET = 1200;
+
 	// PASSWORD_IS_INCORRECT = 700;
 }
 
@@ -54,11 +56,15 @@ $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->delete('/deleteFavorite/:op/:id', 'deleteFavorite');
 $app->post('/searchActivities', 'searchActivities');
+$app->post('/searchDateplans', 'searchDateplans');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
+$app->get('/getTaggedDatePlans', 'getTaggedDatePlans');
 $app->get('/getRandomIdea', 'getRandomIdea');
+$app->get('/getActivityById/:id', 'getActivityById');
+$app->get('/getDateplanById/:id', 'getDateplanById');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
@@ -563,7 +569,45 @@ function deleteFavorite($op,$id) {
     }
 	}
 }
-
+function getActivityById($id) {
+    $sql = "SELECT * FROM Activities WHERE ActivityID=:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $db = null;
+        $size = count($results);
+		if($size>0){
+			echo json_encode($results);
+		}else{
+			echo ERROR::NO_RESULTS;
+		}
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+function getDateplanById($id) {
+    $sql = "SELECT * FROM DatePlans WHERE DatePlanID=:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $db = null;
+        $size = count($results);
+		if($size>0){
+			echo json_encode($results);
+		}else{
+			echo ERROR::NO_RESULTS;
+		}
+        
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
 //Helper function to return the associated activities
 //for each dateplanid supplied
 // @param int representing dateplan id
@@ -583,6 +627,48 @@ function getAssociatedActivities($datePlanID){
     }
 }
 
+//Search by activity name, works with multiple word query as well 
+//@return echo response with result JSON
+function searchDateplans (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	//User search query
+	$json = json_decode($request->getBody());
+	$result = $json->SearchQuery;
+
+	//First check if they sent any query
+	if (!empty($result)) {
+		try {
+		$db = getConnection();
+		//accept plural version e.g. movie(s)
+		$result.="*";
+		$getDatePlans="SELECT * FROM DatePlans WHERE MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$stmt = $db->prepare($getDatePlans);
+		$stmt->bindParam("searchQuery", $result);
+		$stmt ->execute();
+		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$size = count($datePlanResults);
+		if($size>0){
+			//Find the associated activities for each dateplan id
+			for($i=0;$i<$size;$i++){
+				$cID=$datePlanResults[$i]['DatePlanID'];
+				$associatedActs=getAssociatedActivities($cID);
+				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+			}
+		}
+		echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
+		
+		}	
+		catch(PDOException $e) {
+    	echo ERROR::NO_RESULTS;
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+	}else{
+		//No activities found w/ that query
+		echo ERROR::NO_RESULTS;
+		}
+}
 //Search by activity name, works with multiple word query as well 
 //@return echo response with result JSON
 function searchActivities (){
@@ -605,34 +691,17 @@ function searchActivities (){
 		$stmt->bindParam("searchQuery", $result);
 		$stmt ->execute();
 		$activityResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		$getDatePlans="SELECT * FROM DatePlans WHERE MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
-		$stmt = $db->prepare($getDatePlans);
-		$stmt->bindParam("searchQuery", $result);
-		$stmt ->execute();
-		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		$size = count($datePlanResults);
-		if($size>0){
-			//Find the associated activities for each dateplan id
-			for($i=0;$i<$size;$i++){
-				$cID=$datePlanResults[$i]['DatePlanID'];
-				$associatedActs=getAssociatedActivities($cID);
-				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
-			}
-		}
-		//$one='{"Activities": ' . json_encode($activityResults) . '}';
-		if (!empty($activityResults)){
-			echo '{"Activities": ' . json_encode($activityResults) . ',"DatePlans": ' . json_encode($datePlanResults) . '}';
-		}
-		else if ($activityResults == " "){
-			echo '{"Activities": [],"DatePlans": ' . json_encode($datePlanResults) . '}';
-		}
+		$json=json_encode($activityResults);
+		if($json!=FALSE)
+			echo '{"Activities": ' . $json .'}';
+		else 
+			echo ERROR::NO_RESULTS;
+		
 		}	
 		catch(PDOException $e) {
     	echo ERROR::NO_RESULTS;
         echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
+	}
 	}else{
 		//No activities found w/ that query
 		echo ERROR::NO_RESULTS;
@@ -764,8 +833,72 @@ function getTaggedActivities() {
 
 	//Declaring strings which may be inserted into the SQL statement before sending
 	$option1 = "WHERE TagID = ";
-	$option2 = "NATURAL JOIN Tags
-			WHERE TagName = '";
+	$option2 = "WHERE TagName = '";
+
+	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
+	$sqlInsert2 = "";//Only set if num is provided
+
+	$numTags = $app->request()->params('num');
+	$tagID = $app->request()->params('tagID');
+	$tagName = $app->request()->params('tagName');
+	
+	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
+	if(!empty($num)) {
+		$sqlInsert2 = "
+		LIMIT $numTags";
+	}
+
+	//Check to see if either tagID or tagName was specified
+	if(!empty($tagID)) {
+		$sqlInsert1 = $option1 . $tagID . $sqlInsert2;
+	}
+	else if(!empty($tagName)) {
+		$sqlInsert1 = $option2 . $tagName . "'" . $sqlInsert2;
+	}
+	else {
+		echo ERROR::PARAMETERS_NOT_SET;
+		exit(ERROR::PARAMETERS_NOT_SET);
+	}
+	
+	$sql = "SELECT ActivityID, Name, Description, Cost, Rating, Location
+			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags $sqlInsert1
+			$sqlInsert2";
+
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		//Checking if the query returned any results
+		if(sizeof($returnedInfo) == 0) {
+			exit(ERROR::JSON_ERROR);
+		}
+
+		//Type-casting integers before returning them
+		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
+			$returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0.00;
+			$returnedInfo[$i]['ActivityID'] = $returnedInfo[$i]['ActivityID'] + 0;
+			$returnedInfo[$i]['Rating'] = $returnedInfo[$i]['Rating'] + 0;
+		}
+
+		echo json_encode($returnedInfo);
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+function getTaggedDatePlans() {
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+
+	$numTags;
+	$tagID;
+	$tagName;
+
+	//Declaring strings which may be inserted into the SQL statement before sending
+	$option1 = "AND TagID = ";
+	$option2 = "AND TagName = ";
 
 	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
 	$sqlInsert2 = "";//Only set if num is provided
@@ -783,19 +916,24 @@ function getTaggedActivities() {
 
 	//Check to see if either tagID or tagName was specified
 	if(!empty($tagID)) {
-		$sqlInsert = $option1 . $tagID . $sqlInsert2;
+		$sqlInsert1 = $option1 . $tagID . $sqlInsert2;
 		$sqlSet = TRUE;
 	}
 	else if(!empty($tagName)) {
-		$sqlInsert = $option2 . $tagName . "'" . $sqlInsert2;
+		$sqlInsert1 = $option2 . $tagName . "'" . $sqlInsert2;
 		$sqlSet = TRUE;
 	}
 	else {
-		exit('Neither search parameter (TagID || TagName) set!');//ERROR
+		echo ERROR::PARAMETERS_NOT_SET;
+		exit(ERROR::PARAMETERS_NOT_SET);
 	}
 	
-	$sql = "SELECT ActivityID, Name, Description, Cost, Rating, Location
-			FROM TaggedActivities NATURAL JOIN Activities $sqlInsert";
+	$sql = "SELECT DatePlans.*
+			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN DateActivities NATURAL JOIN Tags
+			LEFT OUTER JOIN DatePlans ON DateActivities.DatePlanID = DatePlans.DatePlanID
+			WHERE DatePlans.Public = 1
+			$sqlInsert1
+			GROUP BY DatePlans.DatePlanID";
 
 	try {
 		$db = getConnection();
@@ -809,8 +947,8 @@ function getTaggedActivities() {
 
 		//Type-casting integers before returning them
 		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
-			$returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0.00;
-			$returnedInfo[$i]['ActivityID'] = $returnedInfo[$i]['ActivityID'] + 0;
+			// $returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0.00;
+			$returnedInfo[$i]['DatePlanID'] = $returnedInfo[$i]['DatePlanID'] + 0;
 		}
 
 		echo json_encode($returnedInfo);
@@ -818,6 +956,7 @@ function getTaggedActivities() {
 	catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
+
 }
 
 

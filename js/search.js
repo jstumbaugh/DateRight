@@ -52,6 +52,11 @@ jQuery(document).ready(function() {
 		reviewActivity();
 	})
 
+	$('#reviewDatePlan').submit(function(e){
+		e.preventDefault();
+		reviewDatePlan();
+	})
+
 	addSort();
 });
 
@@ -331,18 +336,20 @@ function reviewActivity(){
 }
 
 function reviewDatePlan(){
+	console.log("DATE PLAN ID");
+	console.log(reviewButton.parentNode.parentNode.value);
 	inputDatePlanID = reviewButton.parentNode.parentNode.value;
 	inputUserID = user.UserID;
-    inputRating = $("input[name=ratingDatePlan]:checked").val();
+    inputRating = $("input[name=rating]:checked").val();
     inputDescription = $("#descriptionReviewDatePlan").attr("value");
-    inputattended = $("input[name=attendedDatePlan]:checked").val();
+    inputattended = $("input[name=attended]:checked").val();
      console.log(inputattended);
     //create activity object 
     if(inputattended == 1){
     newReview = new Object();
     newReview.Rating = inputRating;
-    newReview.DatePlanID = inputDatePlanID
-    newReview.UserID = inputUserID
+    newReview.DatePlanID = inputDatePlanID;
+    newReview.UserID = inputUserID;
     newReview.Description = inputDescription;
     newReview.Attended = inputattended;
 	console.log(newReview);
