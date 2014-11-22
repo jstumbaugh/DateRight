@@ -153,6 +153,7 @@ function getMousePosition(e){
 
 	else if (favStar.classList.contains("reviewButton")){
 		reviewButton = favStar;
+		console.log(reviewButton.parentNode.parentNode);
 		$("#ReviewDatePlanBox").show();
 	}
 }
