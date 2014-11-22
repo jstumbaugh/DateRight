@@ -154,8 +154,15 @@ position: absolute;
     top: 48%;
 }
 #createAccountForm label{
-padding-left: 75px;
-margin-left:-20px;
+  margin-right: 40px;
+}
+
+#createAccountForm{
+  text-align: right;
+}
+
+button .btn-minimal{
+  padding-right: 100px;
 }
 #ForgotPasswordBox.overlayBox{
 position: absolute;

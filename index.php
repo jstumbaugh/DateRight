@@ -60,24 +60,24 @@
         <label for="userName">
             Username:
             <input type="text" name="userName" id="userName"  placeholder="Username" required />
-        </label>
+        </label><br>
         <label for="fName">
             First:
             <input type="text" name="fNameAccount" id="fNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="First Name" required="required" />
-        </label>
+        </label><br>
         <label for="lName">
             Last:
             <input type="text" name="lNameAccount" id="lNameAccount" pattern="[a-zA-Z]+" title="Letters only" placeholder="Last Name" required="required"/>
-        </label>
+        </label><br>
         <label for = "email">
             Email:
-        </label>
-        <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/><br>
+            <input type = "text" id="emailAccount" email = "email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  placeholder = "YourEmail@email.com" required/>
+        </label><br>
         <label for="password">
             Password:
             <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required="required" />
-        </label>
-        <label for="security">Security Question:
+        </label><br>
+        <label for="security" id="securityQuest"> <p id="SecrueQuestP" style=" margin-top: -20px;  margin-bottom: -5px;  padding-right: 100px;"> Security Question: </p>   
             <select name="securityQuestion" id = "SecurityQuestion" placeholder= "Pick a Question!" required>
             <option value="1">Where was your first date?</option>
             <option value="2">What is the first name of the person you first kissed?</option>
@@ -85,11 +85,11 @@
             <option value="4">What is the name of your favorite pet?</option>
             <option value= "5"> What is the name of the street you grew up on? </option>
             </select>
-        </label>
+        </label><br>
         <label for="securityAnsewer">
             <input type="text" name="securityAnsewer" id="securityAnsewer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
-        </label>
-        <button type="submit" class="btn-minimal">Create Account!</button>
+        </label><br>
+        <button type="submit" class="btn-minimal" style = "margin-right: 105px;">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
 </section>
