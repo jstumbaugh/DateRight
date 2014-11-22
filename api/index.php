@@ -54,6 +54,7 @@ $app->post('/viewProfile', 'viewProfile');
 $app->post('/viewFavorites', 'viewFavorites');
 $app->delete('/deleteFavorite/:op/:id', 'deleteFavorite');
 $app->post('/searchActivities', 'searchActivities');
+$app->post('/searchDateplans', 'searchDateplans');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
@@ -585,6 +586,48 @@ function getAssociatedActivities($datePlanID){
 
 //Search by activity name, works with multiple word query as well 
 //@return echo response with result JSON
+function searchDateplans (){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	//User search query
+	$json = json_decode($request->getBody());
+	$result = $json->SearchQuery;
+
+	//First check if they sent any query
+	if (!empty($result)) {
+		try {
+		$db = getConnection();
+		//accept plural version e.g. movie(s)
+		$result.="*";
+		$getDatePlans="SELECT * FROM DatePlans WHERE MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$stmt = $db->prepare($getDatePlans);
+		$stmt->bindParam("searchQuery", $result);
+		$stmt ->execute();
+		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$size = count($datePlanResults);
+		if($size>0){
+			//Find the associated activities for each dateplan id
+			for($i=0;$i<$size;$i++){
+				$cID=$datePlanResults[$i]['DatePlanID'];
+				$associatedActs=getAssociatedActivities($cID);
+				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+			}
+		}
+		echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
+		
+		}	
+		catch(PDOException $e) {
+    	echo ERROR::NO_RESULTS;
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+	}else{
+		//No activities found w/ that query
+		echo ERROR::NO_RESULTS;
+		}
+}
+//Search by activity name, works with multiple word query as well 
+//@return echo response with result JSON
 function searchActivities (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -605,34 +648,17 @@ function searchActivities (){
 		$stmt->bindParam("searchQuery", $result);
 		$stmt ->execute();
 		$activityResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		$getDatePlans="SELECT * FROM DatePlans WHERE MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
-		$stmt = $db->prepare($getDatePlans);
-		$stmt->bindParam("searchQuery", $result);
-		$stmt ->execute();
-		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		$size = count($datePlanResults);
-		if($size>0){
-			//Find the associated activities for each dateplan id
-			for($i=0;$i<$size;$i++){
-				$cID=$datePlanResults[$i]['DatePlanID'];
-				$associatedActs=getAssociatedActivities($cID);
-				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
-			}
-		}
-		//$one='{"Activities": ' . json_encode($activityResults) . '}';
-		if (!empty($activityResults)){
-			echo '{"Activities": ' . json_encode($activityResults) . ',"DatePlans": ' . json_encode($datePlanResults) . '}';
-		}
-		else if ($activityResults == " "){
-			echo '{"Activities": [],"DatePlans": ' . json_encode($datePlanResults) . '}';
-		}
+		$json=json_encode($activityResults);
+		if($json!=FALSE)
+			echo '{"Activities": ' . $json .'}';
+		else 
+			echo ERROR::NO_RESULTS;
+		
 		}	
 		catch(PDOException $e) {
     	echo ERROR::NO_RESULTS;
         echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
+	}
 	}else{
 		//No activities found w/ that query
 		echo ERROR::NO_RESULTS;

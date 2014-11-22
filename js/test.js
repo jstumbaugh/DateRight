@@ -40,11 +40,36 @@ function updateDatePlan(){
 //LOOK AT EXAMPLE BELOW TO SEE HOW TO USE
 function searchDatabase(){
 	var searchQuery = new Object();
-	searchQuery.SearchQuery = $("#searchbar").val();
-
+	searchQuery.SearchQuery = $("#searchbar").val();8
+	console.log("Activity results");
+	//Searching Activities
 	$.ajax({
 		type: 'POST',
 		url: 'api/index.php/searchActivities',
+		content: 'application/json',
+		data: JSON.stringify(searchQuery),
+		success: function(data){
+			if($.isNumeric(data)){
+                if(data==500){
+                    console.log("No results found using the search query supplied.");
+                }
+            }else
+            {
+            	 var returnedSearch = jQuery.parseJSON(data);
+            	 console.log("Activity Search Results: ");
+            	 //Check to see if there are any activity results
+            	 if(returnedSearch.hasOwnProperty("Activities")){
+            	 	for(var i=0;i<returnedSearch.Activities.length;i++)
+						console.log(returnedSearch.Activities[i]["Description"]);
+            	 }
+            }
+		}
+	});
+	console.log("Dateplan results");
+	//Searching Dateplans
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/searchDateplans',
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data){
@@ -66,16 +91,10 @@ function searchDatabase(){
 							console.log(returnedSearch.DatePlans[i].AssociatedActivities[j].ActivityID);
             		}
             	 }
-            	 console.log("Activity Search Results: ");
-            	 //Check to see if there are any activity results
-            	 if(returnedSearch.hasOwnProperty("Activities")){
-            	 	for(var i=0;i<returnedSearch.Activities.length;i++)
-						console.log(returnedSearch.Activities[i]["Description"]);
-            	 }
             }
 		}
 	});
-
+}
 	/*
 	* Delete favorite
 	* Call like this api/deleteFavorite/0/2
