@@ -1,6 +1,11 @@
 jQuery(document).ready(function() {
 	var reviewButton;
+getUserID();
 
+	console.log(user.UserID);
+	if(user.UserID == undefined ){
+		$("#currentplan").hide();
+	}
 	//Search Activities
 	$('#searchform').submit(function (e) {
 		e.preventDefault();
