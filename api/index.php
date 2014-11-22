@@ -1797,20 +1797,21 @@ function addActivity()
 	if ($dateplan_exists == true)
 	{
 		$activityID = $info->ActivityID;
+		echo json_encode($activityID);
 		try{
 			$sql = "SELECT * FROM Activities WHERE ActivityID = :activityID";
 			$db = getConnection();
 			$stmt2 = $db->prepare($sql);
 			$stmt2->bindParam("activityID", $activityID);
 			$stmt2->execute();
-			$returnedActivityInfo = $stmt->fetch(PDO::FETCH_OBJ);	
-			
+			$returnedActivityInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+			echo json_encode($returnedActivityInfo);
 			//CHECK IF ACTIVTY ALREADY EXISTS IN THE DATEBASE
 			$activityExists;
 			if(empty($returnedActivityInfo))
 			{
 				$activityExists = false;
-				echo "ACTIVTY DOES NOT EXIST IN DB";
+				echo "ACTIVTY DOES NOT EXIST IN DB\n";
 			}
 			else {
 				$activityExists = true;
@@ -1825,11 +1826,11 @@ function addActivity()
 		echo ERROR::DATEPLAN_DOESNT_EXIST;
 		exit(1);
 	}
-	if($activityExists == false)
+	if($activityExists == true)
 	{
 		$insertDateActivities = "INSERT INTO DateActivities(DatePlanID, ActivityID) VALUES (:dateplanID, :activityID) ";
 		$stmtInsertDA = $db->prepare($insertDateActivities);
-		$stmtInsertDA->bindParam("datePlanID", $datePlanID);
+		$stmtInsertDA->bindParam("dateplanID", $datePlanID);
 		$stmtInsertDA->bindParam("activityID", $activityID);
 		$stmtInsertDA->execute();
 		echo "EXECUTED";	
