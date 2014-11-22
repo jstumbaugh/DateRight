@@ -13,6 +13,9 @@ jQuery(document).ready(function() {
 		} else if ($("input[name=search]:checked").val() == "activitySearch"){
 			$('.activity').remove();
 			getActivitiesByName();
+		} else if ($("input[name=search]:checked").val() == "datePlanSearch"){
+			$('.activity').remove();
+			searchDatabase();
 		}
 	});
 
@@ -193,8 +196,9 @@ function getActivitiesByName(){
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data) {
+			console.log(data);
 	    	var activitiesDiv = $("#searchResults");
-	    	var actData = $.parseJSON(data).results;
+	    	var actData = $.parseJSON(data).Activities;
 	    	console.log(actData);
 			$.ajax({
 				type: 'POST',
@@ -351,4 +355,20 @@ function reviewDatePlan(){
 	else{
 		 $("#resultMessageActivityReview").text("You must attend a Date Plan to rate it!");
 	}
+}
+
+function searchDatabase(){
+	var searchQuery = new Object();
+	searchQuery.SearchQuery = $("#searchbar").val();
+
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/searchActivities',
+		content: 'application/json',
+		data: JSON.stringify(searchQuery),
+		success: function(data){
+			console.log(data);
+			console.log(jQuery.parseJSON(data));
+		}
+	});
 }
