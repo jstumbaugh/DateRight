@@ -79,6 +79,8 @@ $app->post('/viewUserDatePlans', 'viewUserDatePlans');
 $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
+$app->post('/createDatePlan', 'createDatePlan');
+$app->post('/addActivity', 'addActivity');
 $app->run();
 
 /**
@@ -1281,33 +1283,6 @@ function shareDatePlan()
 
 }
 
-function createDatePlan()
-{
-	$app = \Slim\Slim::getInstance();
-	$request = $app->request();
-	$info = json_decode($request->getBody());
-	$activity_exists;
-	$user_exists;
-	try{
-		$name = $info->Name;
-		$public = $info->Public;
-		//$public = 0;
-		$creatorID= $info->UserID;
-		$description = $info->Description;
-		$time = $info->Timestamp;
-
-
-
-
-	}
-	catch (PDOException $e)
-	{
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}
-	
-
-}
-
 // insert the Review into the database
 function reviewDatePlan()
 {
@@ -1737,6 +1712,136 @@ function deleteDatePlan()
 		echo ERROR::JSON_ERROR;
 	}
 } // end of function
+
+function createDatePlan()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request();
+	$info = json_decode($request->getBody());
+	$activity_exists;
+	$user_exists;
+	$dateplan_exists;
+	try{
+		$dateplanID = $info->DatePlanID;
+		$dateplanName = $info ->Name;
+		$db=getConnection();
+		$checkDatePlan = "SELECT * FROM DatePlans WHERE DatePlanID = :dateplanid";
+		$stmtcheckdp =  $db->prepare($checkDatePlan);
+		$stmtcheckdp ->bindParam("dateplanid", $dateplanID);
+		$stmtcheckdp->execute();
+		$RICHECKDP = $stmtcheckdp->fetch(PDO::FETCH_OBJ);
+		echo json_encode($RICHECKDP);
+		if(empty($RICHECKDP))
+		{
+			$dateplan_exists = false;
+		}
+		else
+		{
+			$dateplan_exists = true;
+		}
+		$db= null;
+	}
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+
+	if($dateplan_exists == false)
+	{
+		$userID = $info->UserID;
+		$datePlanSQL = "INSERT INTO DatePlans(DatePlanID, Name, CreatorID, Timestamp ) VALUES (:dateplanID, :name, :userID, NOW())";
+		$db=getConnection();
+		$stmt = $db->prepare($datePlanSQL);
+		$stmt->bindParam("dateplanID", $dateplanID);
+		$stmt ->bindParam("name", $dateplanName);
+		$stmt->bindParam("userID", $userID);
+		$stmt->execute();
+	}
+	else if ($dateplan_exists == true)
+	{
+		echo '{"error":{"text":'. 'DatePlan Already Exists' .'}}';
+	}
+
+}
+
+function addActivity()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$info = json_decode($request->getBody());
+	$dateplan_exists;
+	try
+	{
+		$datePlanID = $info->DatePlanID;
+		$checkDatePlanExists ="SELECT * FROM DatePlans WHERE DatePlanID = :datePlanID";
+		$db = getConnection();
+		$stmt  = $db->prepare($checkDatePlanExists);
+		$stmt->bindParam("datePlanID", $datePlanID);
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if(empty($returnedInfo))
+			{
+				$dateplan_exists = false;
+				echo ERROR::DATEPLAN_DOESNT_EXIST;
+				exit(1);
+			}
+			else
+			{
+				$dateplan_exists = true;
+			}
+		$db = null;
+	}
+	catch(PDOException $e){
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+	if ($dateplan_exists == true)
+	{
+		$activityID = $info->ActivityID;
+		echo json_encode($activityID);
+		try{
+			$sql = "SELECT * FROM Activities WHERE ActivityID = :activityID";
+			$db = getConnection();
+			$stmt2 = $db->prepare($sql);
+			$stmt2->bindParam("activityID", $activityID);
+			$stmt2->execute();
+			$returnedActivityInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+			echo json_encode($returnedActivityInfo);
+			//CHECK IF ACTIVTY ALREADY EXISTS IN THE DATEBASE
+			$activityExists;
+			if(empty($returnedActivityInfo))
+			{
+				$activityExists = false;
+				echo "ACTIVTY DOES NOT EXIST IN DB\n";
+			}
+			else {
+				$activityExists = true;
+			}
+
+		}
+		catch(PDOException $e){
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+	}
+	else{
+		echo ERROR::DATEPLAN_DOESNT_EXIST;
+		exit(1);
+	}
+	if($activityExists == true)
+	{
+		$insertDateActivities = "INSERT INTO DateActivities(DatePlanID, ActivityID) VALUES (:dateplanID, :activityID) ";
+		$stmtInsertDA = $db->prepare($insertDateActivities);
+		$stmtInsertDA->bindParam("dateplanID", $datePlanID);
+		$stmtInsertDA->bindParam("activityID", $activityID);
+		$stmtInsertDA->execute();
+		echo "EXECUTED";	
+	}
+	else{
+		echo "activity doesn't exist";
+	}	
+
+
+
+}
 
 
 
