@@ -60,6 +60,8 @@ $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
 $app->get('/getTaggedActivities', 'getTaggedActivities');
 $app->get('/getRandomIdea', 'getRandomIdea');
+$app->get('/getActivityById/:id', 'getActivityById');
+$app->get('/getDateplanById/:id', 'getDateplanById');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
@@ -564,7 +566,45 @@ function deleteFavorite($op,$id) {
     }
 	}
 }
-
+function getActivityById($id) {
+    $sql = "SELECT * FROM Activities WHERE ActivityID=:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $db = null;
+        $size = count($results);
+		if($size>0){
+			echo json_encode($results);
+		}else{
+			echo ERROR::NO_RESULTS;
+		}
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+function getDateplanById($id) {
+    $sql = "SELECT * FROM DatePlans WHERE DatePlanID=:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $db = null;
+        $size = count($results);
+		if($size>0){
+			echo json_encode($results);
+		}else{
+			echo ERROR::NO_RESULTS;
+		}
+        
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
 //Helper function to return the associated activities
 //for each dateplanid supplied
 // @param int representing dateplan id

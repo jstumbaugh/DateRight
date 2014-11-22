@@ -1,4 +1,42 @@
 //Test function
+//Get activity by id
+function getActivityById(){
+		$.ajax({
+			type: 'GET',
+			url: 'api/getActivityById/1',
+			content: 'application/json',
+			success: function(data){
+				if($.isNumeric(data)){
+					if(data==500){
+						console.log("There are no results");
+					}
+				}else{
+					console.log(data);
+				}
+			}
+		});
+}
+//Test function
+//Get dateplan by id
+function getDatePlanById(){
+		$.ajax({
+			type: 'GET',
+			url: 'api/getDateplanById/1',
+			content: 'application/json',
+			success: function(data){
+				if($.isNumeric(data)){
+					if(data==500){
+						console.log("There are no results");
+					}
+				}else{
+					console.log(data);
+				}
+			}
+		});
+}
+
+
+//Test function
 //Search by location, activity, or just general query
 //Uses Myisam FULLTEXT indexing
 function updateDatePlan(){
