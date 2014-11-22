@@ -137,9 +137,7 @@ img.bg {
   font-size: 18px;
 }
 
-label{
-    padding-right: 10px;
-}
+
 #loginBox.overlayBox{
 position: absolute;
  width: 200px;
@@ -150,12 +148,15 @@ position: absolute;
 
 #createAccountBox.overlayBox{
     position: absolute;
-    width:350px;
+    width:25%;
     left:45%;
     top-padding: 20%;
     top: 48%;
 }
-
+#createAccountForm label{
+padding-left: 75px;
+margin-left:-20px;
+}
 #ForgotPasswordBox.overlayBox{
 position: absolute;
  width: 200px;
