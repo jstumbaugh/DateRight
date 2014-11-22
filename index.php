@@ -75,7 +75,7 @@
         </label><br>
         <label for="password">
             Password:
-            <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters" pattern=".{8,}" required="required" />
+            <input type="password" name="password" id="passwordAccount" placeholder="At least 8 characters." pattern="[a-zA-Z0-9!@#$%^*]{8,25}" required="required" />
         </label><br>
         <label for="security" id="securityQuest"> <p id="SecrueQuestP" style=" margin-top: -20px;  margin-bottom: -5px;  padding-right: 100px;"> Security Question: </p>   
             <select name="securityQuestion" id = "SecurityQuestion" placeholder= "Pick a Question!" required>
