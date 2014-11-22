@@ -65,9 +65,7 @@ function getActivitiesByTag(searchString){
 		type: 'GET',
 	    url: searchString,
 	    success: function(data) {
-	    	console.log(data);
 	    	var actData = jQuery.parseJSON(data);
-	    	console.log(actData);
 	    	var activitiesDiv = $("#searchResults");
 			$.ajax({
 				type: 'POST',
@@ -172,7 +170,6 @@ function getUserID(){
         url: 'api/index.php/getSessionInfo',
         success: function(data){
             sessionData = JSON.parse(data);
-            console.log(data);
         }
     });
     user.UserID = sessionData.UserID;
@@ -189,7 +186,8 @@ function getFavoriteActivities(){
 	    	var activitiesDiv = $("#searchResults");
 	    	for (i = 0; i < actData.length; i++)
 	    	{
-	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>"
+	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>";
+	    		elem.attr('value', actData[i].ActivityID);
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
@@ -213,10 +211,8 @@ function getActivitiesByName(){
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data) {
-			console.log(data);
 	    	var activitiesDiv = $("#searchResults");
 	    	var actData = $.parseJSON(data).Activities;
-	    	console.log(actData);
 			$.ajax({
 				type: 'POST',
 				url: 'api/index.php/viewFavorites',
@@ -337,7 +333,6 @@ function reviewActivity(){
 
 function reviewDatePlan(){
 	console.log("DATE PLAN ID");
-	console.log(reviewButton.parentNode.parentNode.value);
 	inputDatePlanID = reviewButton.parentNode.parentNode.value;
 	inputUserID = user.UserID;
     inputRating = $("input[name=rating]:checked").val();
@@ -382,7 +377,7 @@ function searchDatabase(){
 
 	$.ajax({
 		type: 'POST',
-		url: 'api/index.php/searchActivities',
+		url: 'api/index.php/searchDateplans',
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data){
@@ -394,22 +389,21 @@ function searchDatabase(){
 	    		var datePlanDiv = $(searchedDatePlan).appendTo(datePlansDiv);
 	    		$("<h2></h2>").text(planData[k].Name).appendTo(datePlanDiv);
 	    		for (var l = 0; l < planData[k].AssociatedActivities.length; l++){
-	    // 			$.ajax({
-					// 	type: 'GET',
-					//     url: 'api/index.php/getTaggedActivities?tagID=' + planData[k].AssociatedActivities[l].ActivityID,
-					//     success: function(data2) {
-					//     	console.log(data2);
-					//     	var actData = jQuery.parseJSON(data);
-				 //    		var elem = "<li class='activity' value=" + actData.ActivityID + " title=\"" + actData.Description + "\"></li>";
-				 //    		var activityDiv = $(elem).appendTo(searchedDatePlan);
-				 //    		$("<h3></h3>").text(actData.Name).appendTo(activityDiv);
-				 //    		addDrag();
-					// 	}, 
-					// 	error: function(jqXHR, errorThrown){
-					// 		console.log('We didnt make it sir, sorry');
-					// 		console.log(jqXHR, errorThrown);
-					// 	}
-					// });
+	    			$.ajax({
+						type: 'GET',
+					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
+					    success: function(data2) {
+					    	var actData = jQuery.parseJSON(data2);
+				    		var elem = "<li class='activity' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li>";
+				    		var activityDiv = $(elem).appendTo(datePlanDiv);
+				    		$("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
+				    		addDrag();
+						}, 
+						error: function(jqXHR, errorThrown){
+							console.log('We didnt make it sir, sorry');
+							console.log(jqXHR, errorThrown);
+						}
+					});
 	    		}
 	    		$("<a id='reviewDatePlanBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
 	    	}
