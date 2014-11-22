@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Effects - Show Demo</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .toggler { width: 500px; height: 200px; float: left;}
+  #button { padding: .5em 1em; text-decoration: none; }
+  #one, #two { width: 240px; height: 135px; padding: 0.4em; }
+  #one, #two h3 { margin: 0; padding: 0.4em; text-align: center; }
+  .toHover {height: 150px; width: 50px; margin-right: 10px; background-color: blue; float: left;}
+  </style>
+  <script>
+  var selected = $( "#effectTypes" ).val();;
+  $(function() {
+    // run the currently selected effect
+    function runEffect() {
+      selected = $( "#effectTypes" ).val();
+
+      // run the effect
+      $( "#one" ).show( "slide", 1000, callback );
+      $( "two" ).show( "slide", 1000, callback );
+    };
+ 
+    //callback function to bring a hidden box back
+    function callback() {
+      setTimeout(function() {
+        $( "#one:visible" ).fadeOut();
+          }, 1000);
+      setTimeout(function() {
+        $( "#two:visible" ).fadeOut();
+          }, 1000);
+    };
+ 
+    // set effect from select menu value
+    $( "#button" ).click(function() {
+      runEffect();
+    });
+    $( "#one" ).hide();
+    $( "#two" ).hide();
+  });
+  </script>
+</head>
+<body>
+
+<div class="toHover">
+  <p>One</p>
+</div>
+
+<div class="toggler">
+  <div id="one" class="ui-widget-content ui-corner-all ">
+    <h3 class="ui-widget-header ui-corner-all">Show</h3>
+    <p>
+      Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+    </p>
+  </div>
+</div>
+
+<div class="toHover">
+  <p>Two</p>
+</div>
+
+<div class="toggler">
+  <div id="two" class="ui-widget-content ui-corner-all">
+    <h3 class="ui-widget-header ui-corner-all">Show</h3>
+    <p>
+      Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+    </p>
+  </div>
+</div>
+ 
+<select name="effects" id="effectTypes">
+  <option value="One">One</option>
+  <option value="Two">Two</option>
+</select>
+ 
+<button id="button" class="ui-state-default ui-corner-all">Run Effect</button>
+ 
+ 
+</body>
+</html>

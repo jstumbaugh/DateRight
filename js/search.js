@@ -9,12 +9,15 @@ jQuery(document).ready(function() {
 			searchString.tagName = $("#searchbar").val();
 			searchString = 'api/index.php/getTaggedActivities?tagName=' + searchString.tagName;
 			$('.activity').remove();
+			$('.dateplan').remove();
 			getActivitiesByTag(searchString);
 		} else if ($("input[name=search]:checked").val() == "activitySearch"){
 			$('.activity').remove();
+			$('.dateplan').remove();
 			getActivitiesByName();
 		} else if ($("input[name=search]:checked").val() == "datePlanSearch"){
 			$('.activity').remove();
+			$('.dateplan').remove();
 			searchDatabase();
 		}
 	});
@@ -28,12 +31,14 @@ jQuery(document).ready(function() {
 	$('#favactivitiesbut').click(function(e){
 		e.preventDefault();
 		$('.activity').remove();
+		$('.dateplan').remove();
 		getFavoriteActivities();
 	});
 
 	$('#profilebut').click(function(e){
 		e.preventDefault();
 		$('.activity').remove();
+		$('.dateplan').remove();
 		$(location).attr('href', "profile.html");
 	})
 
@@ -373,9 +378,33 @@ function searchDatabase(){
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data){
-			console.log(data);
-			console.log(jQuery.parseJSON(data));
-			jQuery.parseJSON(data).Activities = '[]'
+	    	var datePlansDiv = $("#searchResults");
+	    	var planData = $.parseJSON(data).DatePlans;
+	    	console.log(planData);
+	    	for (var k = 0; k < planData.length; k++){
+	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
+	    		var datePlanDiv = $(searchedDatePlan).appendTo(datePlansDiv);
+	    		$("<h2></h2>").text(planData[k].Name).appendTo(datePlanDiv);
+	    		for (var l = 0; l < planData[k].AssociatedActivities.length; l++){
+	    // 			$.ajax({
+					// 	type: 'GET',
+					//     url: 'api/index.php/getTaggedActivities?tagID=' + planData[k].AssociatedActivities[l].ActivityID,
+					//     success: function(data2) {
+					//     	console.log(data2);
+					//     	var actData = jQuery.parseJSON(data);
+				 //    		var elem = "<li class='activity' value=" + actData.ActivityID + " title=\"" + actData.Description + "\"></li>";
+				 //    		var activityDiv = $(elem).appendTo(searchedDatePlan);
+				 //    		$("<h3></h3>").text(actData.Name).appendTo(activityDiv);
+				 //    		addDrag();
+					// 	}, 
+					// 	error: function(jqXHR, errorThrown){
+					// 		console.log('We didnt make it sir, sorry');
+					// 		console.log(jqXHR, errorThrown);
+					// 	}
+					// });
+	    		}
+	    		$("<a id='reviewDatePlanBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
+	    	}
 		}
 	});
 }

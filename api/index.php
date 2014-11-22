@@ -625,8 +625,8 @@ function searchActivities (){
 		if (!empty($activityResults)){
 			echo '{"Activities": ' . json_encode($activityResults) . ',"DatePlans": ' . json_encode($datePlanResults) . '}';
 		}
-		else {
-			echo '{"Activities": {},"DatePlans": ' . json_encode($datePlanResults) . '}';
+		else if ($activityResults == " "){
+			echo '{"Activities": [],"DatePlans": ' . json_encode($datePlanResults) . '}';
 		}
 		}	
 		catch(PDOException $e) {

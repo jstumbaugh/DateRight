@@ -36,69 +36,14 @@
         	</a>
 		</div>
 		<form id="searchform">
-			<input type="radio" name="search" value="activitySearch" checked="checked"> Activity Names
+			<input type="radio" name="search" value="activitySearch"> Activity Names
 			<input type="radio" name="search" value="activityTag">Activity Tags
-			<input type="radio" name="search" value="datePlanSearch"> Date Plan Names
+			<input type="radio" name="search" value="datePlanSearch" checked="checked"> Date Plan Names
 			<input type="radio" name="search" value="datePlanTag">Date Plan Tags<br>
 			<input type="text" id="searchbar" name="datesearch" size="50">
 			<input type="submit" value="Search" id="searchsubmit">
 		</form>
-		<ul id="searchResults">
-			<ul class="dateplan" id="1">
-				<h2>Fun Day with Murder</h2>
-				<li class="activity" id="1">
-					<h3>Going to the Movies</h3>
-					<p class="starred"></p>
-				</li>
-				<li class="activity" id="4">
-					<h3>Jumping on a Trampoline</h3>
-					<p class="unstarred"></p>
-				</li>
-				<li class="activity" id="7">
-					<h3>Murder</h3>
-					<p class="starred"></p>
-				</li>
-				<button name="Review" class="reviewButton" id="review1">Review</button>
-			</ul>
-
-			<ul class="dateplan" id="2">
-				<h2>Fun Day with Pillaging</h2>
-				<li class="activity" id="3">
-					<h3>Party Central Party</h3>
-					<p class="unstarred"></p>
-				</li>
-				<li class="activity" id="10">
-					<h3>Pillage a Village</h3>
-					<p class="starred"></p>
-				</li>
-				<li class="activity" id="2">
-					<h3>Maurading</h3>
-					<p class="starred"></p>
-				</li>
-				<li class="activity" id="11">
-					<h3>Weapon Store</h3>
-					<p class="unstarred"></p>
-				</li>
-				<button name="Review" class="reviewButton" id="review2">Review</button>
-			</ul>
-
-			<ul class="dateplan" id="3">
-				<h2>Fun Day with Fun Days</h2>
-				<li class="activity" id="12">
-					<h3>Fun Day</h3>
-					<p class="unstarred"></p>
-				</li>
-				<li class="activity" id="13">
-					<h3>More Fun</h3>
-					<p class="unstarred"></p>
-				</li>
-				<li class="activity" id="14">
-					<h3>The Most Fun</h3>
-					<p class="unstarred"></p>
-				</li>
-				<button name="Review" class="reviewButton" id="review3">Review</button>
-			</ul>
-		</ul>
+		<ul id="searchResults"></ul>
 	</body>
 
 	<!-- Over lay created when review is clicked--> 

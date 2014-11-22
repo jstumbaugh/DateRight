@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Draggable + Sortable</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  ul { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; float: left;}
+  li { margin: 5px; padding: 5px; width: 150px; }
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable({
+      revert: true
+    });
+    $( ".damn" ).draggable({
+      connectToSortable: "#sortable",
+      helper: "clone",
+      revert: "invalid",
+      stop: function(event, ui){
+        console.log(ui.helper.context.value);
+        var $elems = $('#sortable .damn[value=' + ui.helper.context.value + ']');
+        for (i = 0; i < $elems.length; i++)
+          $elems.switchClass("damn", "damn2");
+
+      }
+    });
+    $( "ul, li" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+
+<div id="craziness">
+  <ul id="draggable">
+    <li class="ui-state-highlight damn" value=1>Doodoo</li>
+    <li class="ui-state-highlight damn" value=2>Poopoo</li>
+  </ul>
+</div>
+ 
+<ul id="sortable">
+  <li class="ui-state-default damn2">Item 1</li>
+  <li class="ui-state-default damn2">Item 2</li>
+  <li class="ui-state-default damn2">Item 3</li>
+  <li class="ui-state-default damn2">Item 4</li>
+  <li class="ui-state-default damn2">Item 5</li>
+</ul>
+ 
+ 
+</body>
+</html>
