@@ -369,6 +369,7 @@ function searchDatabase(){
 		success: function(data){
 			console.log(data);
 			console.log(jQuery.parseJSON(data));
+			jQuery.parseJSON(data).Activities = '[]'
 		}
 	});
 }
