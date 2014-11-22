@@ -122,7 +122,7 @@ html {
     bottom: 0;
     left: 0;
     background:#7f7f7f;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.7);
     color:white;
     z-index: 99999;
     opacity: 0;
