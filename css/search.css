@@ -10,7 +10,9 @@ html {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-
+#backtoHomePage{
+    float: right;
+}
 #searchbar {
     margin-top: .5%;
 }
