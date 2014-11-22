@@ -52,6 +52,11 @@ jQuery(document).ready(function() {
 		reviewActivity();
 	})
 
+	$('#reviewDatePlan').submit(function(e){
+		e.preventDefault();
+		reviewDatePlan();
+	})
+	
 	addSort();
 });
 
