@@ -614,25 +614,7 @@ function getDateplanById($id) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 }
-function getActivityById($id) {
-    $sql = "SELECT * FROM Activities WHERE ActivityID=:id";
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("id", $id);
-        $stmt->execute();
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $db = null;
-        $size = count($results);
-		if($size>0){
-			echo json_encode($results);
-		}else{
-			echo ERROR::NO_RESULTS;
-		}
-    } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
-}
+
 //Returns an array of TagIDs from a given activityid
 //@return JSON array of tag ids for that activity id
 function getTagsFromActivityID($activityID) {
