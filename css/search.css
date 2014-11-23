@@ -3,7 +3,7 @@
 
 body {
     /*background-image: url("img/blank.jpg");*/
-    background-image: url("../img/nice_snow");
+    background-image: url("../img/nice_snow.png");
 }
 
 html {
@@ -29,10 +29,6 @@ html {
 	right: 0%;
 	background-color: #00FFFF;
     width: 235px;
-}
-
-#currentplanlist{
-    float: right;
 }
 
 #currentplanlist li{
@@ -98,7 +94,7 @@ h3{
     margin: 5px;
 }
 
-.activityDatePlan h3{
+.activityDatePlan h3, .userDatePlan h3{
     font-size: 15px;
 }
 
@@ -106,7 +102,12 @@ h3{
     margin-top: 15px;
 }
 
-.dateplan{
+.userDatePlan .reviewButton{
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.dateplan, .userDatePlan{
     display: inline-block !important;
     overflow: hidden;
     background-color: grey;
@@ -189,7 +190,7 @@ form#reviewActivity label#rating{
     right: 1%;
 }
 
-.reviewButton{
+#DescriptionBoxAnchor .reviewButton{
     margin-bottom: 5px;
     margin-top: 5px;
     margin-right: 50px;
@@ -201,4 +202,10 @@ form#reviewActivity label#rating{
 
 h2{
     text-align: center;
+}
+
+#backToCreateBut{
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
 }

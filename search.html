@@ -23,11 +23,13 @@
 		</a>
 	</div>
 		<div id="currentplan">
+		<button id="backToCreateBut">Back</button>
 			<ul id="currentplanlist">	
 				<li><button id="logoutbut">Logout</button></li>
 				<li><button id="profilebut">Profile</button></li>
-				<li><button id="myplansbut">My Plans</button></li>
+				<li><button id="myPlansBut">My Plans</button></li>
 				<li><button id="favactivitiesbut">Favorite Activites</button></li>
+				<li><button id="favDatePlansBut">Favorite Date Plans</button></li>
 				<li><a id='descriptionDatePlanAnchor' href='#DescriptionBox'> 
 					<button href='#DescriptionBox' name='Description' class='descriptionButton' id='descriptionBut'>Add Description</button>
 				</a></li>
@@ -45,8 +47,8 @@
         	</a>
 		</div>
 		<form id="searchform">
-			<input type="radio" name="search" value="activitySearch"> Activity Names
-			<input type="radio" name="search" value="activityTag" checked="checked">Activity Tags
+			<input type="radio" name="search" value="activitySearch" checked="checked"> Activity Names
+			<input type="radio" name="search" value="activityTag">Activity Tags
 			<input type="radio" name="search" value="datePlanSearch"> Date Plan Names
 			<input type="radio" name="search" value="datePlanTag">Date Plan Tags<br>
 			<input type="text" id="searchbar" name="datesearch" size="50">
