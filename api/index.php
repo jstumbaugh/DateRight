@@ -1763,11 +1763,22 @@ function createDatePlan()
 		$stmt->execute();
 		echo "EXECUTED\n";
 		echo ERROR::SUCCESS;
+		$db = null;
+		$db = getConnection();
+		$sqlDPID = "SELECT DatePlanID FROM DatePlans WHERE DatePlans.Name= :name AND CreatorID = :userID1 AND ModID = :userID2";
+		$stmtDPID = $db->prepare($sqlDPID);
+		$stmtDPID ->bindParam("name", $dateplanName);
+		$stmtDPID->bindParam("userID1", $userID);
+		$stmtDPID->bindParam("userID2", $userID);
+		$stmtDPID->execute();
+		$returnedInfoDPID = $stmtDPID->fetch(PDO::FETCH_OBJ);
+		echo json_encode($returnedInfoDPID);
 	}
 	else{
 		echo "User Does Not Exist\n";
 		echo ERROR::ACCOUNT_DOESNT_EXIST;
 	}
+
 	
 }
 
