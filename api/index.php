@@ -1720,24 +1720,24 @@ function createDatePlan()
 	$info = json_decode($request->getBody());
 	$activity_exists;
 	$user_exists;
-	$dateplan_exists;
+	//$dateplexists = false;an_
 	try{
-		$dateplanID = $info->DatePlanID;
-		$dateplanName = $info ->Name;
+		$userID = $info->UserID;
+		//$dateplanName = $info ->Name;
 		$db=getConnection();
-		$checkDatePlan = "SELECT * FROM DatePlans WHERE DatePlanID = :dateplanid";
-		$stmtcheckdp =  $db->prepare($checkDatePlan);
-		$stmtcheckdp ->bindParam("dateplanid", $dateplanID);
+		$checkUser = "SELECT * FROM Users WHERE UserID = :userID";
+		$stmtcheckdp =  $db->prepare($checkUser);
+		$stmtcheckdp ->bindParam("userID", $userID);
 		$stmtcheckdp->execute();
 		$RICHECKDP = $stmtcheckdp->fetch(PDO::FETCH_OBJ);
-		echo json_encode($RICHECKDP);
+		//echo json_encode($RICHECKDP);
 		if(empty($RICHECKDP))
 		{
-			$dateplan_exists = false;
+			$user_exists = false;
 		}
 		else
 		{
-			$dateplan_exists = true;
+			$user_exists = true;
 		}
 		$db= null;
 	}
@@ -1746,22 +1746,25 @@ function createDatePlan()
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 
-	if($dateplan_exists == false)
+	if($user_exists == true)
 	{
 		$userID = $info->UserID;
-		$datePlanSQL = "INSERT INTO DatePlans(DatePlanID, Name, CreatorID, Timestamp ) VALUES (:dateplanID, :name, :userID, NOW())";
+		$dateplanName = $info->Name;
+		$datePlanSQL = "INSERT INTO DatePlans(Name, CreatorID, Timestamp ) VALUES (:name, :userID, NOW())";
 		$db=getConnection();
 		$stmt = $db->prepare($datePlanSQL);
-		$stmt->bindParam("dateplanID", $dateplanID);
+		//$stmt->bindParam("dateplanID", $dateplanID);
 		$stmt ->bindParam("name", $dateplanName);
 		$stmt->bindParam("userID", $userID);
 		$stmt->execute();
+		echo "EXECUTED\n";
+		echo ERROR::SUCCESS;
 	}
-	else if ($dateplan_exists == true)
-	{
-		echo '{"error":{"text":'. 'DatePlan Already Exists' .'}}';
+	else{
+		echo "User Does Not Exist\n";
+		echo ERROR::ACCOUNT_DOESNT_EXIST;
 	}
-
+	
 }
 
 function addActivity()
