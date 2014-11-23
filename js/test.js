@@ -341,24 +341,49 @@ function searchDatabase(){
 
 //GET TAGGED ACTIVITIES
 
-	//URL example1: http://localhost/dateright/api/getTaggedActivities?tagID=1
-	//URL example2: http://localhost/dateright/api/getTaggedActivities?tagName=Movies
-	//URL example3: http://localhost/dateright/api/getTaggedActivities?tagID=1&num=3
+	var tag = new Object();
 
-	//Either tagID OR tagName must be specified for SQL query to execute
+	// SUPPLY tagName XOR tagID
+	tag.tagName = "TV";
+	//tag.tagID = 1;
 
-	//num:  the # of activites to return. Default returns all tagged activities (optional)
+	//OPTIONALLY, SUPPLY num TO LIMIT RESULTS
+	//tag.num=1;
 
 
 	$.ajax({
-		type: 'GET',
-		url: 'api/getTaggedActivities?tagID=1',
+		type: 'POST',
+		url: 'api/getTaggedActivities',
+		content: 'application/json',
+		data: JSON.stringify(tag),
 		success: function(data){
 			console.log(data);
 		}
 	});
 
-	//Get random idea from Dateplans table
+//GET TAGGED DATEPLANS
+
+	var tag = new Object();
+
+	// SUPPLY tagName XOR tagID
+	//tag.tagName = "TV";
+	tag.tagID = 1;
+
+	//OPTIONALLY, SUPPLY num TO LIMIT RESULTS
+	tag.num=1;
+
+
+	$.ajax({
+		type: 'POST',
+		url: 'api/getTaggedDatePlans',
+		content: 'application/json',
+		data: JSON.stringify(tag),
+		success: function(data){
+			console.log(data);
+		}
+	});	
+
+//Get random idea from Dateplans table
 	$.ajax({
 		type: 'GET',
 		url: 'api/getRandomIdea',
@@ -440,6 +465,18 @@ $.ajax({
         url: 'api/resetPassword',
         content: 'application/json',
         data: JSON.stringify(user),
+        success: function(data){
+            console.log(data);
+        }
+    });
+
+
+//GET ASSOCIATED ACTIVITIES
+    
+    $.ajax({
+        type: 'GET',
+        url: 'api/index.php/getAssociatedActivities/2/1',
+        //NOTE: 1st parameter: datePlanID, 2nd parameter: Always send 1 when making a GET request
         success: function(data){
             console.log(data);
         }
