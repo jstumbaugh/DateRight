@@ -81,6 +81,8 @@ $app->get('/getPhoto/:userID', 'getPhoto');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
 $app->post('/createDatePlan', 'createDatePlan');
 $app->post('/addActivity', 'addActivity');
+$app->post('/updateDatePlanDescription', 'updateDatePlanDescription');
+$app->post('/updateDatePlanName', 'updateDatePlanName');
 $app->run();
 
 /**
@@ -1761,11 +1763,22 @@ function createDatePlan()
 		$stmt->execute();
 		echo "EXECUTED\n";
 		echo ERROR::SUCCESS;
+		$db = null;
+		$db = getConnection();
+		$sqlDPID = "SELECT DatePlanID FROM DatePlans WHERE DatePlans.Name= :name AND CreatorID = :userID1 AND ModID = :userID2";
+		$stmtDPID = $db->prepare($sqlDPID);
+		$stmtDPID ->bindParam("name", $dateplanName);
+		$stmtDPID->bindParam("userID1", $userID);
+		$stmtDPID->bindParam("userID2", $userID);
+		$stmtDPID->execute();
+		$returnedInfoDPID = $stmtDPID->fetch(PDO::FETCH_OBJ);
+		echo json_encode($returnedInfoDPID);
 	}
 	else{
 		echo "User Does Not Exist\n";
 		echo ERROR::ACCOUNT_DOESNT_EXIST;
 	}
+
 	
 }
 
@@ -1847,6 +1860,135 @@ function addActivity()
 
 
 }
+function updateDatePlanDescription()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$info = json_decode($request->getBody());
+	$dateplan_exists;
+	try
+	{	
+		$dateplanID = $info->DatePlanID;
+		$checkDPExists = "SELECT * FROM DatePlans WHERE DatePlanID = :dateplanID";
+		$db= getConnection();
+		$stmt = $db->prepare($checkDPExists);
+		$stmt->bindParam("dateplanID", $dateplanID);
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if (empty($returnedInfo))
+		{
+			echo ERROR::DATEPLAN_DOESNT_EXIST;
+			$dateplan_exists = false;
+		}
+		else
+		{
+			$dateplan_exists = true;
+		}
+		$db = null;
+
+	}
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+	if($dateplan_exists == false)
+	{
+		exit(1);
+	}
+	else
+	{
+		$updatesql = "UPDATE DatePlans SET DatePlans.Description = :description WHERE DatePlans.CreatorID = :userID AND DatePlans.DatePlanID = :dateplanid";
+		$db = getConnection();
+		$stmtUpdateDesc = $db->prepare($updatesql);
+		$stmtUpdateDesc->bindParam("description", $info->Description);
+		$stmtUpdateDesc->bindParam("dateplanid",$dateplanID );
+		$stmtUpdateDesc->bindParam("userID", $info->UserID);
+		$stmtUpdateDesc->execute();
+		$db=null;
+		$db = getConnection();
+		$checkSQL = "SELECT * FROM DatePlans WHERE DatePlans.Description = :description AND DatePlans.DatePlanID = :dateplanid AND DatePlans.CreatorID = :userID";
+		$stmtCheckSQL = $db->prepare($checkSQL);
+		$stmtCheckSQL->bindParam("description", $info->Description);
+		$stmtCheckSQL->bindParam("dateplanid",$dateplanID );
+		$stmtCheckSQL->bindParam("userID", $info->UserID);
+		$stmtCheckSQL->execute();
+		$rICheck = $stmtCheckSQL->fetch(PDO::FETCH_OBJ);
+		echo json_encode($rICheck);
+		if(empty($rICheck))
+		{
+			echo "DID NOT UPDATE";
+		}
+		else
+		{
+			echo ERROR::SUCCESS;
+		}
+	}
+}
+function updateDatePlanName()
+{
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$info = json_decode($request->getBody());
+	$dateplan_exists;
+	try
+	{	
+		$dateplanID = $info->DatePlanID;
+		$checkDPExists = "SELECT * FROM DatePlans WHERE DatePlanID = :dateplanID";
+		$db= getConnection();
+		$stmt = $db->prepare($checkDPExists);
+		$stmt->bindParam("dateplanID", $dateplanID);
+		$stmt->execute();
+		$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+		if (empty($returnedInfo))
+		{
+			echo ERROR::DATEPLAN_DOESNT_EXIST;
+			$dateplan_exists = false;
+		}
+		else
+		{
+			$dateplan_exists = true;
+		}
+		$db = null;
+
+	}
+	catch (PDOException $e)
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+	if($dateplan_exists == false)
+	{
+		exit(1);
+	}
+	else
+	{
+		$updatesql = "UPDATE DatePlans SET DatePlans.Name = :Name WHERE DatePlans.CreatorID = :userID AND DatePlans.DatePlanID = :dateplanid";
+		$db = getConnection();
+		$stmtUpdateDesc = $db->prepare($updatesql);
+		$stmtUpdateDesc->bindParam("Name", $info->Name);
+		$stmtUpdateDesc->bindParam("dateplanid",$dateplanID );
+		$stmtUpdateDesc->bindParam("userID", $info->UserID);
+		$stmtUpdateDesc->execute();
+		$db=null;
+		$db = getConnection();
+		$checkSQL = "SELECT * FROM DatePlans WHERE DatePlans.Name = :Name AND DatePlans.DatePlanID = :dateplanid AND DatePlans.CreatorID = :userID";
+		$stmtCheckSQL = $db->prepare($checkSQL);
+		$stmtCheckSQL->bindParam("Name", $info->Name);
+		$stmtCheckSQL->bindParam("dateplanid",$dateplanID );
+		$stmtCheckSQL->bindParam("userID", $info->UserID);
+		$stmtCheckSQL->execute();
+		$rICheck = $stmtCheckSQL->fetch(PDO::FETCH_OBJ);
+		echo json_encode($rICheck);
+		if(empty($rICheck))
+		{
+			echo "DID NOT UPDATE";
+		}
+		else
+		{
+			echo ERROR::SUCCESS;
+		}
+	}
+}
+
 
 
 

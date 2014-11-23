@@ -4,8 +4,15 @@
     <string name="app_name">DateRight</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Main Activity Strings -->
+    <string name="dateRight">Date Right</string>
     <string name="random">Get A Random Date</string>
     <string name="login">Login</string>
-    <string name="title_activity_display_random">DisplayRandomActivity</string>
+    <string name="email">Email:</string>
+    <string name="pass">Password:</string>
+    <string name="logoDescription">Logo</string>
+    
+    <string name="title_activity_display_random">Here\'s A Random Activity</string>
 
 </resources>
