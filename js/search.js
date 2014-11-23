@@ -195,6 +195,12 @@ function getMousePosition(e){
 		console.log(reviewButton.parentNode.parentNode.value);
 		$("#ReviewDatePlanBox").show();
 	}
+
+	else if (favStar.classList.contains("userDatePlanX")){
+		exitBut = favStar;
+		console.log(exitBut);
+		deleteUserPlan();
+	}
 }
 
 function getUserID(){
@@ -610,11 +616,30 @@ function getUserDatePlans(){
 			var dateHolder = $('#currentDatePlan');
 
 			for (var x = 0; x < dateData.length; x++) {
-		    	var elem = "<li class='userDatePlan' value=" + dateData[x][0].DatePlanID + " title=\"" + dateData[x][0].Description + "\"></li><br>";
+		    	var elem = "<li class='userDatePlan' value=" + dateData[x][0].DatePlanID + " title=\"" + dateData[x][0].Description + "\"></li><br/>";
 		    	var datePlanItem = $(elem).appendTo(dateHolder);
-			    $("<h3>" + dateData[x][0].Name + "</h3><br>").appendTo(datePlanItem);
+		    	$("<button class='userDatePlanX' value=" + dateData[x][0].DatePlanID + "> X </button>").appendTo(datePlanItem);
+			    $("<h3>" + dateData[x][0].Name + "</h3><br/>").appendTo(datePlanItem);
 			    $("<a id='reviewDatePlanBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + dateData[x][0].DatePlanID + "'>Review</button> </a>").appendTo(datePlanItem);
 			}
 		}
 	});
+}
+
+function deleteUserPlan(){
+	var datePlanUser = new Object();
+	datePlanUser.DatePlanID = exitBut.value;
+	datePlanUser.UserID = user.UserID;
+
+	$.ajax({
+        type: 'DELETE',
+      	url: 'api/index.php/deleteDatePlan',
+      	content: 'application/json',
+      	data: JSON.stringify(datePlanUser),
+		success: function(data){
+            console.log(exitBut.parentNode.previousSibling);
+            exitBut.parentNode.previousSibling.parentNode.removeChild(exitBut.parentNode.previousSibling);
+            exitBut.parentNode.parentNode.removeChild(exitBut.parentNode);
+		}
+    });
 }

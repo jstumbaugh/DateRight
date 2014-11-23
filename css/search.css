@@ -209,3 +209,14 @@ h2{
     margin-top: 5px;
     margin-left: 5px;
 }
+
+.userDatePlanX{
+    float: right;
+    font-size: 10px;
+    background: none;
+    border: none;
+}
+
+.userDatePlanX:hover{
+    background-color: orange;
+}
