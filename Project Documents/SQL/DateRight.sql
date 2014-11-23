@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `SecurityAnswer` varchar(50) NOT NULL,
   `SecuritySalt` varchar(50) NOT NULL,
   PRIMARY KEY (`UserID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `Activities` (
   `Location` varchar(200) NOT NULL,
   PRIMARY KEY (`ActivityID`),
   FULLTEXT(Name,Description,Location)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 -- --------------------------------------------------------
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `ActivitiesAttendees` (
   CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`),
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`ActivitiesAttendeesID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `ActivityReviews` (
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`ReviewID`),
   FULLTEXT(Description)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `Tags` (
   `TagID` int NOT NULL AUTO_INCREMENT,
   `TagName` varchar(50) NOT NULL,
   PRIMARY KEY (`TagID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `TaggedActivities` (
   `ActivityID` int NOT NULL,
   CONSTRAINT FOREIGN KEY (`TagID`) REFERENCES `Tags` (`TagID`),
   CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `DatePlans` (
   CONSTRAINT FOREIGN KEY (`ModID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`DatePlanID`),
   FULLTEXT(Name,Description)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 --
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `DatePlanReviews` (
    CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`),
   PRIMARY KEY (`ReviewID`),
   FULLTEXT(Description)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------
@@ -160,10 +160,10 @@ CREATE TABLE IF NOT EXISTS `DatePlanAttendees` (
   `DatePlanAttendeesID` int NOT NULL AUTO_INCREMENT,
   `DatePlanID` int NOT NULL,
   `UserID` int NOT NULL,
-  CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`),
+  CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`) ON DELETE CASCADE,
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`DatePlanAttendeesID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 
 
@@ -177,10 +177,10 @@ CREATE TABLE IF NOT EXISTS `DateActivities` (
   `DateActivitiesID` int NOT NULL AUTO_INCREMENT,
   `DatePlanID` int NOT NULL,
   `ActivityID` int NOT NULL,
-  CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`),
-  CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`),
+  CONSTRAINT FOREIGN KEY (`DatePlanID`) REFERENCES `DatePlans` (`DatePlanID`) ON DELETE CASCADE,
+  CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`) ON DELETE CASCADE,
   PRIMARY KEY (`DateActivitiesID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 --
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `DatePlanActivityReviews` (
   CONSTRAINT FOREIGN KEY (`ActivityReviewID`) REFERENCES `ActivityReviews` (`ReviewID`),
    CONSTRAINT FOREIGN KEY (`DatePlanReviewsID`) REFERENCES `DatePlanReviews` (`ReviewID`),
   PRIMARY KEY (`DatePlanActivityReviewID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 --
@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `Favorites` (
     ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FOREIGN KEY (`ActivityID`) REFERENCES `Activities` (`ActivityID`)
     ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=Myisam;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 --
@@ -228,4 +228,4 @@ CREATE TABLE IF NOT EXISTS `Reports` (
   `Type` int NOT NULL,
   CONSTRAINT FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`),
   PRIMARY KEY (`ReportID`)
-) ENGINE=Myisam;
+) ENGINE=InnoDB;

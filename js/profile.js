@@ -15,6 +15,8 @@
                         part of account, but needs the old password to work.
         11/21/2014 - Can view content such as Date Plans, Date Plan Reviews, or
                         Activity Reviews. No actual Date Plan functionality... yet.
+        11/22/2014 - Can change profile picture. Also, hovering over profile pic 
+                        prompts user to change it. Good stuff.
 **/
 
 $(document).ready(function(){
@@ -30,6 +32,23 @@ $(document).ready(function(){
 
     //$("#updateSubmitButton").click(submitUpdateForm);
     $("#updateAccountForm").submit(submitUpdateForm);
+
+    /**
+    *    upload profile pic
+    */
+    $("#updateProfilePic").submit(function(e){
+        $.ajax({
+            url: 'api/index.php/addPhoto',
+            type: 'POST',
+            data: new FormData( this ),
+            processData: false,
+            contentType: false
+        });
+        e.preventDefault();
+        loadProfilePic();
+        $("#openModalTwo div a.close button").click();
+    });
+    
     $("#homeButton").click(function(e){
         e.preventDefault();
         $(location).attr('href', "search.html");
@@ -158,7 +177,7 @@ function addActivityReviews() {
 */
 function loadUser(){
     var profile = {};
-    var user = new Object();
+    user = new Object();
     
     //get userID
     var sessionData = {};
@@ -266,8 +285,13 @@ function loadUser(){
             }
         }
     });
+    loadProfilePic();
+}
 
-    //load profile pic
+/**
+*   Loads Profile Picture
+*/
+function loadProfilePic(){
     profilePic = "";
     $.ajax({
         type: 'GET',
@@ -285,7 +309,7 @@ function loadUser(){
                 //grab file name
                 profilePic = response;
                 //console.log(profilePic);
-                $("#profilePic").attr("src", "img/user/"+profilePic);
+                $("#profilePic").attr("src", "img/user/"+profilePic+"?"+ new Date().getTime());
             }
         }
     });
