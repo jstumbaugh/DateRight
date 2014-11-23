@@ -1750,12 +1750,14 @@ function createDatePlan()
 	{
 		$userID = $info->UserID;
 		$dateplanName = $info->Name;
-		$datePlanSQL = "INSERT INTO DatePlans(Name, CreatorID, Timestamp ) VALUES (:name, :userID, NOW())";
+		$datePlanSQL = "INSERT INTO DatePlans(Name, CreatorID, ModID, Timestamp ) VALUES (:name, :userID1, :userID2, NOW())";
 		$db=getConnection();
 		$stmt = $db->prepare($datePlanSQL);
 		//$stmt->bindParam("dateplanID", $dateplanID);
 		$stmt ->bindParam("name", $dateplanName);
-		$stmt->bindParam("userID", $userID);
+		$stmt->bindParam("userID1", $userID);
+		$stmt->bindParam("userID2", $userID);
+
 		$stmt->execute();
 		echo "EXECUTED\n";
 		echo ERROR::SUCCESS;
