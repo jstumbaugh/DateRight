@@ -60,8 +60,8 @@ $app->post('/searchDateplans', 'searchDateplans');
 $app->post('/viewActivityReviews', 'viewActivityReviews');
 $app->post('/viewDatePlanReviews', 'viewDatePlanReviews');
 $app->get('/topTags', 'topTags');
-$app->get('/getTaggedActivities', 'getTaggedActivities');
-$app->get('/getTaggedDatePlans', 'getTaggedDatePlans');
+$app->post('/getTaggedActivities', 'getTaggedActivities');
+$app->post('/getTaggedDatePlans', 'getTaggedDatePlans');
 $app->get('/getRandomIdea', 'getRandomIdea');
 $app->get('/getActivityById/:id', 'getActivityById');
 $app->get('/getDateplanById/:id', 'getDateplanById');
@@ -85,6 +85,7 @@ $app->post('/createDatePlan', 'createDatePlan');
 $app->post('/addActivity', 'addActivity');
 $app->post('/updateDatePlanDescription', 'updateDatePlanDescription');
 $app->post('/updateDatePlanName', 'updateDatePlanName');
+$app->get('/getAssociatedActivities/:datePlanID/:standalone', 'getAssociatedActivities');
 $app->run();
 
 /**
@@ -641,7 +642,8 @@ function getTagsFromActivityID($activityID) {
 //for each dateplanid supplied
 // @param int representing dateplan id
 // @return array containing the associatd activities 
-function getAssociatedActivities($datePlanID){
+// $standalone = echo results instead of returning
+function getAssociatedActivities($datePlanID, $standalone){
 	$sql = "SELECT ActivityID FROM DateActivities WHERE DatePlanID = :dateID";
 	try{
 	$db = getConnection();
@@ -649,7 +651,10 @@ function getAssociatedActivities($datePlanID){
 	$stmt ->bindParam("dateID", $datePlanID);
 	$stmt ->execute();
 	$dateActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	return $dateActivities;
+	if($standalone==1)
+		echo json_encode($dateActivities);
+	else
+		return $dateActivities;
 
 	}catch(PDOException $e) {
     	return ERROR::NO_RESULTS;
@@ -682,7 +687,7 @@ function searchDateplans (){
 			//Find the associated activities for each dateplan id
 			for($i=0;$i<$size;$i++){
 				$cID=$datePlanResults[$i]['DatePlanID'];
-				$associatedActs=getAssociatedActivities($cID);
+				$associatedActs=getAssociatedActivities($cID, 0);
 				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
 			}
 		}
@@ -842,33 +847,27 @@ function getTaggedActivities() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 
-	$numTags;
-	$tagID;
-	$tagName;
+	$tagInfo = json_decode($request->getBody());
 
 	//Declaring strings which may be inserted into the SQL statement before sending
 	$option1 = "WHERE TagID = ";
-	$option2 = "WHERE TagName = '";
+	$option2 = "WHERE TagName = ";
 
 	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
 	$sqlInsert2 = "";//Only set if num is provided
 
-	$numTags = $app->request()->params('num');
-	$tagID = $app->request()->params('tagID');
-	$tagName = $app->request()->params('tagName');
-	
-	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
-	if(!empty($num)) {
+	if(!empty($tagInfo->num)) {
+		$num = $tagInfo->num;
 		$sqlInsert2 = "
-		LIMIT $numTags";
+		LIMIT $num";
 	}
 
 	//Check to see if either tagID or tagName was specified
-	if(!empty($tagID)) {
-		$sqlInsert1 = $option1 . $tagID . $sqlInsert2;
+	if(!empty($tagInfo->tagID)) {
+		$sqlInsert1 = $option1 . $tagInfo->tagID . $sqlInsert2;
 	}
-	else if(!empty($tagName)) {
-		$sqlInsert1 = $option2 . $tagName . "'" . $sqlInsert2;
+	else if(!empty($tagInfo->tagName)) {
+		$sqlInsert1 = $option2 . "'" . $tagInfo->tagName . "'" . $sqlInsert2;
 	}
 	else {
 		echo ERROR::PARAMETERS_NOT_SET;
@@ -876,8 +875,8 @@ function getTaggedActivities() {
 	}
 	
 	$sql = "SELECT ActivityID, Name, Description, Cost, Rating, Location
-			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags $sqlInsert1
-			$sqlInsert2";
+			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags $sqlInsert1";
+
 
 	try {
 		$db = getConnection();
@@ -907,9 +906,7 @@ function getTaggedDatePlans() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 
-	$numTags;
-	$tagID;
-	$tagName;
+	$tagInfo = json_decode($request->getBody());
 
 	//Declaring strings which may be inserted into the SQL statement before sending
 	$option1 = "AND TagID = ";
@@ -918,25 +915,18 @@ function getTaggedDatePlans() {
 	$sqlInsert1 = "";//Set to $option1 or $option2 depending on if tagID or tagName is provided
 	$sqlInsert2 = "";//Only set if num is provided
 
-	$num = $app->request()->params('num');
-	//Check to see if number of tags to return was specified in the URL of the GET REQUEST
-	if(!empty($num)) {
-		$numTags = $app->request()->params('num');
+	if(!empty($tagInfo->num)) {
+		$num = $tagInfo->num;
 		$sqlInsert2 = "
-		LIMIT $numTags";
+		LIMIT $num";
 	}
-
-	$tagID = $app->request()->params('tagID');
-	$tagName = $app->request()->params('tagName');
 
 	//Check to see if either tagID or tagName was specified
-	if(!empty($tagID)) {
-		$sqlInsert1 = $option1 . $tagID . $sqlInsert2;
-		$sqlSet = TRUE;
+	if(!empty($tagInfo->tagID)) {
+		$sqlInsert1 = $option1 . $tagInfo->tagID;
 	}
-	else if(!empty($tagName)) {
-		$sqlInsert1 = $option2 . $tagName . "'" . $sqlInsert2;
-		$sqlSet = TRUE;
+	else if(!empty($tagInfo->tagName)) {
+		$sqlInsert1 = $option2 . "'" . $tagInfo->tagName . "'";
 	}
 	else {
 		echo ERROR::PARAMETERS_NOT_SET;
@@ -948,7 +938,9 @@ function getTaggedDatePlans() {
 			LEFT OUTER JOIN DatePlans ON DateActivities.DatePlanID = DatePlans.DatePlanID
 			WHERE DatePlans.Public = 1
 			$sqlInsert1
-			GROUP BY DatePlans.DatePlanID";
+			GROUP BY DatePlans.DatePlanID
+			$sqlInsert2";
+
 
 	try {
 		$db = getConnection();
@@ -964,6 +956,11 @@ function getTaggedDatePlans() {
 		for($i = 0; $i < sizeof($returnedInfo); $i = $i + 1) {
 			// $returnedInfo[$i]['Cost'] = $returnedInfo[$i]['Cost'] + 0.00;
 			$returnedInfo[$i]['DatePlanID'] = $returnedInfo[$i]['DatePlanID'] + 0;
+			$returnedInfo[$i]['Public'] = $returnedInfo[$i]['Public'] + 0;
+			$returnedInfo[$i]['CreatorID'] = $returnedInfo[$i]['CreatorID'] + 0;
+			$returnedInfo[$i]['ModID'] = $returnedInfo[$i]['ModID'] + 0;
+			$returnedInfo[$i]['Public'] = $returnedInfo[$i]['Public'] + 0;
+
 		}
 
 		echo json_encode($returnedInfo);
