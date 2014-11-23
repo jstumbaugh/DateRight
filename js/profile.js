@@ -111,6 +111,9 @@ function showUserDatePlans(){
             title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x].Name);
             share = $("<button></button").text("Share?");
             share.attr("class", "shareButton");
+            share.click(function(){
+                $(this).attr("class", "hideThis");
+            });
             creator = $("<p></p>").text("Creator: You OR someone else");
             modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
             timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x].Timestamp);
@@ -120,6 +123,7 @@ function showUserDatePlans(){
             $("#displaySection #datePlans").attr("class", "hideThis");
         }
     }
+    //sharing
 }
 
 /**
