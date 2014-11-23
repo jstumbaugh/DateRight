@@ -177,12 +177,12 @@ function searchDatabase(){
     });
 
 	/*
-	* Delete DateAcitivtyID by id
-	* Call like this api/deleteDateActivity/1
+	* Delete DateAcitivtyID by datePlanID & activityID
+	* Call like this api/deleteDateActivity/datePlanID/activityID
 	*/
     $.ajax({
        type: 'DELETE',
-       url: 'api/deleteDateActivity/1',
+       url: 'api/deleteDateActivity/7/19',
 		success: function(data){
 			if($.isNumeric(data)){
                 if(data==1){
