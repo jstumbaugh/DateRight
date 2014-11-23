@@ -102,16 +102,24 @@ function deselectMenuAndContent() {
 *   Add Date Plans to the page
 */
 function showUserDatePlans(){
+    if(userDatePlans[0] === undefined) {
+        $("#displaySection #datePlans").append($("<p></p>").text("You have created any Date Plans yet."));
+    } else {
 
-    title = $("<p></p>").text("Date Plan Title");
-    share = $("<p></p>").text("Share?");
-    creator = $("<p></p>").text("Creator: You OR someone else");
-    modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
-    timeStamp = $("<p></p>").text("Date and time created/modified: October 1st, 2014 at 12:21");
-    description = $("<p></p>").text("Description: A bunch of stuff about this date plan.");
-    $("#displaySection #datePlans").append(title, share, creator, modify, timeStamp, description);
-    //keep it hidden
-    $("#displaySection #datePlans").attr("class", "hideThis");
+        for(x in userDatePlans) {
+
+            title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x].Name);
+            share = $("<button></button").text("Share?");
+            share.attr("class", "shareButton");
+            creator = $("<p></p>").text("Creator: You OR someone else");
+            modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
+            timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x].Timestamp);
+            description = $("<p></p>").text("Description: " + userDatePlans[x].Description);
+            $("#displaySection #datePlans").append(title, share, creator, modify, timeStamp, description);
+            //keep it hidden
+            $("#displaySection #datePlans").attr("class", "hideThis");
+        }
+    }
 }
 
 /**
@@ -285,6 +293,31 @@ function loadUser(){
             }
         }
     });
+
+    userDatePlans = [];
+    $.ajax({
+        type: 'POST',
+        url: 'api/index.php/viewUserDatePlans',
+        async: false, 
+        content: 'application/json',
+        data: JSON.stringify(user),
+        success: function(response) {
+            //error checking
+            if(response === "500"){
+                console.log("No Results for Date Plans or incorrect json formatting");
+            }
+            else {
+                try {
+                    userDatePlans = JSON.parse(response)[0];
+                }
+                catch (e) {
+                    console.log(e);
+                }
+                console.log(userDatePlans);
+            }
+        }
+    });
+
     loadProfilePic();
 }
 
