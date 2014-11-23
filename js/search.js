@@ -5,6 +5,10 @@ getUserID();
 	console.log(user.UserID);
 	if(user.UserID == undefined ){
 		$("#currentplan").hide();
+		$("#backtoHomePage").show();
+	}
+	else{
+		$("#backtoHomePage").hide();
 	}
 	//Search Activities
 	$('#searchform').submit(function (e) {
