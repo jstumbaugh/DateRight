@@ -12,6 +12,13 @@
     <string name="email">Email:</string>
     <string name="pass">Password:</string>
     <string name="logoDescription">Logo</string>
+    <string name="username">Username:</string>
+    <string name="createAccount">Create Account</string>
+    <string name="firstName">First Name:</string>
+    <string name="lastName">Last Name:</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="securityQuestion">Security Question: What is your mothers maiden name?</string>
     
     <string name="title_activity_display_random">Here\'s A Random Activity</string>
 
