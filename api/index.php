@@ -647,7 +647,7 @@ function searchDateplans (){
 		$db = getConnection();
 		//accept plural version e.g. movie(s)
 		$result.="*";
-		$getDatePlans="SELECT * FROM DatePlans WHERE MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$getDatePlans="SELECT * FROM DatePlans WHERE Public=1 AND MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
 		$stmt = $db->prepare($getDatePlans);
 		$stmt->bindParam("searchQuery", $result);
 		$stmt ->execute();
