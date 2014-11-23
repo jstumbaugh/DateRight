@@ -13,6 +13,7 @@ html {
 #backtoHomePage{
     float: right;
 }
+
 #searchbar {
     margin-top: .5%;
 }
@@ -170,4 +171,12 @@ h3{
 
 form#reviewActivity label#rating{
     height: 30%;
+}
+
+.dateplan .activity h3{
+    margin-bottom: 20px;
+}
+
+.activityDatePlan h3{
+    margin-bottom: 17px;
 }

@@ -29,7 +29,7 @@
 				<li><button id="myplansbut">My Plans</button></li>
 				<li><button id="favactivitiesbut">Favorite Activites</button></li>
 			</ul>
-			<input type="text" value="Enter Date Plan Name Here" onfocus="clearText(this)" onblur="clearText(this)" name="datePlanName" size="33">
+			<input type="text" id="datePlanName" placeholder="Enter Date Plan Name Here" name="datePlanName" size="33">
 			<ul id="currentDatePlan">
 			</ul>
 		</div>
@@ -44,8 +44,8 @@
 		</div>
 		<form id="searchform">
 			<input type="radio" name="search" value="activitySearch"> Activity Names
-			<input type="radio" name="search" value="activityTag">Activity Tags
-			<input type="radio" name="search" value="datePlanSearch" checked="checked"> Date Plan Names
+			<input type="radio" name="search" value="activityTag" checked="checked">Activity Tags
+			<input type="radio" name="search" value="datePlanSearch"> Date Plan Names
 			<input type="radio" name="search" value="datePlanTag">Date Plan Tags<br>
 			<input type="text" id="searchbar" name="datesearch" size="50">
 			<input type="submit" value="Search" id="searchsubmit">

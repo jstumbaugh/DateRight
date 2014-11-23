@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
 	var reviewButton;
-getUserID();
+	getUserID();
 
 	console.log(user.UserID);
 	if(user.UserID == undefined ){
@@ -54,6 +54,16 @@ getUserID();
 	$('#logoutbut').click(function(e){
 		e.preventDefault();
 		logout();
+	})
+
+	$('#testButton').click(function(e){
+		e.preventDefault();
+		createDatePlan(userDatePlanInfo);
+	})
+
+	$('#testButton2').click(function(e){
+		e.preventDefault();
+		addActivityToDatePlan();
 	})
 
 	$('#reviewActivity').submit(function(e){
@@ -165,7 +175,7 @@ function getMousePosition(e){
 
 	else if (favStar.classList.contains("reviewButton")){
 		reviewButton = favStar;
-		console.log(reviewButton.parentNode.parentNode);
+		console.log(reviewButton.parentNode.parentNode.value);
 		$("#ReviewDatePlanBox").show();
 	}
 }
@@ -281,9 +291,13 @@ function addDrag(){
 		helper: "clone",
 		revert: "invalid",
 		stop: function(event, ui){
+			if ($('.activityDatePlan').length == 0)
+				createDatePlan();
 			var $elems = $('#currentDatePlan .activity[value=' + ui.helper.context.value + ']');
 			$elems.switchClass("activity", "activityDatePlan");
 			$elems.removeAttr("style");
+			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".reviewBut");
+			setTimeout(addActivityToDatePlan, 1000);
 		}
     });
 }
@@ -402,20 +416,73 @@ function searchDatabase(){
 						type: 'GET',
 					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
 					    success: function(data2) {
-					    	var actData = jQuery.parseJSON(data2);
-				    		var elem = "<li class='activity' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li>";
-				    		var activityDiv = $(elem).appendTo(datePlanDiv);
-				    		$("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
-				    		addDrag();
+					    	$.ajax({
+					    		type: 'POST',
+					    		url: 'api/index.php/viewFavorites',
+					    		content: 'application/json',
+					    		data: JSON.stringify(user),
+					    		success: function(data3){
+						    		var favData = jQuery.parseJSON(data3);
+							    	var actData = jQuery.parseJSON(data2);
+						    		var elem = "<li class='activity' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li>";
+						    		var activityDiv = $(elem).appendTo(datePlanDiv);
+						    		var starunstar = 'unstarred';
+						    		$("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
+						    		for (var x = 0; x < favData.length; x++) {
+						    			if (favData[x].Name == actData[0].Name){
+						    				starunstar = 'starred';
+						    				break;
+						    			}
+						    		}
+						    		var starString = "<p class='" + starunstar + "'></p>";
+						    		$(starString).appendTo(activityDiv);
+						    		addDrag();
+					    		}
+				    		})
 						}, 
 						error: function(jqXHR, errorThrown){
 							console.log('We didnt make it sir, sorry');
 							console.log(jqXHR, errorThrown);
 						}
-					});
+					})
 	    		}
 	    		$("<a id='reviewDatePlanBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
 	    	}
+		}
+	});
+}
+
+function createDatePlan(userDatePlanInfo){
+	userDatePlanInfo = new Object();
+	userDatePlanInfo.Name = $("#datePlanName").val();
+	userDatePlanInfo.UserID = user.UserID;
+	
+	datePlanActivity = new Object();
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/createDatePlan',
+		content: 'application/json',
+		data: JSON.stringify(userDatePlanInfo),
+		success: function(data){
+			console.log($('.activityDatePlan').length);
+			data = data.substring(10);
+			datePlanActivity.DatePlanID = jQuery.parseJSON(data).DatePlanID;
+			console.log("New date plan created");
+		}
+	});
+}
+
+function addActivityToDatePlan(){
+	var numActivities = $('.activityDatePlan').length;
+	datePlanActivity.ActivityID = $('.activityDatePlan')[numActivities-1].value;
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/addActivity',
+		content: 'application/json',
+		data: JSON.stringify(datePlanActivity),
+		success: function(data){
+			console.log(data);
+			console.log("Activity added to date plan");
 		}
 	});
 }
