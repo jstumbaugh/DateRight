@@ -17,6 +17,24 @@ function getActivityById(){
 		});
 }
 //Test function
+//Get tags from activity
+function getTagsFromActivityID(){
+		$.ajax({
+			type: 'GET',
+			url: 'api/getTagsFromActivityID/1',
+			content: 'application/json',
+			success: function(data){
+				if($.isNumeric(data)){
+					if(data==500){
+						console.log("There are no results");
+					}
+				}else{
+					console.log(data);
+				}
+			}
+		});
+}
+//Test function
 //Get dateplan by id
 function getDatePlanById(){
 		$.ajax({
