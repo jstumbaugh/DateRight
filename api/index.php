@@ -79,6 +79,7 @@ $app->post('/viewUserDatePlans', 'viewUserDatePlans');
 $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
+$app->delete('/deleteDateActivity/:id', 'deleteDateActivity');
 $app->post('/createDatePlan', 'createDatePlan');
 $app->post('/addActivity', 'addActivity');
 $app->post('/updateDatePlanDescription', 'updateDatePlanDescription');
@@ -1715,6 +1716,28 @@ function deleteDatePlan()
 	}
 } // end of function
 
+//Function to delete dateactivity
+function deleteDateActivity($id) 
+{
+    $deleteQuery = "DELETE FROM DateActivities WHERE DateActivitiesID =:ID";
+  
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($deleteQuery);
+        $stmt->bindParam("ID", $id);
+        $stmt->execute();
+        if($stmt->rowCount()>0){
+        echo ERROR::SUCCESS;
+    	}
+    	else{
+    		echo ERROR::NO_RESULTS;
+    	}
+        $db = null;
+    } catch(PDOException $e) {
+    	echo ERROR::NO_RESULTS;
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+} // end of function
 function createDatePlan()
 {
 	$app = \Slim\Slim::getInstance();

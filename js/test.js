@@ -158,6 +158,29 @@ function searchDatabase(){
 		}
     });
 
+	/*
+	* Delete DateAcitivtyID by id
+	* Call like this api/deleteDateActivity/1
+	*/
+    $.ajax({
+       type: 'DELETE',
+       url: 'api/deleteDateActivity/1',
+		success: function(data){
+			if($.isNumeric(data)){
+                if(data==1){
+                    console.log("Deleted success");
+                }
+                else{
+                    console.log("Deleted failure");
+                    }
+            }else
+            {
+            	console.log("Error in deleteing favorite");
+            }
+		}
+    });
+
+
 //LOGIN
 	var user = new Object();
 	user.email = "test@test.edu";
