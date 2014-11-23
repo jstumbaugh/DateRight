@@ -107,10 +107,12 @@ h3{
 }
 
 .dateplan{
-    display: inline-block;
+    display: inline-block !important;
     overflow: hidden;
     background-color: grey;
     margin-left: 10px;
+    padding-left: 10px;
+    margin-bottom: 10px;
 }
 
 .dateplan .activity{
@@ -179,4 +181,24 @@ form#reviewActivity label#rating{
 
 .activityDatePlan h3{
     margin-bottom: 17px;
+}
+
+#descriptionBut{
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+}
+
+.reviewButton{
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right: 50px;
+}
+
+#searchResults{
+    padding-left: 0;
+}
+
+h2{
+    text-align: center;
 }

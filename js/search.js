@@ -56,14 +56,8 @@ jQuery(document).ready(function() {
 		logout();
 	})
 
-	$('#testButton').click(function(e){
-		e.preventDefault();
-		createDatePlan(userDatePlanInfo);
-	})
-
-	$('#testButton2').click(function(e){
-		e.preventDefault();
-		addActivityToDatePlan();
+	$('#descriptionBut').click(function(e){
+		$('#DescriptionBox').show();
 	})
 
 	$('#reviewActivity').submit(function(e){
@@ -74,6 +68,11 @@ jQuery(document).ready(function() {
 	$('#reviewDatePlan').submit(function(e){
 		e.preventDefault();
 		reviewDatePlan();
+	})
+
+	$('#addDescription').submit(function(e){
+		e.preventDefault();
+		editDescription();
 	})
 
 	addSort();
@@ -206,7 +205,6 @@ function getFavoriteActivities(){
 	    	for (i = 0; i < actData.length; i++)
 	    	{
 	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>";
-	    		elem.attr('value', actData[i].ActivityID);
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
@@ -320,7 +318,7 @@ function reviewActivity(){
     inputDescription = $("#descriptionReview").attr("value");
     inputCostReview = ($("#costReview").attr("value"));
     inputattended = $("input[name=attended]:checked").val();
-     console.log(inputattended);
+    console.log(inputattended);
     //create activity object 
     if(inputattended == 1){
     newReview = new Object();
@@ -409,45 +407,53 @@ function searchDatabase(){
 	    	console.log(planData);
 	    	for (var k = 0; k < planData.length; k++){
 	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
-	    		var datePlanDiv = $(searchedDatePlan).appendTo(datePlansDiv);
+	    		$(searchedDatePlan).appendTo(datePlansDiv);
+	    		var datePlanDiv = $('.dateplan')[k];
 	    		$("<h2></h2>").text(planData[k].Name).appendTo(datePlanDiv);
+	    		console.log(datePlanDiv);
 	    		for (var l = 0; l < planData[k].AssociatedActivities.length; l++){
+	    			console.log(planData[k].AssociatedActivities.length);
 	    			$.ajax({
 						type: 'GET',
 					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
+					    async: false,
 					    success: function(data2) {
+					    	var actData = jQuery.parseJSON(data2);
+					    	var elem = "<li class='activity' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li><br>";
+					    	console.log(datePlanDiv);
+					    	console.log(elem);
+					    	var activityDiv = $(elem).appendTo(datePlanDiv);
+						    var starunstar = 'unstarred';
+						    $("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
+
 					    	$.ajax({
 					    		type: 'POST',
 					    		url: 'api/index.php/viewFavorites',
 					    		content: 'application/json',
+					    		async: false,
 					    		data: JSON.stringify(user),
 					    		success: function(data3){
-						    		var favData = jQuery.parseJSON(data3);
-							    	var actData = jQuery.parseJSON(data2);
-						    		var elem = "<li class='activity' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li>";
-						    		var activityDiv = $(elem).appendTo(datePlanDiv);
-						    		var starunstar = 'unstarred';
-						    		$("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
+						    		var favData = jQuery.parseJSON(data3);							    
 						    		for (var x = 0; x < favData.length; x++) {
 						    			if (favData[x].Name == actData[0].Name){
 						    				starunstar = 'starred';
 						    				break;
 						    			}
 						    		}
-						    		var starString = "<p class='" + starunstar + "'></p>";
-						    		$(starString).appendTo(activityDiv);
-						    		addDrag();
 					    		}
-				    		})
+				    		});
+				    		var starString = "<p class='" + starunstar + "'></p>";
+						    $(starString).appendTo(activityDiv);
+						    addDrag();
 						}, 
 						error: function(jqXHR, errorThrown){
 							console.log('We didnt make it sir, sorry');
 							console.log(jqXHR, errorThrown);
-						}
-					})
+						}						
+					});
 	    		}
 	    		$("<a id='reviewDatePlanBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
-	    	}
+	    	}	    	
 		}
 	});
 }
@@ -456,7 +462,7 @@ function createDatePlan(userDatePlanInfo){
 	userDatePlanInfo = new Object();
 	userDatePlanInfo.Name = $("#datePlanName").val();
 	userDatePlanInfo.UserID = user.UserID;
-	
+
 	datePlanActivity = new Object();
 	$.ajax({
 		type: 'POST',
@@ -483,6 +489,27 @@ function addActivityToDatePlan(){
 		success: function(data){
 			console.log(data);
 			console.log("Activity added to date plan");
+		}
+	});
+}
+
+function editDescription(){
+	var datePlanDescription = new Object();
+	datePlanDescription.dateplanID = datePlanActivity.DatePlanID;
+	datePlanDescription.Description = $("#descriptionDatePlan").attr("value");
+	datePlanDescription.userID = user.UserID;
+	console.log(datePlanDescription);
+
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/updateDatePlanDescription',
+		content: 'application/json',
+		data: JSON.stringify(datePlanDescription),
+		success: function(data){
+			console.log(datePlanDescription);
+		},
+		error: function(){
+			console.log(datePlanDescription);
 		}
 	});
 }

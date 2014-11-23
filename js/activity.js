@@ -21,7 +21,7 @@ $(document).ready(function(){
 
 function createNewActivity(event){
     event.preventDefault();
-
+    
     inputName = $("#nameInput").attr("value");
     inputDescription = $("#descriptionInput").attr("value");
     inputRawCost = Number($("#costInput").attr("value"));
@@ -38,7 +38,7 @@ function createNewActivity(event){
     //create new activity
     $.ajax({
         type: 'POST',
-        url: 'api/submitNewActivity',
+        url: 'api/index.php/submitNewActivity',
         content: 'application/json',
         data: JSON.stringify(newActivity),
         success: function(data){
