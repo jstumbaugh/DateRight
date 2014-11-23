@@ -8,6 +8,7 @@
 	<head>
 		<title>Make a Date!</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 		<meta name="description" content="DateRight">
@@ -22,20 +23,21 @@
             </button> 
 		</a>
 	</div>
+		<div id="currentplanlist">	
+			<button id="logoutbut">Logout</button>
+			<button id="profilebut">Profile</button>
+			<button id="myPlansBut">My Plans</button>
+			<button id="favactivitiesbut">Activites</button>
+			<button id="favDatePlansBut">Date Plans</button>
+		</div>
 		<div id="currentplan">
-		<button id="backToCreateBut">Back</button>
-			<ul id="currentplanlist">	
-				<li><button id="logoutbut">Logout</button></li>
-				<li><button id="profilebut">Profile</button></li>
-				<li><button id="myPlansBut">My Plans</button></li>
-				<li><button id="favactivitiesbut">Favorite Activites</button></li>
-				<li><button id="favDatePlansBut">Favorite Date Plans</button></li>
-				<li><a id='descriptionDatePlanAnchor' href='#DescriptionBox'> 
-					<button href='#DescriptionBox' name='Description' class='descriptionButton' id='descriptionBut'>Add Description</button>
-				</a></li>
-			</ul>
+			<button id="backToCreateBut">Back</button>
 			<input type="text" id="datePlanName" placeholder="Enter Date Plan Name Here" name="datePlanName" size="33">
 			<ul id="currentDatePlan"></ul>
+			<label id="publishLabel"><input id="publishCheckbox" type="checkbox" name="publish" value="0">Share?</label>
+			<a id='descriptionDatePlanAnchor' href='#DescriptionBox'> 
+				<button href='#DescriptionBox' name='Description' class='descriptionButton' id='descriptionBut'>Add Description</button>
+			</a>
 		</div>
 		<h1>Search for Ideas!</h1>
 		<div id="searchtabs">

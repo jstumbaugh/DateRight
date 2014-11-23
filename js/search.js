@@ -17,7 +17,7 @@ jQuery(document).ready(function() {
 		if ($("input[name=search]:checked").val() == "activityTag"){
 			var searchString = new Object();
 			searchString.tagName = $("#searchbar").val();
-			searchString = 'api/index.php/getTaggedActivities?tagName=' + searchString.tagName;
+			searchString = JSON.stringify(searchString);
 			$('.activity').remove();
 			$('.dateplan').remove();
 			getActivitiesByTag(searchString);
@@ -74,6 +74,7 @@ jQuery(document).ready(function() {
 		$('#myPlansBut').show();
 		$('#datePlanName').show();
 		$('#backToCreateBut').hide();
+		$('#publishLabel').show();
 		$('.userDatePlan').parent().empty();
 	})
 
@@ -92,13 +93,23 @@ jQuery(document).ready(function() {
 		editDescription();
 	})
 
+	$('#publishCheckbox').change(function(){
+		var check = 0;
+		if (this.checked){
+			check = 1;
+		}
+		publishDatePlan(check);
+	})
+
 	addSort();
 });
 
 function getActivitiesByTag(searchString){
 	$.ajax({
-		type: 'GET',
-	    url: searchString,
+		type: 'POST',
+	    url: 'api/index.php/getTaggedActivities',
+	    content: 'application/json',
+	    data: searchString,
 	    success: function(data) {
 	    	var actData = jQuery.parseJSON(data);
 	    	var activitiesDiv = $("#searchResults");
@@ -198,8 +209,12 @@ function getMousePosition(e){
 
 	else if (favStar.classList.contains("userDatePlanX")){
 		exitBut = favStar;
-		console.log(exitBut);
 		deleteUserPlan();
+	}
+
+	else if (favStar.classList.contains("userDatePlan")){
+		userPlan = favStar;
+		openDatePlan();
 	}
 }
 
@@ -261,6 +276,7 @@ function getActivitiesByName(){
 				content: 'application/json',
 				data: JSON.stringify(user),
 				success: function(data2){
+					console.log(data2);
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
 			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + "></li>"
@@ -538,17 +554,16 @@ function editDescription(){
 function searchDatePlanTags(){
 	var searchQuery = new Object();
 	searchQuery.tagName = $("#searchbar").val();
-	console.log(searchQuery);
 
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: 'api/index.php/getTaggedDatePlans',
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data){
 			console.log(data);
 	    	var datePlansDiv = $("#searchResults");
-	    	var planData = $.parseJSON(data).DatePlans;
+	    	var planData = data[0].DatePlans;
 	    	console.log(planData);
 	    	for (var k = 0; k < planData.length; k++){
 	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
@@ -604,6 +619,7 @@ function getUserDatePlans(){
 	$('#myPlansBut').hide();
 	$('#datePlanName').hide();
 	$('#backToCreateBut').show();
+	$('#publishLabel').hide();
 
 	$.ajax({
 		type: 'POST',
@@ -642,4 +658,42 @@ function deleteUserPlan(){
             exitBut.parentNode.parentNode.removeChild(exitBut.parentNode);
 		}
     });
+}
+
+function openDatePlan(){
+	$.ajax({
+		type: 'GET',
+		url: 'api/index.php/getDateplanById/' + userPlan.value,
+		content: 'application/json',
+		success: function(data){
+			var datePlanFromData = $.parseJSON(data)[0];
+			console.log(datePlanFromData);
+			datePlanActivity.DatePlanID = datePlanFromData.DatePlanID;
+			$('#descriptionBut').show();
+			$('#myPlansBut').show();
+			$('#datePlanName').show();
+			$('#backToCreateBut').hide();
+			$('#publishLabel').show();
+			$('.userDatePlan').parent().empty();
+			$.ajax({
+				
+			});
+		}
+	}); //getDatePlanById ajax call
+}
+
+function publishDatePlan(check){
+	var datePlanUser = new Object();
+	datePlanUser.datePlanID = datePlanActivity.DatePlanID;
+	datePlanUser.userID = user.UserID;
+
+	$.ajax({
+		type: 'POST', 
+		url: 'api/index.php/shareDatePlan',
+		content: 'application/json',
+		data: JSON.stringify(datePlanUser),
+		success: function(data){
+			console.log("Date Plan is now public");
+		}
+	});
 }

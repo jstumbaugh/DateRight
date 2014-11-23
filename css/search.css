@@ -25,22 +25,35 @@ html {
 
 #currentplan {
     float: right;
-	height: 97vh;
+	height: 90vh;
 	right: 0%;
 	background-color: #00FFFF;
     width: 235px;
+    margin-top: 57px;
+    margin-bottom: 0;
 }
 
-#currentplanlist li{
-	margin-bottom: 2%;
-	list-style: none;
-	text-align: right;
+#currentplanlist{
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    background-color: yellow;
+}
+
+#currentplanlist button{
+    float: right;
+    margin: 2px;
+}
+
+#myPlansBut, #favactivitiesbut{
+    clear: right;
 }
 
 #currentDatePlan{
     padding-left: 7px;
-    height: 97vh;
-    width: 235px;
+    height: 80vh;
+    width: 228px;
+    margin-bottom: 0;
 }
 
 #currentDatePlan li{
@@ -184,10 +197,21 @@ form#reviewActivity label#rating{
     margin-bottom: 17px;
 }
 
-#descriptionBut{
+#descriptionBut, #publishCheckbox, #publishLabel{
     position: absolute;
-    bottom: 1%;
+    bottom: 2%;
+}
+
+#descriptionBut{
     right: 1%;
+}
+
+#publishLabel{
+    right: 14%;
+}
+
+#publishCheckbox{
+    right: 100%;
 }
 
 #DescriptionBoxAnchor .reviewButton{
@@ -215,6 +239,7 @@ h2{
     font-size: 10px;
     background: none;
     border: none;
+    background-color: #5C5C5C;
 }
 
 .userDatePlanX:hover{
