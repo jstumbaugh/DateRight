@@ -481,3 +481,19 @@ $.ajax({
             console.log(data);
         }
     });
+
+
+//ADD TAG TO ACTIVITY
+	
+    var tag = new Object();
+    tag.tagID = 1;
+    tag.activityID = 11;
+    $.ajax({
+        type: 'POST',
+        url: 'api/addTagToActivity',
+        content: 'application/json',
+        data: JSON.stringify(tag),
+        success: function(data){
+            console.log(data);
+        }
+    });    
