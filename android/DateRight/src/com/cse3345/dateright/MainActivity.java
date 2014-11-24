@@ -32,11 +32,15 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	protected static final String EXTRA_MESSAGE = "com.cse3345.A7Konersmann.MESSAGE";
+	//Search
+	private EditText searchInput;
+	private Button searchButton;
 	//Login
 	private Button randomButton;
 	private EditText loginEmail;
 	private EditText loginPass;
 	private Button loginButton;
+	
 	//Create Account
 	private EditText createAccountEmail;
 	private EditText createAccountUserName;
@@ -57,6 +61,21 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		/**
+		 * SEARCH BUTTON SECTION
+		 * */
+		searchInput = (EditText) findViewById(R.id.searchInput);
+		searchButton = (Button) findViewById(R.id.searchButton);
+		searchButton.setOnClickListener(new OnClickListener(){
+			public void onClick(View view) {
+				Intent intent = new Intent(MainActivity.this, GuestSearchActivity.class);
+				String message = searchInput.getText().toString();
+				//System.out.println(message);
+				intent.putExtra(EXTRA_MESSAGE, message);
+				startActivity(intent);
+			}
+		});
 		
 		/**
 		 * RANDOM BUTTON SECTION
