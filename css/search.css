@@ -39,7 +39,7 @@ html {
 	height: 90vh;
 	right: 0%;
     width: 300px;
-    margin-top: 57px;
+    margin-top: 75px;
     margin-bottom: 0;
     background-image: url("../img/clipboard_paper.png");
     background-size: 300px 90vh;
@@ -67,7 +67,7 @@ html {
     width: 228px;
     margin-bottom: 0;
     margin-left: 17%;
-    margin-top: 25%;
+    margin-top: 32%;
 }
 
 #currentDatePlan li{
@@ -298,5 +298,12 @@ h2{
 h1{
     left: 40%;
     top: 10%;
+    position: absolute;
+}
+
+#datePlanName{
+    bottom:67%;
+    left: 79%;
+    width: 18.5%;
     position: absolute;
 }
