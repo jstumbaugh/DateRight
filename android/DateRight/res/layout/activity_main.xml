@@ -25,6 +25,29 @@
 	        android:contentDescription="@string/logoDescription"
 	        />
 	    
+	    <!-- SEARCH -->
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center"
+	        >
+	        <EditText
+	            android:id="@+id/searchInput"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:inputType="text"
+		        android:hint="@string/searchInput"
+		        android:layout_weight="1"
+	            />
+		    <Button
+		        android:id="@+id/searchButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/search" 
+		        />
+		</LinearLayout>
+	    
 	    <!-- RANDOM DATE PLAN ACTIVITY -->
 	    <LinearLayout
 	        android:layout_width="match_parent"
