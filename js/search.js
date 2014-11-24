@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
 	var reviewButton;
 	getUserID();
+	datePlanActivity = new Object();
 	$('#backToCreateBut').hide();
 
 	console.log(user.UserID);
@@ -499,8 +500,6 @@ function createDatePlan(userDatePlanInfo){
 	userDatePlanInfo = new Object();
 	userDatePlanInfo.Name = $("#datePlanName").val();
 	userDatePlanInfo.UserID = user.UserID;
-
-	datePlanActivity = new Object();
 	$.ajax({
 		type: 'POST',
 		url: 'api/index.php/createDatePlan',
@@ -620,6 +619,7 @@ function getUserDatePlans(){
 	$('#datePlanName').hide();
 	$('#backToCreateBut').show();
 	$('#publishLabel').hide();
+	$('.activityDatePlan').remove();
 
 	$.ajax({
 		type: 'POST',
@@ -667,7 +667,7 @@ function openDatePlan(){
 		content: 'application/json',
 		success: function(data){
 			var datePlanFromData = $.parseJSON(data)[0];
-			console.log(datePlanFromData);
+			var clipBoard = $('#currentDatePlan');
 			datePlanActivity.DatePlanID = datePlanFromData.DatePlanID;
 			$('#descriptionBut').show();
 			$('#myPlansBut').show();
@@ -676,7 +676,47 @@ function openDatePlan(){
 			$('#publishLabel').show();
 			$('.userDatePlan').parent().empty();
 			$.ajax({
-				
+				type: 'GET',
+				url: 'api/index.php/getAssociatedActivities/' + datePlanActivity.DatePlanID + '/1',
+				success: function(data2){
+					var associatedActivities = jQuery.parseJSON(data2);
+					for (var x = 0; x < associatedActivities.length; x++){
+						$.ajax({
+							type: 'GET',
+							async: false,
+							url: 'api/index.php/getActivityById/' + associatedActivities[x].ActivityID,
+							content: 'application/json',
+							success: function(data3){
+								var actData = jQuery.parseJSON(data3);
+								var elem = "<li class='activityDatePlan' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li>";
+						    	var activityDiv = $(elem).appendTo(clipBoard);
+							    var starunstar = 'unstarred';
+							    $("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
+
+						    	$.ajax({
+						    		type: 'POST',
+						    		url: 'api/index.php/viewFavorites',
+						    		content: 'application/json',
+						    		async: false,
+						    		data: JSON.stringify(user),
+						    		success: function(data4){
+							    		var favData = jQuery.parseJSON(data4);						  
+							    		for (var x = 0; x < favData.length; x++) {
+							    			if (favData[x].Name == actData[0].Name){
+							    				starunstar = 'starred';
+							    				break;
+							    			}
+							    		}
+						    		}
+					    		});
+					    		var starString = "<p class='" + starunstar + "'></p>";
+							    $(starString).appendTo(activityDiv);
+							    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+							    addDrag();
+							}
+						})
+					}
+				}
 			});
 		}
 	}); //getDatePlanById ajax call
