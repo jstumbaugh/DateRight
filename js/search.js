@@ -225,7 +225,7 @@ function getMousePosition(e){
 		deleteActivity();
 	}
 
-	if ($("#datePlanName").val() != datePlanActivity.Name){
+	if ($("#datePlanName").val() != datePlanActivity.Name || $("#datePlanName").val() != ""){
 		updateName();
 	}
 }
@@ -350,6 +350,7 @@ function addDrag(){
 			$elems.switchClass("activity", "activityDatePlan");
 			$elems.removeAttr("style");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".reviewBut");
+			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".addTagC");
 			setTimeout(addActivityToDatePlan, 1000);
 
 		}

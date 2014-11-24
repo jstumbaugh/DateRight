@@ -80,7 +80,7 @@ $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
 $app->get('/getTagsFromActivityID/:activityID', 'getTagsFromActivityID');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
-$app->delete('/deleteDateActivity/:id', 'deleteDateActivity');
+$app->delete('/deleteDateActivity/:datePlanID/:activityID', 'deleteDateActivity');
 $app->post('/createDatePlan', 'createDatePlan');
 $app->post('/addActivity', 'addActivity');
 $app->post('/updateDatePlanDescription', 'updateDatePlanDescription');
@@ -1725,14 +1725,15 @@ function deleteDatePlan()
 } // end of function
 
 //Function to delete dateactivity
-function deleteDateActivity($id) 
+function deleteDateActivity($datePlanID, $activityID) 
 {
-    $deleteQuery = "DELETE FROM DateActivities WHERE DateActivitiesID =:ID";
+    $deleteQuery = "DELETE FROM DateActivities WHERE DatePlanID = :datePlanID AND ActivityID = :activityID";
   
     try {
         $db = getConnection();
         $stmt = $db->prepare($deleteQuery);
-        $stmt->bindParam("ID", $id);
+        $stmt->bindParam("datePlanID", $datePlanID); 
+        $stmt->bindParam("activityID", $activityID);
         $stmt->execute();
         if($stmt->rowCount()>0){
         echo ERROR::SUCCESS;
