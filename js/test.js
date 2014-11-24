@@ -486,8 +486,13 @@ $.ajax({
 //ADD TAG TO ACTIVITY
 	
     var tag = new Object();
+
+    //Supply tagID XOR tagName
     tag.tagID = 1;
+    //tag.tagName = "extreme";
     tag.activityID = 11;
+
+    //NOTE: If tagName doesn't currently exist, it will be added to Tags table
     $.ajax({
         type: 'POST',
         url: 'api/addTagToActivity',
