@@ -57,7 +57,7 @@ html {
     margin: 2px;
 }
 
-#myPlansBut, #favactivitiesbut{
+#favactivitiesbut{
     clear: right;
 }
 
@@ -126,9 +126,25 @@ h3{
     float: left;
     clear: left;
     margin: 5px;
-     background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
     background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+.addTagC{
+    margin-top: 10px;
+    margin-left: 5px;
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+#currentDatePlan .addTagC{
+    font-size: 12px;
+    margin-right: 5px;
+    margin-left: 0;
+    margin-top: 13px;
+    float: right;
 }
 
 .activityDatePlan h3, .userDatePlan h3{
@@ -266,7 +282,7 @@ h2{
 
 }
 
-.userDatePlanX{
+.userDatePlanX, .userActivityX{
     float: right;
     font-size: 10px;
     background: none;
@@ -274,7 +290,7 @@ h2{
     background-color: #5C5C5C;
 }
 
-.userDatePlanX:hover{
+.userDatePlanX:hover, .userActivityX:hover{
     background-color: orange;
 }
 

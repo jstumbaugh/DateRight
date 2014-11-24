@@ -75,6 +75,7 @@ jQuery(document).ready(function() {
 		$('#descriptionBut').show();
 		$('#myPlansBut').show();
 		$('#datePlanName').show();
+		$('#datePlanName').val("");
 		$('#backToCreateBut').hide();
 		$('#publishLabel').show();
 		$('.userDatePlan').parent().empty();
@@ -135,7 +136,7 @@ function getActivitiesByTag(searchString){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> </a>").appendTo(activityDiv);
+			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
 			    	}
 			    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
 			    		addDrag();
@@ -219,6 +220,11 @@ function getMousePosition(e){
 		openDatePlan();
 	}
 
+	else if (favStar.classList.contains("userActivityX")){
+		actExitBut = favStar;
+		deleteActivity();
+	}
+
 	if ($("#datePlanName").val() != datePlanActivity.Name){
 		updateName();
 	}
@@ -253,7 +259,7 @@ function getFavoriteActivities(){
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
-	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> </a>").appendTo(activityDiv);
+	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
 	    	}
 	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
 	    		addDrag();
@@ -297,7 +303,7 @@ function getActivitiesByName(){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> </a>").appendTo(activityDiv);
+			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
 			    	}
 			    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
 				    	addDrag();
@@ -331,6 +337,7 @@ function addSort(){
 }
 
 function addDrag(){
+	var v;
 	console.log("Adding Drag");
 	$( ".activity" ).draggable({
 		connectToSortable: "#currentDatePlan",
@@ -344,9 +351,14 @@ function addDrag(){
 			$elems.removeAttr("style");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".reviewBut");
 			setTimeout(addActivityToDatePlan, 1000);
-			setTimeout(updateName, 1000);
+
 		}
     });
+}
+
+function addButton(v){
+	var datePlanBut = $('.activityDatePlan')[$('.activityDatePlan').length-1];
+	$("<button class='userActivityX' value=" + v + "> X </button>").appendTo(datePlanBut);
 }
 
 function clearText(a){
@@ -530,7 +542,6 @@ function addActivityToDatePlan(){
 		content: 'application/json',
 		data: JSON.stringify(datePlanActivity),
 		success: function(data){
-			console.log(data);
 			console.log("Activity added to date plan");
 		}
 	});
@@ -544,9 +555,7 @@ function editDescription(){
 		content: 'application/json',
 		data: JSON.stringify(datePlanDescription),
 		success: function(data){
-			console.log(data);
-		},
-		error: function(){
+			console.log("Successfully added description.");
 		}
 	});
 }
@@ -662,6 +671,20 @@ function deleteUserPlan(){
     });
 }
 
+function deleteActivity(){
+	$.ajax({
+		type: 'DELETE',
+		url: 'api/index.php/deleteDateActivity/' + datePlanActivity.DatePlanID + '/' + actExitBut.value,
+		success: function(data){
+			console.log("Activity deleted");
+            actExitBut.parentNode.parentNode.removeChild(actExitBut.parentNode);
+		},
+		error: function(){
+			console.log("Unable to delete function for some reason");
+		}
+	});
+}
+
 function openDatePlan(){
 	$.ajax({
 		type: 'GET',
@@ -674,6 +697,7 @@ function openDatePlan(){
 			$('#descriptionBut').show();
 			$('#myPlansBut').show();
 			$('#datePlanName').show();
+			$('#datePlanName').val("");
 			$('#backToCreateBut').hide();
 			$('#publishLabel').show();
 			$('.userDatePlan').parent().empty();
@@ -713,8 +737,9 @@ function openDatePlan(){
 					    		});
 					    		var starString = "<p class='" + starunstar + "'></p>";
 							    $(starString).appendTo(activityDiv);
+								$("<button class='userActivityX' value=" + actData[0].ActivityID + "> X </button>").appendTo(activityDiv);
 							    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
-							    addDrag();
+							    	addDrag();
 							}
 						})
 					}
