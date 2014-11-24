@@ -10,6 +10,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/profileTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/profile" />
@@ -98,5 +99,19 @@
 	        android:layout_weight="1"
             />
     </LinearLayout>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/datePlans" />
 
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+	    <TextView
+	        android:id="@+id/results"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="" />
+    </RelativeLayout>
 </LinearLayout>
