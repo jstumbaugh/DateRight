@@ -195,6 +195,18 @@ html {
     color: rgb(255, 255, 255);
 }
 
+.shellDiv {
+    border-radius: 10px;
+    padding: 1em;
+    background:#7f7f7f;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+}
+
 .modalDialog {
     position: fixed;
     top: 0;

@@ -118,10 +118,12 @@ function showUserDatePlans(){
             modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
             timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x].Timestamp);
             description = $("<p></p>").text("Description: " + userDatePlans[x].Description);
-            $("#displaySection #datePlans").append(title, share, creator, modify, timeStamp, description);
-            //keep it hidden
-            $("#displaySection #datePlans").attr("class", "hideThis");
+            shell = $("<div></div>").append(title, share, creator, modify, timeStamp, description);
+            shell.attr("class", "shellDiv");
+            $("#displaySection #datePlans").append(shell);
         }
+        //keep it hidden
+        $("#displaySection #datePlans").attr("class", "hideThis");
     }
     //sharing
 }
@@ -147,7 +149,9 @@ function addDatePlanReviews() {
             attended = $("<p></p>").text("Attended? " + att);
             timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews[x].ReviewTime);
             description = $("<p></p>").text("Description: " + datePlanReviews[x].Description);
-            $("#displaySection #datePlanReviews").append(title, type, rating, attended, timeStamp, description);
+            shell = $("<div></div>").append(title, type, rating, attended, timeStamp, description);
+            shell.attr("class", "shellDiv");
+            $("#displaySection #datePlanReviews").append(shell);
         }
     }
     //keep it hidden
@@ -175,8 +179,11 @@ function addActivityReviews() {
             attended = $("<p></p>").text("Attended? " + att);
             timeStamp = $("<p></p>").text("Date and time created: " + activityReviews[x].ReviewTime);
             description = $("<p></p>").text("Description: " + activityReviews[x].Description);
+            //add stuff to a div
+            shell = $("<div></div>").append(title, type, rating, attended, timeStamp, description);
+            shell.attr("class", "shellDiv");
             //add activity reviews to the page
-            $("#displaySection #activityReviews").append(title, type, rating, attended, timeStamp, description);
+            $("#displaySection #activityReviews").append(shell);
         }
     }
     //keep it hidden

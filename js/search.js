@@ -124,7 +124,19 @@ function getActivitiesByTag(searchString){
 				success: function(data2){
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>"
+
+						$.ajax({
+							type: 'GET',
+							url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+							content: 'application/json',
+							success: function(data3){
+								tags = jQuery.parseJSON(data3);
+
+							}
+						});
+
+			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
+			    		elem = elem + \"></li>";
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -136,7 +148,7 @@ function getActivitiesByTag(searchString){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
+			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' size='15' maxlength='20' name='tagField' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 			    	}
 			    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
 			    		addDrag();
@@ -225,9 +237,29 @@ function getMousePosition(e){
 		deleteActivity();
 	}
 
+	else if (favStar.classList.contains("addTag")){
+		tagBut = favStar;
+		addTag();
+	}
+
 	if ($("#datePlanName").val() != datePlanActivity.Name || $("#datePlanName").val() != ""){
 		updateName();
 	}
+}
+
+function addTag(){
+	var tag = new Object();
+    tag.tagID = 1;
+    tag.activityID = 11;
+    $.ajax({
+        type: 'POST',
+        url: 'api/addTagToActivity',
+        content: 'application/json',
+        data: JSON.stringify(tag),
+        success: function(data){
+            console.log(data);
+        }
+    });    
 }
 
 function getUserID(){
@@ -259,7 +291,7 @@ function getFavoriteActivities(){
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
-	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
+	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' name='tagField' size='15' maxlength='20' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 	    	}
 	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
 	    		addDrag();
@@ -303,7 +335,7 @@ function getActivitiesByName(){
 			    		}
 			    		var starString = "<p class='" + starunstar +"'></p>";
 			    		$(starString).appendTo(activityDiv);
-			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
+			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' name='tagField' size='15' maxlength='20' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 			    	}
 			    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
 				    	addDrag();
@@ -351,6 +383,7 @@ function addDrag(){
 			$elems.removeAttr("style");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".reviewBut");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".addTagC");
+			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] input').remove(".tagText");
 			setTimeout(addActivityToDatePlan, 1000);
 
 		}
