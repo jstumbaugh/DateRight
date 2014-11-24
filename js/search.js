@@ -71,6 +71,7 @@ jQuery(document).ready(function() {
 	})
 
 	$('#backToCreateBut').click(function(){
+		updateName();
 		$('#descriptionBut').show();
 		$('#myPlansBut').show();
 		$('#datePlanName').show();
@@ -217,6 +218,10 @@ function getMousePosition(e){
 		userPlan = favStar;
 		openDatePlan();
 	}
+
+	if ($("#datePlanName").val() != datePlanActivity.Name){
+		updateName();
+	}
 }
 
 function getUserID(){
@@ -339,6 +344,7 @@ function addDrag(){
 			$elems.removeAttr("style");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".reviewBut");
 			setTimeout(addActivityToDatePlan, 1000);
+			setTimeout(updateName, 1000);
 		}
     });
 }
@@ -499,6 +505,7 @@ function searchDatabase(){
 function createDatePlan(userDatePlanInfo){
 	userDatePlanInfo = new Object();
 	userDatePlanInfo.Name = $("#datePlanName").val();
+	datePlanActivity.Name = userDatePlanInfo.Name;
 	userDatePlanInfo.UserID = user.UserID;
 	$.ajax({
 		type: 'POST',
@@ -530,11 +537,6 @@ function addActivityToDatePlan(){
 }
 
 function editDescription(){
-	var datePlanDescription = new Object();
-	datePlanDescription.DatePlanID = datePlanActivity.DatePlanID;
-	datePlanDescription.Description = $("#descriptionDatePlan").val();
-	datePlanDescription.UserID = user.UserID;
-	console.log(datePlanDescription);
 
 	$.ajax({
 		type: 'POST',
@@ -613,6 +615,7 @@ function searchDatePlanTags(){
 }
 
 function getUserDatePlans(){
+	updateName()
 	$('#descriptionBut').hide();
 	$('#myPlansBut').hide();
 	$('#datePlanName').hide();
@@ -733,6 +736,24 @@ function publishDatePlan(check){
 		data: JSON.stringify(datePlanUser),
 		success: function(data){
 			console.log("Date Plan is now public");
+		}
+	});
+}
+
+function updateName(){
+	var datePlanName = new Object();
+	datePlanName.DatePlanID = datePlanActivity.DatePlanID;
+	datePlanName.Name = $("#datePlanName").val();
+	datePlanActivity.Name = datePlanName.Name;
+	datePlanName.UserID = user.UserID;
+
+	$.ajax({
+		type: 'POST',
+		url: 'api/index.php/updateDatePlanName',
+		content: 'application/json',
+		data: JSON.stringify(datePlanName),
+		success: function(data){
+			console.log("Date Plan name changed")
 		}
 	});
 }
