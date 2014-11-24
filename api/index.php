@@ -86,6 +86,7 @@ $app->post('/addActivity', 'addActivity');
 $app->post('/updateDatePlanDescription', 'updateDatePlanDescription');
 $app->post('/updateDatePlanName', 'updateDatePlanName');
 $app->get('/getAssociatedActivities/:datePlanID/:standalone', 'getAssociatedActivities');
+$app->post('/addTagToActivity', 'addTagToActivity');
 $app->run();
 
 /**
@@ -2017,6 +2018,37 @@ function updateDatePlanName()
 	}
 }
 
+
+function addTagToActivity() {
+	$app = \Slim\Slim::getInstance();
+	$request = $app->request;
+	$info = json_decode($request->getBody());
+
+	$tagID = $info->tagID;
+	$activityID = $info->activityID;
+
+	// This will check to see if the user has an account in the database
+	try {
+		$sql = "INSERT INTO TaggedActivities (TagID, ActivityID) VALUES ($tagID, $activityID)";
+		$db = getConnection();
+		$stmt = $db->query($sql);
+
+		$checksql = "SELECT * FROM TaggedActivities WHERE TagID = $tagID AND ActivityID = $activityID";
+		$stmt2 = $db->query($checksql);
+		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
+		if(!empty($returnedInfo))
+			echo ERROR::SUCCESS;
+		else
+			echo ERROR::NO_RESULTS;
+		
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+
+
+
+}
 
 
 
