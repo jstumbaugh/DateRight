@@ -80,7 +80,7 @@ $app->post('/addPhoto', 'addPhoto');
 $app->get('/getPhoto/:userID', 'getPhoto');
 $app->get('/getTagsFromActivityID/:activityID', 'getTagsFromActivityID');
 $app->delete('/deleteDatePlan', 'deleteDatePlan');
-$app->delete('/deleteDateActivity/:datePlanID/:activityID', 'deleteDateActivity');
+$app->delete('/deleteDateActivity/:id', 'deleteDateActivity');
 $app->post('/createDatePlan', 'createDatePlan');
 $app->post('/addActivity', 'addActivity');
 $app->post('/updateDatePlanDescription', 'updateDatePlanDescription');
@@ -1724,15 +1724,14 @@ function deleteDatePlan()
 } // end of function
 
 //Function to delete dateactivity
-function deleteDateActivity($datePlanID, $activityID) 
+function deleteDateActivity($id) 
 {
-    $deleteQuery = "DELETE FROM DateActivities WHERE DatePlanID = :datePlanID AND ActivityID = :activityID";
+    $deleteQuery = "DELETE FROM DateActivities WHERE DateActivitiesID =:ID";
   
     try {
         $db = getConnection();
         $stmt = $db->prepare($deleteQuery);
-        $stmt->bindParam("datePlanID", $datePlanID);
-        $stmt->bindParam("activityID", $activityID);
+        $stmt->bindParam("ID", $id);
         $stmt->execute();
         if($stmt->rowCount()>0){
         echo ERROR::SUCCESS;
@@ -1846,7 +1845,6 @@ function addActivity()
 	if ($dateplan_exists == true)
 	{
 		$activityID = $info->ActivityID;
-		echo json_encode($activityID);
 		try{
 			$sql = "SELECT * FROM Activities WHERE ActivityID = :activityID";
 			$db = getConnection();
@@ -1882,7 +1880,6 @@ function addActivity()
 		$stmtInsertDA->bindParam("dateplanID", $datePlanID);
 		$stmtInsertDA->bindParam("activityID", $activityID);
 		$stmtInsertDA->execute();
-		echo "EXECUTED";	
 	}
 	else{
 		echo "activity doesn't exist";
