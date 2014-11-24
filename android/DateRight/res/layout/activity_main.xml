@@ -127,6 +127,12 @@
 	        android:layout_height="wrap_content"
 	        android:text="@string/login" 
 	        />
+	        <Button
+	        android:id="@+id/contLogin"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/contLogin" 
+	        />
 	    </LinearLayout>
 		
 	    <!-- CREATE ACCOUNT -->
