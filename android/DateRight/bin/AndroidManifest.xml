@@ -33,6 +33,14 @@
             android:name=".GuestSearchActivity"
             android:label="@string/title_activity_guest_search" >
         </activity>
+        <activity
+            android:name=".UserSearchActivity"
+            android:label="@string/title_activity_user_search" >
+        </activity>
+        <activity
+            android:name=".UserProfileActivity"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
     </application>
 
 </manifest>

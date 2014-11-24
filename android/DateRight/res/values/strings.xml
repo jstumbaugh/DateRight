@@ -11,6 +11,7 @@
     <string name="searchInput">Find a Date Plan</string>
     <string name="random">Get A Random Date</string>
     <string name="login">Login</string>
+    <string name="contLogin">Continue Logging In</string>
     <string name="email">Email:</string>
     <string name="pass">Password:</string>
     <string name="logoDescription">Logo</string>
@@ -21,9 +22,16 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="securityQuestion">Security Question: What is your mothers maiden name?</string>
-    
     <string name="title_activity_display_random">Here\'s A Random Activity</string>
-    
     <string name="title_activity_guest_search">Guest Search</string>
+    <string name="title_activity_user_search">UserSearchActivity</string>
+
+    <!-- User Search Strings -->
+    <string name="viewProfile">View Profile</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
+    
+    <!-- User Profile Strings -->
+    <string name="profile">Profile</string>
+    <string name="sex">Sex:</string>
 
 </resources>

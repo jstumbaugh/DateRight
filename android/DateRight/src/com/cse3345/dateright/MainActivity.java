@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -31,7 +32,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	protected static final String EXTRA_MESSAGE = "com.cse3345.A7Konersmann.MESSAGE";
+	protected static final String EXTRA_MESSAGE = "com.cse3345.DateRight.MESSAGE";
+	//protected static final String EXTRA_MESSAGE2 = "com.cse3345.DateRight.MESSAGE2";
 	//Search
 	private EditText searchInput;
 	private Button searchButton;
@@ -40,6 +42,8 @@ public class MainActivity extends Activity {
 	private EditText loginEmail;
 	private EditText loginPass;
 	private Button loginButton;
+	//private String loginString;
+	private Button continueLogin;
 	
 	//Create Account
 	private EditText createAccountEmail;
@@ -95,6 +99,7 @@ public class MainActivity extends Activity {
 		loginEmail = (EditText) findViewById(R.id.loginInputEmail);
 		loginPass = (EditText) findViewById(R.id.loginInputPass);
 		loginButton = (Button) findViewById(R.id.loginButton);
+		continueLogin = (Button) findViewById(R.id.contLogin);
 		
 		//for debuging purposes
 		textView = (TextView) findViewById(R.id.title);
@@ -103,6 +108,14 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				//start login process
 				getWebData();
+			}
+		});
+		
+		continueLogin.setOnClickListener(new OnClickListener(){
+			public void onClick(View view) {
+				Intent profileIntent = new Intent(MainActivity.this, UserSearchActivity.class);
+				profileIntent.putExtra(EXTRA_MESSAGE, textView.getText().toString());
+				startActivity(profileIntent);
 			}
 		});
 		
@@ -170,6 +183,13 @@ public class MainActivity extends Activity {
     // an InputStream. Finally, the InputStream is converted into a string, which is
     // displayed in the UI by the AsyncTask's onPostExecute method.
     private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    	private final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+    	
+    	protected void onPreExecute(){
+    		this.dialog.setMessage("Processing...");
+    		this.dialog.show();
+    	}
+    	
        @Override
        protected String doInBackground(String... urls) {
              
@@ -183,8 +203,14 @@ public class MainActivity extends Activity {
        // onPostExecute displays the results of the AsyncTask.
        @Override
        protected void onPostExecute(String result) {
-           //textView.setText(result);
-           System.out.println(result);
+			textView.setText(result);
+			//System.out.println(textView.getText().toString());
+    	   //loginString = new String(result);
+    	   //System.out.println(loginString);
+    	   this.dialog.dismiss();
+           
+           //System.out.println(result);
+           //loginInfoResult = new String(result);
       }
    }
 	
@@ -270,7 +296,7 @@ public class MainActivity extends Activity {
        // onPostExecute displays the results of the AsyncTask.
        @Override
        protected void onPostExecute(String result) {
-           //textView.setText(result);
+           textView.setText(result);
     	   System.out.println(result);
       }
    }
