@@ -620,7 +620,7 @@ function getDateplanById($id) {
 //Returns an array of TagIDs from a given activityid
 //@return JSON array of tag ids for that activity id
 function getTagsFromActivityID($activityID) {
-    $sql = "SELECT TagID FROM TaggedActivities WHERE ActivityID=:id";
+    $sql = "SELECT TagID, TagName FROM TaggedActivities NATURAL JOIN Tags WHERE ActivityID=:id";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -2025,14 +2025,49 @@ function addTagToActivity() {
 	$request = $app->request;
 	$info = json_decode($request->getBody());
 
-	$tagID = $info->tagID;
+	$isName = false;
+
+	if(!empty($info->tagID)) {
+		$tagID = $info->tagID;
+	}
+	else if(!empty($info->tagName)) {
+		$tagName = $info->tagName;
+		$isName = true;
+	}
 	$activityID = $info->activityID;
 
 	// This will check to see if the user has an account in the database
 	try {
-		$sql = "INSERT INTO TaggedActivities (TagID, ActivityID) VALUES ($tagID, $activityID)";
+		if($isName) {
+			$checknamesql = "SELECT TagID FROM Tags WHERE TagName = '$tagName'";
+			$db = getConnection();
+			$stmtname = $db->query($checknamesql);
+			$tagInfo = $stmtname->fetch(PDO::FETCH_OBJ);
+			if(!empty($tagInfo)) {
+				$tagID = $tagInfo->TagID;
+			}
+			else {
+				$tagsql = "INSERT INTO Tags VALUES '$tagName'";
+				$db = getConnection();
+				$stmttag = $db->query($tagsql);
+
+				$stmttagid = $db->query($checknamesql);
+				$tagInfo = $stmttagid->fetch(PDO::FETCH_OBJ);
+				if(!empty($tagInfo))
+					$tagID = $tagInfo->TagID;
+				else {
+					echo ERROR::JSON_ERROR;
+					exit(ERROR::JSON_ERROR);
+				}
+			}
+
+
+		}
+
+		
+		$sqlfinal = "INSERT INTO TaggedActivities (TagID, ActivityID) VALUES ($tagID, $activityID)";
 		$db = getConnection();
-		$stmt = $db->query($sql);
+		$stmtfinal = $db->query($sqlfinal);
 
 		$checksql = "SELECT * FROM TaggedActivities WHERE TagID = $tagID AND ActivityID = $activityID";
 		$stmt2 = $db->query($checksql);
