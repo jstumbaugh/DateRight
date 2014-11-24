@@ -131,12 +131,16 @@ function getActivitiesByTag(searchString){
 							content: 'application/json',
 							success: function(data3){
 								tags = jQuery.parseJSON(data3);
-
 							}
 						});
 
 			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
-			    		elem = elem + \"></li>";
+			    		if (!(tags === null)){
+				    		for (var x = 0; x < tags.length; x++){
+				    			elem = elem + tags[x].TagName + " ";
+				    		}
+			    		}
+			    		elem = elem + "\"></li>";
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
@@ -249,8 +253,8 @@ function getMousePosition(e){
 
 function addTag(){
 	var tag = new Object();
-    tag.tagID = 1;
-    tag.activityID = 11;
+    tag.tagName = tagBut.previousSibling.value;
+    tag.activityID = tagBut.parentNode.value;
     $.ajax({
         type: 'POST',
         url: 'api/addTagToActivity',
@@ -287,7 +291,23 @@ function getFavoriteActivities(){
 	    	var activitiesDiv = $("#searchResults");
 	    	for (i = 0; i < actData.length; i++)
 	    	{
-	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>";
+	    		$.ajax({
+					type: 'GET',
+					url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+					content: 'application/json',
+					success: function(data2){
+						tags = jQuery.parseJSON(data2);
+					}
+				});
+
+	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
+	    		if (typeof tags != 'undefined'){
+		    		for (var x = 0; x < tags.length; x++){
+		    			elem = elem + tags[x].TagName + " ";
+		    		}
+	    		}
+	    		elem = elem + "\"></li>";
+
 	    		var activityDiv = $(elem).appendTo(activitiesDiv);
 	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 	    		activityDiv.append("<p class='starred'></p>");
@@ -323,7 +343,22 @@ function getActivitiesByName(){
 					console.log(data2);
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
-			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + "></li>"
+			    		$.ajax({
+							type: 'GET',
+							url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+							content: 'application/json',
+							success: function(data2){
+								tags = jQuery.parseJSON(data2);
+							}
+						});
+
+			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
+			    		if (typeof tags != 'undefined'){
+				    		for (var x = 0; x < tags.length; x++){
+				    			elem = elem + tags[x].TagName + " ";
+				    		}
+			    		}
+			    		elem = elem + "\"></li>";
 			    		var activityDiv = $(elem).appendTo(activitiesDiv);
 			    		var starunstar = 'unstarred';
 			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
