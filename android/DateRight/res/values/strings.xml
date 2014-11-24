@@ -31,7 +31,8 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     
     <!-- User Profile Strings -->
-    <string name="profile">Profile</string>
+    <string name="profile">Profile:</string>
     <string name="sex">Sex:</string>
+    <string name="datePlans">Date Plans:</string>
 
 </resources>
