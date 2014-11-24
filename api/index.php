@@ -2040,7 +2040,7 @@ function addTagToActivity() {
 		$stmt2 = $db->query($checksql);
 		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
 		if(!empty($returnedInfo))
-			echo json_encode($returnedInfo);
+			echo ERROR::SUCCESS;
 		else
 			echo ERROR::NO_RESULTS;
 		
