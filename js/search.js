@@ -531,9 +531,9 @@ function addActivityToDatePlan(){
 
 function editDescription(){
 	var datePlanDescription = new Object();
-	datePlanDescription.dateplanID = datePlanActivity.DatePlanID;
-	datePlanDescription.Description = $("#descriptionDatePlan").attr("value");
-	datePlanDescription.userID = user.UserID;
+	datePlanDescription.DatePlanID = datePlanActivity.DatePlanID;
+	datePlanDescription.Description = $("#descriptionDatePlan").val();
+	datePlanDescription.UserID = user.UserID;
 	console.log(datePlanDescription);
 
 	$.ajax({
@@ -542,10 +542,9 @@ function editDescription(){
 		content: 'application/json',
 		data: JSON.stringify(datePlanDescription),
 		success: function(data){
-			console.log(datePlanDescription);
+			console.log(data);
 		},
 		error: function(){
-			console.log(datePlanDescription);
 		}
 	});
 }
