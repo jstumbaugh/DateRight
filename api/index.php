@@ -2047,11 +2047,12 @@ function addTagToActivity() {
 				$tagID = $tagInfo->TagID;
 			}
 			else {
-				$tagsql = "INSERT INTO Tags VALUES '$tagName'";
+				$tagsql = "INSERT INTO Tags (TagName) VALUES ('$tagName')";
 				$db = getConnection();
 				$stmttag = $db->query($tagsql);
 
-				$stmttagid = $db->query($checknamesql);
+				$checknamesql2 = "SELECT TagID FROM Tags WHERE TagName = '$tagName'";
+				$stmttagid = $db->query($checknamesql2);
 				$tagInfo = $stmttagid->fetch(PDO::FETCH_OBJ);
 				if(!empty($tagInfo))
 					$tagID = $tagInfo->TagID;
