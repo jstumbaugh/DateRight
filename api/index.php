@@ -748,7 +748,7 @@ function viewUserDatePlans(){
 	$request =$app->request;
 	$sql = "SELECT * FROM DatePlans WHERE CreatorID = :userID";
 	$userInfo = json_decode($request->getBody());
-	$userID = $userInfo->UserID; 
+	$userID = $userInfo->userID; 
 	$db = getConnection();
 	$allArray = array();
 	$dateplans = array();
