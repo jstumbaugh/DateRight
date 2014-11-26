@@ -87,7 +87,7 @@
             </select>
         </label><br>
         <label for="securityAnsewer">
-            <input type="text" name="#SecurityAnswer" id="#SecurityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="#SecurityAnswer" required="required"/>
+            <input type="text" name="SecurityAnswer" id="SecurityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="SecurityAnswer" required="required"/>
         </label><br>
         <button type="submit" class="btn-minimal" style = "margin-right: 105px;">Create Account!</button>
         <p id="resultMessage"></p>
