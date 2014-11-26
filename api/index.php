@@ -281,7 +281,7 @@ function createAccount()
 				$stmt->bindParam("secSalt", $secSalt);
 				$stmt->execute();
 				//Log user in
-			    //logUser($userInfo);
+			    logUser($userInfo);
 			}
 			else 
 			{
