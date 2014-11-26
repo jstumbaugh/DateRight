@@ -262,7 +262,7 @@ function createAccount()
 	       		$pw = md5(($userInfo->password).$salt);
 
 	       		// Salt and hash the security answer
-	       		$secSalt = sha1(md5($userInfo->securityAnswer));
+	       		$secSalt = sha1(md5($userInfo->secAnswer));
 	       		$secAnswer = md5(($userInfo->securityAnswer).$secSalt);
 				
 				//Get database connection and insert user to database
