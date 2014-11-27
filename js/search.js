@@ -617,7 +617,7 @@ function addActivityToDatePlan(){
 }
 
 function editDescription(){
-
+	var datePlanDescription = $("#descriptionDatePlan").val();
 	$.ajax({
 		type: 'POST',
 		url: 'api/index.php/updateDatePlanDescription',
@@ -707,6 +707,9 @@ function getUserDatePlans(){
 		content: 'application/json',
 		data: JSON.stringify(user),
 		success: function(data){
+			console.log(data);
+			if(data.length>2){
+
 			console.log(jQuery.parseJSON(data)[0][0]);
 			var dateData = jQuery.parseJSON(data);
 			var dateHolder = $('#currentDatePlan');
@@ -718,6 +721,7 @@ function getUserDatePlans(){
 			    $("<h3>" + dateData[x][0].Name + "</h3><br/>").appendTo(datePlanItem);
 			    $("<a id='reviewDatePlanBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + dateData[x][0].DatePlanID + "'>Review</button> </a>").appendTo(datePlanItem);
 			}
+		}
 		}
 	});
 }
