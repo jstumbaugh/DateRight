@@ -170,8 +170,10 @@ function login() {
 		echo ERROR::LOGIN_FAILURE;
 	}
 }
-
-//Deletes session for user upon clicking logout
+/**
+     * Deletes session for user upon clicking logout
+     * @return true or false based upon if successful logout
+     */
 function logout() {
 	//clear session cookie
 	if(isset($_SESSION['UserName']) || isset($_SESSION['Email']) || 
@@ -299,11 +301,10 @@ function createAccount()
 	}		
 }
 /**
-     * A function to log user in and create session
-     * @param Object $userInfo The object that contains the user info
-     * @return JSON object of the user info from session
-     */
-
+* A function to log user in and create session
+* @param Object $userInfo The object that contains the user info
+* @return JSON object of the user info from session
+*/		
 function logUser($userInfo){
 	 //Log user in
 	$salt = sha1(md5($userInfo->password));
@@ -343,8 +344,11 @@ function logUser($userInfo){
 				return '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-// Submit New Activity code for DateRight
-
+/**
+* Submit New Activity code for DateRight
+* @param JSON object containing activitity information
+* @return SUCCESS OR NOT
+*/
 function submitNewActivity()
 {
 	$app = \Slim\Slim::getInstance();
@@ -402,8 +406,11 @@ function submitNewActivity()
 	}			
 }
 
-
-// View Profile for DateRight
+/**
+* View Profile for DateRight
+* @param JSON object containing user information
+* @return JSON object containing user's profile information
+*/
 function viewProfile(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -447,7 +454,11 @@ function viewProfile(){
 	}
 } // end of function
 
-//View Favorites
+/**
+* View Favorites
+* @param JSON object containing user information
+* @return JSON object containing user's favorites
+*/
 function viewFavorites(){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -511,6 +522,11 @@ function viewFavorites(){
 	}
 	
 	}
+/**
+* Function to add Favorite to the database
+* @param JSON object containing user information
+* @return SUCCESS OR NOT
+*/
 function addFavorite (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -546,10 +562,10 @@ function addFavorite (){
 	}
 }
 /**
-     * Function to delete a favorite by id from the favorites table. Called with a DELETE request
-     * @param int $id the favorite id
-     * @return success or not in deleting favorite
-     */
+* Function to delete a favorite by id from the favorites table. Called with a DELETE request
+* @param int $id the favorite id
+* @return success or not in deleting favorite
+*/
 function deleteFavorite($op,$id) {
 	//Determine operation wanted, activity or date plan deletion
 	if($op==0)
@@ -577,6 +593,11 @@ function deleteFavorite($op,$id) {
     }
 	}
 }
+/**
+* Get Activity By ID
+* @param int id that represents the activity id
+* @return JSON object containing activity information for that id
+*/
 function getActivityById($id) {
     $sql = "SELECT * FROM Activities WHERE ActivityID=:id";
     try {
