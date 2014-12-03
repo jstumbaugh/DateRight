@@ -22,10 +22,10 @@ $(document).ready(function(){
 function createNewActivity(event){
     event.preventDefault();
     
-    inputName = $("#nameInput").attr("value");
-    inputDescription = $("#descriptionInput").attr("value");
-    inputRawCost = Number($("#costInput").attr("value"));
-    inputLocation = $("#locationInput").attr("value");
+    inputName = $("#nameInput").val();
+    inputDescription = $("#descriptionInput").val();
+    inputRawCost = Number($("#costInput").val();
+    inputLocation = $("#locationInput").val();
    
     //create activity object 
     newActivity = new Object();
