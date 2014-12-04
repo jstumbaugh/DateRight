@@ -480,7 +480,7 @@ function reviewActivity(){
             }
         }
     });
-    $("#openModal div a.close button").click();
+    $("#closeButton").click();
 	}
 	else{
 		 $("#resultMessageActivityReview").text("You must attend an Activity to rate it!");
