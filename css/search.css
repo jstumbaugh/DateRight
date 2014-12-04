@@ -134,8 +134,9 @@ h3{
 }
 
 .addTagC{
-    margin-top: 10px;
-    margin-left: 5px;
+    margin: 5px;
+    margin-top: 0;
+    float: right;
     background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
     background: -o-linear-gradient(#ff9d00, #ff7300);
@@ -332,4 +333,16 @@ h1{
     left: 79%;
     width: 18.5%;
     position: absolute;
+}
+
+.tags{
+    margin-bottom: 0;
+    margin-left: 3px;
+    margin-top: 3px;
+    float: left;
+}
+
+.reviewButton{
+    float: left;
+    clear: left;
 }
