@@ -119,56 +119,63 @@ function getActivitiesByTag(searchString){
 	$.ajax({
 		type: 'POST',
 	    url: 'api/index.php/getTaggedActivities',
+	    async: false,
 	    content: 'application/json',
 	    data: searchString,
 	    success: function(data) {
 	    	var actData = jQuery.parseJSON(data);
 	    	var activitiesDiv = $("#searchResults");
-			$.ajax({
-				type: 'POST',
-				url: 'api/index.php/viewFavorites',
-				content: 'application/json',
-				data: JSON.stringify(user),
-				success: function(data2){
-					var favData = jQuery.parseJSON(data2);
-					for (i = 0; i < actData.length; i++){
+	    	favData = new Object;
+	    	if(user.UserID != undefined){
+				$.ajax({
+					type: 'POST',
+					url: 'api/index.php/viewFavorites',
+					async: false,
+					content: 'application/json',
+					data: JSON.stringify(user),
+					success: function(data2){
+						favData = jQuery.parseJSON(data2);
+					}
+				});
+			}
 
-						$.ajax({
-							type: 'GET',
-							url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
-							content: 'application/json',
-							success: function(data3){
-								if (data3 != 500)
-									tags = jQuery.parseJSON(data3);
-								else
-									tags = null;
-							}
-						});
+			for (i = 0; i < actData.length; i++){
 
-			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
-			    		if (!(tags === null)){
-				    		for (var x = 0; x < tags.length; x++){
-				    			elem = elem + tags[x].TagName + " ";
-				    		}
-			    		}
-			    		elem = elem + "\"></li>";
-			    		var activityDiv = $(elem).appendTo(activitiesDiv);
-			    		var starunstar = 'unstarred';
-			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
-			    		for (j = 0; j < favData.length; j++){
-			    			if (favData[j].Name == actData[i].Name){
-			    				starunstar = 'starred';
-			    				break;
-			    			}
-			    		}
-			    		var starString = "<p class='" + starunstar +"'></p>";
-			    		$(starString).appendTo(activityDiv);
-			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' size='15' maxlength='20' name='tagField' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
-			    	}
-			    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
-			    		addDrag();
-				}
-			});
+				$.ajax({
+					type: 'GET',
+					url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+					async: false,
+					content: 'application/json',
+					success: function(data3){
+						if (data3 != 500)
+							tags = jQuery.parseJSON(data3);
+						else
+							tags = null;
+					}
+				});
+
+	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
+	    		if (!(tags === null)){
+		    		for (var x = 0; x < tags.length; x++){
+		    			elem = elem + tags[x].TagName + " ";
+		    		}
+	    		}
+	    		elem = elem + "\"></li>";
+	    		var activityDiv = $(elem).appendTo(activitiesDiv);
+	    		var starunstar = 'unstarred';
+	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
+	    		for (j = 0; j < favData.length; j++){
+	    			if (favData[j].Name == actData[i].Name){
+	    				starunstar = 'starred';
+	    				break;
+	    			}
+	    		}
+	    		var starString = "<p class='" + starunstar +"'></p>";
+	    		$(starString).appendTo(activityDiv);
+	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' size='15' maxlength='20' name='tagField' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
+	    	}
+	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+	    		addDrag();
 		}, 
 		error: function(jqXHR, errorThrown){
 			console.log('We didnt make it sir, sorry');
@@ -347,56 +354,60 @@ function getActivitiesByName(){
 	$.ajax({
 		type: 'POST',
 		url: 'api/index.php/searchActivities',
+		async: false,
 		content: 'application/json',
 		data: JSON.stringify(searchQuery),
 		success: function(data) {
 	    	var activitiesDiv = $("#searchResults");
 	    	var actData = $.parseJSON(data).Activities;
-			$.ajax({
-				type: 'POST',
-				url: 'api/index.php/viewFavorites',
-				content: 'application/json',
-				data: JSON.stringify(user),
-				success: function(data2){
-					console.log(data2);
-					var favData = jQuery.parseJSON(data2);
-					for (i = 0; i < actData.length; i++){
+	    	favData = new Object;
+	    	if(user.UserID != undefined){
+				$.ajax({
+					type: 'POST',
+					url: 'api/index.php/viewFavorites',
+					async: false,
+					content: 'application/json',
+					data: JSON.stringify(user),
+					success: function(data2){
+						favData = jQuery.parseJSON(data2);
+					}
+				});
+			}
 
-			    		$.ajax({
-							type: 'GET',
-							url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
-							content: 'application/json',
-							success: function(data2){
-								tags = jQuery.parseJSON(data2);
-								if (tags.length <= 0)
-									tags = null;
-							}
-						});
+			for (i = 0; i < actData.length; i++){
 
-			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
-			    		if (!(tags === null)){
-				    		for (var x = 0; x < tags.length; x++){
-				    			elem = elem + tags[x].TagName + " ";
-				    		}
-			    		}
-			    		elem = elem + "\"></li>";
-			    		var activityDiv = $(elem).appendTo(activitiesDiv);
-			    		var starunstar = 'unstarred';
-			    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
-			    		for (j = 0; j < favData.length; j++){
-			    			if (favData[j].Name == actData[i].Name){
-			    				starunstar = 'starred';
-			    				break;
-			    			}
-			    		}
-			    		var starString = "<p class='" + starunstar +"'></p>";
-			    		$(starString).appendTo(activityDiv);
-			    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' name='tagField' size='15' maxlength='20' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
-			    	}
-			    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
-				    	addDrag();
-				}
-			});
+	    		$.ajax({
+					type: 'GET',
+					url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+					async: false,
+					content: 'application/json',
+					success: function(data2){
+						console.log(data2);
+						tags = new Object();
+						tags = jQuery.parseJSON(data2);
+					}
+				});
+
+	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
+	    		for (var x = 0; x < tags.length; x++){
+	    			elem = elem + tags[x].TagName + " ";
+	    		}
+	    		elem = elem + "\"></li>";
+	    		var activityDiv = $(elem).appendTo(activitiesDiv);
+	    		var starunstar = 'unstarred';
+	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
+	    		for (j = 0; j < favData.length; j++){
+	    			if (favData[j].Name == actData[i].Name){
+	    				starunstar = 'starred';
+	    				break;
+	    			}
+	    		}
+	    		var starString = "<p class='" + starunstar +"'></p>";
+	    		$(starString).appendTo(activityDiv);
+	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> <input type='text' name='tagField' size='15' maxlength='20' class='tagText'> <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
+	    	}
+	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+		    	addDrag();
 		}
 	});
 }
