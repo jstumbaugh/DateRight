@@ -130,7 +130,10 @@ function getActivitiesByTag(searchString){
 							url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
 							content: 'application/json',
 							success: function(data3){
-								tags = jQuery.parseJSON(data3);
+								if (data3 != 500)
+									tags = jQuery.parseJSON(data3);
+								else
+									tags = null;
 							}
 						});
 
@@ -297,11 +300,13 @@ function getFavoriteActivities(){
 					content: 'application/json',
 					success: function(data2){
 						tags = jQuery.parseJSON(data2);
+						if (tags.length <= 0)
+							tags = null;
 					}
 				});
 
 	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
-	    		if (typeof tags != 'undefined'){
+	    		if (!(tags === null)){
 		    		for (var x = 0; x < tags.length; x++){
 		    			elem = elem + tags[x].TagName + " ";
 		    		}
@@ -343,17 +348,20 @@ function getActivitiesByName(){
 					console.log(data2);
 					var favData = jQuery.parseJSON(data2);
 					for (i = 0; i < actData.length; i++){
+
 			    		$.ajax({
 							type: 'GET',
 							url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
 							content: 'application/json',
 							success: function(data2){
 								tags = jQuery.parseJSON(data2);
+								if (tags.length <= 0)
+									tags = null;
 							}
 						});
 
 			    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\n";
-			    		if (typeof tags != 'undefined'){
+			    		if (!(tags === null)){
 				    		for (var x = 0; x < tags.length; x++){
 				    			elem = elem + tags[x].TagName + " ";
 				    		}
