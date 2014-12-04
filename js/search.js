@@ -4,8 +4,6 @@ jQuery(document).ready(function() {
 	datePlanActivity = new Object();
 	$('#backToCreateBut').hide();
 
-	console.log(user.UserID);
-
 	//Checks if user is  logged in. If not  hide the buttons and date plan items
 	if(user.UserID == undefined ){
 		$("#currentplan").hide();
@@ -176,7 +174,7 @@ function getActivitiesByTag(searchString){
 	    		$(starString).appendTo(activityDiv);
 	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 	    	}
-	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 	    		addDrag();
 		}, 
 		error: function(jqXHR, errorThrown){
@@ -267,6 +265,10 @@ function getMousePosition(e){
 		addTag();
 	}
 
+	else if (favStar.classList.contains("addTagC")){
+
+	}
+
 	if ($("#datePlanName").val() != datePlanActivity.Name || $("#datePlanName").val() != ""){
 		updateName();
 	}
@@ -341,7 +343,7 @@ function getFavoriteActivities(){
 	    		activityDiv.append("<p class='starred'></p>");
 	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 	    	}
-	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 	    		addDrag();
 		},
 		error: function(){
@@ -414,7 +416,7 @@ function getActivitiesByName(){
 	    		$(starString).appendTo(activityDiv);
 	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 	    	}
-	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 		    	addDrag();
 		}
 	});
@@ -640,7 +642,8 @@ function searchDatabase(){
 					    		$(starString).appendTo(activityDiv);
 					    		$("<br>" + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 					    	}		
-						    addDrag();
+					    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
+							    addDrag();
 						}, 
 						error: function(jqXHR, errorThrown){
 							console.log('We didnt make it sir, sorry');
@@ -752,7 +755,7 @@ function searchDatePlanTags(){
 				    		});
 				    		var starString = "<p class='" + starunstar + "'></p>";
 						    $(starString).appendTo(activityDiv);
-						    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+						    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 							    addDrag();
 						}, 
 						error: function(jqXHR, errorThrown){
@@ -890,7 +893,7 @@ function openDatePlan(){
 					    		var starString = "<p class='" + starunstar + "'></p>";
 							    $(starString).appendTo(activityDiv);
 								$("<button class='userActivityX' value=" + actData[0].ActivityID + "> X </button>").appendTo(activityDiv);
-							    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')))
+							    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 							    	addDrag();
 							}
 						})
@@ -926,13 +929,16 @@ function updateName(){
 	datePlanActivity.Name = datePlanName.Name;
 	datePlanName.UserID = user.UserID;
 
-	$.ajax({
-		type: 'POST',
-		url: 'api/index.php/updateDatePlanName',
-		content: 'application/json',
-		data: JSON.stringify(datePlanName),
-		success: function(data){
-			console.log("Date Plan name changed")
-		}
-	});
+	if (user.UserID != null)
+	{
+		$.ajax({
+			type: 'POST',
+			url: 'api/index.php/updateDatePlanName',
+			content: 'application/json',
+			data: JSON.stringify(datePlanName),
+			success: function(data){
+				console.log("Date Plan name changed")
+			}
+		});
+	}
 }
