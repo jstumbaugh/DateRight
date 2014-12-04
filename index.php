@@ -124,9 +124,9 @@
 <section id="ResetPasswordBox" class="overlayBox">
     <h2>Reset Password</h2>
     <form method="post" class="minimal" id="forgotPassword">
-        <label for="email">
+        <label for="password">
             New Password
-            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}" required="required"/>
+            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern="[a-zA-Z0-9!@#$%^*]{8,25}" required="required"/>
         </label>
         <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
         <p id="ResetPasswordMessage"></p>

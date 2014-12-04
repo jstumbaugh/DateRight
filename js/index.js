@@ -91,6 +91,7 @@ $('#createAccountForm').submit(function(event){
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
+                     $("#resultMessage").hide();
                     $(location).attr('href', "search.html");
                 }
             }
@@ -160,6 +161,7 @@ $("#login").submit(function(event) {
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
+                    $("#loginMessage").hide();
                     $(location).attr('href', "search.html");
                 }
             }
@@ -214,6 +216,7 @@ function forgotPassword(){
                     //create div 
                 $("#PasswordRecoveryBox").show();
                 $("#ForgotPasswordBox").hide();
+                $("#forgotPasswordMessage").hide();
             securityQuestion = parseInt(obj.SecurityQuestion);
             switch(securityQuestion){
                 case 1:
@@ -259,6 +262,7 @@ function SecurityAnsewer(){
             var obj = JSON.parse(data);
             //create div 
             $("#PasswordRecoveryBox").hide();
+            $("#PasswordRecoveryMessage").hide();
             $("#ResetPasswordBox").show();
         }
             else{
@@ -275,6 +279,9 @@ function resetPassword(){
     user.email = emailRecovery;
     user.securityAnswer = secureAnswer;
     user.newPassword = $("#newPassword").val();
+    console.log(user.newPassword);
+    if(user.newPassword != ""){
+        console.log("pass");
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -288,6 +295,7 @@ function resetPassword(){
                 console.log(data);
                 var obj = JSON.parse(data);
                 $("#ResetPasswordBox").hide();
+                $("#ResetPasswordMessage").hide();
                 $("#SuccessBox").show();
             }
             else{
@@ -295,6 +303,12 @@ function resetPassword(){
             }
         }
     });
+}
+else{
+
+    console.log("Fail");
+     $("#ResetPasswordMessage").text("Error:Please enter a password");
+}
 }
 getRandomIdea();
 }
