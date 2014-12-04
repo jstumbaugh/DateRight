@@ -445,8 +445,8 @@ function reviewActivity(){
 	inputActivityID = reviewBut.parentNode.parentNode.value;
 	inputUserID = user.UserID;
     inputRating = $("input[name=rating]:checked").val();
-    inputDescription = $("#descriptionReview").attr("value");
-    inputCostReview = ($("#costReview").attr("value"));
+    inputDescription = $("#descriptionReview").val();
+    inputCostReview = $("#costReview").val();
     inputattended = $("input[name=attended]:checked").val();
     console.log(inputattended);
     //create activity object 
