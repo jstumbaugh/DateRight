@@ -933,6 +933,10 @@ function getTaggedActivities() {
 
 	try {
 		$db = getConnection();
+
+		$query = "SET SESSION group_concat_max_len = 10000";
+		$db->query($query);
+		
 		$stmt = $db->query($sql);
 		$returnedInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
