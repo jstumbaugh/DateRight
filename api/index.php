@@ -4,6 +4,23 @@
  * This file contains the api for all our php functions.
  */
 
+//EXAMPLE FOR API DOC:
+ /**
+  * A summary informing the user what the associated element does.
+  *
+  * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+  * and to provide some background information or textual references.
+  *
+  * @param string $myArgument With a *description* of this argument, these may also
+  *    span multiple lines.
+  *
+  * @return void
+  */
+
+//
+
+
+ 
 //Includes
 require 'config.php';
 \Slim\Slim::registerAutoloader();
@@ -170,8 +187,10 @@ function login() {
 		echo ERROR::LOGIN_FAILURE;
 	}
 }
-
-//Deletes session for user upon clicking logout
+/**
+     * Deletes session for user upon clicking logout
+     * @return true or false based upon if successful logout
+     */
 function logout() {
 	//clear session cookie
 	if(isset($_SESSION['UserName']) || isset($_SESSION['Email']) || 
@@ -262,8 +281,8 @@ function createAccount()
 	       		$pw = md5(($userInfo->password).$salt);
 
 	       		// Salt and hash the security answer
-	       		$secSalt = sha1(md5($userInfo->securityAnswer));
-	       		$secAnswer = md5(($userInfo->securityAnswer).$secSalt);
+	       		$secSalt = sha1(md5($userInfo->secAnswer));
+	       		$secAnswer = md5(($userInfo->secAnswer).$secSalt);
 				
 				//Get database connection and insert user to database
 				$db = getConnection();
@@ -281,7 +300,7 @@ function createAccount()
 				$stmt->bindParam("secSalt", $secSalt);
 				$stmt->execute();
 				//Log user in
-			    //logUser($userInfo);
+			    logUser($userInfo);
 			}
 			else 
 			{
@@ -299,11 +318,10 @@ function createAccount()
 	}		
 }
 /**
-     * A function to log user in and create session
-     * @param Object $userInfo The object that contains the user info
-     * @return JSON object of the user info from session
-     */
-
+* A function to log user in and create session
+* @param Object $userInfo The object that contains the user info
+* @return JSON object of the user info from session
+*/		
 function logUser($userInfo){
 	 //Log user in
 	$salt = sha1(md5($userInfo->password));
@@ -343,8 +361,11 @@ function logUser($userInfo){
 				return '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-// Submit New Activity code for DateRight
-
+/**
+* Submit New Activity code for DateRight
+* @param JSON object containing activitity information
+* @return SUCCESS OR NOT
+*/
 function submitNewActivity()
 {
 	$app = \Slim\Slim::getInstance();
@@ -402,8 +423,11 @@ function submitNewActivity()
 	}			
 }
 
-
-// View Profile for DateRight
+/**
+* View Profile for DateRight
+* @param JSON object containing user information
+* @return JSON object containing user's profile information
+*/
 function viewProfile(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -447,7 +471,11 @@ function viewProfile(){
 	}
 } // end of function
 
-//View Favorites
+/**
+* View Favorites
+* @param JSON object containing user information
+* @return JSON object containing user's favorites
+*/
 function viewFavorites(){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -511,6 +539,11 @@ function viewFavorites(){
 	}
 	
 	}
+/**
+* Function to add Favorite to the database
+* @param JSON object containing user information
+* @return SUCCESS OR NOT
+*/
 function addFavorite (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -546,10 +579,10 @@ function addFavorite (){
 	}
 }
 /**
-     * Function to delete a favorite by id from the favorites table. Called with a DELETE request
-     * @param int $id the favorite id
-     * @return success or not in deleting favorite
-     */
+* Function to delete a favorite by id from the favorites table. Called with a DELETE request
+* @param int $id the favorite id
+* @return success or not in deleting favorite
+*/
 function deleteFavorite($op,$id) {
 	//Determine operation wanted, activity or date plan deletion
 	if($op==0)
@@ -577,6 +610,11 @@ function deleteFavorite($op,$id) {
     }
 	}
 }
+/**
+* Get Activity By ID
+* @param int id that represents the activity id
+* @return JSON object containing activity information for that id
+*/
 function getActivityById($id) {
     $sql = "SELECT * FROM Activities WHERE ActivityID=:id";
     try {
@@ -596,6 +634,13 @@ function getActivityById($id) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 }
+
+/**
+  * This function will return the dateplan given the associated DatePlanID
+  *
+  * @param the ID of the dateplan
+  * @return the DatePlan
+  */
 function getDateplanById($id) {
     $sql = "SELECT * FROM DatePlans WHERE DatePlanID=:id";
     try {
@@ -617,8 +662,14 @@ function getDateplanById($id) {
     }
 }
 
-//Returns an array of TagIDs from a given activityid
-//@return JSON array of tag ids for that activity id
+/**
+  * This function returns an array of TagIDs from a given activityid
+  *
+  * @param string $myArgument With a *description* of this argument, these may also
+  *    span multiple lines.
+  *
+  * @return JSON array of tag ids for that activity id
+  */
 function getTagsFromActivityID($activityID) {
     $sql = "SELECT TagID, TagName FROM TaggedActivities NATURAL JOIN Tags WHERE ActivityID=:id";
     try {
@@ -743,6 +794,13 @@ function searchActivities (){
 		}
 }
 
+/**
+  * This function returns the dateplan and all associated activities
+  *
+  * @param the userID
+  *
+  * @return the dateplan with all associated activities
+  */
 function viewUserDatePlans(){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -754,50 +812,44 @@ function viewUserDatePlans(){
 	$dateplans = array();
 
 	try{
-	$stmt = $db->prepare($sql);
-	$stmt->bindParam("userID", $userID);
-	$stmt ->execute();
-
-	// if(empty($dateplans))
-	// {
-	// 	echo '{"error":{"text":' . $e->getMessage() . '}}';
-	// 	exit(1);
-	// }
-	$count = 0;
-	while($returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC))
-	{
-		//var_dump($returnedInfo1);
-		$dateplan = $returnedInfo1['DatePlanID'];
-		$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
-		$stmt2 = $db->prepare($sql2);
-		$stmt2->bindParam("dateplanid", $dateplan);
-		$stmt2->execute();
-		$rI2 = $stmt2 ->fetch(PDO::FETCH_OBJ);
-		//var_dump($rI2);
-		$dateplans[$count] = array();
-		array_push($dateplans[$count], $rI2);
-
-		$sql3 = "SELECT ActivityID FROM DateActivities WHERE DateActivities.DatePlanID = :dateplanid ";
-		$stmt3 = $db ->prepare($sql3);
-		$stmt3->bindParam("dateplanid", $dateplan);
-		$stmt3 -> execute();
-		$innerCount = 0;
-		while($rI3 = $stmt3->fetch(PDO::FETCH_ASSOC))
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("userID", $userID);
+		$stmt ->execute();
+		$count = 0;
+		while($returnedInfo1 = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-			//echo "\n$dateplans0";
-			//echo json_encode($dateplans[1]);
-			$activityID = $rI3['ActivityID'];
-			//echo json_encode($dateplans[0]);
-			$sql4 = "SELECT * FROM Activities WHERE ActivityID = :activityID";
-			$stmt4 = $db->prepare($sql4);
-			$stmt4->bindParam("activityID", $activityID);
-			$stmt4->execute();
-			$rI4 = $stmt4->fetch(PDO::FETCH_OBJ);
-			$innerCount = $innerCount + 1;
+			//var_dump($returnedInfo1);
+			$dateplan = $returnedInfo1['DatePlanID'];
+			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
+			$stmt2 = $db->prepare($sql2);
+			$stmt2->bindParam("dateplanid", $dateplan);
+			$stmt2->execute();
+			$rI2 = $stmt2 ->fetch(PDO::FETCH_OBJ);
+			//var_dump($rI2);
+			$dateplans[$count] = array();
+			array_push($dateplans[$count], $rI2);
+
+			$sql3 = "SELECT ActivityID FROM DateActivities WHERE DateActivities.DatePlanID = :dateplanid ";
+			$stmt3 = $db ->prepare($sql3);
+			$stmt3->bindParam("dateplanid", $dateplan);
+			$stmt3 -> execute();
+			$innerCount = 0;
+			while($rI3 = $stmt3->fetch(PDO::FETCH_ASSOC))
+			{
+				//echo "\n$dateplans0";
+				//echo json_encode($dateplans[1]);
+				$activityID = $rI3['ActivityID'];
+				//echo json_encode($dateplans[0]);
+				$sql4 = "SELECT * FROM Activities WHERE ActivityID = :activityID";
+				$stmt4 = $db->prepare($sql4);
+				$stmt4->bindParam("activityID", $activityID);
+				$stmt4->execute();
+				$rI4 = $stmt4->fetch(PDO::FETCH_OBJ);
+				$innerCount = $innerCount + 1;
+			}
+			$count = $count + 1;
 		}
-		$count = $count + 1;
-	}
-	echo json_encode($dateplans);
+		echo json_encode($dateplans);
 	}
 	catch(PDOException $e)
 	{
@@ -974,7 +1026,13 @@ function getTaggedDatePlans() {
 
 
 
-// View User Activity Reviews for DateRight
+/**
+  * This function returns the activity reviews that a user has submitted
+  *
+  * @param the userID
+  *
+  * @return all of the activity reviews that a user has submitted
+  */
 function viewActivityReviews() {
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -1027,7 +1085,13 @@ function viewActivityReviews() {
 
 
 
-// View User DatePlan Reviews for DateRight
+/**
+  * This function returns the dateplan reviews that a user has submitted
+  *
+  * @param the userID
+  *
+  * @return all of the dateplan reviews that a user has submitted
+  */
 function viewDatePlanReviews() {
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -1294,7 +1358,13 @@ function shareDatePlan()
 
 }
 
-// insert the Review into the database
+/**
+  * This function inserts a dateplan review into the database
+  *
+  * @param dateplan Rating, if they Attended, the Description, the DatePlanID, and the UserID
+  *
+  * @return success or an error
+  */
 function reviewDatePlan()
 {
 	$app = \Slim\Slim::getInstance();
@@ -1436,7 +1506,13 @@ function updateDatePlan()
 
 
 
-// insert an Activity Review into the database
+/**
+  * This function inserts an activity review into the database
+  *
+  * @param the activity Rating, the Cost, if they Attended, the Description, the ActivityID, and the UserID
+  *
+  * @return success or an error
+  */
 function reviewActivity()
 {
 	$app = \Slim\Slim::getInstance();
@@ -1681,8 +1757,12 @@ function getPhoto($userID) {
 }
 
 
-
-// this function will delete the dateplan from the table as well as everything else attached to it
+/** This function deletes a dateplan from the database
+  *
+  * @param the userID and the dateplanID
+  *
+  * @return success or an error
+  */
 function deleteDatePlan() 
 {
 	// GUI will send the userID and the DatePlanID

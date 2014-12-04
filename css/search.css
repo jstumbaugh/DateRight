@@ -12,6 +12,8 @@ html {
 
 #backtoHomePage{
     float: right;
+    font-size: 30px;
+    
 }
 
 #searchbar {
