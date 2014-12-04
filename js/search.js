@@ -5,6 +5,8 @@ jQuery(document).ready(function() {
 	$('#backToCreateBut').hide();
 
 	console.log(user.UserID);
+
+	//Checks if user is  logged in. If not  hide the buttons and date plan items
 	if(user.UserID == undefined ){
 		$("#currentplan").hide();
 		$("#myPlansBut").hide();
@@ -112,6 +114,7 @@ jQuery(document).ready(function() {
 	addSort();
 });
 
+//Searches for Activites by their tag.
 function getActivitiesByTag(searchString){
 	$.ajax({
 		type: 'POST',
@@ -171,6 +174,7 @@ function getActivitiesByTag(searchString){
 	});
 }
 
+//Get the mouse position. Used to access the review button and favorite star in the date plans and activities 
 function getMousePosition(e){
 	favStar = document.elementFromPoint(e.clientX, e.clientY);
 	if (favStar.classList.contains("starred"))
@@ -256,6 +260,7 @@ function getMousePosition(e){
 	}
 }
 
+//Adds a tag to an activity
 function addTag(){
 	var tag = new Object();
     tag.tagName = tagBut.previousSibling.value;
@@ -271,6 +276,7 @@ function addTag(){
     });    
 }
 
+//Gets the user's ID for use in other functions
 function getUserID(){
 	user = new Object();
 	sessionData = {};
@@ -285,6 +291,7 @@ function getUserID(){
     user.UserID = sessionData.UserID;
 }
 
+//Gets the users favorite activites and displays them in a lit star on the searched activities
 function getFavoriteActivities(){
 	$.ajax({
 		type: 'POST',
@@ -327,6 +334,7 @@ function getFavoriteActivities(){
 	});
 }
 
+//Searches for activites by their name
 function getActivitiesByName(){
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = $("#searchbar").val();
@@ -385,6 +393,7 @@ function getActivitiesByName(){
 	});
 }
 
+//Allows the user to logout of their account
 function logout(){
 	$.ajax({
 		type: "POST",
@@ -407,7 +416,7 @@ function addSort(){
     	revert: true
     });
 }
-
+//Lets the user drag over activites to their date plan
 function addDrag(){
 	var v;
 	console.log("Adding Drag");
@@ -446,6 +455,7 @@ function clearText(a){
 	}
 };
 
+//Lets a user review an activity in the review activity modal
 function reviewActivity(){
 	inputActivityID = reviewBut.parentNode.parentNode.value;
 	inputUserID = user.UserID;
@@ -486,7 +496,7 @@ function reviewActivity(){
 		 $("#resultMessageActivityReview").text("You must attend an Activity to rate it!");
 	}
 }
-
+//Lets the user review Date Plans in the review date plans modal
 function reviewDatePlan(){
 	console.log("DATE PLAN ID");
 	inputDatePlanID = reviewButton.parentNode.parentNode.value;
@@ -526,7 +536,7 @@ function reviewDatePlan(){
 		 $("#resultMessageActivityReview").text("You must attend a Date Plan to rate it!");
 	}
 }
-
+//Searches date plans in our database
 function searchDatabase(){
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = $("#searchbar").val();
@@ -588,6 +598,7 @@ function searchDatabase(){
 	});
 }
 
+//Lets the user create a date plan
 function createDatePlan(userDatePlanInfo){
 	userDatePlanInfo = new Object();
 	userDatePlanInfo.Name = $("#datePlanName").val();
@@ -607,6 +618,7 @@ function createDatePlan(userDatePlanInfo){
 	});
 }
 
+//Lets the user add activities to the date plan
 function addActivityToDatePlan(){
 	var numActivities = $('.activityDatePlan').length;
 	datePlanActivity.ActivityID = $('.activityDatePlan')[numActivities-1].value;
@@ -621,6 +633,7 @@ function addActivityToDatePlan(){
 	});
 }
 
+//Edit the description of a date plan 
 function editDescription(){
 	var datePlanDescription = $("#descriptionDatePlan").val();
 	$.ajax({
@@ -634,6 +647,7 @@ function editDescription(){
 	});
 }
 
+//Searches date plans by their tags
 function searchDatePlanTags(){
 	var searchQuery = new Object();
 	searchQuery.tagName = $("#searchbar").val();
@@ -697,6 +711,7 @@ function searchDatePlanTags(){
 	});
 }
 
+//Gets the user date plans and displays it on our clipboard
 function getUserDatePlans(){
 	updateName()
 	$('#descriptionBut').hide();
@@ -731,6 +746,7 @@ function getUserDatePlans(){
 	});
 }
 
+//Deletes a user dateplan
 function deleteUserPlan(){
 	var datePlanUser = new Object();
 	datePlanUser.DatePlanID = exitBut.value;
@@ -749,6 +765,7 @@ function deleteUserPlan(){
     });
 }
 
+//Deletes an activity
 function deleteActivity(){
 	$.ajax({
 		type: 'DELETE',
@@ -763,6 +780,7 @@ function deleteActivity(){
 	});
 }
 
+//Opens a user DatePlan
 function openDatePlan(){
 	$.ajax({
 		type: 'GET',
@@ -827,6 +845,7 @@ function openDatePlan(){
 	}); //getDatePlanById ajax call
 }
 
+//Publishes a user date plan for everyone to search for
 function publishDatePlan(check){
 	var datePlanUser = new Object();
 	datePlanUser.datePlanID = datePlanActivity.DatePlanID;
@@ -843,6 +862,7 @@ function publishDatePlan(check){
 	});
 }
 
+//Updates the name of a date plan
 function updateName(){
 	var datePlanName = new Object();
 	datePlanName.DatePlanID = datePlanActivity.DatePlanID;
