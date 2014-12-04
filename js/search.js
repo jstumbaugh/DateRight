@@ -7,6 +7,11 @@ jQuery(document).ready(function() {
 	console.log(user.UserID);
 	if(user.UserID == undefined ){
 		$("#currentplan").hide();
+		$("#myPlansBut").hide();
+		$("#profilebut").hide();
+		$("#logoutbut").hide();
+		$("#favDatePlansBut").hide();
+		$("#favactivitiesbut").hide();
 		$("#backtoHomePage").show();
 	}
 	else{
