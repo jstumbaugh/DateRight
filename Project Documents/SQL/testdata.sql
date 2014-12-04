@@ -19,7 +19,7 @@ INSERT INTO Activities VALUES
 	(16, "Explore a Winery", "The go-to activity was made famous in Sideways, but there's lots of not-so-obvious things to do at wineries. More and more are equipped with hiking trails, picnic areas, playgrounds, and even pools, turning vineyards into all-day destinations.", 20.00, NULL, "Local Winery"),
 	(17, "Play a Childhood Boardgame", "Order pizza, uncork a bottle of wine, and play old-school card games or board games. It's a great way to unwind after a tough work week!", 0.00, NULL, "Your House"),
 	(18, "Go to the Opera", "There's something so sexy about dressing in your absolute best as you watch a performance in a darkened theater. It was the turning point in Pretty Woman, and even if you don't understand exactly what's going on onstage, the music and the drama will sweep you both away.", 50.00, NULL, "Local Opera House"),
-	(19, "Get Caught in the Rain", "Forecast calls for cloudy skies? Great! Grab your guy and head outdoors. Getting caught in a spring shower (or snowstorm!) pretty much forces you to lock lips in a passionate embrace that's even more sexy than the one Allie (Rachel McAdams) and Noah (Ryan Gosling) have in The Notebook.", 0.00, NULL, "Outside"),
+	(19, "Get Caught in the Rain", "Forecast calls for cloudy skies? Great! Grab your guy and head outdoors. Getting caught in a spring shower (or snowstorm!) pretty much forces you to lock lips in a passionate embrace.", 0.00, NULL, "Outside"),
 	(20, "Go Stargazing", "The best way to stargaze is to actually know what you're seeing, so download The Night Sky app. That way, you can actually be confident you're looking at the Big Dipper before you abandon all pretense and just make out.", 0.00, NULL, "Outside");
 
 INSERT INTO Users VALUES
