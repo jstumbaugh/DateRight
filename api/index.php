@@ -1660,41 +1660,47 @@ function resetPassword()
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	$recoveryInfo = json_decode($request->getBody());
-	
-	$email = $recoveryInfo->email;
 
-	$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
-	$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
+	if(!empty($recoveryInfo->newPassword)) {
+		
+		$email = $recoveryInfo->email;
 
-	$passwordSalt = sha1(md5($recoveryInfo->newPassword));
-	$newPassword = md5($recoveryInfo->newPassword.$passwordSalt);
+		$securitySalt = sha1(md5($recoveryInfo->securityAnswer));
+		$securityAnswer = md5($recoveryInfo->securityAnswer.$securitySalt);
 
-	$sql = "UPDATE Users SET Password = :newPassword, PasswordSalt = :passwordSalt WHERE Email = :email AND SecurityAnswer = :securityAnswer";
-	try {
-		$db = getConnection();
-		$stmt = $db->prepare($sql);
-		$stmt->bindParam("email", $email);
-		$stmt->bindParam("securityAnswer", $securityAnswer);
-		$stmt->bindParam("newPassword", $newPassword);
-		$stmt->bindParam("passwordSalt", $passwordSalt);
-		$stmt->execute();
+		$passwordSalt = sha1(md5($recoveryInfo->newPassword));
+		$newPassword = md5($recoveryInfo->newPassword.$passwordSalt);
 
-		$sql2 = "SELECT UserID FROM Users WHERE Email = :email AND Password = :newPassword";
-		$stmt2 = $db->prepare($sql2);
-		$stmt2->bindParam("email", $email);
-		$stmt2->bindParam("newPassword", $newPassword);
-		$stmt2->execute();
-		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
-		if(!empty($returnedInfo)) {
-			echo ERROR::SUCCESS;
+		$sql = "UPDATE Users SET Password = :newPassword, PasswordSalt = :passwordSalt WHERE Email = :email AND SecurityAnswer = :securityAnswer";
+		try {
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam("email", $email);
+			$stmt->bindParam("securityAnswer", $securityAnswer);
+			$stmt->bindParam("newPassword", $newPassword);
+			$stmt->bindParam("passwordSalt", $passwordSalt);
+			$stmt->execute();
+
+			$sql2 = "SELECT UserID FROM Users WHERE Email = :email AND Password = :newPassword";
+			$stmt2 = $db->prepare($sql2);
+			$stmt2->bindParam("email", $email);
+			$stmt2->bindParam("newPassword", $newPassword);
+			$stmt2->execute();
+			$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);	
+			if(!empty($returnedInfo)) {
+				echo ERROR::SUCCESS;
+			}
+			else {
+				echo ERROR::LOGIN_FAILURE;
+			}
 		}
-		else {
-			echo ERROR::LOGIN_FAILURE;
+		catch(PDOException $e) 
+		{
+			exit('{"error":{"text":'. $e->getMessage() .'}}');
 		}
 	}
-	catch(PDOException $e) 
-	{
-		exit('{"error":{"text":'. $e->getMessage() .'}}');
+	else {
+		echo ERROR::PARAMETERS_NOT_SET;
 	}
 
 }
