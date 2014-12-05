@@ -215,6 +215,11 @@ position: absolute;
     box-shadow: 8px 2px 10px 0px #616161;
     
 }
+
+.bubble h3,h5 {
+padding: 1px;
+    margin: 0px;
+}
 ::-webkit-scrollbar { 
     display: none; 
 }
@@ -230,8 +235,9 @@ position: absolute;
     width: 0;
     z-index: 1;
 }
+
 .ellipsis {
    width: 230px;
-   height: 70px;
+   height: 80px;
    overflow: scroll;
 }

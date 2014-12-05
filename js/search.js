@@ -31,11 +31,11 @@ jQuery(document).ready(function() {
 		} else if ($("input[name=search]:checked").val() == "activitySearch"){
 			$('.activity').remove();
 			$('.dateplan').remove();
-			getActivitiesByName(null);
+			getActivitiesByName($("#searchbar").val());
 		} else if ($("input[name=search]:checked").val() == "datePlanSearch"){
 			$('.activity').remove();
 			$('.dateplan').remove();
-			searchDatabase(null);
+			searchDatabase($("#searchbar").val());
 		} else if ($("input[name=search]:checked").val() == "datePlanTag"){
 			$('.activity').remove();
 			$('.dateplan').remove();
@@ -131,7 +131,98 @@ function performSearchFromHompage(){
             data +=queryString["datesearch"];
             searchDatabase(data);
             getActivitiesByName(data);
+        }else if(queryString["selectedDateplan"] != null){
+        	var data = "";
+            data +=queryString["selectedDateplan"];
+           	getFullDatePlanByID(data);
         }
+}
+//Used when someone clicks the random date idea form homepage
+function getFullDatePlanByID(data){
+	$.ajax({
+		type: 'GET',
+		url: 'api/index.php/getFullDatePlanByID/'+data,
+		content: 'application/json',
+		success: function(data){
+	    	var datePlansDiv = $("#searchResults");
+	    	var planData = $.parseJSON(data).DatePlans;
+	    	for (var k = 0; k < planData.length; k++){
+	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
+	    		$(searchedDatePlan).appendTo(datePlansDiv);
+	    		var datePlanDiv = $('.dateplan')[k];
+	    		$("<h2></h2>").text(planData[k].Name).appendTo(datePlanDiv);
+	    		for (var l = 0; l < planData[k].AssociatedActivities.length; l++){
+
+	    			$.ajax({
+						type: 'GET',
+					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
+					    async: false,
+					    success: function(data2) {
+					    	var actData = jQuery.parseJSON(data2);
+						    favData = new Object();
+						    if (user.UserID != undefined){
+						    	$.ajax({
+						    		type: 'POST',
+						    		url: 'api/index.php/viewFavorites',
+						    		content: 'application/json',
+						    		async: false,
+						    		data: JSON.stringify(user),
+						    		success: function(data3){
+							    		favData = jQuery.parseJSON(data3);
+							    	}
+							    });
+						    }
+
+						    for (i = 0; i < actData.length; i++){
+
+								$.ajax({
+									type: 'GET',
+									url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+									async: false,
+									content: 'application/json',
+									success: function(data3){
+										if (data3 != 500)
+											tags = jQuery.parseJSON(data3);
+										else
+											tags = null;
+									}
+								});
+
+					    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description;
+					    		var hTags = "<h5 class='tags'> ";
+					    		if (!(tags === null)){
+						    		for (var x = 0; x < tags.length; x++){
+						    			hTags = hTags + tags[x].TagName + "&nbsp&nbsp&nbsp";
+						    		}
+						    		hTags = hTags + "</h5>";
+					    		}
+					    		elem = elem + "\"></li>";
+					    		var activityDiv = $(elem).appendTo(datePlanDiv);
+					    		var starunstar = 'unstarred';
+					    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
+					    		for (j = 0; j < favData.length; j++){
+					    			if (favData[j].Name == actData[i].Name){
+					    				starunstar = 'starred';
+					    				break;
+					    			}
+					    		}
+					    		var starString = "<p class='" + starunstar +"'></p>";
+					    		$(starString).appendTo(activityDiv);
+					    		$("<br>" + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
+					    	}		
+					    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
+							    addDrag();
+						}, 
+						error: function(jqXHR, errorThrown){
+							console.log('We didnt make it sir, sorry');
+							console.log(jqXHR, errorThrown);
+						}						
+					});
+	    		}
+	    		$("<a id='DescriptionBoxAnchor' href='#addDescription'> <button href='#addDescription' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
+	    	}	    	
+		}
+	});
 }
 //Searches for Activites by their tag.
 function getActivitiesByTag(searchString){
@@ -373,15 +464,11 @@ function getFavoriteActivities(){
 	});
 }
 
+
 //Searches for activites by their name
-//Pass null to perform normal search with the search.html's search bar
-//otherwise it will perform a search using the passed in searchtext
 function getActivitiesByName(searchText){
 	var searchQuery = new Object();
-	if(searchText==null)
-		searchQuery.SearchQuery = $("#searchbar").val();
-	else
-		searchQuery.SearchQuery = searchText;
+	searchQuery.SearchQuery = searchText;
 
 	$.ajax({
 		type: 'POST',
@@ -393,6 +480,7 @@ function getActivitiesByName(searchText){
 	    	var activitiesDiv = $("#searchResults");
 	    	var actData = $.parseJSON(data).Activities;
 	    	favData = new Object;
+
 	    	if(user.UserID != undefined){
 				$.ajax({
 					type: 'POST',
@@ -405,7 +493,7 @@ function getActivitiesByName(searchText){
 					}
 				});
 			}
-
+			if(!jQuery.isEmptyObject(actData)){
 			for (i = 0; i < actData.length; i++){
 
 	    		$.ajax({
@@ -444,6 +532,7 @@ function getActivitiesByName(searchText){
 	    	}
 	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 		    	addDrag();
+		}
 		}
 	});
 }
@@ -596,9 +685,6 @@ function reviewDatePlan(){
 //otherwise it will perform a search using the passed in searchtext
 function searchDatabase(searchText){
 	var searchQuery = new Object();
-	if(searchText==null)
-		searchQuery.SearchQuery = $("#searchbar").val();
-	else
 		searchQuery.SearchQuery = searchText;
 
 	$.ajax({
@@ -609,6 +695,7 @@ function searchDatabase(searchText){
 		success: function(data){
 	    	var datePlansDiv = $("#searchResults");
 	    	var planData = $.parseJSON(data).DatePlans;
+	    	if(!jQuery.isEmptyObject(planData)){
 	    	for (var k = 0; k < planData.length; k++){
 	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
 	    		$(searchedDatePlan).appendTo(datePlansDiv);
@@ -683,7 +770,8 @@ function searchDatabase(searchText){
 					});
 	    		}
 	    		$("<a id='DescriptionBoxAnchor' href='#addDescription'> <button href='#addDescription' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
-	    	}	    	
+	    	}	
+	    	}    	
 		}
 	});
 }

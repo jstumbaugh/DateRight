@@ -82,6 +82,7 @@ $app->post('/getTaggedDatePlans', 'getTaggedDatePlans');
 $app->get('/getRandomIdea', 'getRandomIdea');
 $app->get('/getActivityById/:id', 'getActivityById');
 $app->get('/getDateplanById/:id', 'getDateplanById');
+$app->get('/getFullDatePlanByID/:id', 'getFullDatePlanByID');
 $app->post('/addFavorite', 'addFavorite');
 $app->post('/updateAccount', 'updateAccount');
 $app->post('/getSessionInfo', 'getSessionInfo');
@@ -689,6 +690,45 @@ function getTagsFromActivityID($activityID) {
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
+}
+//Search by activity name, works with multiple word query as well 
+//@return echo response with result JSON
+function getFullDatePlanByID ($id){
+	$app= \Slim\Slim::getInstance();
+	$request =$app->request;
+	//User search query
+	$json = json_decode($request->getBody());
+
+	//First check if they sent any query
+	if (!empty($id)) {
+		try {
+		$db = getConnection();
+		$getDatePlans="SELECT * FROM DatePlans WHERE Public=1 AND DatePlanID = :dateID";
+		$stmt = $db->prepare($getDatePlans);
+		$stmt->bindParam("dateID", $id);
+		$stmt ->execute();
+		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$size = count($datePlanResults);
+		if($size>0){
+			//Find the associated activities for each dateplan id
+			for($i=0;$i<$size;$i++){
+				$cID=$datePlanResults[$i]['DatePlanID'];
+				$associatedActs=getAssociatedActivities($cID, 0);
+				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+			}
+		}
+		echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
+		
+		}	
+		catch(PDOException $e) {
+    	echo ERROR::NO_RESULTS;
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+	}else{
+		//No activities found w/ that query
+		echo ERROR::NO_RESULTS;
+		}
 }
 //Helper function to return the associated activities
 //for each dateplanid supplied

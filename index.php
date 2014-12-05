@@ -14,7 +14,7 @@
     </head>
 <body>
 <div class="right">
-<div class="bubble"><h3>Date Idea</h3><p id="dateIdea" class="ellipsis"></p></div>
+<div class="bubble"><h3>Date Idea of the day</h3><h5 id="dateTitle"></h5><p id="dateIdea" class="ellipsis"></p></div>
 </div>
 <img src="img/background.png" class="bg">
 <p id="greeting"></p>

@@ -48,9 +48,15 @@ $("#ResetPasswordButton").click(resetPassword);
         url: 'api/index.php/getRandomIdea',
         success: function(data){
             var dataArray = jQuery.parseJSON(data);
-            if(dataArray.length>0)
+            if(dataArray.length>0){
+                $("#dateTitle").text(dataArray[0]["Name"]);
                 $("#dateIdea").text(dataArray[0]["Description"]);
-                
+                $("#dateTitle").wrap(function() {
+                   var link = $('<a/>');
+                   link.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(dataArray[0]["DatePlanID"]));
+                   return link;
+                 });
+            }    
         }
     });
 }
