@@ -106,7 +106,7 @@ $('#createAccountForm').submit(function(event){
 $('#searchbar').submit(function (e) {
 e.preventDefault();
 //Redirect user
-$(location).attr('href', "search.html?"+$("#searchbar").serialize());
+$(location).attr('href', "search.html?datesearch="+ encodeURIComponent($("#searchBoxText").val()));
 
 /* CODE TO SEARCH ACTIVITIES */
 // $.ajax({

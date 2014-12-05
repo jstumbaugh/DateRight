@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
 	var reviewButton;
 	getUserID();
+	performSearchFromHompage();
 	datePlanActivity = new Object();
 	$('#backToCreateBut').hide();
 
@@ -30,11 +31,11 @@ jQuery(document).ready(function() {
 		} else if ($("input[name=search]:checked").val() == "activitySearch"){
 			$('.activity').remove();
 			$('.dateplan').remove();
-			getActivitiesByName();
+			getActivitiesByName(null);
 		} else if ($("input[name=search]:checked").val() == "datePlanSearch"){
 			$('.activity').remove();
 			$('.dateplan').remove();
-			searchDatabase();
+			searchDatabase(null);
 		} else if ($("input[name=search]:checked").val() == "datePlanTag"){
 			$('.activity').remove();
 			$('.dateplan').remove();
@@ -111,7 +112,27 @@ jQuery(document).ready(function() {
 
 	addSort();
 });
-
+//Grabs search query from home page search bard and performs dateplan and activities search
+function performSearchFromHompage(){
+	var queryString = new Array();
+	//Logic below credits go to aspdotnetcodebook-blogspot-com from StackOverflow
+	if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+        if (queryString["datesearch"] != null) {
+            var data = "";
+            data +=queryString["datesearch"];
+            searchDatabase(data);
+            getActivitiesByName(data);
+        }
+}
 //Searches for Activites by their tag.
 function getActivitiesByTag(searchString){
 	$.ajax({
@@ -353,9 +374,14 @@ function getFavoriteActivities(){
 }
 
 //Searches for activites by their name
-function getActivitiesByName(){
+//Pass null to perform normal search with the search.html's search bar
+//otherwise it will perform a search using the passed in searchtext
+function getActivitiesByName(searchText){
 	var searchQuery = new Object();
-	searchQuery.SearchQuery = $("#searchbar").val();
+	if(searchText==null)
+		searchQuery.SearchQuery = $("#searchbar").val();
+	else
+		searchQuery.SearchQuery = searchText;
 
 	$.ajax({
 		type: 'POST',
@@ -566,9 +592,14 @@ function reviewDatePlan(){
 	}
 }
 //Searches date plans in our database
-function searchDatabase(){
+//Pass null to perform normal search with the search.html's search bar
+//otherwise it will perform a search using the passed in searchtext
+function searchDatabase(searchText){
 	var searchQuery = new Object();
-	searchQuery.SearchQuery = $("#searchbar").val();
+	if(searchText==null)
+		searchQuery.SearchQuery = $("#searchbar").val();
+	else
+		searchQuery.SearchQuery = searchText;
 
 	$.ajax({
 		type: 'POST',
