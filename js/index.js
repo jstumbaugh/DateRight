@@ -1,11 +1,13 @@
 /*DDR Software */
 function init() {
+$(document).ready(function(){
 $("#loginBox").hide();
 $("#createAccountBox").hide();
 $("#ForgotPasswordBox").hide();
 $("#PasswordRecoveryBox").hide();
 $("#ResetPasswordBox").hide();
 $("#SuccessBox").hide();
+});
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
@@ -279,9 +281,6 @@ function resetPassword(){
     user.email = emailRecovery;
     user.securityAnswer = secureAnswer;
     user.newPassword = $("#newPassword").val();
-    console.log(user.newPassword);
-    if(user.newPassword != ""){
-        console.log("pass");
     console.log(JSON.stringify(user));
     $.ajax({
        type: "POST",
@@ -292,6 +291,7 @@ function resetPassword(){
             //console.log(data);
             //Error Checking
             if (data != 400) {
+                console.log("Data");
                 console.log(data);
                 var obj = JSON.parse(data);
                 $("#ResetPasswordBox").hide();
@@ -303,12 +303,7 @@ function resetPassword(){
             }
         }
     });
-}
-else{
 
-    console.log("Fail");
-     $("#ResetPasswordMessage").text("Error:Please enter a password");
-}
 }
 getRandomIdea();
 }
