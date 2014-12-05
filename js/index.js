@@ -279,7 +279,7 @@ function resetPassword(){
     event.preventDefault(); 
     var passwordField = document.forms["forgotPassword3"]["newPassword"].value;
     if (passwordField.match("[a-zA-Z0-9!@#$%^*]{8,25}") == null) {
-        alert("Please meet required format");
+         $("#ResetPasswordMessage").text("Error:Please meet required format. 8 to 25 characters. Uppercase, lowercase, numbers, and symbols are allowed");
     }
     else {
         var user = new Object();
