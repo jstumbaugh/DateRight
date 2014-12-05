@@ -290,7 +290,7 @@ function resetPassword(){
         success: function(data){
             //console.log(data);
             //Error Checking
-            if (data != 400) {
+            if (data != 400 && data !=1200) {
                 console.log("Data");
                 console.log(data);
                 var obj = JSON.parse(data);
