@@ -277,33 +277,38 @@ function SecurityAnsewer(){
 //Password Reseting
 function resetPassword(){
     event.preventDefault(); 
-    var user = new Object();
-    user.email = emailRecovery;
-    user.securityAnswer = secureAnswer;
-    user.newPassword = $("#newPassword").val();
-    console.log(JSON.stringify(user));
-    $.ajax({
-       type: "POST",
-        url: 'api/index.php/resetPassword',
-        content: 'application/json',
-        data: JSON.stringify(user),
-        success: function(data){
-            //console.log(data);
-            //Error Checking
-            if (data != 400 && data !=1200) {
-                console.log("Data");
-                console.log(data);
-                var obj = JSON.parse(data);
-                $("#ResetPasswordBox").hide();
-                $("#ResetPasswordMessage").hide();
-                $("#SuccessBox").show();
+    var passwordField = document.forms["forgotPassword3"]["newPassword"].value;
+    if (passwordField.match("[a-zA-Z0-9!@#$%^*]{8,25}") == null) {
+        alert("Please meet required format");
+    }
+    else {
+        var user = new Object();
+        user.email = emailRecovery;
+        user.securityAnswer = secureAnswer;
+        user.newPassword = $("#newPassword").val();
+        console.log(JSON.stringify(user));
+        $.ajax({
+           type: "POST",
+            url: 'api/index.php/resetPassword',
+            content: 'application/json',
+            data: JSON.stringify(user),
+            success: function(data){
+                //console.log(data);
+                //Error Checking
+                if (data != 400 && data !=1200) {
+                    console.log("Data");
+                    console.log(data);
+                    var obj = JSON.parse(data);
+                    $("#ResetPasswordBox").hide();
+                    $("#ResetPasswordMessage").hide();
+                    $("#SuccessBox").show();
+                }
+                else{
+                    $("#ResetPasswordMessage").text("Error:Please enter a password");
+                }
             }
-            else{
-                $("#ResetPasswordMessage").text("Error:Please enter a password");
-            }
-        }
-    });
-
+        });
+    }
 }
 getRandomIdea();
 }

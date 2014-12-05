@@ -97,7 +97,7 @@
 <!-- Recovery Box Div -->
 <section id="ForgotPasswordBox" class="overlayBox">
     <h2>Enter Email to Start Reset Process</h2>
-    <form method="post" class="minimal" id="forgotPassword">
+    <form method="post" class="minimal" id="forgotPassword1">
         <label for="email">
             Email:
             <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required="required" />
@@ -109,11 +109,11 @@
 
 <section id="PasswordRecoveryBox" class="overlayBox">
     <h2>Security Question</h2>
-    <form method="post" class="minimal" id="forgotPassword">
+    <form method="post" class="minimal" id="forgotPassword2">
          <p id="SecureQuestion"></p>
         <label for="securityAnsewer">
             Answer:
-            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
+            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Answer" required="required"/>
         </label><br>
         <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit Answer</button>
         <p id="PasswordRecoveryMessage"></p>
@@ -123,7 +123,7 @@
 <!-- Reset Password Box Div -->
 <section id="ResetPasswordBox" class="overlayBox">
     <h2>Reset Password</h2>
-    <form method="post" class="minimal" id="forgotPassword">
+    <form method="post" class="minimal" id="forgotPassword3">
         <label for="password">
             New Password
             <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern="[a-zA-Z0-9!@#$%^*]{8,25}" required/>
