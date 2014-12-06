@@ -43,13 +43,13 @@
         <label for="email">
             Email:
             <input type="email" name="email" id="emailLogin" placeholder="Email Address" title="Valid email address required" required />
-        </label>
+        </label><br>
         <label for="password">
             Password:
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
-        </label>
-        <button type="submit" class="btn-minimal" >Sign in</button> 
-        <button type="button" class="btn-minimal" id = "ForgotPassword">Forgot password?</button>
+        </label><br>
+        <button type="submit" class="homepageButton" >Sign in</button> 
+        <button type="button" class="homepageButton" id = "ForgotPassword">Forgot password?</button>
         <p id="loginMessage"></p>
     </form>
 </section>
@@ -89,7 +89,7 @@
         <label for="securityAnsewer">
             <input type="text" name="SecurityAnswer" id="SecurityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="SecurityAnswer" required="required"/>
         </label><br>
-        <button type="submit" class="btn-minimal" style = "margin-right: 105px;">Create Account!</button>
+        <button type="submit" class="homepageButton" style = "margin-right: 105px;">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
 </section>

@@ -145,6 +145,13 @@ position: absolute;
   top-padding: 20%;
   top: 48%;
 }
+#loginBox.overlayBox{
+position: absolute;
+ width: 230px;
+  left: 45%; 
+  top-padding: 20%;
+  top: 48%;
+}
 
 #createAccountBox.overlayBox{
     position: absolute;
@@ -235,7 +242,25 @@ padding: 1px;
     width: 0;
     z-index: 1;
 }
+/* Credit to http://css3buttongenerator.com/ */
+.homepageButton {
+  margin-top: 7px;
+  -webkit-border-radius: 7;
+  -moz-border-radius: 7;
+  border-radius: 7px;
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  color: #ffffff;
+  font-size: 13px;
+  border-color: transparent;
+  background: #e39f39;
+  padding: 7px 13px 7px 13px;
+  text-decoration: none;
+}
 
+.homepageButton:hover {
+  background: #e0894e;
+  text-decoration: none;
+}
 .ellipsis {
    width: 230px;
    height: 80px;
