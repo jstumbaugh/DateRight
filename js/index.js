@@ -1,11 +1,13 @@
 /*DDR Software */
 function init() {
+$(document).ready(function(){
 $("#loginBox").hide();
 $("#createAccountBox").hide();
 $("#ForgotPasswordBox").hide();
 $("#PasswordRecoveryBox").hide();
 $("#ResetPasswordBox").hide();
 $("#SuccessBox").hide();
+});
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
@@ -46,9 +48,15 @@ $("#ResetPasswordButton").click(resetPassword);
         url: 'api/index.php/getRandomIdea',
         success: function(data){
             var dataArray = jQuery.parseJSON(data);
-            if(dataArray.length>0)
+            if(dataArray.length>0){
+                $("#dateTitle").text(dataArray[0]["Name"]);
                 $("#dateIdea").text(dataArray[0]["Description"]);
-                
+                $("#dateTitle").wrap(function() {
+                   var link = $('<a/>');
+                   link.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(dataArray[0]["DatePlanID"]));
+                   return link;
+                 });
+            }    
         }
     });
 }
@@ -91,6 +99,7 @@ $('#createAccountForm').submit(function(event){
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
+                     $("#resultMessage").hide();
                     $(location).attr('href', "search.html");
                 }
             }
@@ -103,7 +112,7 @@ $('#createAccountForm').submit(function(event){
 $('#searchbar').submit(function (e) {
 e.preventDefault();
 //Redirect user
-$(location).attr('href', "search.html?"+$("#searchbar").serialize());
+$(location).attr('href', "search.html?datesearch="+ encodeURIComponent($("#searchBoxText").val()));
 
 /* CODE TO SEARCH ACTIVITIES */
 // $.ajax({
@@ -160,6 +169,7 @@ $("#login").submit(function(event) {
                     $.cookie.json = true;
                     $.cookie("data", data); 
                     //redirect user
+                    $("#loginMessage").hide();
                     $(location).attr('href', "search.html");
                 }
             }
@@ -214,6 +224,7 @@ function forgotPassword(){
                     //create div 
                 $("#PasswordRecoveryBox").show();
                 $("#ForgotPasswordBox").hide();
+                $("#forgotPasswordMessage").hide();
             securityQuestion = parseInt(obj.SecurityQuestion);
             switch(securityQuestion){
                 case 1:
@@ -259,6 +270,7 @@ function SecurityAnsewer(){
             var obj = JSON.parse(data);
             //create div 
             $("#PasswordRecoveryBox").hide();
+            $("#PasswordRecoveryMessage").hide();
             $("#ResetPasswordBox").show();
         }
             else{
@@ -271,30 +283,38 @@ function SecurityAnsewer(){
 //Password Reseting
 function resetPassword(){
     event.preventDefault(); 
-    var user = new Object();
-    user.email = emailRecovery;
-    user.securityAnswer = secureAnswer;
-    user.newPassword = $("#newPassword").val();
-    console.log(JSON.stringify(user));
-    $.ajax({
-       type: "POST",
-        url: 'api/index.php/resetPassword',
-        content: 'application/json',
-        data: JSON.stringify(user),
-        success: function(data){
-            //console.log(data);
-            //Error Checking
-            if (data != 400) {
-                console.log(data);
-                var obj = JSON.parse(data);
-                $("#ResetPasswordBox").hide();
-                $("#SuccessBox").show();
+    var passwordField = document.forms["forgotPassword3"]["newPassword"].value;
+    if (passwordField.match("[a-zA-Z0-9!@#$%^*]{8,25}") == null) {
+         $("#ResetPasswordMessage").text("Error:Please meet required format. 8 to 25 characters. Uppercase, lowercase, numbers, and symbols are allowed");
+    }
+    else {
+        var user = new Object();
+        user.email = emailRecovery;
+        user.securityAnswer = secureAnswer;
+        user.newPassword = $("#newPassword").val();
+        console.log(JSON.stringify(user));
+        $.ajax({
+           type: "POST",
+            url: 'api/index.php/resetPassword',
+            content: 'application/json',
+            data: JSON.stringify(user),
+            success: function(data){
+                //console.log(data);
+                //Error Checking
+                if (data != 400 && data !=1200) {
+                    console.log("Data");
+                    console.log(data);
+                    var obj = JSON.parse(data);
+                    $("#ResetPasswordBox").hide();
+                    $("#ResetPasswordMessage").hide();
+                    $("#SuccessBox").show();
+                }
+                else{
+                    $("#ResetPasswordMessage").text("Error:Please enter a password");
+                }
             }
-            else{
-                $("#ResetPasswordMessage").text("Error:Please enter a password");
-            }
-        }
-    });
+        });
+    }
 }
 getRandomIdea();
 }

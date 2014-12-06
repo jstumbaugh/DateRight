@@ -14,7 +14,7 @@
     </head>
 <body>
 <div class="right">
-<div class="bubble"><h3>Date Idea</h3><p id="dateIdea" class="ellipsis"></p></div>
+<div class="bubble"><h3>Date Idea of the day</h3><h5 id="dateTitle"></h5><p id="dateIdea" class="ellipsis"></p></div>
 </div>
 <img src="img/background.png" class="bg">
 <p id="greeting"></p>
@@ -43,13 +43,13 @@
         <label for="email">
             Email:
             <input type="email" name="email" id="emailLogin" placeholder="Email Address" title="Valid email address required" required />
-        </label>
+        </label><br>
         <label for="password">
             Password:
             <input type="password" name="password" id="passwordLogin" placeholder="Password" pattern=".{8,}" title="Password" required />
-        </label>
-        <button type="submit" class="btn-minimal" >Sign in</button> 
-        <button type="button" class="btn-minimal" id = "ForgotPassword">Forgot password?</button>
+        </label><br>
+        <button type="submit" class="homepageButton" >Sign in</button> 
+        <button type="button" class="homepageButton" id = "ForgotPassword">Forgot password?</button>
         <p id="loginMessage"></p>
     </form>
 </section>
@@ -89,7 +89,7 @@
         <label for="securityAnsewer">
             <input type="text" name="SecurityAnswer" id="SecurityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="SecurityAnswer" required="required"/>
         </label><br>
-        <button type="submit" class="btn-minimal" style = "margin-right: 105px;">Create Account!</button>
+        <button type="submit" class="homepageButton" style = "margin-right: 105px;">Create Account!</button>
         <p id="resultMessage"></p>
     </form>
 </section>
@@ -97,7 +97,7 @@
 <!-- Recovery Box Div -->
 <section id="ForgotPasswordBox" class="overlayBox">
     <h2>Enter Email to Start Reset Process</h2>
-    <form method="post" class="minimal" id="forgotPassword">
+    <form method="post" class="minimal" id="forgotPassword1">
         <label for="email">
             Email:
             <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required="required" />
@@ -109,11 +109,11 @@
 
 <section id="PasswordRecoveryBox" class="overlayBox">
     <h2>Security Question</h2>
-    <form method="post" class="minimal" id="forgotPassword">
+    <form method="post" class="minimal" id="forgotPassword2">
          <p id="SecureQuestion"></p>
         <label for="securityAnsewer">
             Answer:
-            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Ansewer" required="required"/>
+            <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Answer" required="required"/>
         </label><br>
         <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit Answer</button>
         <p id="PasswordRecoveryMessage"></p>
@@ -123,10 +123,10 @@
 <!-- Reset Password Box Div -->
 <section id="ResetPasswordBox" class="overlayBox">
     <h2>Reset Password</h2>
-    <form method="post" class="minimal" id="forgotPassword">
-        <label for="email">
+    <form method="post" class="minimal" id="forgotPassword3">
+        <label for="password">
             New Password
-            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern=".{8,}" required="required"/>
+            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern="[a-zA-Z0-9!@#$%^*]{8,25}" required/>
         </label>
         <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
         <p id="ResetPasswordMessage"></p>

@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
 	var reviewButton;
 	getUserID();
+	performSearchFromHompage();
 	datePlanActivity = new Object();
 	$('#backToCreateBut').hide();
 
@@ -30,11 +31,11 @@ jQuery(document).ready(function() {
 		} else if ($("input[name=search]:checked").val() == "activitySearch"){
 			$('.activity').remove();
 			$('.dateplan').remove();
-			getActivitiesByName();
+			getActivitiesByName($("#searchbar").val());
 		} else if ($("input[name=search]:checked").val() == "datePlanSearch"){
 			$('.activity').remove();
 			$('.dateplan').remove();
-			searchDatabase();
+			searchDatabase($("#searchbar").val());
 		} else if ($("input[name=search]:checked").val() == "datePlanTag"){
 			$('.activity').remove();
 			$('.dateplan').remove();
@@ -111,7 +112,118 @@ jQuery(document).ready(function() {
 
 	addSort();
 });
+//Grabs search query from home page search bard and performs dateplan and activities search
+function performSearchFromHompage(){
+	var queryString = new Array();
+	//Logic below credits go to aspdotnetcodebook-blogspot-com from StackOverflow
+	if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+        if (queryString["datesearch"] != null) {
+            var data = "";
+            data +=queryString["datesearch"];
+            searchDatabase(data);
+            getActivitiesByName(data);
+        }else if(queryString["selectedDateplan"] != null){
+        	var data = "";
+            data +=queryString["selectedDateplan"];
+           	getFullDatePlanByID(data);
+        }
+}
+//Used when someone clicks the random date idea form homepage
+function getFullDatePlanByID(data){
+	$.ajax({
+		type: 'GET',
+		url: 'api/index.php/getFullDatePlanByID/'+data,
+		content: 'application/json',
+		success: function(data){
+	    	var datePlansDiv = $("#searchResults");
+	    	var planData = $.parseJSON(data).DatePlans;
+	    	for (var k = 0; k < planData.length; k++){
+	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
+	    		$(searchedDatePlan).appendTo(datePlansDiv);
+	    		var datePlanDiv = $('.dateplan')[k];
+	    		$("<h2></h2>").text(planData[k].Name).appendTo(datePlanDiv);
+	    		for (var l = 0; l < planData[k].AssociatedActivities.length; l++){
 
+	    			$.ajax({
+						type: 'GET',
+					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
+					    async: false,
+					    success: function(data2) {
+					    	var actData = jQuery.parseJSON(data2);
+						    favData = new Object();
+						    if (user.UserID != undefined){
+						    	$.ajax({
+						    		type: 'POST',
+						    		url: 'api/index.php/viewFavorites',
+						    		content: 'application/json',
+						    		async: false,
+						    		data: JSON.stringify(user),
+						    		success: function(data3){
+							    		favData = jQuery.parseJSON(data3);
+							    	}
+							    });
+						    }
+
+						    for (i = 0; i < actData.length; i++){
+
+								$.ajax({
+									type: 'GET',
+									url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+									async: false,
+									content: 'application/json',
+									success: function(data3){
+										if (data3 != 500)
+											tags = jQuery.parseJSON(data3);
+										else
+											tags = null;
+									}
+								});
+
+					    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description;
+					    		var hTags = "<h5 class='tags'> ";
+					    		if (!(tags === null)){
+						    		for (var x = 0; x < tags.length; x++){
+						    			hTags = hTags + tags[x].TagName + "&nbsp&nbsp&nbsp";
+						    		}
+						    		hTags = hTags + "</h5>";
+					    		}
+					    		elem = elem + "\"></li>";
+					    		var activityDiv = $(elem).appendTo(datePlanDiv);
+					    		var starunstar = 'unstarred';
+					    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
+					    		for (j = 0; j < favData.length; j++){
+					    			if (favData[j].Name == actData[i].Name){
+					    				starunstar = 'starred';
+					    				break;
+					    			}
+					    		}
+					    		var starString = "<p class='" + starunstar +"'></p>";
+					    		$(starString).appendTo(activityDiv);
+					    		$("<br>" + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
+					    	}		
+					    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
+							    addDrag();
+						}, 
+						error: function(jqXHR, errorThrown){
+							console.log('We didnt make it sir, sorry');
+							console.log(jqXHR, errorThrown);
+						}						
+					});
+	    		}
+	    		$("<a id='DescriptionBoxAnchor' href='#addDescription'> <button href='#addDescription' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
+	    	}	    	
+		}
+	});
+}
 //Searches for Activites by their tag.
 function getActivitiesByTag(searchString){
 	$.ajax({
@@ -237,12 +349,19 @@ function getMousePosition(e){
 	else if (favStar.classList.contains("reviewBut")){
 		reviewBut = favStar;
 		$("#ReviewActivityBox").show();
+		//clear the form after they close
+		$('#reviewActivity').each (function(){
+  			this.reset();
+			});
 	}
 
 	else if (favStar.classList.contains("reviewButton")){
 		reviewButton = favStar;
-		console.log(reviewButton.parentNode.parentNode.value);
 		$("#ReviewDatePlanBox").show();
+		//clear the form after they close
+		$('#reviewDatePlan').each (function(){
+  			this.reset();
+			});
 	}
 
 	else if (favStar.classList.contains("userDatePlanX")){
@@ -352,10 +471,11 @@ function getFavoriteActivities(){
 	});
 }
 
+
 //Searches for activites by their name
-function getActivitiesByName(){
+function getActivitiesByName(searchText){
 	var searchQuery = new Object();
-	searchQuery.SearchQuery = $("#searchbar").val();
+	searchQuery.SearchQuery = searchText;
 
 	$.ajax({
 		type: 'POST',
@@ -367,6 +487,7 @@ function getActivitiesByName(){
 	    	var activitiesDiv = $("#searchResults");
 	    	var actData = $.parseJSON(data).Activities;
 	    	favData = new Object;
+
 	    	if(user.UserID != undefined){
 				$.ajax({
 					type: 'POST',
@@ -379,7 +500,7 @@ function getActivitiesByName(){
 					}
 				});
 			}
-
+			if(!jQuery.isEmptyObject(actData)){
 			for (i = 0; i < actData.length; i++){
 
 	    		$.ajax({
@@ -414,10 +535,12 @@ function getActivitiesByName(){
 	    		}
 	    		var starString = "<p class='" + starunstar +"'></p>";
 	    		$(starString).appendTo(activityDiv);
+	    		if(user.UserID != null)
 	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 	    	}
 	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 		    	addDrag();
+		}
 		}
 	});
 }
@@ -527,11 +650,11 @@ function reviewActivity(){
 }
 //Lets the user review Date Plans in the review date plans modal
 function reviewDatePlan(){
-	console.log("DATE PLAN ID");
-	inputDatePlanID = reviewButton.parentNode.parentNode.value;
+	//grab dateplanid 
+	inputDatePlanID = reviewButton.id.substring(6, reviewButton.id.length);
 	inputUserID = user.UserID;
     inputRating = $("input[name=rating]:checked").val();
-    inputDescription = $("#descriptionReviewDatePlan").attr("value");
+    inputDescription = $("#descriptionReviewDatePlan").val();
     inputattended = $("input[name=attended]:checked").val();
      console.log(inputattended);
     //create activity object 
@@ -542,7 +665,6 @@ function reviewDatePlan(){
     newReview.UserID = inputUserID;
     newReview.Description = inputDescription;
     newReview.Attended = inputattended;
-	console.log(newReview);
     //create new activity
     $.ajax({
         type: 'POST',
@@ -560,15 +682,19 @@ function reviewDatePlan(){
         }
     });
     $("#openModal div a.close button").click();
+    //clear input from form on close
+    $("#reviewDatePlan").trigger( "reset" );
 	}
 	else{
-		 $("#resultMessageActivityReview").text("You must attend a Date Plan to rate it!");
+		 $("#resultMessageDatePlan").text("You must attend a Date Plan to rate it!");
 	}
 }
 //Searches date plans in our database
-function searchDatabase(){
+//Pass null to perform normal search with the search.html's search bar
+//otherwise it will perform a search using the passed in searchtext
+function searchDatabase(searchText){
 	var searchQuery = new Object();
-	searchQuery.SearchQuery = $("#searchbar").val();
+		searchQuery.SearchQuery = searchText;
 
 	$.ajax({
 		type: 'POST',
@@ -578,6 +704,7 @@ function searchDatabase(){
 		success: function(data){
 	    	var datePlansDiv = $("#searchResults");
 	    	var planData = $.parseJSON(data).DatePlans;
+	    	if(!jQuery.isEmptyObject(planData)){
 	    	for (var k = 0; k < planData.length; k++){
 	    		var searchedDatePlan = "<ul class='dateplan' value=" + planData[k].DatePlanID + " title=\"" + planData[k].Description + "\"></ul>";
 	    		$(searchedDatePlan).appendTo(datePlansDiv);
@@ -590,6 +717,7 @@ function searchDatabase(){
 					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
 					    async: false,
 					    success: function(data2) {
+					    	if(!jQuery.isEmptyObject(data2)){
 					    	var actData = jQuery.parseJSON(data2);
 						    favData = new Object();
 						    if (user.UserID != undefined){
@@ -644,6 +772,7 @@ function searchDatabase(){
 					    	}		
 					    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 							    addDrag();
+						}
 						}, 
 						error: function(jqXHR, errorThrown){
 							console.log('We didnt make it sir, sorry');
@@ -651,8 +780,10 @@ function searchDatabase(){
 						}						
 					});
 	    		}
-	    		$("<a id='DescriptionBoxAnchor' href='#addDescription'> <button href='#addDescription' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
-	    	}	    	
+	    		if(user.UserID != null)
+	    		$("<a id='DescriptionBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
+	    	}	
+	    	}    	
 		}
 	});
 }
