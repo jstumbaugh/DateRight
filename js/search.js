@@ -349,12 +349,19 @@ function getMousePosition(e){
 	else if (favStar.classList.contains("reviewBut")){
 		reviewBut = favStar;
 		$("#ReviewActivityBox").show();
+		//clear the form after they close
+		$('#reviewActivity').each (function(){
+  			this.reset();
+			});
 	}
 
 	else if (favStar.classList.contains("reviewButton")){
 		reviewButton = favStar;
-		console.log(reviewButton.parentNode.parentNode.value);
 		$("#ReviewDatePlanBox").show();
+		//clear the form after they close
+		$('#reviewDatePlan').each (function(){
+  			this.reset();
+			});
 	}
 
 	else if (favStar.classList.contains("userDatePlanX")){
@@ -528,6 +535,7 @@ function getActivitiesByName(searchText){
 	    		}
 	    		var starString = "<p class='" + starunstar +"'></p>";
 	    		$(starString).appendTo(activityDiv);
+	    		if(user.UserID != null)
 	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
 	    	}
 	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
@@ -642,11 +650,11 @@ function reviewActivity(){
 }
 //Lets the user review Date Plans in the review date plans modal
 function reviewDatePlan(){
-	console.log("DATE PLAN ID");
-	inputDatePlanID = reviewButton.parentNode.parentNode.value;
+	//grab dateplanid 
+	inputDatePlanID = reviewButton.id.substring(6, reviewButton.id.length);
 	inputUserID = user.UserID;
     inputRating = $("input[name=rating]:checked").val();
-    inputDescription = $("#descriptionReviewDatePlan").attr("value");
+    inputDescription = $("#descriptionReviewDatePlan").val();
     inputattended = $("input[name=attended]:checked").val();
      console.log(inputattended);
     //create activity object 
@@ -657,7 +665,6 @@ function reviewDatePlan(){
     newReview.UserID = inputUserID;
     newReview.Description = inputDescription;
     newReview.Attended = inputattended;
-	console.log(newReview);
     //create new activity
     $.ajax({
         type: 'POST',
@@ -675,9 +682,11 @@ function reviewDatePlan(){
         }
     });
     $("#openModal div a.close button").click();
+    //clear input from form on close
+    $("#reviewDatePlan").trigger( "reset" );
 	}
 	else{
-		 $("#resultMessageActivityReview").text("You must attend a Date Plan to rate it!");
+		 $("#resultMessageDatePlan").text("You must attend a Date Plan to rate it!");
 	}
 }
 //Searches date plans in our database
@@ -708,6 +717,7 @@ function searchDatabase(searchText){
 					    url: 'api/index.php/getActivityById/' + planData[k].AssociatedActivities[l].ActivityID,
 					    async: false,
 					    success: function(data2) {
+					    	if(!jQuery.isEmptyObject(data2)){
 					    	var actData = jQuery.parseJSON(data2);
 						    favData = new Object();
 						    if (user.UserID != undefined){
@@ -762,6 +772,7 @@ function searchDatabase(searchText){
 					    	}		
 					    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 							    addDrag();
+						}
 						}, 
 						error: function(jqXHR, errorThrown){
 							console.log('We didnt make it sir, sorry');
@@ -769,7 +780,8 @@ function searchDatabase(searchText){
 						}						
 					});
 	    		}
-	    		$("<a id='DescriptionBoxAnchor' href='#addDescription'> <button href='#addDescription' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
+	    		if(user.UserID != null)
+	    		$("<a id='DescriptionBoxAnchor' href='#ReviewDatePlanBox'> <button href='#ReviewDatePlanBox' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
 	    	}	
 	    	}    	
 		}
