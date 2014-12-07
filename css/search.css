@@ -340,6 +340,7 @@ h1{
     margin-left: 3px;
     margin-top: 3px;
     float: left;
+    clear: left;
 }
 
 .reviewButton{
