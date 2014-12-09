@@ -496,7 +496,7 @@ function viewFavorites(){
 		$dateplan = $returnedInfo1['DatePlanID'];
 		if (empty($activity))
 		{
-			$sql2 =" SELECT DatePlans.Name, DatePlans.CreatorID, DatePlans.Description  FROM Dateplans WHERE Dateplans.DatePlanID = :dateplanid";
+			$sql2 =" SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description, AVG(DatePlanReviews.Rating) AS Rating  FROM Dateplans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE Dateplans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
@@ -525,10 +525,11 @@ function viewFavorites(){
 	}
 }
 
+
 	//Type-casting integers before returning them
-	for($i = 0; $i < sizeof($favorites); $i = $i + 1) {
-		$favorites[$i]['Cost'] = $favorites[$i]['Cost'] + 0;
-	}
+	// for($i = 0; $i < sizeof($favorites); $i = $i + 1) {
+	// 	$favorites[$i]['Cost'] = $favorites[$i]['Cost'] + 0;
+	// }
 	
 	echo json_encode($favorites);
 
@@ -643,7 +644,7 @@ function getActivityById($id) {
   * @return the DatePlan
   */
 function getDateplanById($id) {
-    $sql = "SELECT * FROM DatePlans WHERE DatePlanID=:id";
+    $sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID  WHERE DatePlans.DatePlanID=:id";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -652,6 +653,7 @@ function getDateplanById($id) {
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $db = null;
         $size = count($results);
+        exit(json_encode($results));
 		if($size>0){
 			echo json_encode($results);
 		}else{
@@ -691,50 +693,66 @@ function getTagsFromActivityID($activityID) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 }
-//Search by activity name, works with multiple word query as well 
-//@return echo response with result JSON
-function getFullDatePlanByID ($id){
+
+/**
+  * This function searchs by activity name, works with multiple word query as well 
+  *
+  * @param DatePlanID
+  *
+  * @return echo response with result JSON
+  */
+function getFullDatePlanByID ($id)
+{
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	//User search query
 	$json = json_decode($request->getBody());
 
 	//First check if they sent any query
-	if (!empty($id)) {
-		try {
-		$db = getConnection();
-		$getDatePlans="SELECT * FROM DatePlans WHERE Public=1 AND DatePlanID = :dateID";
-		$stmt = $db->prepare($getDatePlans);
-		$stmt->bindParam("dateID", $id);
-		$stmt ->execute();
-		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	if (!empty($id)) 
+	{
+		try 
+		{
+			$db = getConnection();
+			$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND DatePlans.DatePlanID = :dateID GROUP BY DatePlans.DatePlanID";
+			$stmt = $db->prepare($getDatePlans);
+			$stmt->bindParam("dateID", $id);
+			$stmt ->execute();
+			$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$size = count($datePlanResults);
-		if($size>0){
-			//Find the associated activities for each dateplan id
-			for($i=0;$i<$size;$i++){
-				$cID=$datePlanResults[$i]['DatePlanID'];
-				$associatedActs=getAssociatedActivities($cID, 0);
-				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+			$size = count($datePlanResults);
+			if($size>0)
+			{
+				//Find the associated activities for each dateplan id
+				for($i=0;$i<$size;$i++)
+				{
+					$cID=$datePlanResults[$i]['DatePlanID'];
+					$associatedActs=getAssociatedActivities($cID, 0);
+					$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+				}
 			}
-		}
-		echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
-		
+			echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
 		}	
-		catch(PDOException $e) {
-    	echo ERROR::NO_RESULTS;
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
-	}else{
+		catch(PDOException $e) 
+		{
+    		echo ERROR::NO_RESULTS;
+        	echo '{"error":{"text":'. $e->getMessage() .'}}';
+    	}
+	}
+	else
+	{
 		//No activities found w/ that query
 		echo ERROR::NO_RESULTS;
-		}
+	}
 }
-//Helper function to return the associated activities
-//for each dateplanid supplied
-// @param int representing dateplan id
-// @return array containing the associatd activities 
-// $standalone = echo results instead of returning
+
+/**
+  * Helper function to return the associated activities for each dateplanid supplied 
+  *
+  * @param int representing dateplan id
+  *
+  * @return array containing the associatd activities
+  */
 function getAssociatedActivities($datePlanID, $standalone){
 	$sql = "SELECT ActivityID FROM DateActivities WHERE DatePlanID = :dateID";
 	try{
@@ -753,8 +771,13 @@ function getAssociatedActivities($datePlanID, $standalone){
     }
 }
 
-//Search by activity name, works with multiple word query as well 
-//@return echo response with result JSON
+/**
+  * Search by date plan name, works with multiple word query as well 
+  *
+  * @param string to search for dateplans
+  *
+  * @return echo response with result JSON
+  */
 function searchDateplans (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -768,7 +791,7 @@ function searchDateplans (){
 		$db = getConnection();
 		//accept plural version e.g. movie(s)
 		$result.="*";
-		$getDatePlans="SELECT * FROM DatePlans WHERE Public=1 AND MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND MATCH(DatePlans.Name,DatePlans.Description) AGAINST(:searchQuery IN BOOLEAN MODE) GROUP BY DatePlans.DatePlanID";
 		$stmt = $db->prepare($getDatePlans);
 		$stmt->bindParam("searchQuery", $result);
 		$stmt ->execute();
@@ -795,8 +818,14 @@ function searchDateplans (){
 		echo ERROR::NO_RESULTS;
 		}
 }
-//Search by activity name, works with multiple word query as well 
-//@return echo response with result JSON
+
+/**
+  * Search by activity name, works with multiple word query as well 
+  *
+  * @param string of a search query
+  *
+  * @return echo response with result JSON
+  */
 function searchActivities (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -857,7 +886,7 @@ function viewUserDatePlans(){
 		{
 			//var_dump($returnedInfo1);
 			$dateplan = $returnedInfo1['DatePlanID'];
-			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
+			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
@@ -896,7 +925,13 @@ function viewUserDatePlans(){
 }
 
 
-
+/**
+  * This function returns the top tags
+  *
+  * @param number of tags to return
+  *
+  * @return the tags and their quantity
+  */
 function topTags() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -933,6 +968,13 @@ function topTags() {
 	}
 }
 
+/**
+  * This function returns the activity based on the tag passed in
+  *
+  * @param either the TagID or the TagName
+  *
+  * @return the activity
+  */
 function getTaggedActivities() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -996,6 +1038,13 @@ function getTaggedActivities() {
 	}
 }
 
+/**
+  * This function returns the dateplan based on the tag passed in
+  *
+  * @param either the TagID or the TagName
+  *
+  * @return the dateplan
+  */
 function getTaggedDatePlans() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -1027,9 +1076,10 @@ function getTaggedDatePlans() {
 		exit(ERROR::PARAMETERS_NOT_SET);
 	}
 	
-	$sql = "SELECT DatePlans.*
+	$sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating
 			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN DateActivities NATURAL JOIN Tags
 			LEFT OUTER JOIN DatePlans ON DateActivities.DatePlanID = DatePlans.DatePlanID
+			LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID
 			WHERE DatePlans.Public = 1
 			$sqlInsert1
 			GROUP BY DatePlans.DatePlanID
@@ -1064,7 +1114,6 @@ function getTaggedDatePlans() {
 	}
 
 }
-
 
 
 /**
