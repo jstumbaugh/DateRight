@@ -885,12 +885,29 @@ function viewUserDatePlans(){
 		{
 			//var_dump($returnedInfo1);
 			$dateplan = $returnedInfo1['DatePlanID'];
-			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
+			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.CreatorID, DatePlans.ModID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
 			$rI2 = $stmt2 ->fetch(PDO::FETCH_OBJ);
+			$creatorID = $rI2->CreatorID;
+			$modID = $rI2->ModID;
+			echo json_encode($modID);
+			echo json_encode($creatorID);
 			//var_dump($rI2);
+			$quicksql1 = "SELECT Users.UserName FROM Users WHERE Users.UserID = :creatorID";
+			$quickstmt1 = $db->prepare($quicksql1);
+			$quickstmt1->bindParam("creatorID", $creatorID);
+			$quickstmt1->execute();
+			$creatorIDRI = $quickstmt1 -> fetch(PDO::FETCH_OBJ);
+
+			$quicksql2 = "SELECT Users.UserName FROM Users WHERE Users.UserID = :modID";
+			$quickstmt2 = $db->prepare($quicksql2);
+			$quickstmt2->bindParam("modID", $modID);
+			$quickstmt2->execute();
+			$modIDRI = $quickstmt2 -> fetch(PDO::FETCH_OBJ);
+			$rI2->ModID = $modIDRI->UserName;
+			$rI2->CreatorID = $creatorIDRI->UserName;
 			$dateplans[$count] = array();
 			array_push($dateplans[$count], $rI2);
 
