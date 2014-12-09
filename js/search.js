@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 
 		if (searchType == "activityTag"){
-			getActivitiesByTag(searchString);
+			displayActivitiesByTag(searchString);
 		} else if (searchType == "activitySearch"){
 			displayActivitiesByName(searchString);
 		} else if (searchType == "datePlanSearch"){
@@ -202,66 +202,6 @@ function getFullDatePlanByID(data){
 	    		}
 	    		$("<a id='DescriptionBoxAnchor' href='#addDescription'> <button href='#addDescription' name='Review' class='reviewButton' id='review" + planData[k].DatePlanID + "'>Review</button> </a>").appendTo(datePlanDiv);
 	    	}	    	
-		}
-	});
-}
-//Searches for Activites by their tag.
-function getActivitiesByTag(searchString){
-	var favoriteActivities = getFavoriteActivities();
-	$.ajax({
-		type: 'POST',
-	    url: 'api/index.php/getTaggedActivities',
-	    async: false,
-	    content: 'application/json',
-	    data: searchString,
-	    success: function(data) {
-	    	var actData = jQuery.parseJSON(data);
-	    	console.log(data);
-	    	var activitiesDiv = $("#searchResults");
-
-			for (i = 0; i < actData.length; i++){
-
-				$.ajax({
-					type: 'GET',
-					url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
-					async: false,
-					content: 'application/json',
-					success: function(data3){
-						if (data3 != 500)
-							tags = jQuery.parseJSON(data3);
-						else
-							tags = null;
-					}
-				});
-
-	    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description;
-	    		var hTags = "<h5 class='tags'> ";
-	    		if (!(tags === null)){
-		    		for (var x = 0; x < tags.length; x++){
-		    			hTags = hTags + tags[x].TagName + "&nbsp&nbsp&nbsp";
-		    		}
-		    		hTags = hTags + "</h5>";
-	    		}
-	    		elem = elem + "\"></li>";
-	    		var activityDiv = $(elem).appendTo(activitiesDiv);
-	    		var starunstar = 'unstarred';
-	    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
-	    		for (j = 0; j < favoriteActivities.length; j++){
-	    			if (favoriteActivities[j].Name == actData[i].Name){
-	    				starunstar = 'starred';
-	    				break;
-	    			}
-	    		}
-	    		var starString = "<p class='" + starunstar +"'></p>";
-	    		$(starString).appendTo(activityDiv);
-	    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
-	    	}
-	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
-	    		addDrag();
-		}, 
-		error: function(jqXHR, errorThrown){
-			console.log('We didnt make it sir, sorry');
-			console.log(jqXHR, errorThrown);
 		}
 	});
 }
@@ -995,6 +935,60 @@ function updateName(){
 			}
 		});
 	}
+}
+
+//Searches for Activites by their tag.
+function displayActivitiesByTag(searchString){
+	var searchQuery = new Object();
+	var favoriteActivities, actData, activitiesDiv, elem, hTags, activityDiv, starunstar, tags;
+
+	searchQuery.tagName = searchString;
+
+	favoriteActivities = getFavoriteActivities();
+	actData = getActsByTags(searchQuery);
+	activitiesDiv = $("#searchResults");
+	starunstar = 'unstarred';
+	starString = "<p class='" + starunstar +"'></p>";
+
+	for (i = 0; i < actData.length; i++){
+		tags = getTagsByActID(actData[i].ActivityID);
+		elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>";
+
+		hTags = "<h5 class='tags'> ";
+		for (var x = 0; x < tags.length; x++){
+			hTags += tags[x].TagName + "&nbsp&nbsp&nbsp";
+		}
+		hTags += "</h5>";
+
+		activityDiv = $(elem).appendTo(activitiesDiv);
+		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
+		for (j = 0; j < favoriteActivities.length; j++){
+			if (favoriteActivities[j].Name == actData[i].Name){
+				starunstar = 'starred';
+				break;
+			}
+		}
+		
+		$(starString).appendTo(activityDiv);
+		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
+	}
+	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
+		addDrag();
+}
+
+function getActsByTags(searchString){
+	var activities;
+	$.ajax({
+		type: 'POST',
+	    url: 'api/index.php/getTaggedActivities',
+	    async: false,
+	    content: 'application/json',
+	    data: JSON.stringify(searchString),
+	    success: function(data){
+	    	activities = jQuery.parseJSON(data);
+	    }
+	});
+	return activities;
 }
 
 //gets a users favorite activities from the database
