@@ -35,6 +35,7 @@
 <div id="loginButtons" class="midSection">
     <a href="#" id="loginButton" class="button">Login </a>
     <a href="#" id="createAccountButton" class="button">Create Account!</a>
+    <a href="#" id="logoutbut" class = "button">Logout</a>
 </div>
 <!-- The overlay created when login button is pressed--> 
 <section id="loginBox" class="overlayBox">

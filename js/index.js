@@ -31,22 +31,31 @@ $("#ForgotPassword").click(function(){
     $("#loginBox").hide();
         
 }); 
-/*
+getUserID();
+
 if(user.UserID !== undefined ){
         $("#loginButton").hide();
-        $("#xreateAccountButton").hide();
+        $("#createAccountButton").hide();
+        $("#logoutbut").show();
     }
     else{
         $("#loginButton").show();
         $("#xreateAccountButton").show();
+        $("#logoutbut").hide();
+
     }
 console.log(user.UserID);
-*/
+
 $("#ForgotPasswordButton").click(forgotPassword);
 
 $("#PasswordRecoveryButton").click(SecurityAnsewer);
 
 $("#ResetPasswordButton").click(resetPassword);
+
+$('#logoutbut').click(function(e){
+        e.preventDefault();
+        logout();
+    })
 
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
@@ -71,6 +80,36 @@ $("#ResetPasswordButton").click(resetPassword);
     });
 }
 
+function getUserID(){
+    user = new Object();
+    sessionData = {};
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'api/index.php/getSessionInfo',
+        success: function(data){
+            sessionData = JSON.parse(data);
+        }
+    });
+    user.UserID = sessionData.UserID;
+}
+
+function logout(){
+    $.ajax({
+        type: "POST",
+        url: 'api/index.php/logout',
+        content: 'application/jsonajax',
+        success: function(data){
+            if(data){
+                //redirect user to homepage after successful logout
+                $(location).attr('href', "index.php");
+            }
+        },
+        error: function(){
+            console.log('Unable to logout');
+        }
+    });
+}
 //Creates Account for user
 $('#createAccountForm').submit(function(event){
     console.log("Create Account");
