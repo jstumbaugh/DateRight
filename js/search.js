@@ -1,7 +1,7 @@
 jQuery(document).ready(function() {
 	var reviewButton;
 	getUserID();
-	performSearchFromHompage();
+	//performSearchFromHompage();
 	datePlanActivity = new Object();
 	$('#backToCreateBut').hide();
 
@@ -18,6 +18,7 @@ jQuery(document).ready(function() {
 	else{
 		$("#backtoHomePage").hide();
 	}
+		performSearchFromHompage();
 	//Search Activities
 	$('#searchform').submit(function (e) {
 		var searchString = newSearch();
