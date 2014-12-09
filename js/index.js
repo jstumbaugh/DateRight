@@ -40,7 +40,7 @@ if(user.UserID !== undefined ){
     }
     else{
         $("#loginButton").show();
-        $("#xreateAccountButton").show();
+        $("#createAccountButton").show();
         $("#logoutbut").hide();
 
     }
@@ -52,11 +52,37 @@ $("#PasswordRecoveryButton").click(SecurityAnsewer);
 
 $("#ResetPasswordButton").click(resetPassword);
 
+$("#closeButtonCreateAccount").click(closeCreateAccount);
+$("#closeButtonLogin").click(closelogin);
+$("#closeButtonForgotPassword").click(closeForgetPassword);
+$("#closeButtonPasswordRecover").click(closePasswordRecovery);
+$("#closeButtonPasswordReset").click(closeResetPassword);
+
 $('#logoutbut').click(function(e){
         e.preventDefault();
         logout();
     })
 
+//X button closes modals
+function closelogin(){
+    $("#loginBox").hide();
+}
+
+function closeCreateAccount(){
+    $("#createAccountBox").hide();
+}
+
+function closeForgetPassword(){
+    $("#ForgotPasswordBox").hide();  
+}
+
+function closePasswordRecovery(){
+    $("#PasswordRecoveryBox").hide();
+}
+
+function closeResetPassword(){
+    $("#ResetPasswordBox").hide(); 
+}
 //Gets Random Idea for the Speech Button on the right
  function getRandomIdea() {
 
