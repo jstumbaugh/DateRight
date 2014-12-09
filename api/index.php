@@ -496,7 +496,7 @@ function viewFavorites(){
 		$dateplan = $returnedInfo1['DatePlanID'];
 		if (empty($activity))
 		{
-			$sql2 =" SELECT DatePlans.Name, DatePlans.CreatorID, DatePlans.Description  FROM Dateplans WHERE Dateplans.DatePlanID = :dateplanid";
+			$sql2 =" SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description, AVG(DatePlanReviews.Rating) AS Rating  FROM Dateplans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE Dateplans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
@@ -525,10 +525,11 @@ function viewFavorites(){
 	}
 }
 
+
 	//Type-casting integers before returning them
-	for($i = 0; $i < sizeof($favorites); $i = $i + 1) {
-		$favorites[$i]['Cost'] = $favorites[$i]['Cost'] + 0;
-	}
+	// for($i = 0; $i < sizeof($favorites); $i = $i + 1) {
+	// 	$favorites[$i]['Cost'] = $favorites[$i]['Cost'] + 0;
+	// }
 	
 	echo json_encode($favorites);
 
@@ -643,7 +644,7 @@ function getActivityById($id) {
   * @return the DatePlan
   */
 function getDateplanById($id) {
-    $sql = "SELECT * FROM DatePlans WHERE DatePlanID=:id";
+    $sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID  WHERE DatePlans.DatePlanID=:id";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -652,6 +653,7 @@ function getDateplanById($id) {
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $db = null;
         $size = count($results);
+        exit(json_encode($results));
 		if($size>0){
 			echo json_encode($results);
 		}else{
@@ -703,7 +705,7 @@ function getFullDatePlanByID ($id){
 	if (!empty($id)) {
 		try {
 		$db = getConnection();
-		$getDatePlans="SELECT * FROM DatePlans WHERE Public=1 AND DatePlanID = :dateID";
+		$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND DatePlans.DatePlanID = :dateID GROUP BY DatePlans.DatePlanID";
 		$stmt = $db->prepare($getDatePlans);
 		$stmt->bindParam("dateID", $id);
 		$stmt ->execute();
@@ -768,7 +770,7 @@ function searchDateplans (){
 		$db = getConnection();
 		//accept plural version e.g. movie(s)
 		$result.="*";
-		$getDatePlans="SELECT * FROM DatePlans WHERE Public=1 AND MATCH(Name,Description) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND MATCH(DatePlans.Name,DatePlans.Description) AGAINST(:searchQuery IN BOOLEAN MODE) GROUP BY DatePlans.DatePlanID";
 		$stmt = $db->prepare($getDatePlans);
 		$stmt->bindParam("searchQuery", $result);
 		$stmt ->execute();
@@ -860,7 +862,7 @@ function viewUserDatePlans(){
 		{
 			//var_dump($returnedInfo1);
 			$dateplan = $returnedInfo1['DatePlanID'];
-			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp FROM DatePlans, Users WHERE DatePlans.DatePlanID = :dateplanid ";
+			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
@@ -1030,9 +1032,10 @@ function getTaggedDatePlans() {
 		exit(ERROR::PARAMETERS_NOT_SET);
 	}
 	
-	$sql = "SELECT DatePlans.*
+	$sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating
 			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN DateActivities NATURAL JOIN Tags
 			LEFT OUTER JOIN DatePlans ON DateActivities.DatePlanID = DatePlans.DatePlanID
+			LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID
 			WHERE DatePlans.Public = 1
 			$sqlInsert1
 			GROUP BY DatePlans.DatePlanID
