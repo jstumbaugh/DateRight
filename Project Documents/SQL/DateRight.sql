@@ -39,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `Activities` (
   `Name` varchar(50) NOT NULL,
   `Description` varchar(255) NOT NULL,
   `Cost` double DEFAULT NULL,
-  `Rating` double DEFAULT NULL,
   `Location` varchar(200) NOT NULL,
   PRIMARY KEY (`ActivityID`),
   FULLTEXT(Name,Description,Location)

@@ -35,9 +35,13 @@
 <div id="loginButtons" class="midSection">
     <a href="#" id="loginButton" class="button">Login </a>
     <a href="#" id="createAccountButton" class="button">Create Account!</a>
+    <a href="#" id="logoutbut" class = "button">Logout</a>
 </div>
 <!-- The overlay created when login button is pressed--> 
 <section id="loginBox" class="overlayBox">
+    <a href="#close" title="Close" class="close">
+            <button id="closeButtonLogin">X</button>
+    </a>
     <h2>Login</h2>
     <form method="post" class="minimal" id="login">
         <label for="email">
@@ -55,6 +59,9 @@
 </section>
 <!-- Over lay created when Create Account is clicked--> 
 <section id="createAccountBox" class="overlayBox">
+     <a href="#close" title="Close" class="close">
+        <button id="closeButtonCreateAccount">X</button>
+    </a>
     <h2>Create Account</h2>
     <form method="post" class="minimal" id="createAccountForm">
         <label for="userName">
@@ -96,6 +103,9 @@
 
 <!-- Recovery Box Div -->
 <section id="ForgotPasswordBox" class="overlayBox">
+    <a href="#close" title="Close" class="close">
+        <button id="closeButtonForgotPassword">X</button>
+    </a>
     <h2>Enter Email to Start Reset Process</h2>
     <form method="post" class="minimal" id="forgotPassword1">
         <label for="email">
@@ -108,6 +118,9 @@
 </section>
 
 <section id="PasswordRecoveryBox" class="overlayBox">
+    <a href="#close" title="Close" class="close">
+        <button id="closeButtonPasswordRecover">X</button>
+    </a>
     <h2>Security Question</h2>
     <form method="post" class="minimal" id="forgotPassword2">
          <p id="SecureQuestion"></p>
@@ -122,6 +135,9 @@
 
 <!-- Reset Password Box Div -->
 <section id="ResetPasswordBox" class="overlayBox">
+    <a href="#close" title="Close" class="close">
+        <button id="closeButtonPasswordReset">X</button>
+    </a>
     <h2>Reset Password</h2>
     <form method="post" class="minimal" id="forgotPassword3">
         <label for="password">
