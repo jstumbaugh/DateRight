@@ -2076,10 +2076,16 @@ function createDatePlan()
 		echo "User Does Not Exist\n";
 		echo ERROR::ACCOUNT_DOESNT_EXIST;
 	}
-
-	
 }
 
+
+/**
+  * This function adds an activity to a dateplan
+  *
+  * @param dateplanID, activityID
+  *
+  * @return success or errors
+  */
 function addActivity()
 {
 	$app = \Slim\Slim::getInstance();
@@ -2152,10 +2158,16 @@ function addActivity()
 	else{
 		echo "activity doesn't exist";
 	}	
-
-
-
 }
+
+
+/**
+  * This function updates a dateplan's description
+  *
+  * @param userID, description, datePlanID
+  *
+  * @return success or errors
+  */
 function updateDatePlanDescription()
 {
 	$app = \Slim\Slim::getInstance();
@@ -2220,6 +2232,15 @@ function updateDatePlanDescription()
 		}
 	}
 }
+
+
+/**
+  * This function updates a dateplan's name
+  *
+  * @param userID, datePlanName, datePlanID
+  *
+  * @return success or errors
+  */
 function updateDatePlanName()
 {
 	$app = \Slim\Slim::getInstance();
@@ -2286,6 +2307,13 @@ function updateDatePlanName()
 }
 
 
+/**
+  * This function adds a tag to an activity
+  *
+  * @param TagID or TagName, activityID
+  *
+  * @return success or errors
+  */
 function addTagToActivity() {
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -2348,9 +2376,6 @@ function addTagToActivity() {
 	catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 		}
-
-
-
 }
 
 
