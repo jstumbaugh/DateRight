@@ -668,8 +668,7 @@ function getDateplanById($id) {
 /**
   * This function returns an array of TagIDs from a given activityid
   *
-  * @param string $myArgument With a *description* of this argument, these may also
-  *    span multiple lines.
+  * @param activityID
   *
   * @return JSON array of tag ids for that activity id
   */
@@ -1245,9 +1244,13 @@ function viewDatePlanReviews() {
 } // end of function
 
 
-
-//Returns random date idea as JSON object
-//@return JSON object containing random date idea from Dateplans
+/**
+  * This function returns random date idea as JSON object
+  *
+  * @param void
+  *
+  * @return JSON object containing random date idea from Dateplans
+  */
 function getRandomIdea(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -1263,6 +1266,16 @@ function getRandomIdea(){
 			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
+
+
+
+/**
+  * This function updates a user's account in the database
+  *
+  * @param all of the information about a user's account
+  *
+  * @return nothing if successful, errors if there are any
+  */
 function updateAccount(){
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request();
@@ -1423,12 +1436,26 @@ function updateAccount(){
 	}
 }
 
-
+/**
+  * This function returns the session info
+  *
+  * @param void
+  *
+  * @return JSON object containing all of the information stored in the session
+  */
 function getSessionInfo() // this will return the info stored in the session
 {
 	echo json_encode($_SESSION);
 }
 
+/**
+  * This function updates a dateplan to be public. 
+  * Only the creator of the dateplan can make it public
+  *
+  * @param UserID and DatePlanID
+  *
+  * @return JSON object containing random date idea from Dateplans
+  */
 function shareDatePlan() 
 {
 	$app = \Slim\Slim::getInstance();
@@ -1533,10 +1560,15 @@ function reviewDatePlan()
 	}		
 } // end of function
 	
+
+
 /**
-     * A function to let the user update a dateplan.  
-     * @return result of success or not in updating date plan
-     */
+  * A function to let the user update a dateplan.
+  *
+  * @param DatePlanName, isPublic, updater ID, DatePlanID, and associated activities
+  *
+  * @return result of success or not in updating date plan
+  */
 function updateDatePlan()
 {
 	$app = \Slim\Slim::getInstance();
@@ -1682,6 +1714,14 @@ function reviewActivity()
 	}
 } // end of function
 
+
+/**
+  * This function returns the recovery question for a specific user
+  *
+  * @param user's email
+  *
+  * @return the security question
+  */
 function recoveryQuestion() {
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
@@ -1710,7 +1750,13 @@ function recoveryQuestion() {
 
 }
 
-
+/**
+  * This function recovers a user's password
+  *
+  * @param user's email, user's recovery question
+  *
+  * @return success or errors
+  */
 function recoverPassword() 
 {
 	$app = \Slim\Slim::getInstance();
@@ -1745,6 +1791,14 @@ function recoverPassword()
 
 }
 
+
+/**
+  * This function resets a user's password
+  *
+  * @param user's email, security answer, and the new password
+  *
+  * @return success or errors
+  */
 function resetPassword() 
 {
 	$app = \Slim\Slim::getInstance();
@@ -1795,6 +1849,14 @@ function resetPassword()
 
 }
 
+
+/**
+  * This function adds a photo to a user's profile
+  *
+  * @param the filepath to the photo to upload
+  *
+  * @return success or errors
+  */
 function addPhoto() {
 	$target_dir = "../img/user/";
 	$_FILES["fileToUpload"]["name"] = $_POST["userID"] . '.' . pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
@@ -1843,6 +1905,14 @@ function addPhoto() {
 
 }
 
+
+/**
+  * This function returns the user's photo for their profile
+  *
+  * @param userID
+  *
+  * @return the filename of the photo
+  */
 function getPhoto($userID) {
 	$app = \Slim\Slim::getInstance();
 	$target_dir = "../img/user/";
@@ -1904,7 +1974,14 @@ function deleteDatePlan()
 	}
 } // end of function
 
-//Function to delete dateactivity
+
+/**
+  * This function returns deletes an activity from a dateplan
+  *
+  * @param datePlanID, ActivityID
+  *
+  * @return success or errors
+  */
 function deleteDateActivity($datePlanID, $activityID) 
 {
     $deleteQuery = "DELETE FROM DateActivities WHERE DatePlanID = :datePlanID AND ActivityID = :activityID";
@@ -1927,6 +2004,15 @@ function deleteDateActivity($datePlanID, $activityID)
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 } // end of function
+
+
+/**
+  * This function creates a dateplan and inserts it into the database
+  *
+  * @param all of the infor about the dateplan
+  *
+  * @return success or errors
+  */
 function createDatePlan()
 {
 	$app = \Slim\Slim::getInstance();
