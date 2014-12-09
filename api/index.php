@@ -772,9 +772,9 @@ function getAssociatedActivities($datePlanID, $standalone){
 }
 
 /**
-  * Search by activity name, works with multiple word query as well 
+  * Search by date plan name, works with multiple word query as well 
   *
-  * @param void
+  * @param string to search for dateplans
   *
   * @return echo response with result JSON
   */
@@ -818,8 +818,14 @@ function searchDateplans (){
 		echo ERROR::NO_RESULTS;
 		}
 }
-//Search by activity name, works with multiple word query as well 
-//@return echo response with result JSON
+
+/**
+  * Search by activity name, works with multiple word query as well 
+  *
+  * @param string of a search query
+  *
+  * @return echo response with result JSON
+  */
 function searchActivities (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -922,7 +928,13 @@ function viewUserDatePlans(){
 }
 
 
-
+/**
+  * This function returns the top tags
+  *
+  * @param number of tags to return
+  *
+  * @return the tags and their quantity
+  */
 function topTags() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -959,6 +971,13 @@ function topTags() {
 	}
 }
 
+/**
+  * This function returns the activity based on the tag passed in
+  *
+  * @param either the TagID or the TagName
+  *
+  * @return the activity
+  */
 function getTaggedActivities() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -1022,6 +1041,13 @@ function getTaggedActivities() {
 	}
 }
 
+/**
+  * This function returns the dateplan based on the tag passed in
+  *
+  * @param either the TagID or the TagName
+  *
+  * @return the dateplan
+  */
 function getTaggedDatePlans() {
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
@@ -1091,7 +1117,6 @@ function getTaggedDatePlans() {
 	}
 
 }
-
 
 
 /**
