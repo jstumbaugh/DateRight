@@ -69,10 +69,17 @@ img.bg {
         width: 100px;
         box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
         -webkit-transition:box-shadow 0.5s;
+        
+    }
+
+    #createAccountButton{
+      margin-bottom: 20px;
+
     }
     #loginButtons{
         margin-right: 20%;
         margin-top: 25px;
+          margin-bottom: 20px;
     }
 .midSection a.button:hover{
         box-shadow: 0px 2px 1px white inset, 0px -2px 20px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
@@ -147,16 +154,18 @@ position: absolute;
   top: 48%;
 }
 #loginBox.overlayBox{
-position: absolute;
+position: relative;
  width: 230px;
   left: 45%; 
   top-padding: 20%;
   top: 48%;
+  z-index: 1;
 }
 
 #createAccountBox.overlayBox{
-    position: absolute;
-    width:25%;
+    position: relative;
+    min-width:350px;
+    max-width: 30%;
     left:45%;
     top-padding: 20%;
     top: 48%;
