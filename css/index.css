@@ -135,6 +135,7 @@ img.bg {
   background:rgba(0,0,0,0.65);
   text-align: center;
   font-size: 18px;
+  z-index: -1;
 }
 
 
@@ -302,4 +303,8 @@ right: 42%;
 
 #closeButtonPasswordReset{
 right: 42%;
+}
+
+#logoutbut{
+  z-index: -1;
 }

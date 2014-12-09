@@ -1,5 +1,5 @@
 /*DDR Software */
-function init() {
+
 $(document).ready(function(){
 $("#loginBox").hide();
 $("#createAccountBox").hide();
@@ -7,7 +7,21 @@ $("#ForgotPasswordBox").hide();
 $("#PasswordRecoveryBox").hide();
 $("#ResetPasswordBox").hide();
 $("#SuccessBox").hide();
+$("#loginButton").hide();
+$("#createAccountButton").hide();
+$("#logoutbut").hide();
 });
+window.onload = hidingModals;
+
+function hidingModals(){
+document.getElementById("loginBox").style.zIndex="1";
+document.getElementById("createAccountBox").style.zIndex="1";
+document.getElementById("ForgotPasswordBox").style.zIndex="1";
+document.getElementById("PasswordRecoveryBox").style.zIndex="1";
+document.getElementById("ResetPasswordBox").style.zIndex="1";
+document.getElementById("SuccessBox").style.zIndex="1";
+}
+function init() {
 $("#loginButton").click(function(){
 	$("#createAccountBox").hide();
 	$("#loginBox").show();
@@ -31,6 +45,7 @@ $("#ForgotPassword").click(function(){
     $("#loginBox").hide();
         
 }); 
+
 getUserID();
 
 if(user.UserID !== undefined ){
