@@ -892,8 +892,6 @@ function viewUserDatePlans(){
 			$rI2 = $stmt2 ->fetch(PDO::FETCH_OBJ);
 			$creatorID = $rI2->CreatorID;
 			$modID = $rI2->ModID;
-			echo json_encode($modID);
-			echo json_encode($creatorID);
 			//var_dump($rI2);
 			$quicksql1 = "SELECT Users.UserName FROM Users WHERE Users.UserID = :creatorID";
 			$quickstmt1 = $db->prepare($quicksql1);
@@ -1135,7 +1133,6 @@ function getTaggedDatePlans() {
 
 }
 
-
 /**
   * This function returns the activity reviews that a user has submitted
   *
@@ -1173,7 +1170,7 @@ function viewActivityReviews() {
 	if ($user_exists) // pull info from database
 	{
 		// For Activity Reviews
-		$sql = "SELECT * FROM ActivityReviews WHERE UserID = :userID";
+		$sql = "SELECT ActivityReviews.*, Activities.Name FROM ActivityReviews LEFT OUTER JOIN Activities ON ActivityReviews.ActivityID = Activities.ActivityID WHERE ActivityReviews.UserID = :userID";
 		$db = getConnection();
 		$stmt1 = $db->prepare($sql);
 		$stmt1->bindParam("userID",$userInfo->UserID);	
@@ -1236,7 +1233,7 @@ function viewDatePlanReviews() {
 	if ($user_exists) // pull info from database
 	{
 		// For DatePlan Reviews
-		$sql1 = "SELECT * FROM DatePlanReviews WHERE UserID = :userID";
+		$sql1 = "SELECT DatePlanReviews.*, DatePlans.Name FROM DatePlanReviews LEFT OUTER JOIN DatePlans ON DatePlanReviews.DatePlanID = DatePlans.DatePlanID WHERE UserID = :userID";
 		$db = getConnection();
 		$stmt2 = $db->prepare($sql1);
 		$stmt2->bindParam("userID",$userInfo->UserID);	
@@ -1259,6 +1256,7 @@ function viewDatePlanReviews() {
 		echo '{"error":{"text": "User does not have a profile."}}';
 	}
 } // end of function
+
 
 
 /**

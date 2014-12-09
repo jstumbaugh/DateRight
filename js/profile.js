@@ -128,7 +128,7 @@ function showUserDatePlans(){
 
         for(x in userDatePlans) {
 
-            title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x].Name);
+            title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x][0].Name);
             share = $("<button></button").text("Share?");
             share.attr("class", "shareButton");
             share.click(function(){
@@ -136,8 +136,8 @@ function showUserDatePlans(){
             });
             creator = $("<p></p>").text("Creator: You OR someone else");
             modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
-            timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x].Timestamp);
-            description = $("<p></p>").text("Description: " + userDatePlans[x].Description);
+            timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x][0].Timestamp);
+            description = $("<p></p>").text("Description: " + userDatePlans[x][0].Description);
             shell = $("<div></div>").append(title, share, creator, modify, timeStamp, description);
             shell.attr("class", "shellDiv");
             $("#displaySection #datePlans").append(shell);
@@ -158,12 +158,12 @@ function addDatePlanReviews() {
 
         for(x in datePlanReviews){
 
-            if(datePlanReviews[x].Attended === 1) {
+            if(parseInt(datePlanReviews[x].Attended) === 1) {
                 att = "Yes";
             } else {
                 att = "No";
             }
-            title = $("<p></p>").text("Review Title");
+            title = $("<p></p>").text("Review Title: " + datePlanReviews[x].Name);
             type = $("<p></p>").text("Date Plan Review");
             rating = $("<p></p>").text("Rating: " + datePlanReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
@@ -188,12 +188,12 @@ function addActivityReviews() {
 
         for(x in activityReviews){
             //initialize activity reviews
-            if(activityReviews[x].Attended === 1) {
+            if(parseInt(activityReviews[x].Attended) === 1) {
                 att = "Yes";
             } else {
                 att = "No";
             }
-            title = $("<p></p>").text("Review Title");
+            title = $("<p></p>").text("Review Title: " + activityReviews[x].Name);
             type = $("<p></p>").text("Activity Review");
             rating = $("<p></p>").text("Rating: " + activityReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
@@ -333,13 +333,14 @@ function loadUser(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(response) {
+            console.log(response);
             //error checking
             if(response === "500"){
                 console.log("No Results for Date Plans or incorrect json formatting");
             }
             else {
                 try {
-                    userDatePlans = JSON.parse(response)[0];
+                    userDatePlans = JSON.parse(response);
                 }
                 catch (e) {
                     console.log(e);
