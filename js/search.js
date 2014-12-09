@@ -18,7 +18,16 @@ jQuery(document).ready(function() {
 	else{
 		$("#backtoHomePage").hide();
 	}
-		performSearchFromHompage();
+
+//Go back to index page
+	$("#homeButton").click(function(e){
+        e.preventDefault();
+        $(location).attr('href', "index.php");
+    });
+
+	performSearchFromHompage();
+
+		
 	//Search Activities
 	$('#searchform').submit(function (e) {
 		var searchString = newSearch();

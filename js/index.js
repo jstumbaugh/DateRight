@@ -31,7 +31,17 @@ $("#ForgotPassword").click(function(){
     $("#loginBox").hide();
         
 }); 
-
+/*
+if(user.UserID !== undefined ){
+        $("#loginButton").hide();
+        $("#xreateAccountButton").hide();
+    }
+    else{
+        $("#loginButton").show();
+        $("#xreateAccountButton").show();
+    }
+console.log(user.UserID);
+*/
 $("#ForgotPasswordButton").click(forgotPassword);
 
 $("#PasswordRecoveryButton").click(SecurityAnsewer);
