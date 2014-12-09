@@ -347,3 +347,8 @@ h1{
     float: left;
     clear: left;
 }
+
+#homeButton:hover {
+    background: rgba(0,0,0,0.1);
+    cursor: pointer;
+}

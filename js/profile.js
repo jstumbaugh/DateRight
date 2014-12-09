@@ -22,7 +22,10 @@
 $(document).ready(function(){
     $.cookie.json = true;
     loadUser();
-
+ $("#homeButton").click(function(e){
+        e.preventDefault();
+        $(location).attr('href', "search.html");
+    });
     //call function to add Date Plans to the page
     showUserDatePlans();
     //call function to add the date plan reviews to the page
@@ -49,10 +52,7 @@ $(document).ready(function(){
         $("#openModalTwo div a.close button").click();
     });
     
-    $("#homeButton").click(function(e){
-        e.preventDefault();
-        $(location).attr('href', "search.html");
-    });
+   
     $("#selectionMenuBar #datePlanA").click(menuSelection);
     $("#selectionMenuBar #datePlanReviewsA").click(menuSelection);
     $("#selectionMenuBar #activityReviewsA").click(menuSelection);
