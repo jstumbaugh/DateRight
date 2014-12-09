@@ -22,10 +22,10 @@ INSERT INTO Activities VALUES
 	(19, "Get Caught in the Rain", "Forecast calls for cloudy skies? Great! Grab your guy and head outdoors. Getting caught in a spring shower (or snowstorm!) pretty much forces you to lock lips in a passionate embrace.", 0.00, "Outside"),
 	(20, "Go Stargazing", "The best way to stargaze is to actually know what you're seeing, so download The Night Sky app. That way, you can actually be confident you're looking at the Big Dipper before you abandon all pretense and just make out.", 0.00, "Outside"),
 	(21, "Visit a Hookah Lounge", "If your date is okay with smoking hookah, this is a great place to go for a chill evening. They always have comfy couches & board games to play!", 30.00, "Hookah Lounge"),
-	(22, "Make a Website!", "Sit down with your S/O and code a website! Enshrine your relationship in cyber-space with a site you can both contribute to! Computer required.", 0.00, "The Internet"),
+	(22, "Make a Website!", "Sit down with your S.O. and code a website! Enshrine your relationship in cyber-space with a site you can both contribute to! Computer required.", 0.00, "The Internet"),
 	(23, "Study", "Students can study together and help each other prepare for your next exams! Excelsior!!", 0.00, "Library"),
 	(24, "Go to a Baseball Game!", "Take him or her out to the ball game... Buy him or her some peanuts or crackerjacks.", 100.00, "Baseball Stadium"),
-	(25, "Bake a Cake", "Cooking with your S/O is a great team-building exercise. Bake a cake together & fight over who can lick the spoon!", 15.00, "Kitchen"),
+	(25, "Bake a Cake", "Cooking with your S.O. is a great team-building exercise. Bake a cake together & fight over who can lick the spoon!", 15.00, "Kitchen"),
 	(26, "Go to an Improv Class!", "Find a local theater that hosts walk-in improv classes, and channel your inner Colin Mochrie!", 0.00, "Local Comedy Club"),
 	(27, "Find a Photo Booth", "Make some (overpriced) memories in a surprisingly intimate way!", 10.00, "Nearly Anywhere"),
 	(28, "Ride a Ferris Wheel", "The Ferris Wheel is the most romantic ride at the fair! Wait until you're at the top to make your move!", 8.00, "Fair/Carnival"),
@@ -38,7 +38,7 @@ INSERT INTO Activities VALUES
 	(35, "Watch Frozen", "Satisfy your inner little girl & sing-along to this great movie!", 1.00, "Your House"),
 	(36, "RedBox a Movie", "Swing by the front of your local drugstore/gas station/Walmart & pick up a great movie. Don't forget to return it tomorrow!", 1.00, "Nearly Anywhere"),
 	(37, "Share a Bottle of Wine", "Alcoholism isn't depressing when you have someone to share it with! Works great paired with a movie or other fun entertainment", 25.00, "Your House"),
-	(38, "Serve Breakfast in Bed", "Start a lunch date right by serving your S/O breakfast! Breaking into their bedroom NOT recommended.", 5.00, "Your House or Theirs"),
+	(38, "Serve Breakfast in Bed", "Start a lunch date right by serving your S.O. breakfast! Breaking into their bedroom NOT recommended.", 5.00, "Your House or Theirs"),
 	(39, "Visit a Pet Shop", "Take your date to the happiest and/or saddest place imaginable. Pet some fuzzy animals, but try not to take any home!", 0.00, "Pet Shop"),
 	(40, "Go Skydiving", "Let loose your inner adrenaline junkie and fall thousands of feet! First time requires significant training, but after that is when it starts to get fun!", 150.00, "Skydiving Center");
 
@@ -73,8 +73,8 @@ INSERT INTO ActivityReviews VALUES
 
 INSERT INTO DatePlans VALUES
 	(1, "Casual Night In", 1, 1, 4, STR_TO_DATE('10/10/14 7:00 PM','%m/%d/%Y %h:%i %p'), "Have a romantic night in with some quality home cooking and then some netflix."),
-	(2, "Classy Dinner and a Movie", 1, 2, 4, STR_TO_DATE('10/20/14 6:00 PM','%m/%d/%Y %h:%i %p'), "This fancy dateplan will make your significant other think they forgot your anneversary. Take them to a nice Italian restaurant and then to see that new romantic comedy they are always talking about."),
-	(3, "Instant Pantie Dropper", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some 'Netflix'."),
+	(2, "Classy Dinner and a Movie", 1, 2, 4, STR_TO_DATE('10/20/14 6:00 PM','%m/%d/%Y %h:%i %p'), "This fancy dateplan will make your significant other think they forgot your anniversary. Take them to a nice Italian restaurant and then to see that new romantic comedy they are always talking about."),
+	(3, "Quick and Easy Date", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some Netflix."),
 	(4, "Afternoon at the Park", 1, 1, 4, STR_TO_DATE('11/19/14 3:30 PM','%m/%d/%Y %h:%i %p'), "Have a romantic afternoon at the local park by going birdwatching, having a picnic, and looking at the botanical gardens."),
 	(5, "Nostalgic Night In", 1, 1, 4, STR_TO_DATE('11/19/14 4:00 PM','%m/%d/%Y %h:%i %p'), "Flash back to you childhood by playing old boardgames and hanging out by the fireplace."),
 	(6, "Be a Tourist in Your Own Town", 1, 4, 4, STR_TO_DATE('11/19/14 4:01 PM','%m/%d/%Y %h:%i %p'), "Be a tourist in your own town for a day by visiting a local brewery, going to see the new exhibit at the museum, and visiting the old bookstore."),

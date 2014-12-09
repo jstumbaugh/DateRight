@@ -496,7 +496,7 @@ function viewFavorites(){
 		$dateplan = $returnedInfo1['DatePlanID'];
 		if (empty($activity))
 		{
-			$sql2 =" SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description, AVG(DatePlanReviews.Rating) AS Rating  FROM Dateplans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE Dateplans.DatePlanID = :dateplanid GROUP BY DatePlanID";
+			$sql2 =" SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount  FROM Dateplans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE Dateplans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
@@ -505,7 +505,7 @@ function viewFavorites(){
 		}
 		else if (empty($dateplan))
 		{
-			$sql2 =" SELECT Activities.ActivityID,Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location FROM Activities WHERE Activities.ActivityID = :activityID";
+			$sql2 =" SELECT Activities.ActivityID,Activities.Name, Activities.Description, Activities.Cost, Activities.Location, AVG(ActivityReviews.Rating) AS Rating, COUNT(ActivityReviews.Rating) AS RatingCount FROM Activities LEFT OUTER JOIN ActivityReviews ON Activities.ActivityID = ActivityReviews.ActivityID WHERE Activities.ActivityID = :activityID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("activityID", $activity);
 			$stmt2->execute();
@@ -513,7 +513,7 @@ function viewFavorites(){
 			array_push($favorites, $rI2);
 		}
 		else{
-		$sql2 = "SELECT Activities.ActivityID,Activities.Name, Activities.Description, Activities.Cost, Activities.Rating, Activities.Location, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description FROM Activities, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid";
+		$sql2 = "SELECT Activities.ActivityID,Activities.Name, Activities.Description, Activities.Cost, Activities.Location, AVG(ActivityReviews.Rating) AS Rating, COUNT(ActivityReviews.Rating) AS RatingCount, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description FROM Activities LEFT OUTER JOIN ActivityReviews ON Activities.ActivityID = ActivityReviews.ActivityID, DatePlans WHERE Activities.ActivityID = :activityID AND DatePlans.DatePlanID = :dateplanid GROUP BY Activities.ActivityID";
 		$stmt2 = $db ->prepare($sql2);
 		$stmt2 -> bindParam("activityID", $activity);
 		$stmt2 -> bindParam("dateplanid", $dateplan);
@@ -618,7 +618,7 @@ function deleteFavorite($op,$id) {
 * @return JSON object containing activity information for that id
 */
 function getActivityById($id) {
-    $sql = "SELECT * FROM Activities WHERE ActivityID=:id";
+    $sql = "SELECT Activities.*, AVG(ActivityReviews.Rating) AS Rating, COUNT(ActivityReviews.Rating) AS RatingCount FROM Activities LEFT OUTER JOIN ActivityReviews ON Activities.ActivityID = ActivityReviews.ActivityID WHERE Activities.ActivityID=:id GROUP BY ActivityID";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -644,7 +644,7 @@ function getActivityById($id) {
   * @return the DatePlan
   */
 function getDateplanById($id) {
-    $sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID  WHERE DatePlans.DatePlanID=:id";
+    $sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID  WHERE DatePlans.DatePlanID=:id";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -714,7 +714,7 @@ function getFullDatePlanByID ($id)
 		try 
 		{
 			$db = getConnection();
-			$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND DatePlans.DatePlanID = :dateID GROUP BY DatePlans.DatePlanID";
+			$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND DatePlans.DatePlanID = :dateID GROUP BY DatePlans.DatePlanID";
 			$stmt = $db->prepare($getDatePlans);
 			$stmt->bindParam("dateID", $id);
 			$stmt ->execute();
@@ -791,7 +791,7 @@ function searchDateplans (){
 		$db = getConnection();
 		//accept plural version e.g. movie(s)
 		$result.="*";
-		$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND MATCH(DatePlans.Name,DatePlans.Description) AGAINST(:searchQuery IN BOOLEAN MODE) GROUP BY DatePlans.DatePlanID";
+		$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND MATCH(DatePlans.Name,DatePlans.Description) AGAINST(:searchQuery IN BOOLEAN MODE) GROUP BY DatePlans.DatePlanID";
 		$stmt = $db->prepare($getDatePlans);
 		$stmt->bindParam("searchQuery", $result);
 		$stmt ->execute();
@@ -837,7 +837,7 @@ function searchActivities (){
 	if (!empty($result)) {
 		try {
 		$db = getConnection();
-		$getActivities="SELECT * FROM Activities WHERE MATCH(Name,Description,Location) AGAINST(:searchQuery IN BOOLEAN MODE)";
+		$getActivities="SELECT Activities.*, AVG(ActivityReviews.Rating) AS Rating, COUNT(ActivityReviews.Rating) AS RatingCount FROM Activities LEFT OUTER JOIN ActivityReviews ON Activities.ActivityID = ActivityReviews.ActivityID WHERE MATCH(Activities.Name,Activities.Description,Activities.Location) AGAINST(:searchQuery IN BOOLEAN MODE) GROUP BY Activities.ActivityID";
 		$stmt = $db->prepare($getActivities);
 		//accept plural version e.g. movie(s)
 		$result.="*";
@@ -886,7 +886,7 @@ function viewUserDatePlans(){
 		{
 			//var_dump($returnedInfo1);
 			$dateplan = $returnedInfo1['DatePlanID'];
-			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
+			$sql2 = "SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.Description, DatePlans.Timestamp, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
@@ -996,18 +996,22 @@ function getTaggedActivities() {
 
 	//Check to see if either tagID or tagName was specified
 	if(!empty($tagInfo->tagID)) {
-		$sqlInsert1 = $option1 . $tagInfo->tagID . $sqlInsert2;
+		$sqlInsert1 = $option1 . $tagInfo->tagID;
 	}
 	else if(!empty($tagInfo->tagName)) {
-		$sqlInsert1 = $option2 . "'" . $tagInfo->tagName . "'" . $sqlInsert2;
+		$sqlInsert1 = $option2 . "'" . $tagInfo->tagName . "'";
 	}
 	else {
 		echo ERROR::PARAMETERS_NOT_SET;
 		exit(ERROR::PARAMETERS_NOT_SET);
 	}
 	
-	$sql = "SELECT ActivityID, Name, Description, Cost, Location
-			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags $sqlInsert1";
+	$sql = "SELECT Activities.ActivityID, Activities.Name, Activities.Description, Activities.Cost, Activities.Location, AVG(ActivityReviews.Rating) AS Rating, COUNT(ActivityReviews.Rating) AS RatingCount
+			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags
+			LEFT OUTER JOIN ActivityReviews ON Activities.ActivityID = ActivityReviews.ActivityID
+			$sqlInsert1
+			GROUP BY Activities.ActivityID
+			$sqlInsert2";
 
 
 	try {
@@ -1076,7 +1080,7 @@ function getTaggedDatePlans() {
 		exit(ERROR::PARAMETERS_NOT_SET);
 	}
 	
-	$sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating
+	$sql = "SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount
 			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN DateActivities NATURAL JOIN Tags
 			LEFT OUTER JOIN DatePlans ON DateActivities.DatePlanID = DatePlans.DatePlanID
 			LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID
