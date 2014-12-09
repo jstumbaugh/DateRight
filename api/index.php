@@ -693,50 +693,66 @@ function getTagsFromActivityID($activityID) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 }
-//Search by activity name, works with multiple word query as well 
-//@return echo response with result JSON
-function getFullDatePlanByID ($id){
+
+/**
+  * This function searchs by activity name, works with multiple word query as well 
+  *
+  * @param DatePlanID
+  *
+  * @return echo response with result JSON
+  */
+function getFullDatePlanByID ($id)
+{
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
 	//User search query
 	$json = json_decode($request->getBody());
 
 	//First check if they sent any query
-	if (!empty($id)) {
-		try {
-		$db = getConnection();
-		$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND DatePlans.DatePlanID = :dateID GROUP BY DatePlans.DatePlanID";
-		$stmt = $db->prepare($getDatePlans);
-		$stmt->bindParam("dateID", $id);
-		$stmt ->execute();
-		$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	if (!empty($id)) 
+	{
+		try 
+		{
+			$db = getConnection();
+			$getDatePlans="SELECT DatePlans.*, AVG(DatePlanReviews.Rating) AS Rating FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.Public=1 AND DatePlans.DatePlanID = :dateID GROUP BY DatePlans.DatePlanID";
+			$stmt = $db->prepare($getDatePlans);
+			$stmt->bindParam("dateID", $id);
+			$stmt ->execute();
+			$datePlanResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$size = count($datePlanResults);
-		if($size>0){
-			//Find the associated activities for each dateplan id
-			for($i=0;$i<$size;$i++){
-				$cID=$datePlanResults[$i]['DatePlanID'];
-				$associatedActs=getAssociatedActivities($cID, 0);
-				$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+			$size = count($datePlanResults);
+			if($size>0)
+			{
+				//Find the associated activities for each dateplan id
+				for($i=0;$i<$size;$i++)
+				{
+					$cID=$datePlanResults[$i]['DatePlanID'];
+					$associatedActs=getAssociatedActivities($cID, 0);
+					$datePlanResults[$i]['AssociatedActivities']=$associatedActs;
+				}
 			}
-		}
-		echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
-		
+			echo '{"DatePlans": ' . json_encode($datePlanResults) . '}';
 		}	
-		catch(PDOException $e) {
-    	echo ERROR::NO_RESULTS;
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
-	}else{
+		catch(PDOException $e) 
+		{
+    		echo ERROR::NO_RESULTS;
+        	echo '{"error":{"text":'. $e->getMessage() .'}}';
+    	}
+	}
+	else
+	{
 		//No activities found w/ that query
 		echo ERROR::NO_RESULTS;
-		}
+	}
 }
-//Helper function to return the associated activities
-//for each dateplanid supplied
-// @param int representing dateplan id
-// @return array containing the associatd activities 
-// $standalone = echo results instead of returning
+
+/**
+  * Helper function to return the associated activities for each dateplanid supplied 
+  *
+  * @param int representing dateplan id
+  *
+  * @return array containing the associatd activities
+  */
 function getAssociatedActivities($datePlanID, $standalone){
 	$sql = "SELECT ActivityID FROM DateActivities WHERE DatePlanID = :dateID";
 	try{
@@ -755,8 +771,13 @@ function getAssociatedActivities($datePlanID, $standalone){
     }
 }
 
-//Search by activity name, works with multiple word query as well 
-//@return echo response with result JSON
+/**
+  * Search by activity name, works with multiple word query as well 
+  *
+  * @param void
+  *
+  * @return echo response with result JSON
+  */
 function searchDateplans (){
 	$app= \Slim\Slim::getInstance();
 	$request =$app->request;
