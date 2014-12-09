@@ -22,6 +22,10 @@
 $(document).ready(function(){
     $.cookie.json = true;
     loadUser();
+    getUserID();
+    if(user.UserID == undefined ){
+        $(location).attr('href', "search.html");
+    }
  $("#homeButton").click(function(e){
         e.preventDefault();
         $(location).attr('href', "search.html");
@@ -64,6 +68,21 @@ $(document).ready(function(){
     });
     */
 });
+
+
+function getUserID(){
+    user = new Object();
+    sessionData = {};
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'api/index.php/getSessionInfo',
+        success: function(data){
+            sessionData = JSON.parse(data);
+        }
+    });
+    user.UserID = sessionData.UserID;
+}
 
 function menuSelection(){
 
