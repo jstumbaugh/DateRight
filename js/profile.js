@@ -61,12 +61,12 @@ $(document).ready(function(){
     $("#selectionMenuBar #datePlanReviewsA").click(menuSelection);
     $("#selectionMenuBar #activityReviewsA").click(menuSelection);
 
-    /**
+    
     $('#logoutbut').click(function(e){
         e.preventDefault();
         logout();
     });
-    */
+    
 });
 
 
@@ -83,6 +83,7 @@ function getUserID(){
     });
     user.UserID = sessionData.UserID;
 }
+
 
 function menuSelection(){
 
@@ -445,7 +446,22 @@ function submitUpdateForm (event) {
     });
 
 }
-
+function logout(){
+    $.ajax({
+        type: "POST",
+        url: 'api/index.php/logout',
+        content: 'application/jsonajax',
+        success: function(data){
+            if(data){
+                //redirect user to homepage after successful logout
+                $(location).attr('href', "index.php");
+            }
+        },
+        error: function(){
+            console.log('Unable to logout');
+        }
+    });
+}
 /**
 function logout(){
     $.ajax({
