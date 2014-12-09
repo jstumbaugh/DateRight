@@ -74,11 +74,15 @@ INSERT INTO ActivityReviews VALUES
 INSERT INTO DatePlans VALUES
 	(1, "Casual Night In", 1, 1, 4, STR_TO_DATE('10/10/14 7:00 PM','%m/%d/%Y %h:%i %p'), "Have a romantic night in with some quality home cooking and then some netflix."),
 	(2, "Classy Dinner and a Movie", 1, 2, 4, STR_TO_DATE('10/20/14 6:00 PM','%m/%d/%Y %h:%i %p'), "This fancy dateplan will make your significant other think they forgot your anneversary. Take them to a nice Italian restaurant and then to see that new romantic comedy they are always talking about."),
-	(3, "Instant Pantie Dropper", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some 'Netflix'.)"),
+	(3, "Instant Pantie Dropper", 1, 5, 4, STR_TO_DATE('9/8/14 11:30 PM','%m/%d/%Y %h:%i %p'), "Take you S.O. to a nice Italian restaurant and then straight back for some 'Netflix'."),
 	(4, "Afternoon at the Park", 1, 1, 4, STR_TO_DATE('11/19/14 3:30 PM','%m/%d/%Y %h:%i %p'), "Have a romantic afternoon at the local park by going birdwatching, having a picnic, and looking at the botanical gardens."),
 	(5, "Nostalgic Night In", 1, 1, 4, STR_TO_DATE('11/19/14 4:00 PM','%m/%d/%Y %h:%i %p'), "Flash back to you childhood by playing old boardgames and hanging out by the fireplace."),
-	(6, "Be a Tourist in Your Own Town", 1, 1, 4, STR_TO_DATE('11/19/14 4:01 PM','%m/%d/%Y %h:%i %p'), "Be a tourist in your own town for a day by visiting a local brewery, going to see the new exhibit at the museum, and visiting the old bookstore."),
-	(7, "Fancy Night on the Town", 1, 1, 4, STR_TO_DATE('11/19/14 4:11 PM','%m/%d/%Y %h:%i %p'), "Dress up nice for this classy evening at a nice restaurant, watching an opera, and (weather permitting) getting caught in the rain.");
+	(6, "Be a Tourist in Your Own Town", 1, 4, 4, STR_TO_DATE('11/19/14 4:01 PM','%m/%d/%Y %h:%i %p'), "Be a tourist in your own town for a day by visiting a local brewery, going to see the new exhibit at the museum, and visiting the old bookstore."),
+	(7, "Fancy Night on the Town", 1, 3, 4, STR_TO_DATE('11/19/14 4:11 PM','%m/%d/%Y %h:%i %p'), "Dress up nice for this classy evening at a nice restaurant, watching an opera, and (weather permitting) getting caught in the rain."),
+	(8, "Go to A Fair or Carnival", 1, 2, 4, STR_TO_DATE('12/2/14 1:15 PM','%m/%d/%Y %h:%i %p'), "Take your date to a wretched hive of scum and villainy, have some crappy over-priced food, and try not to vomit!"),
+	(9, "Be Alcoholics", 1, 2, 4, STR_TO_DATE('12/2/14 8:49 AM','%m/%d/%Y %h:%i %p'), "Tour the town's best places to get inebriated. Please do us all a favor and take a cab or Uber! :)"),
+	(10, "Do Everything HE Wants to Do!", 1, 1, 4, STR_TO_DATE('12/2/14 5:12 PM','%m/%d/%Y %h:%i %p'), "Sports! Alcohol! Laughing at crude humor! This date's got it all!"),
+	(11, "Do Everything SHE Wants to Do!", 1, 4, 4, STR_TO_DATE('12/2/14 5:25 PM','%m/%d/%Y %h:%i %p'), "Shopping! Kittens! Romance! This date's got it all!");
 
 INSERT INTO DateActivities VALUES
 	(1, 1, 5),
@@ -98,7 +102,19 @@ INSERT INTO DateActivities VALUES
 	(16, 6, 13),
 	(17, 7, 2),
 	(18, 7, 18),
-	(19, 7, 19);
+	(19, 7, 19),
+	(20, 8, 28),
+	(21, 8, 27),
+	(22, 8, 29),
+	(23, 9, 16),
+	(24, 9, 9),
+	(25, 9, 37),
+	(26, 10, 24),
+	(27, 10, 9),
+	(28, 10, 33),
+	(29, 8, 30),
+	(30, 8, 39),
+	(31, 8, 38);
 
 INSERT INTO Tags VALUES
 	(1, 'Movies'),
@@ -150,7 +166,28 @@ INSERT INTO TaggedActivities VALUES
 	(11, 17),
 	(11, 18),
 	(11, 19),
-	(11, 20);
+	(11, 20),
+	(11, 21),
+	(11, 22),
+	(11, 23),
+	(11, 24),
+	(11, 25),
+	(11, 26),
+	(11, 27),
+	(11, 28),
+	(11, 29),
+	(11, 30),
+	(11, 31),
+	(11, 32),
+	(11, 33),
+	(11, 34),
+	(11, 35),
+	(11, 36),
+	(11, 37),
+	(11, 38),
+	(11, 39),
+	(11, 40);
+
 
 INSERT INTO Reports VALUES
 	(1, 1, "The 'Instant Pantie Dropper' date plan did not instantly drop her panties. I'm suing you guys!!", 1),

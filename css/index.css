@@ -266,3 +266,40 @@ padding: 1px;
    height: 80px;
    overflow: scroll;
 }
+
+/* Close Button */
+#closeButtonLogin,#closeButtonCreateAccount, #closeButtonForgotPassword, #closeButtonPasswordRecover, 
+#closeButtonPasswordReset{
+   position: relative;
+    color:white;
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
+}
+
+#closeButtonLogin:hover, #closeButtonCreateAccount:hover,#closeButtonForgotPassword:hover, 
+#closeButtonPasswordRecover:hover, #closeButtonPasswordReset:hover{
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+#closeButtonLogin{
+  right: 43%;
+}
+#closeButtonCreateAccount{
+  right: 45%;
+}
+
+#closeButtonForgotPassword{
+right: 42%;
+
+  } 
+
+#closeButtonPasswordRecover{
+right: 42%;
+  } 
+
+#closeButtonPasswordReset{
+right: 42%;
+}
