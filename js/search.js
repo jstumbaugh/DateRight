@@ -37,6 +37,7 @@ jQuery(document).ready(function() {
 		if (searchType == "activityTag"){
 			displayActivitiesByTag(searchString);
 		} else if (searchType == "activitySearch"){
+			console.log("butts");
 			displayActivitiesByName(searchString);
 		} else if (searchType == "datePlanSearch"){
 			searchDatabase(searchType);
@@ -399,6 +400,7 @@ function displayActivitiesByName(searchString){
 
 	searchQuery.SearchQuery = searchString;
 	activities = getActsByName(searchQuery);
+	console.log(activities)
 	searchList = $("#searchResults");
 	favActivities = getFavoriteActivities();
 	star = 'unstarred';

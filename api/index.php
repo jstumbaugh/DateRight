@@ -809,8 +809,6 @@ function searchActivities (){
 		try {
 		$db = getConnection();
 		$getActivities="SELECT * FROM Activities WHERE MATCH(Name,Description,Location) AGAINST(:searchQuery IN BOOLEAN MODE)";
-		//Order results by the user rating
-		$getActivities.=" ORDER BY Rating LIMIT 50";
 		$stmt = $db->prepare($getActivities);
 		//accept plural version e.g. movie(s)
 		$result.="*";
@@ -825,7 +823,6 @@ function searchActivities (){
 		
 		}	
 		catch(PDOException $e) {
-    	echo ERROR::NO_RESULTS;
         echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
 	}else{
@@ -967,7 +964,7 @@ function getTaggedActivities() {
 		exit(ERROR::PARAMETERS_NOT_SET);
 	}
 	
-	$sql = "SELECT ActivityID, Name, Description, Cost, Rating, Location
+	$sql = "SELECT ActivityID, Name, Description, Cost, Location
 			FROM TaggedActivities NATURAL JOIN Activities NATURAL JOIN Tags $sqlInsert1";
 
 
