@@ -904,8 +904,8 @@ function viewUserDatePlans(){
 			$quickstmt2->bindParam("modID", $modID);
 			$quickstmt2->execute();
 			$modIDRI = $quickstmt2 -> fetch(PDO::FETCH_OBJ);
-			$rI2->ModID = $modIDRI->UserName;
-			$rI2->CreatorID = $creatorIDRI->UserName;
+			$rI2->ModName= $modIDRI->UserName;
+			$rI2->CreatorName = $creatorIDRI->UserName;
 			$dateplans[$count] = array();
 			array_push($dateplans[$count], $rI2);
 

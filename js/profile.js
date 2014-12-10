@@ -129,16 +129,21 @@ function showUserDatePlans(){
         for(x in userDatePlans) {
 
             title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x][0].Name);
+            type = $("<a></a>").text("User Date Plan");
+            type.wrap(function() {
+                   type.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(userDatePlans[x][0]["DatePlanID"]));
+                   return type;
+                 });
+            creator = $("<p></p>").text("Creator: " + userDatePlans[x][0].CreatorName);
             share = $("<button></button").text("Share?");
             share.attr("class", "shareButton");
             share.click(function(){
                 $(this).attr("class", "hideThis");
             });
-            creator = $("<p></p>").text("Creator: You OR someone else");
-            modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
+            modify = $("<p></p>").text("Modified by: " + userDatePlans[x][0].ModName);
             timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x][0].Timestamp);
             description = $("<p></p>").text("Description: " + userDatePlans[x][0].Description);
-            shell = $("<div></div>").append(title, share, creator, modify, timeStamp, description);
+            shell = $("<div></div>").append(title, type, creator, share, modify, timeStamp, description);
             shell.attr("class", "shellDiv");
             $("#displaySection #datePlans").append(shell);
         }
@@ -164,7 +169,11 @@ function addDatePlanReviews() {
                 att = "No";
             }
             title = $("<p></p>").text("Review Title: " + datePlanReviews[x].Name);
-            type = $("<p></p>").text("Date Plan Review");
+            type = $("<a></a>").text("Date Plan Review");
+            type.wrap(function() {
+                   type.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(datePlanReviews[x]["DatePlanID"]));
+                   return type;
+                 });
             rating = $("<p></p>").text("Rating: " + datePlanReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
             timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews[x].ReviewTime);
@@ -194,7 +203,11 @@ function addActivityReviews() {
                 att = "No";
             }
             title = $("<p></p>").text("Review Title: " + activityReviews[x].Name);
-            type = $("<p></p>").text("Activity Review");
+            type = $("<a></a>").text("Activity Review");
+            type.wrap(function() {
+                   type.attr('href', "search.html?selectedActivity="+ encodeURIComponent(activityReviews[x]["ActivityID"]));
+                   return type;
+                 });
             rating = $("<p></p>").text("Rating: " + activityReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
             timeStamp = $("<p></p>").text("Date and time created: " + activityReviews[x].ReviewTime);
