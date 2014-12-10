@@ -213,18 +213,22 @@ function addActivityReviews() {
             } else {
                 att = "No";
             }
-            title = $("<p></p>").text("Review Title: " + activityReviews[x].Name);
-            type = $("<a></a>").text("Activity Review");
+            type = $("<a></a>").text(""+activityReviews[x].Name);
+            //title = $("<p></p>").text("Review Title: " + activityReviews[x].Name);
+            //type = $("<a></a>").text("Activity Review");
             type.wrap(function() {
                    type.attr('href', "search.html?selectedActivity="+ encodeURIComponent(activityReviews[x]["ActivityID"]));
                    return type;
                  });
+            editInformation = $("<div></div>");
+            editInformation.attr("class","holdRight");
             rating = $("<p></p>").text("Rating: " + activityReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
-            timeStamp = $("<p></p>").text("Date and time created: " + activityReviews[x].ReviewTime);
-            description = $("<p></p>").text("Description: " + activityReviews[x].Description);
+            timeStamp = $("<p></p>").text("Last changed at: " + activityReviews[x].ReviewTime);
+            description = $("<p></p>").text("" + activityReviews[x].Description);
             //add stuff to a div
-            shell = $("<div></div>").append(title, type, rating, attended, timeStamp, description);
+            editInformation.append(rating,attended,timeStamp);
+            shell = $("<div></div>").append(editInformation,type, description);
             shell.attr("class", "shellDiv");
             //add activity reviews to the page
             $("#displaySection #activityReviews").append(shell);
