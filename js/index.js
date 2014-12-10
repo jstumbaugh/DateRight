@@ -13,12 +13,13 @@ $("#createAccountButton").hide();
 window.onload = hidingModals;
 
 function hidingModals(){
-document.getElementById("#loginBox").style.zIndex="1";
-document.getElementById("#createAccountBox").style.zIndex="1";
-document.getElementById("#ForgotPasswordBox").style.zIndex="1";
-document.getElementById("#PasswordRecoveryBox").style.zIndex="1";
-document.getElementById("#ResetPasswordBox").style.zIndex="1";
-document.getElementById("#SuccessBox").style.zIndex="1";
+    $("#loginBox").css('z-index',1);
+    $("#createAccountBox").css('z-index',1);
+    $("#ForgotPasswordBox").css('z-index',1);
+    $("#PasswordRecoveryBox").css('z-index',1);
+    $("#ResetPasswordBox").css('z-index',1);
+    $("#SuccessBox").css('z-index',1);
+    init();
 }
 function init() {
 $("#loginButton").click(function(){
@@ -407,4 +408,3 @@ function resetPassword(){
 }
 getRandomIdea();
 }
-window.onload = init;
