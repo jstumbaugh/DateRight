@@ -196,16 +196,16 @@ INSERT INTO Reports VALUES
 
 
 INSERT INTO Favorites VALUES
-	(1, 1, 1, 1),
-	(2, 1, 2, 1),
-	(3, 2, 3, 2),
-	(4, 2, 4, 3),
-	(5, 3, 5, 1),
-	(6, 3, NULL, NULL),
+	(1, 1, 1, NULL),
+	(2, 1, 2, NULL),
+	(3, 2, 3, NULL),
+	(4, 2, 4, NULL),
+	(5, 3, 5, NULL),
+	(6, 3, 2, NULL),
 	(7, 4, 4, NULL),
-	(8, 4, 3, 3),
-	(9, 5, 3, 2),
-	(10, 5, NULL, 1);
+	(8, 4, 3, NULL),
+	(9, 5, 3, NULL),
+	(10, 5, 1, NULL);
 
 INSERT INTO DatePlanReviews VALUES
 	(1, 5, 1 ,"Last night my I used the 'Casual Night In' dateplan and had a blast! It was very nice to cook a meal with my date, she loved it!", 1, 5, STR_TO_DATE('9/23/14 10:30 AM','%m/%d/%Y %h:%i %p')),
