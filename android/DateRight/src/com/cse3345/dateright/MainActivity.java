@@ -33,6 +33,8 @@ public class MainActivity extends Activity {
 	public static Session session;
 	//Login
 	private Button loginButton;
+	//Register
+	private Button registerButton;
 	//instance
 	private static MainActivity instance;
 	public static MainActivity getInstance() {
@@ -101,10 +103,23 @@ public class MainActivity extends Activity {
 		loginButton = (Button) findViewById(R.id.loginButton);
 		//Set on click listener for login/logout button 
 		if(session.isLoggedIn()){
+			//change to logout
 			changeLoginLogout(true);
 		} else {
+			//change to login
 			changeLoginLogout(false);
 		}
+		
+		/**
+		 * REGISTER BUTTON SECTION
+		 * */
+		registerButton = (Button) findViewById(R.id.registerButton);
+		registerButton.setOnClickListener(new OnClickListener(){
+			public void onClick(View view) {
+				Intent intent = new Intent(MainActivity.this, Register.class);
+				startActivity(intent);
+			}
+		});
 		
 		//SESSION OUTPUT 
 		System.out.println("SESSION CONTROL CHECK: " + session.isLoggedIn());
