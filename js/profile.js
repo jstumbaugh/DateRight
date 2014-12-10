@@ -61,12 +61,12 @@ $(document).ready(function(){
     $("#selectionMenuBar #datePlanReviewsA").click(menuSelection);
     $("#selectionMenuBar #activityReviewsA").click(menuSelection);
 
-    /**
+    
     $('#logoutbut').click(function(e){
         e.preventDefault();
         logout();
     });
-    */
+    
 });
 
 
@@ -83,6 +83,7 @@ function getUserID(){
     });
     user.UserID = sessionData.UserID;
 }
+
 
 function menuSelection(){
 
@@ -127,17 +128,22 @@ function showUserDatePlans(){
 
         for(x in userDatePlans) {
 
-            title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x].Name);
+            title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x][0].Name);
+            type = $("<a></a>").text("User Date Plan");
+            type.wrap(function() {
+                   type.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(userDatePlans[x][0]["DatePlanID"]));
+                   return type;
+                 });
+            creator = $("<p></p>").text("Creator: " + userDatePlans[x][0].CreatorName);
             share = $("<button></button").text("Share?");
             share.attr("class", "shareButton");
             share.click(function(){
                 $(this).attr("class", "hideThis");
             });
-            creator = $("<p></p>").text("Creator: You OR someone else");
-            modify = $("<p></p>").text("Modified by: You OR someone else... Modify button?");
-            timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x].Timestamp);
-            description = $("<p></p>").text("Description: " + userDatePlans[x].Description);
-            shell = $("<div></div>").append(title, share, creator, modify, timeStamp, description);
+            modify = $("<p></p>").text("Modified by: " + userDatePlans[x][0].ModName);
+            timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x][0].Timestamp);
+            description = $("<p></p>").text("Description: " + userDatePlans[x][0].Description);
+            shell = $("<div></div>").append(title, type, creator, share, modify, timeStamp, description);
             shell.attr("class", "shellDiv");
             $("#displaySection #datePlans").append(shell);
         }
@@ -157,13 +163,17 @@ function addDatePlanReviews() {
 
         for(x in datePlanReviews){
 
-            if(datePlanReviews[x].Attended === 1) {
+            if(parseInt(datePlanReviews[x].Attended) === 1) {
                 att = "Yes";
             } else {
                 att = "No";
             }
-            title = $("<p></p>").text("Review Title");
-            type = $("<p></p>").text("Date Plan Review");
+            title = $("<p></p>").text("Review Title: " + datePlanReviews[x].Name);
+            type = $("<a></a>").text("Date Plan Review");
+            type.wrap(function() {
+                   type.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(datePlanReviews[x]["DatePlanID"]));
+                   return type;
+                 });
             rating = $("<p></p>").text("Rating: " + datePlanReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
             timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews[x].ReviewTime);
@@ -187,13 +197,17 @@ function addActivityReviews() {
 
         for(x in activityReviews){
             //initialize activity reviews
-            if(activityReviews[x].Attended === 1) {
+            if(parseInt(activityReviews[x].Attended) === 1) {
                 att = "Yes";
             } else {
                 att = "No";
             }
-            title = $("<p></p>").text("Review Title");
-            type = $("<p></p>").text("Activity Review");
+            title = $("<p></p>").text("Review Title: " + activityReviews[x].Name);
+            type = $("<a></a>").text("Activity Review");
+            type.wrap(function() {
+                   type.attr('href', "search.html?selectedActivity="+ encodeURIComponent(activityReviews[x]["ActivityID"]));
+                   return type;
+                 });
             rating = $("<p></p>").text("Rating: " + activityReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
             timeStamp = $("<p></p>").text("Date and time created: " + activityReviews[x].ReviewTime);
@@ -332,13 +346,14 @@ function loadUser(){
         content: 'application/json',
         data: JSON.stringify(user),
         success: function(response) {
+            console.log(response);
             //error checking
             if(response === "500"){
                 console.log("No Results for Date Plans or incorrect json formatting");
             }
             else {
                 try {
-                    userDatePlans = JSON.parse(response)[0];
+                    userDatePlans = JSON.parse(response);
                 }
                 catch (e) {
                     console.log(e);
@@ -445,7 +460,22 @@ function submitUpdateForm (event) {
     });
 
 }
-
+function logout(){
+    $.ajax({
+        type: "POST",
+        url: 'api/index.php/logout',
+        content: 'application/jsonajax',
+        success: function(data){
+            if(data){
+                //redirect user to homepage after successful logout
+                $(location).attr('href', "index.php");
+            }
+        },
+        error: function(){
+            console.log('Unable to logout');
+        }
+    });
+}
 /**
 function logout(){
     $.ajax({

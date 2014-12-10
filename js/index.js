@@ -9,17 +9,16 @@ $("#ResetPasswordBox").hide();
 $("#SuccessBox").hide();
 $("#loginButton").hide();
 $("#createAccountButton").hide();
-$("#logoutbut").hide();
 });
 window.onload = hidingModals;
 
 function hidingModals(){
-document.getElementById("loginBox").style.zIndex="1";
-document.getElementById("createAccountBox").style.zIndex="1";
-document.getElementById("ForgotPasswordBox").style.zIndex="1";
-document.getElementById("PasswordRecoveryBox").style.zIndex="1";
-document.getElementById("ResetPasswordBox").style.zIndex="1";
-document.getElementById("SuccessBox").style.zIndex="1";
+document.getElementById("#loginBox").style.zIndex="1";
+document.getElementById("#createAccountBox").style.zIndex="1";
+document.getElementById("#ForgotPasswordBox").style.zIndex="1";
+document.getElementById("#PasswordRecoveryBox").style.zIndex="1";
+document.getElementById("#ResetPasswordBox").style.zIndex="1";
+document.getElementById("#SuccessBox").style.zIndex="1";
 }
 function init() {
 $("#loginButton").click(function(){

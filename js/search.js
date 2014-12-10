@@ -140,6 +140,11 @@ function performSearchFromHompage(){
             data +=queryString["selectedDateplan"];
            	getFullDatePlanByID(data);
         }
+        else if(queryString["selectedActivity"] != null){
+        	var data = "";
+            data +=queryString["selectedActivity"];
+           	getActivityById(data);
+        }
 }
 //Used when someone clicks the random date idea form homepage
 function getFullDatePlanByID(data){
@@ -215,6 +220,48 @@ function getFullDatePlanByID(data){
 	    	}	    	
 		}
 	});
+}
+
+//Searches for activites by their name
+function getActivityById(data){
+	$.ajax({
+			type: 'GET',
+			url: 'api/index.php/getActivityById/' + data,
+			async: false,
+			success: function(data2){
+				var actData = jQuery.parseJSON(data2);
+
+				var favoriteActivities = getFavoriteActivities();
+				var activitiesDiv = $("#searchResults");
+				var starunstar = 'unstarred';
+				var starString = "<p class='" + starunstar +"'></p>";
+
+				for (i = 0; i < actData.length; i++){
+					var tags = getTagsByActID(actData[i].ActivityID);
+					var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>";
+
+					var hTags = "<h5 class='tags'> ";
+					for (var x = 0; x < tags.length; x++){
+						hTags += tags[x].TagName + "&nbsp&nbsp&nbsp";
+					}
+					hTags += "</h5>";
+
+					activityDiv = $(elem).appendTo(activitiesDiv);
+					$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
+					for (j = 0; j < favoriteActivities.length; j++){
+						if (favoriteActivities[j].Name == actData[i].Name){
+							starunstar = 'starred';
+							break;
+						}
+					}
+					
+					$(starString).appendTo(activityDiv);
+					$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> " + hTags + " <button name='addTag' class='addTagC' title='Add a Tag!'>+</button>").appendTo(activityDiv);
+				}
+				if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
+					addDrag();
+						}
+			});
 }
 
 //Get the mouse position. Used to access the review button and favorite star in the date plans and activities 

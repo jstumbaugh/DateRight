@@ -173,7 +173,7 @@ html {
 }
 
 #updateSubmitButton:hover, #closeButton:hover, 
-#updateProfilePicSubmitButton:hover, #updateAccountButton:hover, .shareButton:hover {
+#updateProfilePicSubmitButton:hover, #updateAccountButton:hover, .shareButton:hover, #logoutbut:hover {
     background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
     background: -o-linear-gradient(#ff9d00, #ff7300);
@@ -250,8 +250,22 @@ html {
     color: rgb(255, 255, 255);
 }
 
-/**
 #logoutbut{
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
+    color:white;
     float: right;
+    margin: 2px;
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    height:35px;
+    font-size: 17px;
 }
-*/
+
+#logoutbut:hover{
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
