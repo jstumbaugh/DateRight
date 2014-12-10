@@ -10,13 +10,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Login extends Activity {
-	Button btnLogin;
+	Button loginButton;
 	Button btnLinkToRegister;
 	EditText inputEmail;
 	EditText inputPassword;
@@ -35,7 +37,26 @@ public class Login extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		context = this;
+		//Text fields
+		inputEmail = (EditText) findViewById(R.id.loginInputEmail);
+		inputPassword = (EditText) findViewById(R.id.loginInputPass);
+		
+		context = Login.this;
+		
+		/**
+		 * Login Section
+		 * */
+		loginButton = (Button) findViewById(R.id.loginButton);
+		loginButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				email = inputEmail.getText().toString();
+				password = inputPassword.getText().toString();
+				RegularLoginAsync task = new RegularLoginAsync();
+				task.execute((Object[]) null);
+			}
+		});
+		
+		System.out.println("User: "+MainActivity.getInstance().session.getUserDetails().get(UserActions.KEY_email));
 	}
 
 	@Override
@@ -93,16 +114,18 @@ public class Login extends Activity {
 			// check for login response
 			try {
 
-				if (json.getJSONObject("UserInfo").get("Email").toString()
+				if (json.get("Email").toString()
 						.length() != 0) {
-					fName = json.getJSONObject("UserInfo").get("FirstName")
+					System.out.println("HELLO THERE: " + json.get("Email"));
+					fName = json.get("FirstName")
 							.toString();
-					lName = json.getJSONObject("UserInfo").get("LastName")
+					lName = json.get("LastName")
 							.toString();
-					email = json.getJSONObject("UserInfo").get("Email")
+					email = json.get("Email")
 							.toString();
-					userId = json.getJSONObject("UserInfo").get("UserID")
+					userId = json.get("UserID")
 							.toString();
+					
 
 					success = true;
 				} else {

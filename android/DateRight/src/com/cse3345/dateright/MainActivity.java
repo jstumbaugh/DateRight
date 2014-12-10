@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 	//Search
 	private EditText searchInput;
 	private Button searchButton;
-	
+	//random
 	private Button randomButton;
 	
 	//Network variables
@@ -45,6 +45,20 @@ public class MainActivity extends Activity {
 	
 	//Session Class
 	public static Session session;
+	
+	//Login
+	private Button loginButton;
+	
+	private static MainActivity instance;
+	public static MainActivity getInstance() {
+		if(instance !=null){
+			return instance;
+		}
+		else{
+			instance=new MainActivity();
+			return instance;
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +94,24 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		/**
+		 * LOGIN BUTTON SECTION
+		 * */
+		loginButton = (Button) findViewById(R.id.loginButton);
+		
+		loginButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				Intent intent = new Intent(MainActivity.this, Login.class);
+				startActivity(intent);
+			}
+		});
+		
+		System.out.println("SESSION CONTROL CHECK: " + session.isLoggedIn());
+		if(session.isLoggedIn()){
+			System.out.println(session.getUserDetails().get(UserActions.KEY_fName));
+			System.out.println(session.getUserDetails().get(UserActions.KEY_lName));
+		}
 		
 	}
 

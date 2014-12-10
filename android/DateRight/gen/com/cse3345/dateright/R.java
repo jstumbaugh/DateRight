@@ -47,13 +47,13 @@ public final class R {
         public static final int maleRadio=0x7f080011;
         public static final int profileButton=0x7f08001b;
         public static final int profileTitle=0x7f080015;
-        public static final int randomButton=0x7f080008;
+        public static final int randomButton=0x7f080009;
+        public static final int registerButton=0x7f080008;
         public static final int results=0x7f080004;
         public static final int searchButton=0x7f080003;
         public static final int searchInput=0x7f080002;
         public static final int sexRadio=0x7f08000f;
         public static final int sexText=0x7f08001a;
-        public static final int title=0x7f080009;
         public static final int userNameText=0x7f080016;
     }
     public static final class layout {
@@ -77,38 +77,39 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050002;
         public static final int app_name=0x7f050000;
-        public static final int createAccount=0x7f05000c;
-        public static final int datePlans=0x7f050019;
+        public static final int createAccount=0x7f05000d;
+        public static final int datePlans=0x7f05001a;
         /**  Main Activity Strings 
          */
         public static final int dateRight=0x7f050003;
-        public static final int email=0x7f050008;
-        public static final int female=0x7f050010;
-        public static final int firstName=0x7f05000d;
+        public static final int email=0x7f050009;
+        public static final int female=0x7f050011;
+        public static final int firstName=0x7f05000e;
         public static final int hello_world=0x7f050001;
-        public static final int lastName=0x7f05000e;
+        public static final int lastName=0x7f05000f;
         public static final int login=0x7f050007;
-        public static final int logoDescription=0x7f05000a;
-        public static final int male=0x7f05000f;
-        public static final int pass=0x7f050009;
+        public static final int logoDescription=0x7f05000b;
+        public static final int male=0x7f050010;
+        public static final int pass=0x7f05000a;
         /**  User Profile Strings 
          */
-        public static final int profile=0x7f050017;
+        public static final int profile=0x7f050018;
         public static final int random=0x7f050006;
+        public static final int register=0x7f050008;
         public static final int search=0x7f050004;
         public static final int searchInput=0x7f050005;
-        public static final int securityQuestion=0x7f050011;
-        public static final int sex=0x7f050018;
-        public static final int title_activity_display_random=0x7f050012;
-        public static final int title_activity_guest_search=0x7f050013;
-        public static final int title_activity_login=0x7f05001b;
-        public static final int title_activity_register=0x7f05001a;
-        public static final int title_activity_user_profile=0x7f050016;
-        public static final int title_activity_user_search=0x7f050014;
-        public static final int username=0x7f05000b;
+        public static final int securityQuestion=0x7f050012;
+        public static final int sex=0x7f050019;
+        public static final int title_activity_display_random=0x7f050013;
+        public static final int title_activity_guest_search=0x7f050014;
+        public static final int title_activity_login=0x7f05001c;
+        public static final int title_activity_register=0x7f05001b;
+        public static final int title_activity_user_profile=0x7f050017;
+        public static final int title_activity_user_search=0x7f050015;
+        public static final int username=0x7f05000c;
         /**  User Search Strings 
          */
-        public static final int viewProfile=0x7f050015;
+        public static final int viewProfile=0x7f050016;
     }
     public static final class style {
         /** 

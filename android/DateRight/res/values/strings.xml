@@ -11,6 +11,7 @@
     <string name="searchInput">Find a Date Plan</string>
     <string name="random">Get A Random Date</string>
     <string name="login">Login</string>
+    <string name="register">Register</string>
     <string name="email">Email:</string>
     <string name="pass">Password:</string>
     <string name="logoDescription">Logo</string>

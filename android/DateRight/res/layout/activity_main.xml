@@ -17,13 +17,32 @@
 	    >
 	    
 	    <!-- LOGO -->
-	    
 	    <ImageView
 	        android:src="@drawable/logo"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:contentDescription="@string/logoDescription"
 	        />
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center"
+	        >
+	        <Button
+	            android:id="@+id/loginButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/login"
+	            />
+	        <Button
+	            android:id="@+id/registerButton"
+	            android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/register" 
+	            />
+	    </LinearLayout>
 	    
 	    <!-- SEARCH -->
 	    <LinearLayout
@@ -62,17 +81,7 @@
 		        android:text="@string/random" 
 		        />
 		</LinearLayout>
-	    
-		<!-- TITLE -->
-	    <TextView
-	        android:id="@+id/title"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/dateRight" 
-	        android:gravity="center"/>
-	    
-	    
-		
+
 	</LinearLayout>
 
 </ScrollView>
