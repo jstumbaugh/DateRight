@@ -173,17 +173,23 @@ function addDatePlanReviews() {
             } else {
                 att = "No";
             }
-            title = $("<p></p>").text("Review Title: " + datePlanReviews[x].Name);
-            type = $("<a></a>").text("Date Plan Review");
+            type = $("<a></a>").text(""+datePlanReviews[x].Name);
             type.wrap(function() {
                    type.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(datePlanReviews[x]["DatePlanID"]));
                    return type;
                  });
+           // title = $("<p></p>").text("Review Title: " + datePlanReviews[x].Name);
+            editInformation = $("<div></div>");
+            editInformation.attr("class","holdRight");
+
             rating = $("<p></p>").text("Rating: " + datePlanReviews[x].Rating);
             attended = $("<p></p>").text("Attended? " + att);
-            timeStamp = $("<p></p>").text("Date and time created: " + datePlanReviews[x].ReviewTime);
-            description = $("<p></p>").text("Description: " + datePlanReviews[x].Description);
-            shell = $("<div></div>").append(title, type, rating, attended, timeStamp, description);
+            timeStamp = $("<p></p>").text("Last changed at: " + datePlanReviews[x].ReviewTime);
+            timeStamp.css('font-style', 'italic');
+
+            editInformation.append(rating,attended,timeStamp);
+            description = $("<p></p>").text(""+ datePlanReviews[x].Description);
+            shell = $("<div></div>").append(editInformation,type, description);
             shell.attr("class", "shellDiv");
             $("#displaySection #datePlanReviews").append(shell);
         }
