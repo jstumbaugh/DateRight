@@ -2238,10 +2238,9 @@ function updateDatePlanDescription()
 		$stmtCheckSQL->bindParam("userID", $info->UserID);
 		$stmtCheckSQL->execute();
 		$rICheck = $stmtCheckSQL->fetch(PDO::FETCH_OBJ);
-		echo json_encode($rICheck);
 		if(empty($rICheck))
 		{
-			echo "DID NOT UPDATE";
+			echo ERROR::JSON_ERROR;
 		}
 		else
 		{

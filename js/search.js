@@ -748,14 +748,25 @@ function addActivityToDatePlan(){
 
 //Edit the description of a date plan 
 function editDescription(){
-	var datePlanDescription = $("#descriptionDatePlan").val();
+	var sentData = new Object();
+	sentData.Description = $("#descriptionDatePlan").val();
+	sentData.DatePlanID = datePlanActivity.DatePlanID;
+	sentData.UserID = user.UserID;
+	console.log(sentData);
 	$.ajax({
 		type: 'POST',
 		url: 'api/index.php/updateDatePlanDescription',
 		content: 'application/json',
-		data: JSON.stringify(datePlanDescription),
+		data: JSON.stringify(sentData),
 		success: function(data){
-			console.log("Successfully added description.");
+			console.log(data);
+			if(data == 1) {
+				$('#DescriptionBox').hide();
+			}
+			else {
+				console.log("Description Failed to update");
+			}
+
 		}
 	});
 }
