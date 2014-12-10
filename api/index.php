@@ -41,7 +41,8 @@ class ERROR{
 	 DATEPLAN_DOESNT_EXIST = 900,
 	 ACTIVITY_DOESNT_EXIST = 1000,
 	 UPLOAD_ERROR = 1100,
-	 PARAMETERS_NOT_SET = 1200;
+	 PARAMETERS_NOT_SET = 1200,
+	 ACTIVITY_ALREADY_TAGGED = 1300;
 
 	// PASSWORD_IS_INCORRECT = 700;
 }
@@ -2330,33 +2331,40 @@ function updateDatePlanName()
   *
   * @return success or errors
   */
-function addTagToActivity() {
+function addTagToActivity() 
+{
 	$app = \Slim\Slim::getInstance();
 	$request = $app->request;
 	$info = json_decode($request->getBody());
-
+	
+	$ActivityIsAlreadyTagged = false;
 	$isName = false;
 
-	if(!empty($info->tagID)) {
-		$tagID = $info->tagID;
+	if(!empty($info->TagID)) 
+	{
+		$tagID = $info->TagID;
 	}
-	else if(!empty($info->tagName)) {
-		$tagName = $info->tagName;
+	else if(!empty($info->TagName)) 
+	{
+		$tagName = $info->TagName;
 		$isName = true;
 	}
-	$activityID = $info->activityID;
+	$activityID = $info->ActivityID;
 
-	// This will check to see if the user has an account in the database
-	try {
-		if($isName) {
+	try 
+	{
+		if($isName) 
+		{
 			$checknamesql = "SELECT TagID FROM Tags WHERE TagName = '$tagName'";
 			$db = getConnection();
 			$stmtname = $db->query($checknamesql);
 			$tagInfo = $stmtname->fetch(PDO::FETCH_OBJ);
-			if(!empty($tagInfo)) {
+			if(!empty($tagInfo)) 
+			{
 				$tagID = $tagInfo->TagID;
 			}
-			else {
+			else // if the tag does not exist, create it in the DB
+			{
 				$tagsql = "INSERT INTO Tags (TagName) VALUES ('$tagName')";
 				$db = getConnection();
 				$stmttag = $db->query($tagsql);
@@ -2365,34 +2373,65 @@ function addTagToActivity() {
 				$stmttagid = $db->query($checknamesql2);
 				$tagInfo = $stmttagid->fetch(PDO::FETCH_OBJ);
 				if(!empty($tagInfo))
+				{
 					$tagID = $tagInfo->TagID;
-				else {
+				}
+				else 
+				{
 					echo ERROR::JSON_ERROR;
 					exit(ERROR::JSON_ERROR);
 				}
 			}
-
-
 		}
 
-		
-		$sqlfinal = "INSERT INTO TaggedActivities (TagID, ActivityID) VALUES ($tagID, $activityID)";
-		$db = getConnection();
-		$stmtfinal = $db->query($sqlfinal);
+		// This will check to see if the Activity is already tagged with the tag
+		try
+		{
+			$testSQL = "SELECT * FROM TaggedActivities WHERE ActivityID = :activityID AND TagID = :tagID";
+			$db = getConnection();
+			$stmt = $db->prepare($testSQL);
+			$stmt->bindParam("activityID", $activityID);
+			$stmt->bindParam("tagID", $tagID);
+			$stmt->execute();
+			$returnedInfo = $stmt->fetch(PDO::FETCH_OBJ);
+			if (!empty($returnedInfo)) // if the activity is already tagged with the tag
+			{
+				$ActivityIsAlreadyTagged = true;
+			}
+		}
+		catch(PDOException $e) 
+		{
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 		
+		}
 
-		$checksql = "SELECT * FROM TaggedActivities WHERE TagID = $tagID AND ActivityID = $activityID";
-		$stmt2 = $db->query($checksql);
-		$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
-		if(!empty($returnedInfo))
-			echo ERROR::SUCCESS;
+		if (!$ActivityIsAlreadyTagged) // if the activity is not already tagged, insert it into the DB
+		{
+			$sqlfinal = "INSERT INTO TaggedActivities (TagID, ActivityID) VALUES ($tagID, $activityID)";
+			$db = getConnection();
+			$stmtfinal = $db->query($sqlfinal);
+
+			$checksql = "SELECT * FROM TaggedActivities WHERE TagID = $tagID AND ActivityID = $activityID";
+			$stmt2 = $db->query($checksql);
+			$returnedInfo = $stmt2->fetch(PDO::FETCH_OBJ);
+			if(!empty($returnedInfo))
+			{
+				echo ERROR::SUCCESS;
+			}
+			else
+			{
+				echo ERROR::NO_RESULTS;	
+			}	
+		}
 		else
-			echo ERROR::NO_RESULTS;
-		
+		{
+			echo ERROR::ACTIVITY_ALREADY_TAGGED;
+		}				
 	}
-	catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-		}
-}
+	catch(PDOException $e) 
+	{
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}// end of function
 
 
 

@@ -112,7 +112,7 @@
             Email:
             <input type="email" name="email" id="emailforget" placeholder="Email Address" title="Valid email address required" required="required" />
         </label>
-        <button type="submit" class="btn-minimal" id="ForgotPasswordButton">Get Question</button>
+        <button type="submit" class="homepageButton" id="ForgotPasswordButton">Get Question</button>
         <p id="forgotPasswordMessage"></p>
     </form>
 </section>
@@ -128,7 +128,7 @@
             Answer:
             <input type="text" name="securityAnswer" id="securityAnswer" pattern="[a-zA-Z0-9._%+-]+" placeholder="Security Answer" required="required"/>
         </label><br>
-        <button type="submit" class="btn-minimal" id="PasswordRecoveryButton">Submit Answer</button>
+        <button type="submit" class="homepageButton" id="PasswordRecoveryButton">Submit Answer</button>
         <p id="PasswordRecoveryMessage"></p>
     </form>
 </section>
@@ -144,7 +144,7 @@
             New Password
             <input type="password" name="newPassword" id="newPassword" placeholder="New Password" pattern="[a-zA-Z0-9!@#$%^*]{8,25}" required/>
         </label>
-        <button type="submit" class="btn-minimal" id="ResetPasswordButton">Reset Password</button>
+        <button type="submit" class="homepageButton" id="ResetPasswordButton">Reset Password</button>
         <p id="ResetPasswordMessage"></p>
     </form>
 </section>

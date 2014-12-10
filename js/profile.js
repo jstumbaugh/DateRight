@@ -127,23 +127,28 @@ function showUserDatePlans(){
     } else {
 
         for(x in userDatePlans) {
-
-            title = $("<p></p>").text("Date Plan Title: " + userDatePlans[x][0].Name);
-            type = $("<a></a>").text("User Date Plan");
+            type = $("<a></a>").text(""+userDatePlans[x][0].Name);
             type.wrap(function() {
                    type.attr('href', "search.html?selectedDateplan="+ encodeURIComponent(userDatePlans[x][0]["DatePlanID"]));
                    return type;
                  });
-            creator = $("<p></p>").text("Creator: " + userDatePlans[x][0].CreatorName);
+            
+            creator = $("<p></p>").text("Created by " + userDatePlans[x][0].CreatorName);
             share = $("<button></button").text("Share?");
             share.attr("class", "shareButton");
             share.click(function(){
                 $(this).attr("class", "hideThis");
             });
-            modify = $("<p></p>").text("Modified by: " + userDatePlans[x][0].ModName);
-            timeStamp = $("<p></p>").text("Date and time created/modified: " + userDatePlans[x][0].Timestamp);
-            description = $("<p></p>").text("Description: " + userDatePlans[x][0].Description);
-            shell = $("<div></div>").append(title, type, creator, share, modify, timeStamp, description);
+
+            modify = $("<p></p>").text("Last edited by  " + userDatePlans[x][0].ModName);
+            editInformation = $("<div></div>");
+            editInformation.attr("class","holdRight");
+            timeStamp = $("<p></p>").text("Last changed at " + userDatePlans[x][0].Timestamp);
+            timeStamp.css('font-style', 'italic');
+            description = $("<p></p>").text("" + userDatePlans[x][0].Description);
+
+            editInformation.append(share,creator,modify,timeStamp);
+            shell = $("<div></div>").append(editInformation,type,description);
             shell.attr("class", "shellDiv");
             $("#displaySection #datePlans").append(shell);
         }
