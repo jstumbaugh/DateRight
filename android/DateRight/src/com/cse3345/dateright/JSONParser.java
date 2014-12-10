@@ -35,6 +35,12 @@ public class JSONParser {
 	public JSONObject getJSONFromUrl(String url, Map<String,String> paramss) {
 		// Check to see if were checking to see if the user has a favorite
 		try {
+			//System.out.println("MAP TESTING");
+			//System.out.println("Full: " + paramss.toString());
+			//System.out.println("Keys: " + paramss.keySet());
+			//for(String s : paramss.keySet()){
+				//System.out.println("key: " + s);
+			//}
 
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
@@ -43,9 +49,15 @@ public class JSONParser {
 				//entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 				httpPost.setHeader("Content-type", "application/json");
 				httpPost.setHeader("Accept", "application/json");
+				
 				JSONObject obj = new JSONObject();
-				obj.put("email",paramss.get("email").toString());
-				obj.put("password",paramss.get("password").toString());
+				for(String s : paramss.keySet()){
+					System.out.println("JSON__key: " + s + " value: " + paramss.get(s).toString());
+					obj.put(s, paramss.get(s).toString());
+				}
+				//obj.put("email",paramss.get("email").toString());
+				//obj.put("password",paramss.get("password").toString());
+				
 				httpPost.setEntity(new StringEntity(obj.toString(), "UTF-8"));
 				//httpPost.setEntity(entity);
 			}

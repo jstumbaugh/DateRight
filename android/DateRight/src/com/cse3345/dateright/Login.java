@@ -26,11 +26,11 @@ public class Login extends Activity {
 	private Context context;
 	private ProgressDialog pd;
 	private String email, password;
-	private static Login instance;
-	private static final String TAG = "SignInTestActivity";
-	private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
-	private static ProgressDialog mConnectionProgressDialog;
-	private String fbId, fName, lName, userId;
+	//private static Login instance;
+	//private static final String TAG = "SignInTestActivity";
+	//private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
+	//private static ProgressDialog mConnectionProgressDialog;
+	//private String fbId, fName, lName, userId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class Login extends Activity {
 			}
 		});
 		
+		//email output
 		System.out.println("User: "+MainActivity.getInstance().session.getUserDetails().get(UserActions.KEY_email));
 	}
 
@@ -79,7 +80,7 @@ public class Login extends Activity {
 	}
 	
 	/*
-	 * Display welcom message with first name on the UI thread
+	 * Display welcome message with first name on the UI thread
 	 */
 	public void welcomeMessageUI(final String message) {
 		runOnUiThread(new Runnable() {

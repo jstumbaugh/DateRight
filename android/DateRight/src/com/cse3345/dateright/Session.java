@@ -66,19 +66,11 @@ public class Session {
 	}
 
 	/*
-	 * Resets the shared preferences and delivers the user back to the main Home
-	 * Fragment
+	 * Resets the shared preferences
 	 */
 	public void logoutUser() {
 		editor.clear();
 		editor.commit();
-		// Login.signOut();
-		Intent i = new Intent(mContext, MainActivity.class);
-		// Closes all the windows displayed
-		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// Start MainActivity
-		mContext.startActivity(i);
 	}
 
 	/*

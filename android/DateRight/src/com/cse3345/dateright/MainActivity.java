@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	protected static final String EXTRA_MESSAGE = "com.cse3345.DateRight.MESSAGE";
@@ -99,20 +100,30 @@ public class MainActivity extends Activity {
 		 * LOGIN BUTTON SECTION
 		 * */
 		loginButton = (Button) findViewById(R.id.loginButton);
+		//Set on click listener for login/logout button 
+		if(session.isLoggedIn()){
+			changeLoginLogout(true);
+		} else {
+			changeLoginLogout(false);
+		}
+		
+		/*
+		loginButton = (Button) findViewById(R.id.loginButton);
 		
 		loginButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				Intent intent = new Intent(MainActivity.this, Login.class);
 				startActivity(intent);
 			}
-		});
+		}); */
 		
+		//SESSION OUTPUT 
 		System.out.println("SESSION CONTROL CHECK: " + session.isLoggedIn());
 		if(session.isLoggedIn()){
 			System.out.println(session.getUserDetails().get(UserActions.KEY_fName));
 			System.out.println(session.getUserDetails().get(UserActions.KEY_lName));
 		}
-		
+		/////////////////////////////
 	}
 
 	@Override
@@ -132,5 +143,45 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void changeLoginLogout(boolean loggedIn) {
+		if(loggedIn == true) {
+			//Change functionality of button to Log out
+			loginButton.setText("Logout");
+			loginButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View view) {
+					session.logoutUser();
+					logoutMessageUI("Successfully Logged Out!");
+					//If pressed, log out button will switch to log in
+					changeLoginLogout(false);
+				}
+			});
+			
+		} else {
+			//Change functionality of button to Log in
+			loginButton.setText("Login");
+			loginButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View view) {
+					Intent intent = new Intent(MainActivity.this, Login.class);
+					startActivity(intent);
+					//if pressed, log in button will switch to log out
+					changeLoginLogout(true);
+				}
+			});
+		}
+	}
+	
+	/*
+	 * Display logout message on the UI thread
+	 */
+	public void logoutMessageUI(final String message) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 }
