@@ -51,7 +51,7 @@ public class Login extends Activity {
 			public void onClick(View view) {
 				email = inputEmail.getText().toString();
 				password = inputPassword.getText().toString();
-				RegularLoginAsync task = new RegularLoginAsync();
+				loginAsync task = new loginAsync();
 				task.execute((Object[]) null);
 			}
 		});
@@ -92,7 +92,7 @@ public class Login extends Activity {
 		});
 	}
 	
-	private class RegularLoginAsync extends AsyncTask<Object, Object, Object> {
+	private class loginAsync extends AsyncTask<Object, Object, Object> {
 		private boolean success = false;
 
 		String fName, lName, userId;

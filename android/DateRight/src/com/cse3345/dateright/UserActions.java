@@ -7,12 +7,15 @@ import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class UserActions {
 	private JSONParser jsonParser;
+	private JSONArrayParser jsonArrayParser;
 	private static String loginURL = "http://54.69.57.226/dateright/api/login";
 	//private static String logoutURL = "http://54.69.57.226/dateright/api/logout";
+	private static String randomURL = "http://54.69.57.226/dateright/api/getRandomIdea";
 	
 	public static String KEY_fName = "fname";
 	public static String KEY_lName = "lname";
@@ -24,6 +27,7 @@ public class UserActions {
 	
 	public UserActions() {
 		jsonParser = new JSONParser();
+		jsonArrayParser = new JSONArrayParser();
 	}
 	
 	// Log in user
@@ -32,6 +36,13 @@ public class UserActions {
 		params.put("email", email);
 		params.put("password", password);
 		JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+		return json;
+	}
+	
+	// random date plan
+	public JSONArray randomDate(){
+		//no parameters
+		JSONArray json = jsonArrayParser.getJSONFromUrl(randomURL, null);
 		return json;
 	}
 	

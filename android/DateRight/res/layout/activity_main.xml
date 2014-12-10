@@ -67,7 +67,50 @@
 		        />
 		</LinearLayout>
 	    
-	    <!-- RANDOM DATE PLAN ACTIVITY -->
+	    <!-- RANDOM DATE PLAN INFO -->
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center"
+	        >
+		    <TextView 
+		        android:id="@+id/randomName"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/randomName"
+		        />
+		</LinearLayout>
+		
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center"
+	        >
+		    <TextView 
+		        android:id="@+id/randomTime"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/randomTime"
+		        />
+		</LinearLayout>
+		
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center"
+	        >
+		    <TextView 
+		        android:id="@+id/randomDesc"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/randomDesc"
+		        />
+		</LinearLayout>
+	    
+	    <!-- RANDOM DATE PLAN BUTTON -->
 	    <LinearLayout
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"

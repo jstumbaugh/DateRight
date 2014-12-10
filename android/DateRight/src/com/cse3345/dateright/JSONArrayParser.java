@@ -5,35 +5,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
-public class JSONParser {
+public class JSONArrayParser {
 	static InputStream is = null;
-	static JSONObject jObj = null;
+	static JSONArray jArr = null;
 	static String json = "";
 
 	// constructor
-	public JSONParser() {
+	public JSONArrayParser() {
 	}
 
-	public JSONObject getJSONFromUrl(String url, Map<String,String> paramss) {
+	public JSONArray getJSONFromUrl(String url, Map<String,String> paramss) {
 		// Check to see if were checking to see if the user has a favorite
 		try {
 			//System.out.println("MAP TESTING");
@@ -108,15 +104,15 @@ public class JSONParser {
 			// See if the email already exists and if so create seperate JSON
 			// object to return
 		 if (emailExists) {
-				jObj = new JSONObject();
-				jObj.put("emailAlready", true);
+				jArr = new JSONArray();
+				//jObj.put("emailAlready", true);
 			} else
-				jObj = new JSONObject(json);
+				jArr = new JSONArray(json);
 
 		} catch (JSONException e) {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
 		// return JSON object
-		return jObj;
+		return jArr;
 	}
 }

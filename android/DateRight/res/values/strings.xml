@@ -10,6 +10,9 @@
     <string name="search">Search</string>
     <string name="searchInput">Find a Date Plan</string>
     <string name="random">Get A Random Date</string>
+    <string name="randomName">Random Date Name</string>
+    <string name="randomTime">Random Date Time Created</string>
+    <string name="randomDesc">Random Date Description</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="email">Email:</string>
