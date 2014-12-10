@@ -1108,6 +1108,8 @@ function getTaggedDatePlans() {
 			$returnedInfo[$i]['CreatorID'] = $returnedInfo[$i]['CreatorID'] + 0;
 			$returnedInfo[$i]['ModID'] = $returnedInfo[$i]['ModID'] + 0;
 			$returnedInfo[$i]['Public'] = $returnedInfo[$i]['Public'] + 0;
+			$associatedActs = getAssociatedActivities($returnedInfo[$i]['DatePlanID'], 0);
+			$returnedInfo[$i]['AssociatedActivities'] = $associatedActs;
 
 		}
 
