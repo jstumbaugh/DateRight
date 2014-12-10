@@ -277,3 +277,10 @@ html {
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
     background: -o-linear-gradient(#ff9d00, #ff7300);
 }
+
+a{
+
+    text-decoration: none;
+    cursor:pointer;
+    color: #ffa500;
+};
