@@ -61,6 +61,8 @@ public class MainActivity extends Activity {
 		
 		// Session class instance
 		session = new Session(getApplicationContext());
+		System.out.println("Session: " + session.getUserDetails());
+		System.out.println("Logged in? " + session.isLoggedIn());
 		
 		// Context
 		context = MainActivity.this;
@@ -101,14 +103,7 @@ public class MainActivity extends Activity {
 		 * LOGIN BUTTON SECTION
 		 * */
 		loginButton = (Button) findViewById(R.id.loginButton);
-		//Set on click listener for login/logout button 
-		if(session.isLoggedIn()){
-			//change to logout
-			changeLoginLogout(true);
-		} else {
-			//change to login
-			changeLoginLogout(false);
-		}
+		assignTextForLogin();
 		
 		/**
 		 * REGISTER BUTTON SECTION
@@ -118,6 +113,7 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				Intent intent = new Intent(MainActivity.this, Register.class);
 				startActivity(intent);
+				System.out.println("Done with register");
 			}
 		});
 		
@@ -128,6 +124,17 @@ public class MainActivity extends Activity {
 			System.out.println(session.getUserDetails().get(UserActions.KEY_lName));
 		}
 		/////////////////////////////
+	}
+	
+	public void assignTextForLogin(){
+		//Set on click listener for login/logout button 
+		if(session.isLoggedIn()){
+			//change to logout
+			changeLoginLogout(true);
+		} else {
+			//change to login
+			changeLoginLogout(false);
+		}
 	}
 
 	@Override

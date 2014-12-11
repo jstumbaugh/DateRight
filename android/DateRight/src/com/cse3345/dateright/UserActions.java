@@ -17,6 +17,7 @@ public class UserActions {
 	//private static String logoutURL = "http://54.69.57.226/dateright/api/logout";
 	private static String randomURL = "http://54.69.57.226/dateright/api/getRandomIdea";
 	private static String searchURL = "http://54.69.57.226/dateright/api/searchDateplans";
+	private static String registerURL = "http://54.69.57.226/dateright/api/createAccount";
 	
 	public static String KEY_fName = "fname";
 	public static String KEY_lName = "lname";
@@ -52,6 +53,24 @@ public class UserActions {
 		Map<String,String> params = new HashMap();
 		params.put("SearchQuery", search);
 		JSONObject json = jsonParser.getJSONFromUrl(searchURL, params);
+		return json;
+	}
+	
+	// create account
+	public JSONObject register(String email, String username, String pass, String fName, String lName, String sex, String securityAnswer){
+		Map<String,String> params = new HashMap();
+		//input values
+		params.put("email", email);
+		params.put("userName", username);
+		params.put("password", pass);
+		params.put("fName", fName);
+		params.put("lName", lName);
+		params.put("sex", sex);
+		params.put("secAnswer", securityAnswer);
+		//non variable paramaters
+		params.put("userType", "1");
+		params.put("securityQuestion", "1");
+		JSONObject json= jsonParser.getJSONFromUrl(registerURL, params);
 		return json;
 	}
 	

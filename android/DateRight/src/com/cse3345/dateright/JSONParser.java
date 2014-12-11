@@ -83,6 +83,7 @@ public class JSONParser {
 		}
 		boolean emailExists = false;
 		boolean noResults = false;
+		boolean jsonError = false;
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					is, "iso-8859-1"), 8);
@@ -97,6 +98,11 @@ public class JSONParser {
 				else if(line.equals("500")) {
 					noResults = true;
 					break;
+				} else if(line.equalsIgnoreCase("200")){
+					jsonError = true;
+					break;
+				} else if(line.equalsIgnoreCase("400")){
+					//login failure
 				}
 
 			}
@@ -114,10 +120,13 @@ public class JSONParser {
 			// object to return
 			if (emailExists) {
 				jObj = new JSONObject();
-				jObj.put("emailAlready", true);
+				jObj.put("emailAlready", "true");
 			} else if(noResults) {
 				jObj = new JSONObject();
 				jObj.put("results", false);
+			} else if(jsonError) {
+				jObj = new JSONObject();
+				jObj.put("jsonError", "true");
 			} else {
 				jObj = new JSONObject(json);
 				jObj.put("results", true);
