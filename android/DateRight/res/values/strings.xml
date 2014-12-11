@@ -40,5 +40,10 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_date_plan">DatePlanActivity</string>
+    
+    <!-- Date Plan -->
+    <string name="name">Name:</string>
+    <string name="time">Time:</string>
+    <string name="desc">Description:</string>
 
 </resources>

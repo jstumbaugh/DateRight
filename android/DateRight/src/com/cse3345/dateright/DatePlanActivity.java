@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class DatePlanActivity extends Activity {
+	private TextView nameText;
+	private TextView timeText;
+	private TextView descText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,15 @@ public class DatePlanActivity extends Activity {
 		String time = intent.getStringExtra("time");
 		String desc = intent.getStringExtra("desc");
 		
-		System.out.println(name + time + desc);
+		//System.out.println(name + time + desc);
+		nameText = (TextView) findViewById(R.id.dateName);
+		nameText.setText(name);
+		
+		timeText = (TextView) findViewById(R.id.dateTime);
+		timeText.setText(time);
+		
+		descText = (TextView) findViewById(R.id.dateDesc);
+		descText.setText(desc);
 	}
 
 	@Override

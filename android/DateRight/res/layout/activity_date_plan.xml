@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,11 +6,80 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cse3345.dateright.DatePlanActivity" >
+    tools:context="com.cse3345.dateright.DatePlanActivity" 
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- NAME -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/name"
+	        android:paddingRight="10dp"
+            />
+	    <TextView
+	        android:id="@+id/dateName"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:text="" 
+	        android:layout_weight="1"
+	        />
+	</LinearLayout>
+	
+    <!-- TIME -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/time"
+	        android:paddingRight="10dp"
+            />
+	    <TextView
+	        android:id="@+id/dateTime"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:text="" 
+	        android:layout_weight="1"
+	        />
+	</LinearLayout>
+	
+    <!-- DESCRIPTION -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="left"
+        >
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/desc"
+            />
+     </LinearLayout>
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+	    <TextView
+	        android:id="@+id/dateDesc"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:text="" 
+	        android:layout_weight="1"
+	        />
+	  </LinearLayout>
+	
 
-</RelativeLayout>
+</LinearLayout>
