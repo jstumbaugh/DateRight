@@ -24,7 +24,7 @@ function createNewActivity(event){
     
     inputName = $("#nameInput").val();
     inputDescription = $("#descriptionInput").val();
-    inputRawCost = Number($("#costInput")).val();
+    inputRawCost = $("#costInput").val();
     inputLocation = $("#locationInput").val();
    
     //create activity object 

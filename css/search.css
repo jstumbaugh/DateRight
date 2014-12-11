@@ -339,11 +339,18 @@ h1{
     position: absolute;
 }
 
+#datePlanName, #dpNameSaveBut{
+    float: right;
+    margin-top: 17vh;
+}
+
 #datePlanName{
-    bottom:67%;
-    left: 79%;
-    width: 18.5%;
-    position: absolute;
+    width: 45%;
+}
+
+#dpNameSaveBut{
+    margin-right: 35px;
+    margin-left: 5px;
 }
 
 .tags{

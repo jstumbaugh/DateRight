@@ -87,7 +87,6 @@ jQuery(document).ready(function() {
 	})
 
 	$('#backToCreateBut').click(function(){
-		updateName();
 		$('#descriptionBut').show();
 		$('#myPlansBut').show();
 		$('#datePlanName').show();
@@ -95,6 +94,10 @@ jQuery(document).ready(function() {
 		$('#backToCreateBut').hide();
 		$('#publishLabel').show();
 		$('.userDatePlan').parent().empty();
+	})
+
+	$('#dpNameSaveBut').click(function(){
+		updateName();
 	})
 
 	$('#reviewActivity').submit(function(e){
@@ -470,10 +473,6 @@ function getMousePosition(e){
 
 	else if (favStar.classList.contains("addTagC")){
 		activityFromClick = favStar.parentNode.parentNode.value;
-	}
-
-	if ($("#datePlanName").val() != datePlanActivity.Name || $("#datePlanName").val() != ""){
-		updateName();
 	}
 }
 
@@ -999,7 +998,6 @@ function searchDatePlanTags(){
 
 //Gets the user date plans and displays it on our clipboard
 function getUserDatePlans(){
-	updateName()
 	$('#descriptionBut').hide();
 	$('#myPlansBut').hide();
 	$('#datePlanName').hide();
