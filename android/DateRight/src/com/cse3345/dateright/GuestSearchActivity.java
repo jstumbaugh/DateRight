@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ public class GuestSearchActivity extends Activity {
 	ListView dateList;
 	//JSONArray of Dates
 	JSONArray dateArray;
+	List<DatePlan> dates;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -206,27 +208,59 @@ public class GuestSearchActivity extends Activity {
 		//System.out.println("Name: " + j.getString("Name"));
 		//System.out.println("Time: " + j.getString("Timestamp"));
 		//System.out.println("Description: " + j.getString("Description"));
-		List<String> values = new ArrayList<String>();
+		dates = new ArrayList<DatePlan>();
+		dates.clear();
 		for(int i = 0; i < dateArray.length(); i++){
 			try {
-				values.add(dateArray.getJSONObject(i).getString("Name"));
-				//System.out.println(dateArray.getJSONObject(i).getString("Name"));
+				DatePlan dp = new DatePlan(dateArray.getJSONObject(i).getString("Name"),
+						dateArray.getJSONObject(i).getString("Timestamp"),
+						dateArray.getJSONObject(i).getString("Description"));
+				//values.add(dateArray.getJSONObject(i).getString("Name"));
+				dates.add(dp);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		//System.out.println("List: " + values.toString());
 		
         // Define a new Adapter
         // First parameter - Context
         // Second parameter - Layout for the row
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-          android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        ArrayAdapter<DatePlan> adapter = new ArrayAdapter<DatePlan>(this,
+          android.R.layout.simple_list_item_1, android.R.id.text1, dates);
         
         // Assign adapter to ListView
         dateList.setAdapter(adapter); 
+        
+        dateList.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				for(int i = 0; i < dates.size(); i++){
+					//System.out.println(dates.get(i).getName());
+					//System.out.println(parent.getItemAtPosition(position).toString());
+					if(dates.get(i).getName() == parent.getItemAtPosition(position).toString()){
+						//System.out.println("match!");
+						//System.out.println(dates.get(i).getName());
+						//System.out.println(dates.get(i).getTime());
+						//System.out.println(dates.get(i).getDesc());
+						
+						/**
+						 * Launch Date Plan activity with required info passed as intent
+						 * */
+						Intent intent = new Intent(GuestSearchActivity.this, DatePlanActivity.class);
+						intent.putExtra("name", dates.get(i).getName());
+						intent.putExtra("time", dates.get(i).getTime());
+						intent.putExtra("desc", dates.get(i).getDesc());
+						startActivity(intent);
+					}
+				}
+				//.... This spits out string
+				//System.out.println(parent.getItemAtPosition(position));
+			}
+        });
+        
 	}
 }

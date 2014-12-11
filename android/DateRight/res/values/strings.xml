@@ -39,5 +39,6 @@
     <string name="datePlans">Date Plans:</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_date_plan">DatePlanActivity</string>
 
 </resources>

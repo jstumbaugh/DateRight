@@ -49,6 +49,10 @@
             android:name=".Login"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name=".DatePlanActivity"
+            android:label="@string/title_activity_date_plan" >
+        </activity>
     </application>
 
 </manifest>

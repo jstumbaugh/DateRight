@@ -62,22 +62,24 @@ public final class R {
         public static final int userNameText=0x7f08001b;
     }
     public static final class layout {
-        public static final int activity_display_random=0x7f030000;
-        public static final int activity_guest_search=0x7f030001;
-        public static final int activity_login=0x7f030002;
-        public static final int activity_main=0x7f030003;
-        public static final int activity_register=0x7f030004;
-        public static final int activity_user_profile=0x7f030005;
-        public static final int activity_user_search=0x7f030006;
+        public static final int activity_date_plan=0x7f030000;
+        public static final int activity_display_random=0x7f030001;
+        public static final int activity_guest_search=0x7f030002;
+        public static final int activity_login=0x7f030003;
+        public static final int activity_main=0x7f030004;
+        public static final int activity_register=0x7f030005;
+        public static final int activity_user_profile=0x7f030006;
+        public static final int activity_user_search=0x7f030007;
     }
     public static final class menu {
-        public static final int display_random=0x7f070000;
-        public static final int guest_search=0x7f070001;
-        public static final int login=0x7f070002;
-        public static final int main=0x7f070003;
-        public static final int register=0x7f070004;
-        public static final int user_profile=0x7f070005;
-        public static final int user_search=0x7f070006;
+        public static final int date_plan=0x7f070000;
+        public static final int display_random=0x7f070001;
+        public static final int guest_search=0x7f070002;
+        public static final int login=0x7f070003;
+        public static final int main=0x7f070004;
+        public static final int register=0x7f070005;
+        public static final int user_profile=0x7f070006;
+        public static final int user_search=0x7f070007;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
@@ -108,6 +110,7 @@ public final class R {
         public static final int searchInput=0x7f050005;
         public static final int securityQuestion=0x7f050015;
         public static final int sex=0x7f05001c;
+        public static final int title_activity_date_plan=0x7f050020;
         public static final int title_activity_display_random=0x7f050016;
         public static final int title_activity_guest_search=0x7f050017;
         public static final int title_activity_login=0x7f05001f;
