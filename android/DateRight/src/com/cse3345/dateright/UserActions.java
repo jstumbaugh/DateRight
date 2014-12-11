@@ -16,6 +16,7 @@ public class UserActions {
 	private static String loginURL = "http://54.69.57.226/dateright/api/login";
 	//private static String logoutURL = "http://54.69.57.226/dateright/api/logout";
 	private static String randomURL = "http://54.69.57.226/dateright/api/getRandomIdea";
+	private static String searchURL = "http://54.69.57.226/dateright/api/searchDateplans";
 	
 	public static String KEY_fName = "fname";
 	public static String KEY_lName = "lname";
@@ -43,6 +44,14 @@ public class UserActions {
 	public JSONArray randomDate(){
 		//no parameters
 		JSONArray json = jsonArrayParser.getJSONFromUrl(randomURL, null);
+		return json;
+	}
+	
+	// search date plans
+	public JSONObject searchDates(String search){
+		Map<String,String> params = new HashMap();
+		params.put("SearchQuery", search);
+		JSONObject json = jsonParser.getJSONFromUrl(searchURL, params);
 		return json;
 	}
 	

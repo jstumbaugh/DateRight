@@ -82,6 +82,7 @@ public class JSONParser {
 			e.printStackTrace();
 		}
 		boolean emailExists = false;
+		boolean noResults = false;
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					is, "iso-8859-1"), 8);
@@ -91,6 +92,10 @@ public class JSONParser {
 				sb.append(line + "\n");
 				if (line.equals("100")) {
 					emailExists = true;
+					break;
+				}
+				else if(line.equals("500")) {
+					noResults = true;
 					break;
 				}
 
@@ -107,11 +112,16 @@ public class JSONParser {
 		try {
 			// See if the email already exists and if so create seperate JSON
 			// object to return
-		 if (emailExists) {
+			if (emailExists) {
 				jObj = new JSONObject();
 				jObj.put("emailAlready", true);
-			} else
+			} else if(noResults) {
+				jObj = new JSONObject();
+				jObj.put("results", false);
+			} else {
 				jObj = new JSONObject(json);
+				jObj.put("results", true);
+			}
 
 		} catch (JSONException e) {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
