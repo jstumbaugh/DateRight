@@ -497,12 +497,18 @@ function viewFavorites(){
 		$dateplan = $returnedInfo1['DatePlanID'];
 		if (empty($activity))
 		{
-			$sql2 =" SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount  FROM Dateplans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE Dateplans.DatePlanID = :dateplanid GROUP BY DatePlanID";
+			$sql2 =" SELECT DatePlans.DatePlanID, DatePlans.Name, DatePlans.CreatorID, DatePlans.Description, AVG(DatePlanReviews.Rating) AS Rating, COUNT(DatePlanReviews.Rating) AS RatingCount  FROM DatePlans LEFT OUTER JOIN DatePlanReviews ON DatePlans.DatePlanID = DatePlanReviews.DatePlanID WHERE DatePlans.DatePlanID = :dateplanid GROUP BY DatePlanID";
 			$stmt2 = $db->prepare($sql2);
 			$stmt2->bindParam("dateplanid", $dateplan);
 			$stmt2->execute();
 			$rI2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 			array_push($favorites, $rI2);
+			$size = count($favorites);
+			for($i=0;$i<$size;$i++){
+				$cID=$favorites[$i]['DatePlanID'];
+				$associatedActs=getAssociatedActivities($cID, 0);
+				$favorites[$i]['AssociatedActivities']=$associatedActs;
+			}
 		}
 		else if (empty($dateplan))
 		{
@@ -523,6 +529,14 @@ function viewFavorites(){
 	 	//$favorites['activityID'] = $rI2['ActivityID'];
 		// $favorites['dateplanid'] = $rI2['DatePlanID'];
 		array_push($favorites, $rI2);
+		$size = count($favorites);
+		for($i=0;$i<$size;$i++){
+			if ($favorites[$i]['DatePlanID'] != null){
+				$cID=$favorites[$i]['DatePlanID'];
+				$associatedActs=getAssociatedActivities($cID, 0);
+				$favorites[$i]['AssociatedActivities']=$associatedActs;
+			}
+		}
 	}
 }
 
