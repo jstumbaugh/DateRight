@@ -8,6 +8,8 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +31,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +53,10 @@ public class GuestSearchActivity extends Activity {
 	private ProgressDialog pd;
 	//string
 	private String searchQuery;
+	//list 
+	ListView dateList;
+	//JSONArray of Dates
+	JSONArray dateArray;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,8 @@ public class GuestSearchActivity extends Activity {
 		String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 		
 		context = GuestSearchActivity.this;
+		//Get ListView
+		dateList = (ListView) findViewById(R.id.list);
 		
 		
 		//textView = (TextView) findViewById(R.id.debug);
@@ -97,6 +108,7 @@ public class GuestSearchActivity extends Activity {
 				}
 			}
 		});
+        
 	}
 
 	@Override
@@ -156,12 +168,13 @@ public class GuestSearchActivity extends Activity {
 					// Error in login, signal post execute there was a problem
 					success = false;
 				} else {
-					System.out.println("Date Plans: " + json.getJSONArray("DatePlans"));
+					//System.out.println("Date Plans: " + json.getJSONArray("DatePlans"));
 					if(json.getJSONArray("DatePlans").length() == 0){
 						success = false;
 					} else {
 						success = true;
-						addDates(json.getJSONArray("DatePlans"));
+						dateArray = json.getJSONArray("DatePlans");
+						//System.out.println("JSONArray: " + dateArray.toString());
 					}
 				}
 			} catch (JSONException e) {
@@ -176,8 +189,9 @@ public class GuestSearchActivity extends Activity {
 				pd.dismiss();
 			}
 			if (success) {
-				// Create login session in shared preferences
+				//add stuff
 				promptMessageUI("Success!");
+				addDates();
 			} else {
 				//Progress dialog didn't work
 				results.setText("No Results D:");
@@ -185,13 +199,34 @@ public class GuestSearchActivity extends Activity {
 		}
 	}
 	
-	public void addDates(JSONArray dateArray) {
+	public void addDates() {
 		//System.out.println("Length: " + dateArray.length());
-		//grap Date Object
+		//grab Date Object
 		//JSONObject j = dateArray.getJSONObject(i);
 		//System.out.println("Name: " + j.getString("Name"));
 		//System.out.println("Time: " + j.getString("Timestamp"));
 		//System.out.println("Description: " + j.getString("Description"));
+		List<String> values = new ArrayList<String>();
+		for(int i = 0; i < dateArray.length(); i++){
+			try {
+				values.add(dateArray.getJSONObject(i).getString("Name"));
+				//System.out.println(dateArray.getJSONObject(i).getString("Name"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//System.out.println("List: " + values.toString());
 		
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+          android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        
+        // Assign adapter to ListView
+        dateList.setAdapter(adapter); 
 	}
 }
