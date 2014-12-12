@@ -4,6 +4,8 @@ Design Team: John Wilson, Justin Konersmann, Adrian Hernandez, Jason Stumbaugh, 
 Link to server:
 http://54.69.57.226/dateright/
 
+API Documentation: 
+http://54.69.57.226/dateright/documentation
 
 Iteration 1: due 11/2/2014
 
