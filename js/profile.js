@@ -134,11 +134,7 @@ function showUserDatePlans(){
                  });
             
             creator = $("<p></p>").text("Created by " + userDatePlans[x][0].CreatorName);
-            share = $("<button></button").text("Share?");
-            share.attr("class", "shareButton");
-            share.click(function(){
-                $(this).attr("class", "hideThis");
-            });
+
 
             modify = $("<p></p>").text("Last edited by  " + userDatePlans[x][0].ModName);
             editInformation = $("<div></div>");
@@ -147,7 +143,7 @@ function showUserDatePlans(){
             timeStamp.css('font-style', 'italic');
             description = $("<p></p>").text("" + userDatePlans[x][0].Description);
 
-            editInformation.append(share,creator,modify,timeStamp);
+            editInformation.append(creator,modify,timeStamp);
             shell = $("<div></div>").append(editInformation,type,description);
             shell.attr("class", "shellDiv");
             $("#displaySection #datePlans").append(shell);

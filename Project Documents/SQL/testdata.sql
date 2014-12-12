@@ -112,9 +112,9 @@ INSERT INTO DateActivities VALUES
 	(26, 10, 24),
 	(27, 10, 9),
 	(28, 10, 33),
-	(29, 8, 30),
-	(30, 8, 39),
-	(31, 8, 38);
+	(29, 1, 30),
+	(30, 1, 39),
+	(31, 1, 38);
 
 INSERT INTO Tags VALUES
 	(1, 'Movies'),
