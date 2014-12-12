@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,31 +28,38 @@
         </activity>
         <activity
             android:name=".DisplayRandomActivity"
-            android:label="@string/title_activity_display_random" >
+            android:label="@string/title_activity_display_random" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".GuestSearchActivity"
-            android:label="@string/title_activity_guest_search" >
+            android:label="@string/title_activity_guest_search" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".UserSearchActivity"
-            android:label="@string/title_activity_user_search" >
+            android:label="@string/title_activity_user_search" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".UserProfileActivity"
-            android:label="@string/title_activity_user_profile" >
+            android:label="@string/title_activity_user_profile" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Register"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".DatePlanActivity"
-            android:label="@string/title_activity_date_plan" >
+            android:label="@string/title_activity_date_plan" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
