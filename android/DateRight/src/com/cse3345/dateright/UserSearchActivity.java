@@ -82,6 +82,11 @@ public class UserSearchActivity extends Activity {
 		
 		searchButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {
+				//clear results view
+				results.setText("");
+				//clear list view
+				
+				////
 				searchQuery = searchInput.getText().toString();
 				System.out.println("Search String: " + searchQuery);
 				if(searchQuery.length() == 0){
@@ -118,6 +123,12 @@ public class UserSearchActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			return true;
+		} else if(id == R.id.action_profile) {
+			//Go to user profile
+			//If on user search page, already logged in. no check necessary.
+			Intent profileIntent = new Intent(UserSearchActivity.this, UserProfileActivity.class);
+			startActivity(profileIntent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -204,8 +215,8 @@ public class UserSearchActivity extends Activity {
 		for(int i = 0; i < dateArray.length(); i++){
 			try {
 				DatePlan dp = new DatePlan(dateArray.getJSONObject(i).getString("Name"),
-						dateArray.getJSONObject(i).getString("Timestamp"),
-						dateArray.getJSONObject(i).getString("Description"));
+				dateArray.getJSONObject(i).getString("Timestamp"),
+				dateArray.getJSONObject(i).getString("Description"));
 				//values.add(dateArray.getJSONObject(i).getString("Name"));
 				dates.add(dp);
 			} catch (JSONException e) {

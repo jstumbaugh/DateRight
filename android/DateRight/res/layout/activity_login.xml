@@ -14,7 +14,7 @@
     <ImageView
         android:src="@drawable/logo"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="130dp"
         android:contentDescription="@string/logoDescription"
         />
     
@@ -30,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email" 
+        android:textSize="20sp"
         />
         <EditText
         android:id="@+id/loginInputEmail"
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:layout_weight="1"
+        android:textSize="20sp"
         />
     </LinearLayout>
     
@@ -51,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pass" 
+        android:textSize="20sp"
         />
         <EditText
         android:id="@+id/loginInputPass"
@@ -58,6 +61,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_weight="1"
+        android:textSize="20sp"
         />
     </LinearLayout>
     
@@ -73,6 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login" 
+        android:textSize="20sp"
         />
     </LinearLayout>
 

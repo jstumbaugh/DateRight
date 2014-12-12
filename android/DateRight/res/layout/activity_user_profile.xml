@@ -13,22 +13,27 @@
         android:id="@+id/profileTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/profile" />
+        android:text="@string/profile" 
+        android:textSize="30sp"
+        android:gravity="center"/>
     
     <LinearLayout
         android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
 	    <TextView
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/username"
-	        />
+	        android:textSize="15sp"
+	        android:gravity="top"/>
         <TextView
             android:id="@+id/userNameText"
             android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:textSize="15sp"
             />
     </LinearLayout>
     
@@ -37,15 +42,18 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
 	    <TextView
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/email"
-	        />
+	        android:textSize="15sp"
+	        android:gravity="top"/>
         <TextView
             android:id="@+id/emailText"
             android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:textSize="15sp"
             />
     </LinearLayout>
     
@@ -54,15 +62,18 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
 	    <TextView
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/firstName"
-	        />
+	        android:textSize="15sp"
+	        android:gravity="top"/>
         <TextView
             android:id="@+id/firstNameText"
             android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:textSize="15sp"
             />
     </LinearLayout>
     
@@ -71,39 +82,27 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
 	    <TextView
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/lastName"
-	        />
+	        android:textSize="15sp"
+	        android:gravity="top"/>
         <TextView
             android:id="@+id/lastNameText"
             android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
-            />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
-	    <TextView
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/sex"
-	        />
-        <TextView
-            android:id="@+id/sexText"
-            android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:textSize="15sp"
             />
     </LinearLayout>
     
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/datePlans" />
+        android:text="@string/datePlans" 
+        android:textSize="15sp"
+        android:gravity="center"/>
 
     <RelativeLayout 
         android:layout_width="match_parent"
@@ -113,5 +112,11 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="" />
+	    <ListView
+	        android:id="@+id/list"
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent" 
+	        >
+	    </ListView>
     </RelativeLayout>
 </LinearLayout>

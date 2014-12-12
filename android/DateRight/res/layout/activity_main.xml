@@ -20,7 +20,7 @@
 	    <ImageView
 	        android:src="@drawable/logo"
 	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
+	        android:layout_height="130dp"
 	        android:contentDescription="@string/logoDescription"
 	        />
 	    
@@ -58,6 +58,7 @@
 		        android:inputType="text"
 		        android:hint="@string/searchInput"
 		        android:layout_weight="1"
+		        android:textSize="20sp"
 	            />
 		    <Button
 		        android:id="@+id/searchButton"
@@ -79,6 +80,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/randomName"
+		        android:textSize="15sp"
 		        />
 		</LinearLayout>
 		
@@ -93,6 +95,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/randomTime"
+		        android:textSize="15sp"
 		        />
 		</LinearLayout>
 		
@@ -107,6 +110,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/randomDesc"
+		        android:textSize="15sp"
 		        />
 		</LinearLayout>
 	    

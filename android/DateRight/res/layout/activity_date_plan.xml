@@ -16,18 +16,14 @@
         android:orientation="horizontal"
         android:gravity="center"
         >
-        <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/name"
-	        android:paddingRight="10dp"
-            />
 	    <TextView
 	        android:id="@+id/dateName"
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:text="" 
 	        android:layout_weight="1"
+	        android:textSize="20sp"
+	        android:gravity="center"
 	        />
 	</LinearLayout>
 	
@@ -43,6 +39,7 @@
 	        android:layout_height="wrap_content"
 	        android:text="@string/time"
 	        android:paddingRight="10dp"
+	        android:textSize="20sp"
             />
 	    <TextView
 	        android:id="@+id/dateTime"
@@ -50,6 +47,7 @@
 	        android:layout_height="wrap_content"
 	        android:text="" 
 	        android:layout_weight="1"
+	        android:textSize="20sp"
 	        />
 	</LinearLayout>
 	
@@ -64,6 +62,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/desc"
+	        android:textSize="20sp"
             />
      </LinearLayout>
      <LinearLayout
@@ -78,6 +77,7 @@
 	        android:layout_height="wrap_content"
 	        android:text="" 
 	        android:layout_weight="1"
+	        android:textSize="20sp"
 	        />
 	  </LinearLayout>
 	

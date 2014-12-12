@@ -95,7 +95,7 @@ public class Login extends Activity {
 	private class loginAsync extends AsyncTask<Object, Object, Object> {
 		private boolean success = false;
 
-		String fName, lName, userId;
+		String fName, lName, userId, username;
 
 		@Override
 		protected void onPreExecute() {
@@ -126,6 +126,7 @@ public class Login extends Activity {
 							.toString();
 					userId = json.get("UserID")
 							.toString();
+					username = json.getString("UserName");
 					
 
 					success = true;
@@ -147,7 +148,7 @@ public class Login extends Activity {
 			if (success) {
 				// Create login session in shared preferences
 				MainActivity.session.createLoginSession(fName, lName, email,
-						userId, password);
+						userId, username);
 				welcomeMessageUI("Welcome,  " + fName);
 				finish();
 			} else {

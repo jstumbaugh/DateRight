@@ -18,6 +18,7 @@ public class UserActions {
 	private static String randomURL = "http://54.69.57.226/dateright/api/getRandomIdea";
 	private static String searchURL = "http://54.69.57.226/dateright/api/searchDateplans";
 	private static String registerURL = "http://54.69.57.226/dateright/api/createAccount";
+	private static String userDatesURL = "http://54.69.57.226/dateright/api/viewUserDatePlans";
 	
 	public static String KEY_fName = "fname";
 	public static String KEY_lName = "lname";
@@ -53,6 +54,13 @@ public class UserActions {
 		Map<String,String> params = new HashMap();
 		params.put("SearchQuery", search);
 		JSONObject json = jsonParser.getJSONFromUrl(searchURL, params);
+		return json;
+	}
+	
+	public JSONArray grabDates(String userId) {
+		Map<String,String> params = new HashMap();
+		params.put("UserID", userId);
+		JSONArray json = jsonArrayParser.getJSONFromUrl(userDatesURL, params);
 		return json;
 	}
 	
