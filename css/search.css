@@ -36,27 +36,25 @@ html {
     left: 50%;
     font-size: 17px;
     color:white;
-    background: -moz-linear-gradient(#777, #000);
     background: -webkit-linear-gradient(#777, #000);
-    background: -o-linear-gradient(#777, #000);
 }
 
 #createactivity:hover{
-    background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
-    background: -o-linear-gradient(#ff9d00, #ff7300);
 }
 
 #currentplan {
     float: right;
 	height: 90vh;
+    border-radius: 10px;
 	right: 0%;
-    width: 300px;
+    width: 25vw;
     margin-top: 75px;
     margin-bottom: 0;
-    background-image: url("../img/clipboard_paper.png");
-    background-size: 300px 90vh;
-    background-repeat:no-repeat;
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    border: 2px dashed #ffffff;
+    box-shadow: 0 0 0 2px #ff9d00, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+    opacity: 0.9;
 }
 
 #currentplanlist{
@@ -76,7 +74,7 @@ html {
 
 #currentDatePlan{
     padding-left: 7px;
-    height: 80vh;
+    height: 79.5%;
     width: 228px;
     margin-bottom: 0;
     margin-left: 17%;
@@ -186,7 +184,7 @@ h3{
     background-color: grey;
     padding-left: 9px;
     margin-bottom: 5px;
-    width: 290px;
+    width: 315px;
     background: -webkit-linear-gradient(#666, #000);
     border-radius: 10px;
 }
@@ -269,21 +267,9 @@ form#reviewActivity label#rating{
 }
 
 #descriptionBut, #publishCheckbox, #publishLabel{
-    position: absolute;
-    bottom: 2%;
-}
-
-#descriptionBut{
-    right: 1%;
-    bottom: 2%;
-}
-
-#publishLabel{
-    right: 14%;
-}
-
-#publishCheckbox{
-    right: 100%;
+    float: right;
+    margin-right: 5px;
+    opacity: 1;
 }
 
 #DescriptionBoxAnchor .reviewButton{
@@ -297,8 +283,6 @@ form#reviewActivity label#rating{
 
 #searchResults{
     padding-left: 0;
-    -webkit-column-width: 290px;
-    column-width: 290px;
 }
 
 h2{
@@ -337,10 +321,6 @@ h2{
     background: -o-linear-gradient(#ff9d00, #ff7300);
 }
 
-#publishLabel{
-    bottom: 2%;
-}
-
 h1{
     left: 40%;
     top: 10%;
@@ -349,7 +329,8 @@ h1{
 
 #datePlanName, #dpNameSaveBut{
     float: right;
-    margin-top: 17vh;
+    margin-top: 15px;
+    opacity: 1;
 }
 
 #datePlanName{
@@ -357,7 +338,7 @@ h1{
 }
 
 #dpNameSaveBut{
-    margin-right: 35px;
+    margin-right: 80px;
     margin-left: 5px;
 }
 

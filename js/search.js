@@ -32,15 +32,20 @@ jQuery(document).ready(function() {
 	$('#searchform').submit(function (e) {
 		var searchString = newSearch();
 		var searchType = $("input[name=search]:checked").val();
+		var searchArea = $('#searchResults');
 		e.preventDefault();
 
 		if (searchType == "activityTag"){
+			searchArea.css("-webkit-column-width", "");
 			displayActivitiesByTag(searchString);
 		} else if (searchType == "activitySearch"){
+			searchArea.css("-webkit-column-width", "");
 			displayActivitiesByName(searchString);
 		} else if (searchType == "datePlanSearch"){
+			searchArea.css("-webkit-column-width", "315px");
 			searchDatabase(searchString);
 		} else if (searchType == "datePlanTag"){
+			searchArea.css("-webkit-column-width", "315px");
 			hideActsAndPlans();
 			searchDatePlanTags();
 		}
