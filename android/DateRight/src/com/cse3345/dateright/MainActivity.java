@@ -159,6 +159,16 @@ public class MainActivity extends Activity {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
+		} else if(id == R.id.action_profile) {
+			if(session.isLoggedIn()){
+				//Go to profile activity
+				Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+				startActivity(intent);
+			} else {
+				//load message telling user to log in first
+				logoutMessageUI("Login to access profile page!");
+			}
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

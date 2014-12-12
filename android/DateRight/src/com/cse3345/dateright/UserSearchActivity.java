@@ -119,6 +119,12 @@ public class UserSearchActivity extends Activity {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
+		} else if(id == R.id.action_profile) {
+			//Go to user profile
+			//If on user search page, already logged in. no check necessary.
+			Intent profileIntent = new Intent(UserSearchActivity.this, UserProfileActivity.class);
+			startActivity(profileIntent);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
