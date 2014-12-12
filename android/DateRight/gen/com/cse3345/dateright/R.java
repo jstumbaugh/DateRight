@@ -27,8 +27,8 @@ public final class R {
         public static final int logo=0x7f020002;
     }
     public static final class id {
-        public static final int action_profile=0x7f080024;
-        public static final int action_settings=0x7f080023;
+        public static final int action_profile=0x7f080023;
+        public static final int action_settings=0x7f080022;
         public static final int createAccountButton=0x7f08001c;
         public static final int createAccountInputEmail=0x7f080012;
         public static final int createAccountInputFirstName=0x7f080015;
@@ -62,7 +62,6 @@ public final class R {
         public static final int searchButton=0x7f080006;
         public static final int searchInput=0x7f080005;
         public static final int sexRadio=0x7f080017;
-        public static final int sexText=0x7f080022;
         public static final int userNameText=0x7f08001e;
     }
     public static final class layout {

@@ -166,7 +166,7 @@ public class Register extends Activity {
 			if (success) {
 				// Create login session in shared preferences
 				MainActivity.session.createLoginSession(fName, lName, email,
-						userId, pass);
+						userId, username);
 				welcomeMessageUI("Welcome,  " + fName);
 				finish();
 			} else {

@@ -100,6 +100,11 @@ public class GuestSearchActivity extends Activity {
 		
 		searchButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {
+				//clear results view
+				results.setText("");
+				//clear list view
+				
+				////
 				searchQuery = searchInput.getText().toString();
 				System.out.println("Search String: " + searchQuery);
 				if(searchQuery.length() == 0){
