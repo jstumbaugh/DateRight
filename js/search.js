@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
 	var reviewButton;
 	getUserID();
+	currentPlanName = null;
 	//performSearchFromHompage();
 	datePlanActivity = new Object();
 	$('#backToCreateBut').hide();
@@ -1043,10 +1044,7 @@ function getUserDatePlans(){
 		content: 'application/json',
 		data: JSON.stringify(user),
 		success: function(data){
-			console.log(data);
 			if(data.length>2){
-
-			console.log(jQuery.parseJSON(data)[0][0]);
 			var dateData = jQuery.parseJSON(data);
 			var dateHolder = $('#currentDatePlan');
 
@@ -1113,6 +1111,7 @@ function openDatePlan(){
 			$('#backToCreateBut').hide();
 			$('#publishLabel').show();
 			$('.userDatePlan').parent().empty();
+			$('#datePlanName').val(datePlanFromData.Name);
 			$.ajax({
 				type: 'GET',
 				url: 'api/index.php/getAssociatedActivities/' + datePlanActivity.DatePlanID + '/1',
