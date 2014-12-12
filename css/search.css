@@ -37,7 +37,7 @@ html {
 
 #createactivity {
     position: relative;
-    left: 60%;
+    left: 50%;
     font-size: 17px;
     color: white;
     background: -webkit-linear-gradient(#777, #000);
@@ -366,7 +366,7 @@ h1{
 }
 
 #datePlanName{
-    width: 45%;
+    width: 60%;
     border: none;
     font-size: 1em;
     border-radius: 10px;
@@ -380,7 +380,7 @@ h1{
 }
 
 #dpNameSaveBut{
-    margin-right: 80px;
+    margin-right: 60px;
     margin-left: 5px;
     background: -webkit-linear-gradient(#777, #000);
     color: white;
