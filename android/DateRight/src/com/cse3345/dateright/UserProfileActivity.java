@@ -46,10 +46,10 @@ public class UserProfileActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		
-		System.out.println("Username: " + MainActivity.getInstance().session.getUserDetails().get("username"));
-		System.out.println("First Name: " + MainActivity.getInstance().session.getUserDetails().get("fname"));
-		System.out.println("Last Name: " + MainActivity.getInstance().session.getUserDetails().get("lname"));
-		System.out.println("Email: " + MainActivity.getInstance().session.getUserDetails().get("email"));
+		//System.out.println("Username: " + MainActivity.getInstance().session.getUserDetails().get("username"));
+		//System.out.println("First Name: " + MainActivity.getInstance().session.getUserDetails().get("fname"));
+		//System.out.println("Last Name: " + MainActivity.getInstance().session.getUserDetails().get("lname"));
+		//System.out.println("Email: " + MainActivity.getInstance().session.getUserDetails().get("email"));
 		
 		/**
 		 * Catch intent **/
