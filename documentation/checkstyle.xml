@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<checkstyle version="1.3.0">
+  <file name="index.php">
+    <error line="327" severity="error" message="Argument $userInfo is missing from the Docblock of logUser" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="603" severity="error" message="Argument $op is missing from the Docblock of deleteFavorite" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="603" severity="error" message="Argument $id is missing from the Docblock of deleteFavorite" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="635" severity="error" message="Argument $id is missing from the Docblock of getActivityById" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="661" severity="error" message="Argument $id is missing from the Docblock of getDateplanById" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="690" severity="error" message="Argument $activityID is missing from the Docblock of getTagsFromActivityID" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="718" severity="error" message="Argument $id is missing from the Docblock of getFullDatePlanByID" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="770" severity="error" message="Argument $datePlanID is missing from the Docblock of getAssociatedActivities" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="770" severity="error" message="Argument $standalone is missing from the Docblock of getAssociatedActivities" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="1948" severity="error" message="Argument $userID is missing from the Docblock of getPhoto" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="2017" severity="error" message="Argument $datePlanID is missing from the Docblock of deleteDateActivity" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="2017" severity="error" message="Argument $activityID is missing from the Docblock of deleteDateActivity" source="phpDocumentor.file.PPC:ERR-50015"/>
+    <error line="31" severity="error" message="No summary for class &quot;&quot;" source="phpDocumentor.file.PPC:ERR-50005"/>
+  </file>
+</checkstyle>
