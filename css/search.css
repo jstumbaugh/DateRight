@@ -331,6 +331,7 @@ h2{
     background: none;
     border: none;
     background-color: #5C5C5C;
+    border-radius: 3px;
 }
 
 .userDatePlanX:hover, .userActivityX:hover{

@@ -700,6 +700,10 @@ function addDrag(){
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".reviewBut");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] button').remove(".addTagC");
 			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] input').remove(".tagText");
+			$('#currentDatePlan .activity[value=' + ui.helper.context.value + '] p').remove(".ratingDisplay");
+			$("<button class='userActivityX' value=" + ui.helper.context.value + "> X </button>").insertAfter($('#currentDatePlan .activity[value=' + ui.helper.context.value + '] .unstarred'));
+			$("<button class='userActivityX' value=" + ui.helper.context.value + "> X </button>").insertAfter($('#currentDatePlan .activity[value=' + ui.helper.context.value + '] .starred'));
+
 			setTimeout(addActivityToDatePlan, 1000);
 
 		}
@@ -1147,6 +1151,7 @@ function deleteActivity(){
 
 //Opens a user DatePlan
 function openDatePlan(){
+	var tags = new Object();
 	$.ajax({
 		type: 'GET',
 		url: 'api/index.php/getDateplanById/' + userPlan.value,
@@ -1181,7 +1186,30 @@ function openDatePlan(){
 							content: 'application/json',
 							success: function(data3){
 								var actData = jQuery.parseJSON(data3);
+
+								for (i = 0; i < actData.length; i++){
+								$.ajax({
+									type: 'GET',
+									url: 'api/index.php/getTagsFromActivityID/' + actData[i].ActivityID,
+									async: false,
+									content: 'application/json',
+									success: function(data3){
+										tags = jQuery.parseJSON(data3);
+									}
+								});
+
 								var elem = "<li class='activityDatePlan' value=" + actData[0].ActivityID + " title=\"" + actData[0].Description + "\"></li>";
+								var hTags = "<h5 class='tags'> ";
+					    		if (!(tags === null)){
+					    			if (tags.length < 4)
+										len = tags.length;
+									else
+										len = 4;
+						    		for (var x = 0; x < len; x++){
+						    			hTags = hTags + tags[x].TagName + "&nbsp&nbsp&nbsp";
+						    		}
+						    		hTags = hTags + "</h5>";
+					    		}
 						    	var activityDiv = $(elem).appendTo(clipBoard);
 							    var starunstar = 'unstarred';
 							    $("<h3>" + actData[0].Name + "</h3>").appendTo(activityDiv);
@@ -1204,7 +1232,8 @@ function openDatePlan(){
 					    		});
 					    		var starString = "<p class='" + starunstar + "'></p>";
 							    $(starString).appendTo(activityDiv);
-								$("<button class='userActivityX' value=" + actData[0].ActivityID + "> X </button>").appendTo(activityDiv);
+								$("<button class='userActivityX' value=" + actData[0].ActivityID + "> X </button>" + hTags).appendTo(activityDiv);
+							}
 							    if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 							    	addDrag();
 							}
