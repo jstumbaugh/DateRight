@@ -26,7 +26,7 @@ public final class R {
         public static final int logo=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080024;
+        public static final int action_settings=0x7f080023;
         public static final int createAccountButton=0x7f08001c;
         public static final int createAccountInputEmail=0x7f080012;
         public static final int createAccountInputFirstName=0x7f080015;
@@ -49,7 +49,6 @@ public final class R {
         public static final int loginInputEmail=0x7f08000a;
         public static final int loginInputPass=0x7f08000b;
         public static final int maleRadio=0x7f080019;
-        public static final int profileButton=0x7f080023;
         public static final int profileTitle=0x7f08001d;
         public static final int randomButton=0x7f080011;
         public static final int randomDesc=0x7f080010;

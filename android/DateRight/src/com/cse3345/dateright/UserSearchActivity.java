@@ -1,32 +1,30 @@
 package com.cse3345.dateright;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class UserSearchActivity extends Activity {
 	protected static final String EXTRA_MESSAGE = "com.cse3345.DateRight.MESSAGE";
@@ -38,9 +36,15 @@ public class UserSearchActivity extends Activity {
 	private Button	searchButton;
 	private TextView results;
 	
-	//Profile
-	private Button viewProfile;
-	private String loginInfo;
+	private Context context;
+	private ProgressDialog pd;
+	//string
+	private String searchQuery;
+	//list 
+	ListView dateList;
+	//JSONArray of Dates
+	JSONArray dateArray;
+	List<DatePlan> dates;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,22 +54,46 @@ public class UserSearchActivity extends Activity {
 		/**
 		 * Catch intent **/
 		Intent intent = getIntent();
-		//message is login string
 		String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-		System.out.println(message);
-		debug = (TextView) findViewById(R.id.debug);
-		debug.setText(message);
+		
+		context = UserSearchActivity.this;
+		//Get ListView
+		dateList = (ListView) findViewById(R.id.list);
+		
+		/*///////////////////////////////////////
+		 * Search by message sent from main activity
+		 * */
+		searchQuery = message;
+		System.out.println("Search String: " + searchQuery);
+		if(searchQuery.length() == 0){
+			promptMessageUI("Try typing in a word to search first.");
+		} else {
+			searchAsync task = new searchAsync();
+			task.execute((Object[]) null);
+		}
+		///////////////////////////////////////////
 		
 		searchInput = (EditText) findViewById(R.id.searchInput);
+		//Take intent message and place in search field
+		searchInput.setText(message);
+		//search for a specific thing
 		searchButton = (Button) findViewById(R.id.searchButton);
 		results = (TextView) findViewById(R.id.results);
 		
 		searchButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {
-				getWebData();
+				searchQuery = searchInput.getText().toString();
+				System.out.println("Search String: " + searchQuery);
+				if(searchQuery.length() == 0){
+					promptMessageUI("Try typing in a word to search first.");
+				} else {
+					searchAsync task = new searchAsync();
+					task.execute((Object[]) null);
+				}
 			}
 		});
 		
+		/**
 		viewProfile = (Button) findViewById(R.id.profileButton);
 		viewProfile.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {
@@ -73,7 +101,7 @@ public class UserSearchActivity extends Activity {
 				profileIntent.putExtra(EXTRA_MESSAGE, debug.getText().toString());
 				startActivity(profileIntent);
 			}
-		});
+		});*/
 	}
 
 	@Override
@@ -95,95 +123,134 @@ public class UserSearchActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	/**
-	 * 	SEARCH PROCESS
-	 * */
-	public void getWebData() {
-		String url = "http://54.69.57.226/dateright/api/searchDateplans";
-		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-		if(networkInfo != null && networkInfo.isConnected()) {
-			new DownloadWebpageTask().execute(url);
+	/*
+	 * Display prompt for user to input text
+	 */
+	public void promptMessageUI(final String message) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+	
+	private class searchAsync extends AsyncTask<Object, Object, Object> {
+		private boolean success = false;
+
+		@Override
+		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setTitle("Searching Date Plans....");
+			pd.setMessage("Please wait.");
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+		}
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			UserActions userFunction = new UserActions();
+			JSONObject json = userFunction.searchDates(searchQuery);
+
+			// check for login response
+			try {
+
+				if (json.get("results") == null) {
+					// Error in login, signal post execute there was a problem
+					success = false;
+				} else {
+					//System.out.println("Date Plans: " + json.getJSONArray("DatePlans"));
+					if(json.getJSONArray("DatePlans").length() == 0){
+						success = false;
+					} else {
+						success = true;
+						dateArray = json.getJSONArray("DatePlans");
+						//System.out.println("JSONArray: " + dateArray.toString());
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			if (pd != null) {
+				pd.dismiss();
+			}
+			if (success) {
+				//add stuff
+				promptMessageUI("Success!");
+				addDates();
+			} else {
+				//Progress dialog didn't work
+				results.setText("No Results D:");
+			}
 		}
 	}
 	
-	// Uses AsyncTask to create a task away from the main UI thread. This task takes a 
-    // URL string and uses it to create an HttpUrlConnection. Once the connection
-    // has been established, the AsyncTask downloads the contents of the webpage as
-    // an InputStream. Finally, the InputStream is converted into a string, which is
-    // displayed in the UI by the AsyncTask's onPostExecute method.
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
-       @Override
-       protected String doInBackground(String... urls) {
-             
-           // params comes from the execute() call: params[0] is the url.
-           try {
-               return downloadUrl(urls[0]);
-           } catch (IOException | JSONException e) {
-               return "Unable to retrieve web page. URL may be invalid.";
-           }
-       }
-       // onPostExecute displays the results of the AsyncTask.
-       @Override
-       protected void onPostExecute(String result) {
-           //textView.setText(result);
-           System.out.println(result);
-           results.setText(result);
-      }
-   }
-	
-	// Given a URL, establishes an HttpUrlConnection and retrieves
-	// the web page content as a InputStream, which it returns as
-	// a string.
-	private String downloadUrl(String myurl) throws IOException, JSONException {
-	    InputStream is = null;
-	    // Only display the first 500 characters of the retrieved
-	    // web page content.
-	    int len = 500;
-	        
-	    try {
-	        URL url = new URL(myurl);
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setReadTimeout(10000 /* milliseconds */);
-	        conn.setConnectTimeout(15000 /* milliseconds */);
-	        conn.setRequestMethod("POST");
-	        conn.setDoInput(true);
-	        conn.setDoOutput(true);
-	        conn.setRequestProperty("Content-Type", "application/json");
-	        // Starts the query
-	        conn.connect();
-	        //Create JSONObject here
-	        JSONObject jsonParam = new JSONObject();
-	        jsonParam.put("SearchQuery", searchInput.getText().toString());
-	        OutputStream out = conn.getOutputStream();
-	        out.write(jsonParam.toString().getBytes("UTF-8"));
-	        out.flush();
-	        out.close();
-	        int response = conn.getResponseCode();
-	        Log.d(DEBUG_TAG, "The response is: " + response);
-	        is = conn.getInputStream();
-
-	        // Convert the InputStream into a string
-	        String contentAsString = readIt(is, len);
-	        return contentAsString;
-	        
-	    // Makes sure that the InputStream is closed after the app is
-	    // finished using it.
-	    } finally {
-	        if (is != null) {
-	            is.close();
-	        } 
-	    }
+	public void addDates() {
+		//System.out.println("Length: " + dateArray.length());
+		//grab Date Object
+		//JSONObject j = dateArray.getJSONObject(i);
+		//System.out.println("Name: " + j.getString("Name"));
+		//System.out.println("Time: " + j.getString("Timestamp"));
+		//System.out.println("Description: " + j.getString("Description"));
+		dates = new ArrayList<DatePlan>();
+		dates.clear();
+		for(int i = 0; i < dateArray.length(); i++){
+			try {
+				DatePlan dp = new DatePlan(dateArray.getJSONObject(i).getString("Name"),
+						dateArray.getJSONObject(i).getString("Timestamp"),
+						dateArray.getJSONObject(i).getString("Description"));
+				//values.add(dateArray.getJSONObject(i).getString("Name"));
+				dates.add(dp);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+        ArrayAdapter<DatePlan> adapter = new ArrayAdapter<DatePlan>(this,
+          android.R.layout.simple_list_item_1, android.R.id.text1, dates);
+        
+        // Assign adapter to ListView
+        dateList.setAdapter(adapter); 
+        
+        dateList.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				for(int i = 0; i < dates.size(); i++){
+					//System.out.println(dates.get(i).getName());
+					//System.out.println(parent.getItemAtPosition(position).toString());
+					if(dates.get(i).getName() == parent.getItemAtPosition(position).toString()){
+						//System.out.println("match!");
+						//System.out.println(dates.get(i).getName());
+						//System.out.println(dates.get(i).getTime());
+						//System.out.println(dates.get(i).getDesc());
+						
+						/**
+						 * Launch Date Plan activity with required info passed as intent
+						 * */
+						Intent intent = new Intent(UserSearchActivity.this, DatePlanActivity.class);
+						intent.putExtra("name", dates.get(i).getName());
+						intent.putExtra("time", dates.get(i).getTime());
+						intent.putExtra("desc", dates.get(i).getDesc());
+						startActivity(intent);
+					}
+				}
+				//.... This spits out string
+				//System.out.println(parent.getItemAtPosition(position));
+			}
+        });
 	}
-	
-	// Reads an InputStream and converts it to a String.
-	public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
-	    Reader reader = null;
-	    reader = new InputStreamReader(stream, "UTF-8");        
-	    char[] buffer = new char[len];
-	    reader.read(buffer);
-	    return new String(buffer);
-	}
-	
-	/** END SEARCH PROCESS */
 }

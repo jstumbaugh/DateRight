@@ -74,7 +74,14 @@ public class MainActivity extends Activity {
 		searchButton = (Button) findViewById(R.id.searchButton);
 		searchButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {
-				Intent intent = new Intent(MainActivity.this, GuestSearchActivity.class);
+				Intent intent;
+				if(session.isLoggedIn()){
+					//send to user search activity
+					intent = new Intent(MainActivity.this, UserSearchActivity.class);
+				} else {
+					//send to guest search activity
+					intent = new Intent(MainActivity.this, GuestSearchActivity.class);
+				}
 				String message = searchInput.getText().toString();
 				//System.out.println(message);
 				intent.putExtra(EXTRA_MESSAGE, message);
