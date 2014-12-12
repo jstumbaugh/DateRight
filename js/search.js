@@ -226,7 +226,13 @@ function displayFavoriteDatePlans(){
 								    		}
 								    		var starString = "<p class='" + starunstar +"'></p>";
 								    		$(starString).appendTo(activityDiv);
-								    		$("<br>" + hTags + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
+
+								    		if (actData[i].Rating != null)
+												ratingDisplayed = (Math.round(actData[i].Rating * 10 ) / 10).toFixed(1);
+											else
+												ratingDisplayed = "Not Rated";
+
+								    		$("<br>" + "<p class='ratingDisplay'>Rating: " + ratingDisplayed + "</p>" + hTags + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
 								    	}		
 								    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 										    addDrag();
@@ -525,6 +531,7 @@ function getUserID(){
 //Gets the users favorite activites and displays them in a lit star on the searched activities
 function displayFavoriteActivities(){
 	var tags = new Object();
+	var ratingDisplay;
 	$.ajax({
 		type: 'POST',
 		url: 'api/index.php/viewFavorites',
@@ -561,7 +568,13 @@ function displayFavoriteActivities(){
 		    		var activityDiv = $(elem).appendTo(activitiesDiv);
 		    		$("<h3></h3>").text(actData[i].Name).appendTo(activityDiv);
 		    		activityDiv.append("<p class='starred'></p>");
-		    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button><br></a> " + hTags + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
+
+		    		if (actData[i].Rating != null)
+						ratingDisplayed = (Math.round(actData[i].Rating * 10 ) / 10).toFixed(1);
+					else
+						ratingDisplayed = "Not Rated";
+
+		    		$("<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + actData[i].ActivityID + "'>Review</button></a> " + "<p class='ratingDisplay'>Rating: " + ratingDisplayed + "</p>" + hTags + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
 	    		}
 	    	}
 	    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
@@ -577,7 +590,7 @@ function displayFavoriteActivities(){
 //Searches for activites by their name
 function displayActivitiesByName(searchString){
 	var searchQuery = new Object();
-	var activities, tags, searchList, favActivities, activityListItem, tagsDisplayed, star, starElement, activityTitle, len, index;
+	var activities, tags, searchList, favActivities, activityListItem, tagsDisplayed, star, starElement, activityTitle, len, index, ratingDisplayed;
 
 	searchQuery.SearchQuery = searchString;
 	searchQuery.tagName = searchString;
@@ -624,7 +637,12 @@ function displayActivitiesByName(searchString){
 		}
 		tagsDisplayed += "</h5>";
 
-		$(activityTitle + starElement + "<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + activities[i].ActivityID + "'>Review</button></a> " + tagsDisplayed + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityListItem);
+		if (activities[i].Rating != null)
+			ratingDisplayed = (Math.round(activities[i].Rating * 10 ) / 10).toFixed(1);
+		else
+			ratingDisplayed = "Not Rated";
+
+		$(activityTitle + starElement + "<a id='reviewActivityBoxAnchor' href='#ReviewActivityBox'> <button href='#ReviewActivityBox' name='Review' class='reviewBut' id='review" + activities[i].ActivityID + "'>Review</button></a> " + "<p class='ratingDisplay'>Rating: " + ratingDisplayed + "</p>" + tagsDisplayed + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityListItem);
 	}
 	if (checkToAddDrag())
     	addDrag();
@@ -780,7 +798,7 @@ function searchDatabase(searchString){
 	var starElement;
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = searchString;
-	var star, len;
+	var star, len, ratingDisplayed;
 	var tags = new Object();
 	var favData = getFavoriteActivities();
 
@@ -867,7 +885,13 @@ function searchDatabase(searchString){
 					    		}
 					    		var starString = "<p class='" + starunstar +"'></p>";
 					    		$(starString).appendTo(activityDiv);
-					    		$("<br>" + hTags + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
+
+					    		if (actData[i].Rating != null)
+									ratingDisplayed = (Math.round(actData[i].Rating * 10 ) / 10).toFixed(1);
+								else
+									ratingDisplayed = "Not Rated";
+
+					    		$("<br>" + "<p class='ratingDisplay'>Rating: " + ratingDisplayed + "</p>" + hTags + " <a href='#addTagBox'><button name='addTag' class='addTagC' title='Add a Tag!'>+</button></a>").appendTo(activityDiv);
 					    	}		
 					    	if (!$.contains($('#currentDatePlan'), $('#userDatePlan')) && user.UserID != null)
 							    addDrag();
