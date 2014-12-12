@@ -131,6 +131,21 @@ jQuery(document).ready(function() {
 		publishDatePlan(check);
 	})
 
+    $( document ).tooltip({
+		position: {
+			my: "center bottom-20",
+			at: "center top",
+			using: function( position, feedback ) {
+				$( this ).css( position );
+			 	$( "<div>" )
+			    .addClass( "arrow" )
+			    .addClass( feedback.vertical )
+			    .addClass( feedback.horizontal )
+			    .appendTo( this );
+			}
+		}
+    })
+
 	addSort();
 });
 
@@ -559,13 +574,12 @@ function displayFavoriteActivities(){
 //Searches for activites by their name
 function displayActivitiesByName(searchString){
 	var searchQuery = new Object();
-	var activities, tags, searchList, favActivities, activityListItem, tagsDisplayed, star, starElement, activityTitle;
+	var activities, tags, searchList, favActivities, activityListItem, tagsDisplayed, star, starElement, activityTitle, len;
 
 	searchQuery.SearchQuery = searchString;
 	activities = getActsByName(searchQuery);
 	searchList = $("#searchResults");
 	favActivities = getFavoriteActivities();
-	tagsDisplayed = "<h5 class='tags'> ";
 
 	for (i = 0; i < activities.length; i++){
 		tags = getTagsByActID(activities[i].ActivityID);
@@ -583,7 +597,12 @@ function displayActivitiesByName(searchString){
 		}
 		starElement = "<p class='" + star +"'></p> ";
 
-		for (var x = 0; x < tags.length; x++){
+		tagsDisplayed = "<h5 class='tags'> ";
+		if (tags.length < 4)
+			len = tags.length;
+		else
+			len = 4;
+		for (var x = 0; x < len; x++){
 			tagsDisplayed += tags[x].TagName + "&nbsp&nbsp&nbsp";
 		}
 		tagsDisplayed += "</h5>";
@@ -744,7 +763,7 @@ function searchDatabase(searchString){
 	var starElement;
 	var searchQuery = new Object();
 	searchQuery.SearchQuery = searchString;
-	var star;
+	var star, len;
 	var tags = new Object();
 	var favData = getFavoriteActivities();
 
@@ -800,7 +819,11 @@ function searchDatabase(searchString){
 						    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description;
 						    		var hTags = "<h5 class='tags'> ";
 						    		if (!(tags === null)){
-							    		for (var x = 0; x < tags.length; x++){
+						    			if (tags.length < 4)
+											len = tags.length;
+										else
+											len = 4;
+							    		for (var x = 0; x < len; x++){
 							    			hTags = hTags + tags[x].TagName + "&nbsp&nbsp&nbsp";
 							    		}
 							    		hTags = hTags + "</h5>";
@@ -901,7 +924,7 @@ function editDescription(){
 function searchDatePlanTags(){
 	var searchQuery = new Object();
 	searchQuery.tagName = $("#searchbar").val();
-	var star;
+	var star, len;
 	var favData = getFavoriteActivities();
 
 	$.ajax({
@@ -959,7 +982,11 @@ function searchDatePlanTags(){
 					    		var elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description;
 					    		var hTags = "<h5 class='tags'> ";
 					    		if (!(tags === null)){
-						    		for (var x = 0; x < tags.length; x++){
+					    			if (tags.length < 4)
+										len = tags.length;
+									else
+										len = 4;
+						    		for (var x = 0; x < len; x++){
 						    			hTags = hTags + tags[x].TagName + "&nbsp&nbsp&nbsp";
 						    		}
 						    		hTags = hTags + "</h5>";
@@ -1170,7 +1197,7 @@ function updateName(){
 //Searches for Activites by their tag.
 function displayActivitiesByTag(searchString){
 	var searchQuery = new Object();
-	var favoriteActivities, actData, activitiesDiv, elem, hTags, activityDiv, starunstar, tags;
+	var favoriteActivities, actData, activitiesDiv, elem, hTags, activityDiv, starunstar, tags, len;
 
 	searchQuery.tagName = searchString;
 
@@ -1182,8 +1209,12 @@ function displayActivitiesByTag(searchString){
 		tags = getTagsByActID(actData[i].ActivityID);
 		elem = "<li class='activity' value=" + actData[i].ActivityID + " title=\"" + actData[i].Description + "\"></li>";
 
+		if (tags.length < 4)
+			len = tags.length;
+		else
+			len = 4;
 		hTags = "<h5 class='tags'> ";
-		for (var x = 0; x < tags.length; x++){
+		for (var x = 0; x < len; x++){
 			hTags += tags[x].TagName + "&nbsp&nbsp&nbsp";
 		}
 		hTags += "</h5>";
