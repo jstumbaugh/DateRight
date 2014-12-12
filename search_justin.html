@@ -1,0 +1,183 @@
+<!--
+	Konersmann - added script 'activity.js' to search page. 
+					activity.html is loaded in from activity.js.
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Make a Date!</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		<meta name="description" content="DateRight">
+	    <meta name="keywords" content="date, plan, activity">
+	    <link href="css/search.css" rel="stylesheet">
+	</head>
+	<body>
+	<img src="img/map_bg.jpg" class="bg">
+	<div id="header">
+	<div class="dropdown">
+		<a class="account" >My Account</a>
+		<div class="submenu">
+			<ul class="root">
+			<li ><button id="profilebut">Profile</button></li>
+			<li ><button id="myPlansBut">My Plans</button></li>
+			<li ><button id="favactivitiesbut">Favorite Activites</button></li>
+			<li ><button id="favDatePlansBut">Favorite Date Plans</button></li>
+			<li ><button id="favDatePlansBut">Logout</button></li>
+			</ul>
+			</div>
+		</div>
+		<img class="logoImage" src="img/Logo.png">
+		<p class="subTitle">Search for the next <span class="colorBold">great date</span> idea!</p>
+	</div>
+	<hr>
+	<div id="midSection">
+	<form id="searchform">
+			<input type="radio" name="search" value="activitySearch" checked="checked"> Activity Names
+			<input type="radio" name="search" value="activityTag">Activity Tags
+			<input type="radio" name="search" value="datePlanSearch"> Date Plan Names
+			<input type="radio" name="search" value="datePlanTag">Date Plan Tags<br>
+			<input type="text" id="searchbar" name="datesearch" size="50">
+			<input type="submit" value="Search" id="searchsubmit" class="searchButton">
+		</form>
+		<!-- <div id="currentplanlist">	
+			<button id="logoutbut">Logout</button>
+			<button id="profilebut">Profile</button>
+			<button id="myPlansBut">My Plans</button>
+			<button id="favactivitiesbut">Favorite Activites</button>
+			<button id="favDatePlansBut">Favorite Date Plans</button>
+		</div> -->
+		<div id="leftSide">
+		<div id="searchtabs">
+			<!--<button type="button" id="tabdate">Date Plans</button>-->
+			<a href="#openModal">
+            	<button href="#openModal" id="createactivity">
+                	Create Your Own Activity
+            	</button> 
+        	</a>
+		</div>
+		
+		<ul id="searchResults"></ul>
+		</div>
+		<div id="rightSide">
+		<div id="currentplan">
+			<!-- <img id = "clipboard" src="img/clipboard_paper.png">-->
+			<button id="backToCreateBut">Back</button>
+			<input type="text" id="datePlanName" placeholder="Enter Date Plan Name Here" name="datePlanName" size="33">
+			<button></button>
+			<ul id="currentDatePlan"></ul>
+			<label id="publishLabel"><input id="publishCheckbox" type="checkbox" name="publish" value="0">Share?</label>
+			<a id='descriptionDatePlanAnchor' href='#DescriptionBox'> 
+				<button href='#DescriptionBox' name='Description' class='descriptionButton' id='descriptionBut'>Add Description</button>
+			</a>
+		</div>
+		</div>
+	</div>
+	</body>
+
+	<!-- Over lay created when review is clicked--> 
+	<div id="ReviewActivityBox" class="modalDialog">
+		<div>
+	        <a href="#close" title="Close" class="close">
+	            <button id="closeButton">X</button>
+	        </a>
+		    <h2>Review Activity</h2>
+		    
+		    <form method="post" id="reviewActivity">
+		    	<label for="Rating" name="Rating"   id="rating" required="required"> Rating: <br>
+					<input type="radio" name="rating" value="0">0<br>
+					<input type="radio" name="rating" value="1">1<br>
+					<input type="radio" name="rating" value="2">2<br>
+					<input type="radio" name="rating" value="3" checked = "checked">3<br>
+					<input type="radio" name="rating" value="4">4<br>
+					<input type="radio" name="rating" value="5">5<br>
+				</label>
+				
+				 <label for="descriptionReview">Description: </label>
+		         <textarea id="descriptionReview" cols="40" rows="5" required="required"></textarea><br>
+
+				<label for="costReview">Cost Estimate: </label>
+		            <input type="number" id="costReview" min="0" max="999" step="1" placeholder="0" required="required" value = "0"><br>
+
+		        <label for="Attended" id="attended">
+		            Attended Date?
+		            <input type="radio" name="attended" value="1">Yes<br>
+		            <input type="radio" name="attended" value="0"> No<br>
+		        </label><br>
+		        <input type="submit" class="btn-minimal" value="Submit Review" id="reviewActivityButton">  
+		        <p id="resultMessageActivityReview"></p>    
+		    </form>
+		</div>
+	</div>
+
+	<!-- Over lay created when review is clicked--> 
+	<div id="ReviewDatePlanBox" class="modalDialog">
+		<div>
+	        <a href="#close" title="Close" class="close">
+	            <button id="closeButton">X</button>
+	        </a>
+		    <h2>Review DatePlan</h2>
+		    
+		    <form method="post" id="reviewDatePlan">
+		    	<label for="Rating" name="Rating"   id="ratingDatePlan" required="required"> Rating: <br>
+					<input type="radio" name="rating" value="0">0<br>
+					<input type="radio" name="rating" value="1">1<br>
+					<input type="radio" name="rating" value="2">2<br>
+					<input type="radio" name="rating" value="3" checked = "checked">3<br>
+					<input type="radio" name="rating" value="4">4<br>
+					<input type="radio" name="rating" value="5">5<br>
+				</label>
+				
+				 <label for="descriptionReview">Description: </label>
+		         <textarea id="descriptionReviewDatePlan" cols="40" rows="5" required="required"></textarea><br>
+
+		        <label for="Attended" id="attendedDatePlan">
+		            Attended DatePlan?
+		            <input type="radio" name="attended" value="1">Yes<br>
+		            <input type="radio" name="attended" value="0"> No<br>
+		        </label><br>
+
+		        <input type="submit" class="btn-minimal" value="Submit Review" id="reviewDatePlanButton">
+		        <p id="resultMessageDatePlan"></p>
+		    </form>
+		</div>
+	</div>
+
+	<div id="DescriptionBox" class="modalDialog">
+		<div>
+	        <a href="#close" title="Close" class="close">
+	            <button id="closeButton">X</button>
+	        </a>
+		    <h2>Descriptionn</h2>
+		    
+		    <form method="post" id="addDescription">
+
+				 <label for="description">Description: </label>
+		         <textarea id="descriptionDatePlan" cols="40" rows="5"></textarea><br>
+
+		        <input type="submit" class="btn-minimal" value="Submit Description" id="descriptionDatePlanButton">
+		        <p id="resultMessageDatePlanDescription"></p>
+		    </form>
+		</div>
+	</div>
+
+	<div id="addTagBox" class="modalDialog">
+		<div>
+			<a href="#close" title="Close" class="close">
+				<button id="closeButton">X</button>
+			</a>
+
+			<form method="post" id="addTagToActivity">
+				<input type="text" id="tagForActivity" placeholder="Enter Tag Here" name="tagName" size="33">
+				<input type="submit" class="btn-minimal" value="Add Tag" id="addTagButton">
+				<p id="resultMessageTagName"></p>
+			</form>
+		</div>
+	</div>
+
+	<script src="js/activity.js"></script>
+	<script src="js/search.js"></script>
+</html>

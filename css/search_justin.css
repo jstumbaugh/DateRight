@@ -1,0 +1,493 @@
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+img.bg {
+    /*background-image: url("img/blank.jpg");*/
+    
+       /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+#header{
+    border-radius: 6px;
+    background-color: #fff;
+     opacity:.90;
+     -moz-opacity:.90; 
+}
+#midSection{
+    background-color: #fff;
+    min-height: 700px;
+    height: auto;
+    padding: 10px;
+     opacity:.90;
+     -moz-opacity:.90; 
+    border-radius: 6px;
+    border: 1px solid #e59116;
+}
+.logoImage{
+    height: auto;
+    width: 250px;
+    margin: 10px;
+}
+hr {
+border: 0;
+border-bottom: 2px dashed #fff;
+background: #e59116;
+}
+/* DROPDOWN MENU credit goes to http://www.9lessons.info/2012/06/simple-drop-down-menu-with-jquery-and.html */
+.dropdown 
+{
+color: #555;
+margin: 3px -22px 0 0;
+width: 143px;
+position: relative;
+height: 17px;
+float: right;
+}
+.submenu
+{
+background: #fff;
+position: absolute;
+top: -12px;
+left: -20px;
+z-index: 100;
+width: 135px;
+display: none;
+margin-left: 10px;
+padding: 40px 0 5px;
+border-radius: 6px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+.dropdown li button 
+{
+color: #555555;
+display: block;
+font-family: arial;
+font-weight: bold;
+margin: 5px;
+padding: 6px 15px;
+width:120px;
+cursor: pointer;
+text-decoration:none;
+}
+
+.dropdown li button:hover
+{
+background:#155FB0;
+color: #FFFFFF;
+text-decoration: none;
+}
+a.account 
+{
+font-size: 18px;
+font-weight: bold;
+line-height: 16px;
+color: #555;
+position: absolute;
+z-index: 110;
+display: block;
+padding: 11px 0 0 20px;
+height: 28px;
+width: 121px;
+margin: -11px 0 0 -10px;
+text-decoration: none;
+cursor:pointer;
+}
+.root
+{
+list-style:none;
+margin:0px;
+padding:0px;
+font-size: 11px;
+padding: 11px 0 0 0px;
+border-top:1px solid #dedede;
+}
+/* END DROPDOWN MENU*/
+html {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+#backtoHomePage{
+    float: right;
+    font-size: 30px;
+}
+
+#searchbar {
+    margin-top: .5%;
+}
+#searchform{
+    margin: 0 auto;
+}
+#searchform input[type="text"]{
+     width: 400px;
+    height: 15px;
+
+}
+#createactivity {
+    font-size: 15px;
+    color:white;
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
+}
+
+#createactivity:hover{
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+#rightSide{
+    float: right;
+    height: 90vh;
+    right: 0%; 
+    margin-top: -90px;
+    width: 300px;
+}
+#currentplan {
+    margin-bottom: 0;
+    border: 2px dashed #000;
+    /*background-image: url("../img/clipboard_paper.png");*/
+    background-size: 300px 90vh;
+    background-repeat:no-repeat;
+}
+
+#currentplanlist{
+    position: absolute;
+    right: 0%;
+    top: 0%;
+}
+
+#currentplanlist button{
+    float: right;
+    margin: 2px;
+}
+
+#favactivitiesbut{
+    clear: right;
+}
+
+#currentDatePlan{
+    padding-left: 7px;
+    height: 80vh;
+    width: 228px;
+    margin-bottom: 0;
+    margin-left: 17%;
+    margin-top: 32%;
+}
+
+#currentDatePlan li{
+    list-style-type: none;
+}
+
+.activity, .activityDatePlan {
+	float: left;
+	margin-top: 10px;
+	margin-right: 10px;
+    list-style-type: none;
+    color:white;
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
+}
+.activity:hover{
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+h3{
+	float: left;
+    margin-bottom: 0px;
+}
+.subTitle{
+    margin:0px;
+    font-size: 24px;
+    margin-left:30%;
+}
+.colorBold{
+    font-weight: bold;
+    color:#e59116;
+    font-style: italic;
+}
+.starred, .unstarred{
+	float: left;
+	margin-left: 10px;
+	margin-top: 22px;
+	margin-right: 5px;
+    margin-bottom: 0px;
+}
+
+.starred{
+	width:17px; 
+	height:16px;
+	background:url(../img/star_rate.gif) left -16px;
+}
+
+.starred:hover{
+	background-position:left top;
+}
+
+.unstarred {
+	width:17px;
+	height:16px;
+	background:url(../img/star_rate.gif) left top;
+}
+
+.unstarred:hover {
+	background-position:left -16px;
+}
+
+.reviewBut{
+    float: left;
+    clear: left;
+    margin: 5px;
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+.addTagC{
+    margin: 5px;
+    margin-top: 0;
+    float: right;
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+#currentDatePlan .addTagC{
+    font-size: 12px;
+    margin-right: 5px;
+    margin-left: 0;
+    margin-top: 13px;
+    float: right;
+}
+
+.activityDatePlan h3, .userDatePlan h3{
+    font-size: 15px;
+}
+
+.activityDatePlan .starred, .activityDatePlan .unstarred{
+    margin-top: 15px;
+}
+
+.userDatePlan .reviewButton{
+    font-size: 10px;
+    margin-bottom: 2px;
+     background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+.dateplan, .userDatePlan{
+    display: inline-block !important;
+    overflow: hidden;
+    background-color: grey;
+    margin-left: 10px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.dateplan .activity{
+    clear: left;
+}
+
+/**
+    Konersmann - added modal dialog styles
+    affect create activity button
+*/
+
+.modalDialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 99999;
+    opacity: 0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+
+.modalDialog:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modalDialog > div {
+    width: 400px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+    background:#7f7f7f;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0.498039);
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+    color: rgb(255, 255, 255);
+}
+
+#activitySubmitButton, #closeButton, .btn-minimal, .descriptionButton,
+#searchsubmit {
+    font-size: 14px;
+    color:white;
+    height: 25px;
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
+}
+
+#activitySubmitButton:hover, #closeButton:hover, .btn-minimal:hover, 
+.descriptionButton:hover, #searchsubmit:hover {
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+form#reviewActivity label#rating{
+    height: 30%;
+}
+
+.dateplan .activity h3{
+    margin-bottom: 20px;
+}
+
+.activityDatePlan h3{
+    margin-bottom: 17px;
+}
+
+#descriptionBut, #publishCheckbox, #publishLabel{
+    position: absolute;
+    top: 50%;
+}
+
+#descriptionBut{
+    left: 1%;
+    top: 50%;
+}
+
+#publishLabel{
+    left: 14%;
+}
+
+#publishCheckbox{
+    left: 100%;
+}
+
+#DescriptionBoxAnchor .reviewButton{
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right: 50px;
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+#searchResults{
+    width: 40%;
+    padding-left: 5px;
+}
+
+h2{
+    text-align: center;
+}
+
+#backToCreateBut{
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+
+}
+
+.userDatePlanX, .userActivityX{
+    float: right;
+    font-size: 10px;
+    background: none;
+    border: none;
+    background-color: #5C5C5C;
+}
+
+.userDatePlanX:hover, .userActivityX:hover{
+    background-color: orange;
+}
+
+#logoutbut, #profilebut, #myPlansBut, #favDatePlansBut, #favactivitiesbut{
+    background: -moz-linear-gradient(#777, #000);
+    background: -webkit-linear-gradient(#777, #000);
+    background: -o-linear-gradient(#777, #000);
+    color:white;
+}
+
+#logoutbut:hover, #profilebut:hover, #myPlansBut:hover, #favDatePlansBut:hover, #favactivitiesbut:hover{
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -webkit-linear-gradient(#ff9d00, #ff7300);
+    background: -o-linear-gradient(#ff9d00, #ff7300);
+}
+
+#publishLabel{
+    bottom: 2%;
+}
+
+h1{
+    left: 40%;
+    top: 10%;
+    position: absolute;
+}
+
+#datePlanName, #dpNameSaveBut{
+    float: right;
+    margin-top: 17vh;
+}
+
+#datePlanName{
+<<<<<<< HEAD:css/search_justin.css
+    margin-top: 5px;
+    position: absolute;
+=======
+    width: 45%;
+}
+
+#dpNameSaveBut{
+    margin-right: 35px;
+    margin-left: 5px;
+>>>>>>> FETCH_HEAD:css/search.css
+}
+
+.tags{
+    margin-bottom: 0;
+    margin-left: 3px;
+    margin-top: 3px;
+    float: left;
+    clear: left;
+}
+
+.reviewButton{
+    float: left;
+    clear: left;
+}
+
+#homeButton:hover {
+    background: rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.dateplan > .unstarred, .dateplan > .starred{
+    float: right;
+}
