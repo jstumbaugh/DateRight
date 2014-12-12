@@ -45,5 +45,8 @@
     <string name="name">Name:</string>
     <string name="time">Time:</string>
     <string name="desc">Description:</string>
+    
+    <!-- Menu -->
+    <string name="profileMenuItem">Profile</string>
 
 </resources>
