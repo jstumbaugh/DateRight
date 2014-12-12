@@ -89,18 +89,21 @@ html {
 
 .activity, .activityDatePlan {
 	float: left;
-	margin-top: 10px;
+	margin-top: 5px;
 	margin-right: 10px;
+    margin-left: 5px;
+    margin-bottom: 10px;
     list-style-type: none;
-    color:white;
-    background: -moz-linear-gradient(#777, #000);
-    background: -webkit-linear-gradient(#777, #000);
-    background: -o-linear-gradient(#777, #000);
+    border-radius: 10px;
+    padding-left: 5px;
+    background-clip: border-box;
+    background-color: #ffffff;
+    color: #404040;
+    border: 2px dashed #ffa500;
+    box-shadow: 0 0 0 2px #fff, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
 }
 .activity:hover{
-    background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
-    background: -o-linear-gradient(#ff9d00, #ff7300);
 }
 h3{
 	float: left;
@@ -172,7 +175,7 @@ h3{
 .userDatePlan .reviewButton{
     font-size: 10px;
     margin-bottom: 2px;
-     background: -moz-linear-gradient(#ff9d00, #ff7300);
+    background: -moz-linear-gradient(#ff9d00, #ff7300);
     background: -webkit-linear-gradient(#ff9d00, #ff7300);
     background: -o-linear-gradient(#ff9d00, #ff7300);
 }
@@ -181,13 +184,16 @@ h3{
     display: inline-block !important;
     overflow: hidden;
     background-color: grey;
-    margin-left: 10px;
-    padding-left: 10px;
-    margin-bottom: 10px;
+    padding-left: 9px;
+    margin-bottom: 5px;
+    width: 290px;
+    background: -webkit-linear-gradient(#666, #000);
+    border-radius: 10px;
 }
 
 .dateplan .activity{
     clear: left;
+    border-radius: 10px;
 }
 
 /**
@@ -291,6 +297,8 @@ form#reviewActivity label#rating{
 
 #searchResults{
     padding-left: 0;
+    -webkit-column-width: 290px;
+    column-width: 290px;
 }
 
 h2{
