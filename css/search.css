@@ -75,10 +75,10 @@ html {
 #currentDatePlan{
     padding-left: 7px;
     height: 79.5%;
-    width: 228px;
+    width: 300px;
     margin-bottom: 0;
-    margin-left: 17%;
-    margin-top: 32%;
+    margin-left: 20px;
+    margin-top: 60px;
 }
 
 #currentDatePlan li{
@@ -167,7 +167,7 @@ h3{
 }
 
 .activityDatePlan .starred, .activityDatePlan .unstarred{
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .userDatePlan .reviewButton{
@@ -365,44 +365,43 @@ h1{
 }
 
 .ui-tooltip, .arrow:after {
-    background: black;
+    background: orange;
     border: 2px solid white;
-  }
-  .ui-tooltip {
+}
+
+.ui-tooltip {
+    position: absolute;
     padding: 10px 20px;
     color: white;
     border-radius: 20px;
     font: bold 14px "Helvetica Neue", Sans-Serif;
-    text-transform: uppercase;
     box-shadow: 0 0 7px black;
-  }
-  .arrow {
-    width: 70px;
-    height: 16px;
+    width: 200px;
+    z-index: 10;
+}
+
+.arrow {
+    width: 25px;
+    height: 25px;
     overflow: hidden;
     position: absolute;
     left: 50%;
-    margin-left: -35px;
+    margin-left: -25px;
     bottom: -16px;
-  }
-  .arrow.top {
-    top: -16px;
-    bottom: auto;
-  }
-  .arrow.left {
-    left: 20%;
-  }
-  .arrow:after {
+}
+
+.arrow.left {
+    bottom: 40%;
+    left: 0%;
+}
+
+.arrow:after {
     content: "";
     position: absolute;
     left: 20px;
-    top: -20px;
-    width: 25px;
-    height: 25px;
+    top: -7px;
+    width: 30px;
+    height: 30px;
     box-shadow: 6px 5px 9px -9px black;
-    -webkit-transform: rotate(5deg);
-  }
-  .arrow.top:after {
-    bottom: -20px;
-    top: auto;
-  }
+    -webkit-transform: rotate(45deg);
+}

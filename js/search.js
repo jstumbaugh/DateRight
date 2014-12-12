@@ -137,17 +137,14 @@ jQuery(document).ready(function() {
 		publishDatePlan(check);
 	})
 
-    $( document ).tooltip({
-		position: {
-			my: "center bottom-20",
-			at: "center top",
-			using: function( position, feedback ) {
-				$( this ).css( position );
-			 	$( "<div>" )
-			    .addClass( "arrow" )
-			    .addClass( feedback.vertical )
-			    .addClass( feedback.horizontal )
-			    .appendTo( this );
+    $(document).tooltip({
+		position: { 
+			my: "left+15 center", 
+			at: "right center",
+			using: function(position, feedback){
+				$(this).css(position);
+				$("<div>").addClass("arrow").addClass("left").appendTo(this);
+				$('.ui-helper-hidden-accessible').remove();
 			}
 		}
     })
